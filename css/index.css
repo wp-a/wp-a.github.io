@@ -178,6 +178,15 @@ template {
 [hidden] {
   display: none
 }
+.fontawesomeIcon,
+.custom-hr:before,
+#post .post-copyright:before,
+#post #post-outdate-notice:before,
+.note:not(.no-icon)::before,
+.search-dialog hr:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
 .limit-one-line,
 .container .flink .flink-item-name,
 .container .flink .flink-item-desc,
