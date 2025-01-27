@@ -6192,6 +6192,10 @@ blockquote.pullquote.right {
 .read-mode .container .note .note-icon {
   color: var(--font-color);
 }
+img {
+  width: 100%;
+  height: auto;
+}
 .search-dialog {
   position: fixed;
   top: 10%;
