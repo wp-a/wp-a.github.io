@@ -1,0 +1,494 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>统计 | WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="统计">
+<meta property="og:url" content="https://wp-a.github.io/charts/index.html">
+<meta property="og:site_name" content="WPIRONMAN">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wp-a.github.io/img/head.png">
+<meta property="article:published_time" content="2025-01-24T03:08:47.000Z">
+<meta property="article:modified_time" content="2025-01-24T03:22:42.692Z">
+<meta property="article:author" content="WP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wp-a.github.io/img/head.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://wp-a.github.io/charts/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><style></style><link rel="stylesheet" href="/../../../../source/css/critical.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '统计',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/2.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/charts/"><i class="fa-fw fa fa-line-chart"></i><span> 统计</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/flink/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://zhblogs.ohyee.cc/"><i class="fa-fw fa fa-motorcycle"></i><span> 列表导航</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fas fa-comments"></i><span> 留言</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page type-charts" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/3000.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/favicon.png" alt="Logo"><span class="site-name">WPIRONMAN</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/charts/"><i class="fa-fw fa fa-line-chart"></i><span> 统计</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/flink/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://zhblogs.ohyee.cc/"><i class="fa-fw fa fa-motorcycle"></i><span> 列表导航</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fas fa-comments"></i><span> 留言</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">统计</h1></div></header><main class="layout hide-aside" id="content-inner"><div id="page"><div class="container" id="article-container"><script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.9.0-rc.1/echarts.min.js"></script>
+
+<!-- 文章发布时间统计图 --> 
+<div id="posts-chart" data-start="2025-01" style="border-radius: 8px; height: 300px; padding: 10px;"></div>
+  <script id="postsChart">
+    var color = document.documentElement.getAttribute('data-theme') === 'light' ? '#4c4948' : 'rgba(255,255,255,0.7)'
+    var postsChart = echarts.init(document.getElementById('posts-chart'), 'light');
+    var postsOption = {
+      title: {
+        text: '文章发布统计图',
+        x: 'center',
+        textStyle: {
+          color: color
+        }
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        name: '日期',
+        type: 'category',
+        boundaryGap: false,
+        nameTextStyle: {
+          color: color
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          color: color
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: color
+          }
+        },
+        data: ["2025-01"]
+      },
+      yAxis: {
+        name: '文章篇数',
+        type: 'value',
+        nameTextStyle: {
+          color: color
+        },
+        splitLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          color: color
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: color
+          }
+        }
+      },
+      series: [{
+        name: '文章篇数',
+        type: 'line',
+        smooth: true,
+        lineStyle: {
+            width: 0
+        },
+        showSymbol: false,
+        itemStyle: {
+          opacity: 1,
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0,
+            color: 'rgba(128, 255, 165)'
+          },
+          {
+            offset: 1,
+            color: 'rgba(1, 191, 236)'
+          }])
+        },
+        areaStyle: {
+          opacity: 1,
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0,
+            color: 'rgba(128, 255, 165)'
+          }, {
+            offset: 1,
+            color: 'rgba(1, 191, 236)'
+          }])
+        },
+        data: [5],
+        markLine: {
+          data: [{
+            name: '平均值',
+            type: 'average',
+            label: {
+              color: color
+            }
+          }]
+        }
+      }]
+    };
+    postsChart.setOption(postsOption);
+    window.addEventListener('resize', () => {
+      postsChart.resize();
+    });
+    postsChart.on('click', 'series', (event) => {
+      if (event.componentType === 'series') window.location.href = '/archives/' + event.name.replace('-', '/');
+    });
+  </script>
+<!-- 文章标签统计图 --> <!-- data-length="10" 是显示的标签数量 -->
+<div id="tags-chart" data-length="10" style="border-radius: 8px; height: 300px; padding: 10px;"></div>
+  <script id="tagsChart">
+    var color = document.documentElement.getAttribute('data-theme') === 'light' ? '#4c4948' : 'rgba(255,255,255,0.7)'
+    var tagsChart = echarts.init(document.getElementById('tags-chart'), 'light');
+    var tagsOption = {
+      title: {
+        text: 'Top 10 标签统计图',
+        x: 'center',
+        textStyle: {
+          color: color
+        }
+      },
+      tooltip: {},
+      xAxis: {
+        name: '标签',
+        type: 'category',
+        nameTextStyle: {
+          color: color
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          color: color,
+          interval: 0
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: color
+          }
+        },
+        data: ["算法","单链表","双链表","递归","双指针","链表","二分查找","双指针，数组","数组","滑动窗口"]
+      },
+      yAxis: {
+        name: '文章篇数',
+        type: 'value',
+        splitLine: {
+          show: false
+        },
+        nameTextStyle: {
+          color: color
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          color: color
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: color
+          }
+        }
+      },
+      series: [{
+        name: '文章篇数',
+        type: 'bar',
+        data: [{"name":"算法","value":4,"path":"tags/算法/"},{"name":"单链表","value":2,"path":"tags/单链表/"},{"name":"双链表","value":2,"path":"tags/双链表/"},{"name":"递归","value":2,"path":"tags/递归/"},{"name":"双指针","value":2,"path":"tags/双指针/"},{"name":"链表","value":2,"path":"tags/链表/"},{"name":"二分查找","value":1,"path":"tags/二分查找/"},{"name":"双指针，数组","value":1,"path":"tags/双指针，数组/"},{"name":"数组","value":1,"path":"tags/数组/"},{"name":"滑动窗口","value":1,"path":"tags/滑动窗口/"},{"name":"矩阵规律","value":1,"path":"tags/矩阵规律/"},{"name":"前缀和","value":1,"path":"tags/前缀和/"},{"name":"哈希表，","value":1,"path":"tags/哈希表，/"}],
+        itemStyle: {
+          borderRadius: [5, 5, 0, 0],
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0,
+            color: 'rgba(128, 255, 165)'
+          },
+          {
+            offset: 1,
+            color: 'rgba(1, 191, 236)'
+          }])
+        },
+        emphasis: {
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+              offset: 0,
+              color: 'rgba(128, 255, 195)'
+            },
+            {
+              offset: 1,
+              color: 'rgba(1, 211, 255)'
+            }])
+          }
+        },
+        markLine: {
+          data: [{
+            name: '平均值',
+            type: 'average',
+            label: {
+              color: color
+            }
+          }]
+        }
+      }]
+    };
+    tagsChart.setOption(tagsOption);
+    window.addEventListener('resize', () => {
+      tagsChart.resize();
+    });
+    tagsChart.on('click', 'series', (event) => {
+      if(event.data.path) window.location.href = '/' + event.data.path;
+    });
+  </script>
+<!-- 文章分类统计图 -->
+<div id="categories-chart" data-parent="true" style="border-radius: 8px; height: 300px; padding: 10px;"></div>
+  <script id="categoriesChart">
+    var color = document.documentElement.getAttribute('data-theme') === 'light' ? '#4c4948' : 'rgba(255,255,255,0.7)'
+    var categoriesChart = echarts.init(document.getElementById('categories-chart'), 'light');
+    var categoryParentFlag = false
+    var categoriesOption = {
+      title: {
+        text: '文章分类统计图',
+        x: 'center',
+        textStyle: {
+          color: color
+        }
+      },
+      legend: {
+        top: 'bottom',
+        data: ["算法"],
+        textStyle: {
+          color: color
+        }
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      series: []
+    };
+    categoriesOption.series.push(
+      categoryParentFlag ?
+      {
+        nodeClick :false,
+        name: '文章篇数',
+        type: 'sunburst',
+        radius: ['15%', '90%'],
+        center: ['50%', '55%'],
+        sort: 'desc',
+        data: [{"name":"算法","value":5,"path":"categories/算法/","id":"cm6g6q82z0004t4wm1had6z83","parentId":"0"}],
+        itemStyle: {
+          borderColor: '#fff',
+          borderWidth: 2,
+          emphasis: {
+            focus: 'ancestor',
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(255, 255, 255, 0.5)'
+          }
+        }
+      }
+      :
+      {
+        name: '文章篇数',
+        type: 'pie',
+        radius: [30, 80],
+        roseType: 'area',
+        label: {
+          color: color,
+          formatter: '{b} : {c} ({d}%)'
+        },
+        data: [{"name":"算法","value":5,"path":"categories/算法/","id":"cm6g6q82z0004t4wm1had6z83","parentId":"0"}],
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(255, 255, 255, 0.5)'
+          }
+        }
+      }
+    )
+    categoriesChart.setOption(categoriesOption);
+    window.addEventListener('resize', () => {
+      categoriesChart.resize();
+    });
+    categoriesChart.on('click', 'series', (event) => {
+      if(event.data.path) window.location.href = '/' + event.data.path;
+    });
+  </script>
+</div></div></main><footer id="footer" style="background-image: url(/img/3000.webp);"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><div class="js-pjax"></div><script>let tianliGPT_postSelector = '\#post \#article-container';let tianliGPT_key = '5Q5mpqRK5DkwT1X9Gi5e';</script><script src="https://ai.tianli0.top/static/public/tianli_gpt.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" async=""></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js" async=""></script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax="" src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax="">
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://githubcalendarapi.shiguang666.eu.org/api?user=wp-a";
+            var git_color =['#ebedf0', '#a2f7af', '#6ce480', '#54ad63', '#469252', '#31753c', '#1f5f2a', '#13531f', '#084111', '#032b09', '#000000'];
+            var git_user ="wp-a";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end -->
+    <link rel="stylesheet" href="https://ai.tianli0.top/static/public/postChatUser_summary.min.css">
+    <script>
+        let tianliGPT_key = 'HCpWORjUwwA';
+        let tianliGPT_postSelector = '#article-container';
+        let tianliGPT_Title = '文章摘要';
+        let tianliGPT_postURL = '/^https?://[^/]+/[0-9]{4}/[0-9]{2}/[0-9]{2}/';
+        let tianliGPT_blacklist = '';
+        let tianliGPT_wordLimit = '1000';
+        let tianliGPT_typingAnimate = true;
+        let tianliGPT_theme = 'default';
+        var postChatConfig = {
+          backgroundColor: "#3e86f6",
+          bottom: "16px",
+          left: "16px",
+          fill: "#FFFFFF",
+          width: "44px",
+          frameWidth: "375px",
+          frameHeight: "600px",
+          defaultInput: true,
+          upLoadWeb: true,
+          showInviteLink: true,
+          userTitle: "PostChat",
+          userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～",
+          addButton: true,
+          beginningText: "这篇文章介绍了",
+          userIcon: "https://ai.tianli0.top/static/img/PostChat.webp",
+          userMode: "magic",
+          defaultChatQuestions: ["你好","你是谁"],
+          defaultSearchQuestions: ["视频压缩","设计"]
+        };
+    </script>
+    <script data-postchat_key="HCpWORjUwwA" src="https://ai.tianli0.top/static/public/tianli_gpt.min.js"></script>
+  </body></html>
