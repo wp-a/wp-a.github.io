@@ -25,3 +25,15 @@
     /* 以下代表透明度为0.1*/
     background: rgba(255, 255, 255, .1);
 }
+/* 示例：自定义代码块背景色 */
+pre {
+    background-color: #2d2d2d;
+    padding: 15px;
+    border-radius: 5px;
+    overflow: auto;
+  }
+  
+  code {
+    color: #f8f8f2;
+  }
+  
