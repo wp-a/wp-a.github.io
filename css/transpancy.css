@@ -1,7 +1,7 @@
 /* 文章页背景 */
 .layout_post>#post {
     /* 以下代表透明度为0.7 可以自行修改*/
-    background: rgba(255, 255, 255, .9);
+    background: rgba(255, 255, 255, .5);
 }
 
 /* 所有页面背景 */
@@ -12,18 +12,18 @@
 .layout_post>#post,
 .read-mode .layout_post>#post {
     /* 以下代表透明度为0.9 */
-    background: rgba(255, 255, 255, .9);
+    background: rgba(255, 255, 255, .5);
 }
 
 /*侧边卡片的透明度 */
 :root {
-    --card-bg: rgba(255, 255, 255, .7);
+    --card-bg: rgba(255, 255, 255, .8);
 }
 
 /* 页脚透明 */
 #footer {
     /* 以下代表透明度为0.1*/
-    background: rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, .2);
 }
 /* 示例：自定义代码块背景色 */
 pre {

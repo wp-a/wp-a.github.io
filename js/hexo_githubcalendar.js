@@ -3,7 +3,7 @@ function GithubCalendar(git_githubapiurl,git_color,git_user){
         var github_canlendar = (git_user,git_githubapiurl, git_color) => {
             var git_fixed = 'fixed';
             var git_px = 'px';
-            var git_month = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+            var git_month = ['七月','八月', '九月', '十月', '十一月', '十二月','一月', '二月', '三月', '四月','五月', '六月'];
             var git_monthchange = [];
             var git_oneyearbeforeday = '';
             var git_thisday = '';
@@ -80,7 +80,7 @@ var responsiveChart = () => {
         }
         if (document.body.clientWidth > 700) {
           github_calendar_ctx.font = "600  Arial";
-          github_calendar_ctx.fillStyle = '#aaa';
+          github_calendar_ctx.fillStyle = '#000';
           github_calendar_ctx.fillText("日", 0, 1.9 * linemaxwitdh);
           github_calendar_ctx.fillText("二", 0, 3.9 * linemaxwitdh);
           github_calendar_ctx.fillText("四", 0, 5.9 * linemaxwitdh);
