@@ -9,16 +9,8 @@
 
 
     <url>
-        <loc>https://wp-a.github.io/2025/01/5day/</loc>
-        <lastmod>2025-01-30T02:55:51.526Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://wp-a.github.io/2025/01/4day/</loc>
-        <lastmod>2025-01-30T02:55:46.938Z</lastmod>
+        <lastmod>2025-02-01T10:32:33.723Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -26,7 +18,23 @@
 
     <url>
         <loc>https://wp-a.github.io/2025/01/3day/</loc>
-        <lastmod>2025-01-30T02:55:41.604Z</lastmod>
+        <lastmod>2025-02-01T10:32:26.977Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2025/01/1day/</loc>
+        <lastmod>2025-02-01T10:32:17.085Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2025/01/5day/</loc>
+        <lastmod>2025-02-01T10:30:47.377Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -35,14 +43,6 @@
     <url>
         <loc>https://wp-a.github.io/2025/01/2day/</loc>
         <lastmod>2025-01-30T02:55:35.647Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2025/01/1day/</loc>
-        <lastmod>2025-01-30T02:55:30.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
