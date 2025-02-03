@@ -3,29 +3,43 @@
 
 
     <url>
+        <loc>https://wp-a.github.io/tags/map/</loc>
+        <lastmod>2025-02-03T15:02:58.475Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://wp-a.github.io/tags/%E6%9F%A5%E6%89%BE/</loc>
-        <lastmod>2025-02-02T18:06:15.192Z</lastmod>
+        <lastmod>2025-02-03T15:02:58.475Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/</loc>
-        <lastmod>2025-02-02T18:06:15.192Z</lastmod>
+        <lastmod>2025-02-03T15:02:58.475Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</loc>
+        <lastmod>2025-02-03T15:02:58.475Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/tags/%E9%93%BE%E8%A1%A8/</loc>
-        <lastmod>2025-02-02T18:06:15.192Z</lastmod>
+        <lastmod>2025-02-03T06:08:45.271Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/tags/%E6%95%B0%E7%BB%84/</loc>
-        <lastmod>2025-02-02T18:06:15.192Z</lastmod>
+        <lastmod>2025-02-03T06:08:45.271Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -39,13 +53,6 @@
 
     <url>
         <loc>https://wp-a.github.io/tags/%E5%8F%8C%E6%8C%87%E9%92%88/</loc>
-        <lastmod>2025-02-02T18:04:08.002Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</loc>
         <lastmod>2025-02-02T18:04:08.002Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
