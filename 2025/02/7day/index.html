@@ -1,0 +1,442 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>代码随想录--字符串 | WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="代码随想录--字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码随想录--字符串">
+<meta property="og:url" content="https://wp-a.github.io/2025/02/7day/index.html">
+<meta property="og:site_name" content="WPIRONMAN">
+<meta property="og:description" content="代码随想录--字符串">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp">
+<meta property="article:published_time" content="2025-02-05T09:48:35.000Z">
+<meta property="article:modified_time" content="2025-02-06T15:08:04.873Z">
+<meta property="article:author" content="WP">
+<meta property="article:tag" content="数据结构与算法">
+<meta property="article:tag" content="双指针">
+<meta property="article:tag" content="字符串">
+<meta property="article:tag" content="KMP">
+<meta property="article:tag" content="reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "代码随想录--字符串",
+  "url": "https://wp-a.github.io/2025/02/7day/",
+  "image": "https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp",
+  "datePublished": "2025-02-05T09:48:35.000Z",
+  "dateModified": "2025-02-06T15:08:04.873Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "WP",
+      "url": "https://wp-a.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png"><link rel="canonical" href="https://wp-a.github.io/2025/02/7day/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="manifest" href="/null"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><style></style><link rel="stylesheet" href="/../../../../source/css/critical.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '代码随想录--字符串',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"><!-- 预加载首屏图片 --><link rel="preload" href="/images/1.webp" as="image"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/charts/"><i class="fa-fw fa fa-line-chart"></i><span> 统计</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://zhblogs.ohyee.cc/"><i class="fa-fw fa fa-motorcycle"></i><span> 列表导航</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon.png" alt="Logo"><span class="site-name">WPIRONMAN</span></a><a class="nav-page-title" href="/"><span class="site-name">代码随想录--字符串</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/charts/"><i class="fa-fw fa fa-line-chart"></i><span> 统计</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://zhblogs.ohyee.cc/"><i class="fa-fw fa fa-motorcycle"></i><span> 列表导航</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">代码随想录--字符串<a class="post-edit-link" href="null_posts/7day.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2025-02-05T09:48:35.000Z" title="发表于 2025-02-05 17:48:35">2025-02-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/">代码随想录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="postchat_postcontent"><h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>​	字符串，就是由字符连接而成的序列。常见的字符串问题包括字符串匹配问题、子串相关问题、前缀/后缀相关问题、回文串相关问题、子序列相关问题等。</p>
+<h3 id="反转字符串"><a href="#反转字符串" class="headerlink" title="反转字符串"></a>反转字符串</h3><p>题目链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string/">344. 反转字符串</a></p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">reverseString</span><span class="params">(vector&lt;<span class="type">char</span>&gt;&amp; s)</span> </span>{</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>,j=s.<span class="built_in">size</span>()<span class="number">-1</span>;i&lt;j;i++,j--)</span><br><span class="line">        {</span><br><span class="line">            <span class="type">char</span> a=s[i];</span><br><span class="line">            s[i]=s[j];</span><br><span class="line">            s[j]=a;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="反转字符串-1"><a href="#反转字符串-1" class="headerlink" title="反转字符串"></a>反转字符串</h3><p>题目链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string-ii/">541. 反转字符串 II</a></p>
+<p>注意一下reverse函数的用法。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">reverseStr</span><span class="params">(string s, <span class="type">int</span> k)</span> </span>{</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); i += (<span class="number">2</span> * k)) {</span><br><span class="line">            <span class="keyword">if</span> (i + k &lt;= s.<span class="built_in">size</span>()) {</span><br><span class="line">                <span class="built_in">reverse</span>(s.<span class="built_in">begin</span>()  i, s.<span class="built_in">begin</span>() + i + k );</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                <span class="built_in">reverse</span>(s.<span class="built_in">begin</span>() + i, s.<span class="built_in">end</span>());</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    }</span><br><span class="line">};</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="替换数字"><a href="#替换数字" class="headerlink" title="替换数字"></a>替换数字</h3><p>题目链接：<a target="_blank" rel="noopener" href="https://kamacoder.com/problempage.php?pid=1064">替换数字（第八期模拟笔试）</a></p>
+<p>题目思路：看似简单，实则不好操作，gpt给的这个思路很好啊，重新弄一个新字符串然后拼接。代码随想录的那个太麻烦了，直接pass掉了。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span>  <span class="comment">// 需要 isdigit()</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function">string <span class="title">replaceDigitsWithNumber</span><span class="params">(<span class="type">const</span> string&amp; s)</span> </span>{</span><br><span class="line">    string result;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">char</span> c : s) {</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isdigit</span>(c)) {</span><br><span class="line">            result += <span class="string">"number"</span>;  <span class="comment">// 仅替换数字</span></span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            result += c;  <span class="comment">// 直接添加非数字字符</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    string s;</span><br><span class="line">    cin &gt;&gt; s;  <span class="comment">// 读取输入</span></span><br><span class="line">    cout &lt;&lt; <span class="built_in">replaceDigitsWithNumber</span>(s) &lt;&lt; endl;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>主要难点在于如何去掉空格，使用快慢指针。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">reverse</span><span class="params">(string&amp; s, <span class="type">int</span> start, <span class="type">int</span> end)</span></span>{ <span class="comment">//翻转，区间写法：左闭右闭 []</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = start, j = end; i &lt; j; i++, j--) {</span><br><span class="line">            <span class="built_in">swap</span>(s[i], s[j]);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">removeExtraSpaces</span><span class="params">(string&amp; s)</span> </span>{<span class="comment">//去除所有空格并在相邻单词之间添加空格, 快慢指针。</span></span><br><span class="line">        <span class="type">int</span> slow = <span class="number">0</span>;   <span class="comment">//整体思想参考https://programmercarl.com/0027.移除元素.html</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); ++i) { <span class="comment">//</span></span><br><span class="line">            <span class="keyword">if</span> (s[i] != <span class="string">' '</span>) { <span class="comment">//遇到非空格就处理，即删除所有空格。</span></span><br><span class="line">                <span class="keyword">if</span> (slow != <span class="number">0</span>) s[slow++] = <span class="string">' '</span>; <span class="comment">//手动控制空格，给单词之间添加空格。slow != 0说明不是第一个单词，需要在单词前添加空格。</span></span><br><span class="line">                <span class="keyword">while</span> (i &lt; s.<span class="built_in">size</span>() &amp;&amp; s[i] != <span class="string">' '</span>) { <span class="comment">//补上该单词，遇到空格说明单词结束。</span></span><br><span class="line">                    s[slow++] = s[i++];</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        s.<span class="built_in">resize</span>(slow); <span class="comment">//slow的大小即为去除多余空格后的大小。</span></span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function">string <span class="title">reverseWords</span><span class="params">(string s)</span> </span>{</span><br><span class="line">        <span class="built_in">removeExtraSpaces</span>(s); <span class="comment">//去除多余空格，保证单词之间之只有一个空格，且字符串首尾没空格。</span></span><br><span class="line">        <span class="built_in">reverse</span>(s, <span class="number">0</span>, s.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        <span class="type">int</span> start = <span class="number">0</span>; <span class="comment">//removeExtraSpaces后保证第一个单词的开始下标一定是0。</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= s.<span class="built_in">size</span>(); ++i) {</span><br><span class="line">            <span class="keyword">if</span> (i == s.<span class="built_in">size</span>() || s[i] == <span class="string">' '</span>) { <span class="comment">//到达空格或者串尾，说明一个单词结束。进行翻转。</span></span><br><span class="line">                <span class="built_in">reverse</span>(s, start, i - <span class="number">1</span>); <span class="comment">//翻转，注意是左闭右闭 []的翻转。</span></span><br><span class="line">                start = i + <span class="number">1</span>; <span class="comment">//更新下一个单词的开始下标start</span></span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="右旋字符串"><a href="#右旋字符串" class="headerlink" title="右旋字符串"></a>右旋字符串</h3><p>题目链接：<a target="_blank" rel="noopener" href="https://kamacoder.com/problempage.php?pid=1065">右旋字符串</a></p>
+<p>题目思路：和前边有一题很类似，都是申请了一个额外的空间往上加，这题是先把后n个加上，再把前m-n个加上。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    string s,ans;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;s;</span><br><span class="line">    <span class="type">int</span> m=s.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=(m-n);i&lt;m;i++) ans+=s[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(m-n);i++) ans+=s[i];</span><br><span class="line">    cout&lt;&lt;ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>代码随想录：它要求不申请额外的空间，这个就直接reverse两次，和上一题差不多，先全局再局部。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    string s;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    cin &gt;&gt; s;</span><br><span class="line">    <span class="type">int</span> len = s.<span class="built_in">size</span>(); <span class="comment">//获取长度</span></span><br><span class="line">    <span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(), s.<span class="built_in">end</span>()); <span class="comment">// 整体反转</span></span><br><span class="line">    <span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(), s.<span class="built_in">begin</span>() + n); <span class="comment">// 先反转前一段，长度n</span></span><br><span class="line">    <span class="built_in">reverse</span>(s.<span class="built_in">begin</span>() + n, s.<span class="built_in">end</span>()); <span class="comment">// 再反转后一段</span></span><br><span class="line">    cout &lt;&lt; s &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">} </span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="找出字符串中第一个匹配项的下标"><a href="#找出字符串中第一个匹配项的下标" class="headerlink" title="找出字符串中第一个匹配项的下标"></a>找出字符串中第一个匹配项的下标</h3><p>题目链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/">28. 找出字符串中第一个匹配项的下标</a></p>
+<p>暴力解法：思路正确，但是我写的代码写的太麻烦了，下边贴一份优雅的代码。时间复杂度O(m*n)。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">strStr</span><span class="params">(string haystack, string needle)</span> </span>{</span><br><span class="line">        <span class="type">int</span> s[<span class="number">26</span>]={<span class="number">0</span>};</span><br><span class="line">        <span class="keyword">if</span>(needle.<span class="built_in">size</span>()&gt;haystack.<span class="built_in">size</span>()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i:needle) s[i-<span class="string">'a'</span>]++;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;haystack.<span class="built_in">size</span>();i++)</span><br><span class="line">        {</span><br><span class="line">            <span class="type">int</span> t;</span><br><span class="line">            <span class="keyword">if</span>(s[haystack[i]-<span class="string">'a'</span>]==<span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">else</span>{</span><br><span class="line">                t=i;</span><br><span class="line">                <span class="type">int</span> a=t;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;needle.<span class="built_in">size</span>();j++) <span class="keyword">if</span>(haystack.<span class="built_in">size</span>()-a&gt;=needle.<span class="built_in">size</span>() &amp;&amp; haystack[a+j]==needle[j]) t++;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span>((t-i)==needle.<span class="built_in">size</span>()) <span class="keyword">return</span> i;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">strStr</span><span class="params">(string s, string p)</span> </span>{</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">size</span>(), m = p.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n - m; i++){</span><br><span class="line">            <span class="type">int</span> j = i, k = <span class="number">0</span>; </span><br><span class="line">            <span class="keyword">while</span>(k &lt; m <span class="keyword">and</span> s[j] == p[k]){</span><br><span class="line">                j++;</span><br><span class="line">                k++;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span>(k == m) <span class="keyword">return</span> i;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>KMP解法：</strong>当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。</p>
+<p>前缀表是用来回退的，它记录了模式串与主串(文本串)不匹配的时候，模式串应该从哪里开始重新匹配。代码随想录写的这个就很通俗易懂。</p>
+<p><strong>Nex数组构造：</strong></p>
+<ol>
+<li>初始化</li>
+<li>处理前后缀不相同的情况</li>
+<li>处理前后缀相同的情况</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://code-thinking.cdn.bcebos.com/gifs/KMP%E7%B2%BE%E8%AE%B23.gif"></p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">getNext</span><span class="params">(<span class="type">int</span>* next, <span class="type">const</span> string&amp; s)</span> </span>{</span><br><span class="line">        <span class="type">int</span> j = <span class="number">-1</span>;</span><br><span class="line">        next[<span class="number">0</span>] = j;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; s.<span class="built_in">size</span>(); i++) { <span class="comment">// 注意i从1开始</span></span><br><span class="line">            <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; s[i] != s[j + <span class="number">1</span>]) { <span class="comment">// 前后缀不相同了</span></span><br><span class="line">                j = next[j]; <span class="comment">// 向前回退</span></span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (s[i] == s[j + <span class="number">1</span>]) { <span class="comment">// 找到相同的前后缀</span></span><br><span class="line">                j++;</span><br><span class="line">            }</span><br><span class="line">            next[i] = j; <span class="comment">// 将j（前缀的长度）赋给next[i]</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">strStr</span><span class="params">(string haystack, string needle)</span> </span>{</span><br><span class="line">        <span class="keyword">if</span> (needle.<span class="built_in">size</span>() == <span class="number">0</span>) {</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        }</span><br><span class="line">		<span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">next</span><span class="params">(needle.size())</span></span>;</span><br><span class="line">		<span class="built_in">getNext</span>(&amp;next[<span class="number">0</span>], needle);</span><br><span class="line">        <span class="type">int</span> j = <span class="number">-1</span>; <span class="comment">// // 因为next数组里记录的起始位置为-1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; haystack.<span class="built_in">size</span>(); i++) { <span class="comment">// 注意i就从0开始</span></span><br><span class="line">            <span class="keyword">while</span>(j &gt;= <span class="number">0</span> &amp;&amp; haystack[i] != needle[j + <span class="number">1</span>]) { <span class="comment">// 不匹配</span></span><br><span class="line">                j = next[j]; <span class="comment">// j 寻找之前匹配的位置</span></span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (haystack[i] == needle[j + <span class="number">1</span>]) { <span class="comment">// 匹配，j和i同时向后移动</span></span><br><span class="line">                j++; <span class="comment">// i的增加在for循环里</span></span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (j == (needle.<span class="built_in">size</span>() - <span class="number">1</span>) ) { <span class="comment">// 文本串s里出现了模式串t</span></span><br><span class="line">                <span class="keyword">return</span> (i - needle.<span class="built_in">size</span>() + <span class="number">1</span>);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="重复的子字符串"><a href="#重复的子字符串" class="headerlink" title="重复的子字符串"></a>重复的子字符串</h3><p>题目链接：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/repeated-substring-pattern/">459. 重复的子字符串</a></p>
+<p>暴力解法：想用暴力法写一下，结果写了两个小时，还是看了题解写出来的，钻牛角尖了。我写的代码性能不如官方代码高，贴一下官方代码。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">repeatedSubstringPattern</span><span class="params">(string s)</span> </span>{</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i * <span class="number">2</span> &lt;= n; ++i) {</span><br><span class="line">            <span class="keyword">if</span> (n % i == <span class="number">0</span>) {</span><br><span class="line">                <span class="type">bool</span> match = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> j = i; j &lt; n; ++j) {</span><br><span class="line">                    <span class="keyword">if</span> (s[j] != s[j - i]) {</span><br><span class="line">                        match = <span class="literal">false</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    }</span><br><span class="line">                }</span><br><span class="line">                <span class="keyword">if</span> (match) {</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">};</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>移动匹配：将两个 s 连在一起，并移除第一个和最后一个字符。如果 s 是该字符串的子串，那么 s 就满足题目要求。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">repeatedSubstringPattern</span><span class="params">(string s)</span> </span>{</span><br><span class="line">        string t = s + s;</span><br><span class="line">        t.<span class="built_in">erase</span>(t.<span class="built_in">begin</span>()); t.<span class="built_in">erase</span>(t.<span class="built_in">end</span>() - <span class="number">1</span>); <span class="comment">// 掐头去尾</span></span><br><span class="line">        <span class="keyword">if</span> (t.<span class="built_in">find</span>(s) != std::string::npos) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">// r</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+<p>KMP实现：</p>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">getNext</span> <span class="params">(<span class="type">int</span>* next, <span class="type">const</span> string&amp; s)</span></span>{</span><br><span class="line">        next[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">        <span class="type">int</span> j = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i &lt; s.<span class="built_in">size</span>(); i++){</span><br><span class="line">            <span class="keyword">while</span>(j &gt;= <span class="number">0</span> &amp;&amp; s[i] != s[j + <span class="number">1</span>]) {</span><br><span class="line">                j = next[j];</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span>(s[i] == s[j + <span class="number">1</span>]) {</span><br><span class="line">                j++;</span><br><span class="line">            }</span><br><span class="line">            next[i] = j;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">repeatedSubstringPattern</span> <span class="params">(string s)</span> </span>{</span><br><span class="line">        <span class="keyword">if</span> (s.<span class="built_in">size</span>() == <span class="number">0</span>) {</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="type">int</span> next[s.<span class="built_in">size</span>()];</span><br><span class="line">        <span class="built_in">getNext</span>(next, s);</span><br><span class="line">        <span class="type">int</span> len = s.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (next[len - <span class="number">1</span>] != <span class="number">-1</span> &amp;&amp; len % (len - (next[len - <span class="number">1</span>] + <span class="number">1</span>)) == <span class="number">0</span>) {</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://wp-a.github.io">WP</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://wp-a.github.io/2025/02/7day/">https://wp-a.github.io/2025/02/7day/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://wp-a.github.io" target="_blank">WPIRONMAN</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><a class="post-meta__tags" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a><a class="post-meta__tags" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a><a class="post-meta__tags" href="/tags/KMP/">KMP</a><a class="post-meta__tags" href="/tags/reverse/">reverse</a></div><div class="post-share"><div class="social-share" data-image="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/123.JPG" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/123.JPG" alt="微信"></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/02/6day/" title="代码随想录--哈希表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">代码随想录--哈希表</div></div><div class="info-2"><div class="info-item-1">代码随想录--哈希表（下）</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/01/1day/" title="代码随想录--数组"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-23</div><div class="info-item-2">代码随想录--数组</div></div><div class="info-2"><div class="info-item-1">代码随想录--数组（上）</div></div></div></a><a class="pagination-related" href="/2025/01/3day/" title="代码随想录--链表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-25</div><div class="info-item-2">代码随想录--链表</div></div><div class="info-2"><div class="info-item-1">代码随想录--链表（上）</div></div></div></a><a class="pagination-related" href="/2025/01/4day/" title="代码随想录--链表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-26</div><div class="info-item-2">代码随想录--链表</div></div><div class="info-2"><div class="info-item-1">代码随想录--链表（下）</div></div></div></a><a class="pagination-related" href="/2025/02/6day/" title="代码随想录--哈希表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-04</div><div class="info-item-2">代码随想录--哈希表</div></div><div class="info-2"><div class="info-item-1">代码随想录--哈希表（下）</div></div></div></a><a class="pagination-related" href="/2025/01/2day/" title="代码随想录--数组"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-24</div><div class="info-item-2">代码随想录--数组</div></div><div class="info-2"><div class="info-item-1">代码随想录--数组（下）</div></div></div></a><a class="pagination-related" href="/2025/02/5day/" title="代码随想录--哈希表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-03</div><div class="info-item-2">代码随想录--哈希表</div></div><div class="info-2"><div class="info-item-1">代码随想录--哈希表（上）</div></div></div></a></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div><h1 id="site-title" fetchpriority="high" style="font-display: swap;">代码随想录--字符串</h1></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text">字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.1.</span> <span class="toc-text">反转字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2-1"><span class="toc-number">1.2.</span> <span class="toc-text">反转字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E6%95%B0%E5%AD%97"><span class="toc-number">1.3.</span> <span class="toc-text">替换数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%B3%E6%97%8B%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.4.</span> <span class="toc-text">右旋字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%BE%E5%87%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8C%B9%E9%85%8D%E9%A1%B9%E7%9A%84%E4%B8%8B%E6%A0%87"><span class="toc-number">1.5.</span> <span class="toc-text">找出字符串中第一个匹配项的下标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.6.</span> <span class="toc-text">重复的子字符串</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js" defer=""></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: 'B3GpDA8AVyqx7H7uFClhxmMn-MdYXbMMI',
+      appKey: 'nNNXxEpK6ldH3OkcySiOdNAo',
+      avatar: 'monsterid',
+      serverURLs: 'https://b3gpda8a.api.lncldglobal.com',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script>let tianliGPT_postSelector = '\#post \#article-container';let tianliGPT_key = '5Q5mpqRK5DkwT1X9Gi5e';</script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="true" data-text="I,LOVE,YOU" data-fontsize="10px" data-random="false" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" async=""></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js" async=""></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/gallery/"]):not([href="/about/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js" defer="defer"></script></div></div><!-- hexo injector body_end start -->
+  <script data-pjax="" src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax="">
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://githubcalendarapi.shiguang666.eu.org/api?user=wp-a";
+            var git_color =['#ebedf0', '#a2f7af', '#6ce480', '#54ad63', '#469252', '#31753c', '#1f5f2a', '#13531f', '#084111', '#032b09', '#000000'];
+            var git_user ="wp-a";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end -->
+    <link rel="stylesheet" href="https://ai.tianli0.top/static/public/postChatUser_summary.min.css">
+    <script>
+        let tianliGPT_key = 'HCpWORjUwwA';
+        let tianliGPT_postSelector = '#article-container';
+        let tianliGPT_Title = '文章摘要';
+        let tianliGPT_postURL = '/^https?://[^/]+/[0-9]{4}/[0-9]{2}/[0-9]{2}/';
+        let tianliGPT_blacklist = '';
+        let tianliGPT_wordLimit = '1000';
+        let tianliGPT_typingAnimate = true;
+        let tianliGPT_theme = 'default';
+        var postChatConfig = {
+          backgroundColor: "#3e86f6",
+          bottom: "16px",
+          left: "16px",
+          fill: "#FFFFFF",
+          width: "44px",
+          frameWidth: "375px",
+          frameHeight: "600px",
+          defaultInput: true,
+          upLoadWeb: true,
+          showInviteLink: true,
+          userTitle: "PostChat",
+          userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～",
+          addButton: false,
+          beginningText: "这篇文章介绍了",
+          userIcon: "https://ai.tianli0.top/static/img/PostChat.webp",
+          userMode: "magic",
+          defaultChatQuestions: ["你好","你是谁"],
+          defaultSearchQuestions: ["视频压缩","设计"]
+        };
+    </script>
+    <script data-postchat_key="HCpWORjUwwA" src="https://ai.tianli0.top/static/public/tianli_gpt.min.js"></script>
+  </body></html>
