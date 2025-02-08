@@ -69,17 +69,33 @@ document.querySelector('.reward-button').addEventListener('click', function(e) {
       document.querySelector('.reward-item:last-child').appendChild(alipayImg);
     }
   });
-// 点击外部关闭弹窗
-document.addEventListener('click', (e) => {
+
+// 修改原有点击事件
+document.querySelector('.reward-button').addEventListener('click', function(e) {
+    e.stopPropagation();
     const rewardMain = document.querySelector('.reward-main');
-    if (!e.target.closest('.reward-button') && !e.target.closest('.reward-main')) {
-      rewardMain.style.display = 'none';
+    
+    // 切换激活状态
+    rewardMain.classList.toggle('active');
+    
+    // 硬币动画优化
+    this.classList.add('coin-animate');
+    setTimeout(() => {
+      this.classList.remove('coin-animate');
+      this.style.transform = 'none';
+    }, 1000);
+  });
+  
+  // 点击外部关闭
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.reward-main') && !e.target.closest('.reward-button')) {
+      document.querySelector('.reward-main').classList.remove('active');
     }
   });
   
   // ESC键关闭
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      document.querySelector('.reward-main').style.display = 'none';
+      document.querySelector('.reward-main').classList.remove('active');
     }
   });
