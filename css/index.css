@@ -7374,7 +7374,7 @@ blockquote.pullquote.right {
  /***************** 页面宽度调整 *****************/
 
 
-#about-page #page {
+#about-page {
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto;
@@ -7522,14 +7522,14 @@ img.no-lightbox[src] {
 
 /* 新增在现有CSS文件末尾 */
 
-.author-content-item.map {
-  background: linear-gradient(135deg, #2193b0, #6dd5ed) no-repeat center center; /* 蓝色渐变 */
+/* .author-content-item.map {
+  background: linear-gradient(135deg, #2193b0, #6dd5ed) no-repeat center center; 
   background-size: cover;
   height: 400px;
   position: relative;
-}
+} */
 
-.author-content-item.map .map-title {
+/* .author-content-item.map .map-title {
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   padding: 10px;
@@ -7537,7 +7537,7 @@ img.no-lightbox[src] {
   color: white;
   font-weight: 600;
   font-size: 1.5rem;
-}
+} */
 [data-theme="dark"] {
   background: #121212; /* 深色背景 */
   color: #e1e1e1;  /* 浅色文本 */
