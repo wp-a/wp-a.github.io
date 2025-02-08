@@ -7586,6 +7586,17 @@ img.no-lightbox[src] {
   100% { opacity: 0.8 }
 }
 
+/* 移动端适配 */
+@media (max-width: 768px) {
+  #about-page .myInfoAndSayHello {
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
+  
+  .author-content-item.map {
+    height: 250px;
+  }
+}
 
  /* 按钮的渐变和悬浮效果 */
 .author-content-item .banner-button {
@@ -7656,8 +7667,66 @@ img.no-lightbox[src] {
   pointer-events: none; /* 允许穿透点击 */
 }
 
+/* 修改媒体查询部分 */
+@media screen and (max-width: 768px) {
+  /* 移除原有隐藏规则 */
+  .post-reward {
+    display: block !important; /* 强制显示 */
+  }
 
+  /* 移动端专属样式 */
+  .reward-button {
+    position: fixed;
+    bottom: 20px;
+    right: 15px;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
 
+  .reward-main {
+    width: 90vw !important;
+    bottom: 80px !important;
+    top: auto !important;
+    transform: translateX(-50%);
+  }
+
+  .reward-all {
+    flex-direction: column;
+    
+    .reward-item {
+      width: 100% !important;
+      margin: 10px 0;
+      
+      img {
+        max-width: 60% !important;
+      }
+    }
+  }
+}
+/* 移动端特殊处理 */
+@media screen and (max-width: 768px) {
+  /* 非关于页面恢复背景 */
+  #page:not(:has(#about-page)) {
+    background: var(--anzhiyu-background) !important;
+  }
+  
+  /* 关于页面保持透明 */
+  /* #about-page #page {
+    background: transparent !important;
+  } */
+}
+
+/* 弹窗层级和定位 */
+/* .reward-main {
+  z-index: 99999;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition: all 0.3s ease;
+  display: block !important; 
+  pointer-events: none; 
+}  */
 
 /* 激活状态 */
 .reward-main.active {
@@ -7666,6 +7735,30 @@ img.no-lightbox[src] {
   pointer-events: auto;
 }
 
+/* 二维码并排显示 */
+.reward-all {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+/* 调整二维码显示 */
+.post-qr-code-img {
+  max-width: 280px !important;
+  border: 6px solid #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .reward-main {
+    width: 90vw !important;
+    bottom: auto !important;
+  }
+  
+  .reward-all {
+    flex-direction: column;
+  }
+}
 
 .reward-item img {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -7676,53 +7769,6 @@ img.no-lightbox[src] {
 @keyframes loading {
   0% { background-position: 100% 50%; }
   100% { background-position: 0 50%; }
-}
-/* 透明控制核心代码 */
-#page { background: var(--anzhiyu-background); }
-#about-page #page { background: transparent !important; }
-
-@media (max-width: 768px) {
-  body:not([id*="about"]) #page { background: var(--anzhiyu-background) !important; }
-  #about-page .author-content-item { background: rgba(255,255,255,0.92) !important; }
-}
-
-/* 赞赏弹窗优化 */
-.reward-main {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 99999;
-  background: rgba(255,255,255,0.98);
-  border-radius: 16px;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.2);
-  padding: 2rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.reward-main.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-@media (max-width: 768px) {
-  .reward-main {
-    width: 90%;
-    max-width: 400px;
-    padding: 1.5rem;
-    top: auto;
-    bottom: 0;
-    transform: translate(-50%, 100%);
-  }
-  
-  .reward-main.active {
-    transform: translate(-50%, -20px);
-  }
-  
-  .reward-all { flex-direction: column; }
-  .reward-item img { max-width: 80% !important; }
 }
 .author-content-item.careers {
     min-height: 400px;
