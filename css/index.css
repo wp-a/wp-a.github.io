@@ -7724,9 +7724,9 @@ img.no-lightbox[src] {
   transform: translate(-50%, -50%) scale(0.9);
   opacity: 0;
   transition: all 0.3s ease;
-  display: block !important; /* 始终保留布局空间 */
-  /* pointer-events: none; /* 初始不可交互 */
-/* } */ 
+  display: block !important; 
+  pointer-events: none; 
+}  */
 
 /* 激活状态 */
 .reward-main.active {
@@ -7736,11 +7736,11 @@ img.no-lightbox[src] {
 }
 
 /* 二维码并排显示 */
-/* .reward-all {
+.reward-all {
   display: flex;
   gap: 2rem;
   padding: 1.5rem;
-} */
+}
 /* 调整二维码显示 */
 .post-qr-code-img {
   max-width: 280px !important;
@@ -7760,11 +7760,11 @@ img.no-lightbox[src] {
   }
 }
 
-/* .reward-item img {
+.reward-item img {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 400% 100%;
   animation: loading 1.5s infinite;
-} */
+}
 
 @keyframes loading {
   0% { background-position: 100% 50%; }
