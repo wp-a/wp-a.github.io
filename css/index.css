@@ -7672,6 +7672,14 @@ img.no-lightbox[src] {
 .coin-wrapper {
   pointer-events: none; /* 允许穿透点击 */
 }
+
+@media screen and (max-width: 768px) {
+  /* 仅当页面不包含关于页面时，恢复原背景 */
+  #page:not(:has(#about-page)) {
+    background: var(--anzhiyu-background) !important;
+  }
+}
+
 .author-content-item.careers {
     min-height: 400px;
   }
