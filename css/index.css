@@ -7630,6 +7630,49 @@ img.no-lightbox[src] {
   text-decoration: underline;
 }
 
+
+/* 硬币动画 */
+.reward-button.active .coin {
+  animation: coinJump 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes coinJump {
+  0% { transform: translateY(0) rotate(0); }
+  30% { transform: translateY(-100px) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* 弹窗定位 */
+/* .reward-main {
+  position: fixed;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  display: none;
+} */
+.reward-main {
+  position: fixed; /* 固定定位 */
+  top: 50%; /* 垂直方向居中 */
+  left: 50%; /* 水平方向居中 */
+  transform: translate(-50%, -50%); /* 调整元素的位置，使其完美居中 */
+  z-index: 9999; /* 确保弹窗位于最上层 */
+  background: rgba(255,255,255,0.95); /* 设置背景颜色 */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1); /* 添加阴影效果 */
+  display: block; /* 确保弹窗是显示的，默认值为none */
+}
+
+
+/* 确保按钮可点击 */
+.reward-button {
+  position: relative;
+  z-index: 1;
+}
+.coin-wrapper {
+  pointer-events: none; /* 允许穿透点击 */
+}
 .author-content-item.careers {
     min-height: 400px;
   }
