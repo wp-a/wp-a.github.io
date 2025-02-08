@@ -7711,9 +7711,9 @@ img.no-lightbox[src] {
   }
   
   /* 关于页面保持透明 */
-  #about-page #page {
+  /* #about-page #page {
     background: transparent !important;
-  }
+  } */
 }
 
 /* 弹窗层级和定位 */
