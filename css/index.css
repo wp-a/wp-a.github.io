@@ -7382,13 +7382,13 @@ blockquote.pullquote.right {
 
 /***************** 仅修改透明卡片模块 *****************/
 /* 通用透明卡片 */
-.author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
+#about-page .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
   background: rgba(255,255,255,0.95) !important;
   backdrop-filter: blur(5px);
 }
 
 /* 页面卡片背景 */
-.author-content-item {
+#about-page .author-content-item {
   background: rgba(255, 255, 255, 0.9); /* 半透明 */
   backdrop-filter: blur(5px);  /* 背景模糊 */
   border: 1px solid rgba(0, 0, 0, 0.1); /* 边框 */
@@ -7475,7 +7475,7 @@ blockquote.pullquote.right {
   margin: 1.5rem 0;
 }
 
-.site-card {
+#about-page .site-card {
   display: block;
   background: white;
   border-radius: 12px;
@@ -7663,7 +7663,6 @@ img.no-lightbox[src] {
   box-shadow: 0 8px 32px rgba(0,0,0,0.1); /* 添加阴影效果 */
   display: block; /* 确保弹窗是显示的，默认值为none */
 }
-
 
 /* 确保按钮可点击 */
 .reward-button {
