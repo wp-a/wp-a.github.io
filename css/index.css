@@ -7549,7 +7549,6 @@ blockquote.pullquote.right {
     background: linear-gradient(45deg, #2193b0, #6dd5ed);
   }
 
-
   #about-page .myInfoAndSayHello {
     background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
     padding: 2.5rem !important;
@@ -7577,7 +7576,6 @@ blockquote.pullquote.right {
     100% { opacity: 0.8 }
   }
 
-
   /* 按钮的渐变和悬浮效果 */
   .author-content-item .banner-button {
     background: linear-gradient(45deg, #00d4ff, #5b27ff); /* 渐变背景 */
@@ -7589,7 +7587,6 @@ blockquote.pullquote.right {
     background: linear-gradient(45deg, #2193b0, #6dd5ed); /* 悬浮渐变 */
     color: #fff;
   }
-
 
   /* 标签图标背景 */
   .tags-group-icon {
@@ -7609,7 +7606,6 @@ blockquote.pullquote.right {
     color: #5b27ff;
     text-decoration: underline;
   }
-
 
   /* 硬币动画 */
   .reward-button.active .coin {

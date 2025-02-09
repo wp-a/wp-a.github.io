@@ -4,7 +4,7 @@
     background: rgba(255, 255, 255, .5);
 }
 
-/* 所有页面背景 */
+/* 所有页面背景
 #aside_content .card-widget,
 #recent-posts>.recent-post-item,
 .layout_page>div:first-child:not(.recent-posts),
@@ -12,8 +12,8 @@
 .layout_post>#post,
 .read-mode .layout_post>#post {
     /* 以下代表透明度为0.9 */
-    background: rgba(255, 255, 255, .5);
-}
+    /* background: rgba(255, 255, 255, .5);
+} */ 
 
 /*侧边卡片的透明度 */
 :root {
