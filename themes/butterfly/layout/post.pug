@@ -33,3 +33,8 @@ block content
     if page.comments !== false && theme.comments.use
       - var commentsJsLoad = true
       !=partial('includes/third-party/comments/index', {}, {cache: true})
+
+    h1#site-title(
+      fetchpriority="high"        
+      style="font-display: swap;" 
+    )= page.title

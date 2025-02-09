@@ -1,21 +1,22 @@
 div
-  script(src=url_for(theme.asset.utils))
-  script(src=url_for(theme.asset.main))
+  script(src=url_for(theme.asset.utils) defer)
+  script(src=url_for(theme.asset.main) defer)
 
   if theme.translate.enable
-    script(src=url_for(theme.asset.translate))
+    script(src=url_for(theme.asset.translate) async)
 
   if theme.lightbox
-    script(src=url_for(theme.asset[theme.lightbox]))
+    script(src=url_for(theme.asset[theme.lightbox]) async)
 
   if theme.instantpage
     script(src=url_for(theme.asset.instantpage), type='module')
 
   if theme.lazyload.enable && !theme.lazyload.native
-    script(src=url_for(theme.asset.lazyload))
+    script(src=url_for(theme.asset.lazyload) defer)
 
   if theme.snackbar.enable
-    script(src=url_for(theme.asset.snackbar))
+    script(src=url_for(theme.asset.snackbar) async)
+
 
   .js-pjax
     if needLoadCountJs

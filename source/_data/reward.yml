@@ -1,0 +1,6 @@
+- class_name: 赞赏
+  reward_list:
+    - name: WP
+      amount: 10
+      datatime: 2025-2-2
+    

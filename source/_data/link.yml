@@ -1,23 +1,53 @@
-- class_name: 友情鏈接
-  class_desc: 那些人，那些事
-  link_list:
-    - name: Hexo
-      link: https://hexo.io/zh-tw/
-      avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg
-      descr: 快速、簡單且強大的網誌框架
 
-- class_name: 網站
-  class_desc: 值得推薦的網站
+- class_name: 高质量知识網站
   link_list:
-    - name: Youtube
-      link: https://www.youtube.com/
-      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png
-      descr: 視頻網站
-    - name: Weibo
-      link: https://www.weibo.com/
-      avatar: https://i.loli.net/2020/05/14/TLJBum386vcnI1P.png
-      descr: 中國最大社交分享平台
-    - name: Twitter
-      link: https://twitter.com/
-      avatar: https://i.loli.net/2020/05/14/5VyHPQqR6LWF39a.png
-      descr: 社交分享平台
+    - name: CS自学指南
+      link: https://csdiy.wiki/
+      avatar: https://csdiy.wiki/images/title.png
+      descr: CS学习知识整合站点
+    - name: OI Wiki
+      link: https://oi-wiki.org/
+      avatar: https://wpironman.oss-cn-qingdao.aliyuncs.com/wordArt.webp
+      descr: 编程竞赛知识整合站点
+    - name: 代码随想录
+      link: https://programmercarl.com/
+      avatar: https://code-thinking-1253855093.file.myqcloud.com/pics/20210614201246512.png
+      descr: 算法学习不走弯路
+- class_name: 高质量娱乐網站
+  link_list:
+    - name: 音范丝电影精选
+      link: https://www.yinfans.me/
+      avatar: https://s44.playwoool.com/wp-content/uploads/2017/04/LOGO_3.png
+      descr: 蓝光精选电影网站
+      # siteshot就是站点缩略图的链接。
+
+- class_name: 思想家
+  class_desc: 知识与智慧并存的大佬
+  link_list:
+    - name: 编程随想的博客 
+      link: https://program-think.blogspot.com/
+      avatar: https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj-Ji0zNb8cNLG_VJPHoUI2hhPeJUsfIi4a373J4HHbBSs_Dmaauis5DtEy2FzR-vO96ZyG5rgHogMaT1VCRkv2bG5bN4aovpzYupYXuPoJYPDoImYa1YlXF67pDeY-HEosJin-SPVXLJc/
+      descr: 控制风险的最好办法是深入思考，而不是投资组合！
+      # siteshot就是站点缩略图的链接。
+- class_name: 博客开发
+  flink_style: flexcard
+  link_list:
+    - name: butterfly魔改
+      link: https://butterfly.zhheo.com/
+      avatar: https://butterfly.zhheo.com/img/logo.webp
+      descr: 基于Butterfly的组件美化教程合集
+    - name: Butterfly 主题文档
+      link: https://butterfly.js.org/
+      avatar: https://butterfly.js.org/img/avatar.png
+      descr: Butterfly 官方文档
+    - name: 安知鱼
+      link: https://blog.anheyu.com/
+      avatar: https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg
+      descr: 生活明朗，万物可爱✨
+      siteshot: https://npm.elemecdn.com/anzhiyu-theme-static@1.1.6/img/blog.anheyu.com.jpg
+
+
+
+
+
+

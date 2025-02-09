@@ -14,11 +14,12 @@ timezone: ''
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://wp-a.github.io/
-permalink: :year/:month/:day/:title/
+permalink: :year/:month/:title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
+
 
 # Directory
 source_dir: source
@@ -97,12 +98,118 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: volantis
+theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/wp-a/wp-a.github.io.git
+  repo: git@github.com:wp-a/wp-a.github.io.git
   branch: main
   message:
+  
+runtimeshow:
+  enable: true
+  publish_date: 1/23/2025 00:00:00
+
+image_lazyload:
+  enable: true
+  # 可选项：图片加载时的占位符
+  placeholder: /images/placeholder.png
+
+# hexo-github-canlendar
+# 贡献度热力图插件 https://github.com/Barry-Flynn/hexo-github-calendar
+githubcalendar:
+  enable: true        # 是否启用本插件
+  enable_page: /      # 要生效的页面，如 / 首页，/about/ 介绍页等
+  user: wp-a   # GitHub 用户名
+  layout:
+    type: id
+    name: recent-posts
+    index: 0
+  githubcalendar_html: '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>'
+  pc_minheight: 280px
+  mobile_minheight: 0px
+  # 贡献统计的梯度色卡值，可自行调整
+  color: "['#ebedf0', '#a2f7af', '#6ce480', '#54ad63', '#469252', '#31753c', '#1f5f2a', '#13531f', '#084111', '#032b09', '#000000']"
+  # 推荐填写你自建的API接口，公用api随时可能会失效
+  # api: https://github-calendar-api.meta-code.top/api
+  api: https://githubcalendarapi.shiguang666.eu.org/api
+  # 推荐下载后使用本地文件
+  # calendar_js: https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js # 在线文件，容易加载失败
+  calendar_js: /js/hexo_githubcalendar.js # 本地文件，请下载到主题文件夹的source目录下
+  plus_style: ""
+
+# hexo-filter-gitcalendar
+# see https://akilar.top/posts/1f9c68c9/
+gitcalendar:
+  enable: true # 开关
+  priority: 5 #过滤器优先权
+  enable_page: / # 应用页面
+  # butterfly挂载容器
+  layout: # 挂载容器类型
+    type: id
+    name: recent-posts
+    index: 0
+  # volantis挂载容器
+  # layout:
+  #   type: class
+  #   name: l_main
+  #   index: 0
+  # matery挂载容器
+  # layout:
+  #   type: id
+  #   name: indexCard
+  #   index: 0
+  # mengd挂载容器
+  # layout:
+  #   type: class
+  #   name: content
+  #   index: 0
+  user: anzhiyu-c #git用户名
+  apiurl: 'https://github.anheyu.com'
+  minheight:
+    pc: 280px #桌面端最小高度
+    mibile: 0px #移动端最小高度
+  color: "['#e4dfd7', '#f9f4dc', '#f7e8aa', '#f7e8aa', '#f8df72', '#fcd217', '#fcc515', '#f28e16', '#fb8b05', '#d85916', '#f43e06']" #橘黄色调
+  # color: "['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f']" #浅紫色调
+  # color: "['#ebedf0', '#f0fff4', '#dcffe4', '#bef5cb', '#85e89d', '#34d058', '#28a745', '#22863a', '#176f2c', '#165c26', '#144620']" #翠绿色调
+  # color: "['#ebedf0', '#f1f8ff', '#dbedff', '#c8e1ff', '#79b8ff', '#2188ff', '#0366d6', '#005cc5', '#044289', '#032f62', '#05264c']" #天青色调
+  container: .recent-post-item(style='width:100%;height:auto;padding:10px;') #父元素容器，需要使用pug语法
+  gitcalendar_css: https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.css
+  gitcalendar_js: https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.js
+plugins:
+  - hexo-plugin-postchat
+  
+postchat:
+  account:
+    key: "HCpWORjUwwA" # 使用PostChat的用户请前往 https://ai.tianli0.top/ 获取 KEY，只使用文章摘要的用户前往 https://summary.zhheo.com/ 获取 KEY 。示例的Key不支持文章摘要和自定义的知识库问答，但可以使用作者的知识库对话
+  summary:
+    enableSummary: true # 开启文章摘要需要在 https://summary.zhheo.com/ 绑定你的网站
+    postSelector: "#article-container" # 文章选择器，用于选择文章内容。如果没有正常显示摘要，你需要访问 https://postsummary.zhheo.com/theme/custom.html#%E8%8E%B7%E5%8F%96tianligpt-postselector 学习获取，也可以联系 zhheo@qq.com 发送你的网站地址后获取
+    title: "文章摘要" # 摘要标题，用于显示在摘要顶部的自定义内容
+    summaryStyle: "https://ai.tianli0.top/static/public/postChatUser_summary.min.css" # 摘要样式css地址，如果你需要自定义摘要的css样式，可以自行修改。
+    postURL: "/^https?://[^/]+/[0-9]{4}/[0-9]{2}/[0-9]{2}/" # 在符合url条件的网页执行文章摘要功能，默认的配置为Hexo的默认文章路由，如果你自定义了文章的地址格式，那么需要修改。https://postchat.zhheo.com/summary.html#tianligpt-posturl
+    blacklist: "" # 填写相关的json地址，帮助文档：https://postsummary.zhheo.com/parameters.html#tianligpt-blacklist
+    wordLimit: "1000" # 危险操作！如果没有在文章摘要中开启url绑定，更改此变量损失已消耗过的key，因为你提交的内容发生了变化。（PostChat用户无影响，因为摘要数量是无限的）可以设置提交的字数限制，默认为1000字。，帮助文档：https://postsummary.zhheo.com/parameters.html#tianligpt-wordlimit
+    typingAnimate: true # 智能的打字效果，模拟流处理的感觉
+  chat:
+    enableAI: false # 开启PostChat智能对话，添加按钮点击对话的功能，如果你并非PostChat用户，而是仅文章摘要用户，建议关闭此功能
+    backgroundColor: "#3e86f6" # 按钮背景颜色
+    fill: "#FFFFFF" # 按钮填充颜色
+    bottom: "16px" # 按钮底部距离
+    left: "16px" # 按钮左边距离
+    width: "44px" # 按钮宽度
+    frameWidth: "375px" # 聊天界面框架宽度
+    frameHeight: "600px" # 聊天界面框架高度
+    defaultInput: true # 默认输入
+    upLoadWeb: true # 上传网站
+    showInviteLink: true # 显示邀请链接
+    userTitle: "PostChat" # 界面标题
+    userDesc: "如果你对网站的内容有任何疑问，可以来问我哦～" # 聊天界面描述
+    addButton: false # 是否显示按钮
+
+admin:
+  username: WPIRONMAN
+  password_hash: $2a$10$7QhZsdhOaWqRzYHT3dbPN.5oKe9.uL2V2e/jnHVv6DkpHW3HuD.Kq
+  secret: wp
