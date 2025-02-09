@@ -7669,7 +7669,9 @@ blockquote.pullquote.right {
       width: 90vw !important;
       bottom: auto !important;
     }
-    
+    #page {
+      background: var(--anzhiyu-background) !important;
+    }
     .reward-all {
       flex-direction: column;
     }
@@ -7686,7 +7688,7 @@ blockquote.pullquote.right {
     100% { background-position: 0 50%; }
   }
     /* 修改按钮的样式 */
-    .tip-button.reward-button {
+  .tip-button.reward-button {
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 6px;
@@ -7733,7 +7735,9 @@ blockquote.pullquote.right {
       flex-direction: column; /* 手机端时让二维码垂直排列 */
       align-items: center;
     }
-
+    #page {
+      background: var(--anzhiyu-background) !important;
+    }
     .post-qr-code-img {
       max-width: 100px; /* 小屏幕时缩小二维码 */
     }
