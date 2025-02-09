@@ -7295,6 +7295,15 @@ blockquote.pullquote.right {
       width: 100% !important;
       margin-bottom: 1rem;
     }
+    #page:has(#about-page) {
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+      background: var(--anzhiyu-background) !important; /* 强制覆盖移动端透明问题<a target="_blank" href="https://blog.csdn.net/lily2016n/article/details/78228464" class="hitref" data-title="解决移动端页面点击图标或按钮产生透明灰色背景原创 - CSDN博客" data-snippet='文章浏览阅读4.2k次。html,body{-webkit-text-size-adjust: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}_解决移动端页面点击图标或按钮 ...' data-url="https://blog.csdn.net/lily2016n/article/details/78228464">7</a><a target="_blank" href="https://www.ucloud.cn/yun/110882.html" class="hitref" data-title="[总结]CSS/CSS3常用样式与web移动端资源- UCloud云社区" data-snippet='该属性可以只设置透明度。如果未设置透明度，iOS Safari使用默认的透明度。当透明度设为0，则会禁用此属性；当透明度设为1，元素在点击时不可见。' data-url="https://www.ucloud.cn/yun/110882.html">15</a> */
+    }
+  
+    #page:has(#about-page) .page-title { display: none; }
+  
     
     .author-content-item.map {
       height: 250px;
@@ -7641,6 +7650,14 @@ blockquote.pullquote.right {
   .coin-wrapper {
     pointer-events: none; /* 允许穿透点击 */
   }
+  #page:has(#about-page) {
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    background: var(--anzhiyu-background) !important; /* 强制覆盖移动端透明问题<a target="_blank" href="https://blog.csdn.net/lily2016n/article/details/78228464" class="hitref" data-title="解决移动端页面点击图标或按钮产生透明灰色背景原创 - CSDN博客" data-snippet='文章浏览阅读4.2k次。html,body{-webkit-text-size-adjust: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}_解决移动端页面点击图标或按钮 ...' data-url="https://blog.csdn.net/lily2016n/article/details/78228464">7</a><a target="_blank" href="https://www.ucloud.cn/yun/110882.html" class="hitref" data-title="[总结]CSS/CSS3常用样式与web移动端资源- UCloud云社区" data-snippet='该属性可以只设置透明度。如果未设置透明度，iOS Safari使用默认的透明度。当透明度设为0，则会禁用此属性；当透明度设为1，元素在点击时不可见。' data-url="https://www.ucloud.cn/yun/110882.html">15</a> */
+  }
+
+  #page:has(#about-page) .page-title { display: none; }
 
 
   /* 激活状态 */
