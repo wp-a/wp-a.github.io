@@ -7691,25 +7691,11 @@ blockquote.pullquote.right {
     padding-right: 20px;
     padding-top: 6px;
     padding-bottom: 6px;
-    /* background: linear-gradient(45deg, #00d4ff, #5b27ff); 
-    color: white;
     border-radius: 20px; 
     border: none;
-    cursor: pointer; */
+    cursor: pointer; 
     transition: 0.3s;
   }
-
-  /* .tip-button.reward-button:hover {
-    background: linear-gradient(45deg, #2193b0, #6dd5ed); /* 悬浮时的渐变 */
-  /* } */ 
-
-  /* 确保硬币动画样式适应 */
-  /* .coin-wrapper {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  } */
 
   /* 修改二维码的样式 */
   .post-qr-code-img {
