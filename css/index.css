@@ -7396,30 +7396,11 @@ blockquote.pullquote.right {
 }
 
 
-/* 特殊卡片保持原有背景 */
-.author-content-item.game-yuanshen,  /* 原神卡片 */
-.author-content-item.comic-content,  /* 动漫卡片 */
-.author-content-item.like-technology, /* 科技卡片 */
-.author-content-item.like-music,     /* 音乐卡片 */
-.author-content-item.map,
-.author-content-item.about-statistic /* 数据统计卡片 */ {
-  background-size: cover !important;
-  background-position: center !important;
-}
-
 /***************** 暗黑模式适配 *****************/
 [data-theme="dark"] .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
   background: rgba(18,18,18,0.95) !important;
 }
 
-/***************** 保留原有遮罩层 *****************/
-.author-content-item.game-yuanshen::after,
-.author-content-item.comic-content::after,
-.author-content-item.like-music::after,
-.author-content-item.map::after,
-.author-content-item.about-statistic::after {
-  box-shadow: inherit !important; /* 继承原有遮罩效果 */
-}
 
 /* 新增在原有CSS文件末尾 */
 #about-page p.p.center.large {
@@ -7520,24 +7501,7 @@ img.no-lightbox[src] {
   opacity: 1 !important;
 }
 
-/* 新增在现有CSS文件末尾 */
 
-/* .author-content-item.map {
-  background: linear-gradient(135deg, #2193b0, #6dd5ed) no-repeat center center; 
-  background-size: cover;
-  height: 400px;
-  position: relative;
-} */
-
-/* .author-content-item.map .map-title {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-  padding: 10px;
-  border-radius: 10px;
-  color: white;
-  font-weight: 600;
-  font-size: 1.5rem;
-} */
 [data-theme="dark"] {
   background: #121212; /* 深色背景 */
   color: #e1e1e1;  /* 浅色文本 */
@@ -7706,9 +7670,6 @@ img.no-lightbox[src] {
 
 @media screen and (max-width: 768px) {
   /* 修复移动端背景问题 */
-  #page {
-    background: var(--anzhiyu-background) !important;
-  }
   
   /* 单独处理关于页面背景 */
   #about-page {
@@ -7724,18 +7685,6 @@ img.no-lightbox[src] {
     background: rgba(18,18,18,0.95) !important;
   }
 }
-
-/* 弹窗层级和定位 */
-/* .reward-main {
-  z-index: 99999;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) scale(0.9);
-  opacity: 0;
-  transition: all 0.3s ease;
-  display: block !important; 
-  pointer-events: none; 
-}  */
 
 /* 激活状态 */
 .reward-main.active {
@@ -7758,7 +7707,7 @@ img.no-lightbox[src] {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 /* 移动端适配 */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .reward-main {
     width: 90vw !important;
     bottom: auto !important;
@@ -7767,18 +7716,18 @@ img.no-lightbox[src] {
   .reward-all {
     flex-direction: column;
   }
-}
+} */
 
-.reward-item img {
+/* .reward-item img {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 400% 100%;
   animation: loading 1.5s infinite;
-}
+} */
 
-@keyframes loading {
+/* @keyframes loading {
   0% { background-position: 100% 50%; }
   100% { background-position: 0 50%; }
-}
+} */
 .author-content-item.careers {
     min-height: 400px;
   }
