@@ -6509,7 +6509,7 @@ blockquote.pullquote.right {
     border: 0;
     box-shadow: none !important;
     padding: 0 !important;
-    background: transparent !important;
+    background: var(--anzhiyu-background);
   }
   
   #page:has(#about-page) .page-title {
@@ -6524,9 +6524,9 @@ blockquote.pullquote.right {
     color: #666;
   }
   
-  #web_bg ~ .page:has(#about-page) {
+  /* #web_bg ~ .page:has(#about-page) {
     background: var(--anzhiyu-background);
-  }
+  } */
   
   #about-page .author-box {
     position: relative;
@@ -7200,15 +7200,14 @@ blockquote.pullquote.right {
 
       /* 修复移动端背景问题 */
       
-      /* 单独处理关于页面背景
     #about-page {
       background: transparent !important;
-    } */
+    }
     
     /* 确保关于页面容器不继承全局背景 */
-    /* #about-page .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
+    #about-page .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
       background: rgba(255,255,255,0.95) !important;
-    } */
+    }
     
     [data-theme="dark"] #about-page .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
       background: rgba(18,18,18,0.95) !important;
