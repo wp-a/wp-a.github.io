@@ -6900,7 +6900,7 @@ blockquote.pullquote.right {
     height: 2.6rem;
     margin-bottom: -4rem;
     outline: 0;
-    position: relative;
+    position: 6px;
     top: 0;
     transform-origin: 0 100%;
     transition: transform 50ms ease-in-out;
@@ -7314,7 +7314,7 @@ blockquote.pullquote.right {
 
     /* 移动端专属样式 */
     .reward-button {
-      position: fixed;
+      position: 6px;
       bottom: 20px;
       right: 15px;
       z-index: 999;
@@ -7684,6 +7684,78 @@ blockquote.pullquote.right {
   @keyframes loading {
     0% { background-position: 100% 50%; }
     100% { background-position: 0 50%; }
+  }
+    /* 修改按钮的样式 */
+    .tip-button.reward-button {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background: linear-gradient(45deg, #00d4ff, #5b27ff); /* 渐变背景 */
+    color: white;
+    border-radius: 20px; /* 圆角 */
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .tip-button.reward-button:hover {
+    background: linear-gradient(45deg, #2193b0, #6dd5ed); /* 悬浮时的渐变 */
+  }
+
+  /* 确保硬币动画样式适应 */
+  .coin-wrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* 修改二维码的样式 */
+  .post-qr-code-img {
+    width: 100%;
+    max-width: 150px; /* 控制二维码大小 */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 修改二维码描述文字 */
+  .post-qr-code-desc {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+    color: #333;
+  }
+
+  /* 修改奖励列表的布局 */
+  .reward-all {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .reward-item {
+    list-style: none;
+    text-align: center;
+    flex: 1;
+    padding: 10px;
+  }
+
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .reward-all {
+      flex-direction: column; /* 手机端时让二维码垂直排列 */
+      align-items: center;
+    }
+
+    .post-qr-code-img {
+      max-width: 120px; /* 小屏幕时缩小二维码 */
+    }
+
+    .tip-button.reward-button {
+      padding: 10px 20px; /* 增加按钮内边距 */
+      font-size: 14px;
+    }
   }
 .author-content-item.careers {
     min-height: 400px;
