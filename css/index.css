@@ -7741,7 +7741,22 @@ blockquote.pullquote.right {
     padding: 10px;
   }
 
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .reward-all {
+      flex-direction: column; /* 手机端时让二维码垂直排列 */
+      align-items: center;
+    }
 
+    .post-qr-code-img {
+      max-width: 100px; /* 小屏幕时缩小二维码 */
+    }
+
+    .tip-button.reward-button {
+      padding: 10px 20px; /* 增加按钮内边距 */
+      font-size: 14px;
+    }
+  }
 .author-content-item.careers {
     min-height: 400px;
   }
