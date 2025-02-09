@@ -7371,14 +7371,10 @@ blockquote.pullquote.right {
     white-space: nowrap;
   }
 
- /***************** 1. 全局或通用重置（仅保留必要内容） *****************/
-
-/* 避免移动端不必要的透明背景扩散到其它页面 */
 [data-theme="dark"] {
   background: #121212;
   color: #e1e1e1;
 }
-
 /***************** 2. 关于页面主体样式 #about-page *****************/
 #about-page {
   width: 100% !important;
@@ -7391,412 +7387,170 @@ blockquote.pullquote.right {
   */
 }
 
-/* 隐藏标题等，如不需要可删除 */
-#about-page .page-title {
-  display: none;
+/***************** 仅修改透明卡片模块 *****************/
+/* 通用透明卡片 */
+#about-page .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
+  background: rgba(255,255,255,0.95) !important;
+  backdrop-filter: blur(5px);
 }
 
-/***************** 作者盒子/头像 *****************/
-#about-page .author-box {
-  position: relative;
-}
-#about-page .author-box .author-img {
-  margin: auto;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 180px;
-  height: 180px;
-}
-#about-page .author-box .author-img img {
-  border-radius: 50%;
-  width: 180px;
-  height: 180px;
-}
-#about-page .author-box .image-dot {
-  width: 45px;
-  height: 45px;
-  background: #6bdf8f;
-  position: absolute;
-  border-radius: 50%;
-  border: 6px solid var(--anzhiyu-background);
-  top: 50%;
-  left: 50%;
-  transform: translate(35px, 45px);
-}
-
-/***************** 关于页面的主要分块 .author-content *****************/
-.author-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 1rem;
-}
-
-/* 介绍区：左边的大块区域 */
-#about-page .myInfoAndSayHello {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--anzhiyu-white);
-  /* 渐变背景 */
-  background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
-  background-size: 200%;
-  animation: gradient 15s ease infinite;  
-  padding: 2.5rem !important;
-  border-radius: 24px !important;
-  width: 59%;
-  position: relative;
-  overflow: visible;
-}
-#about-page .myInfoAndSayHello .title1 {
-  opacity: 0.8;
-  line-height: 1.3;
-}
-#about-page .myInfoAndSayHello .title2 {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.1;
-  margin: 0.5rem 0;
-}
-.inline-word {
-  word-break: keep-all;
-  white-space: nowrap;
-}
-
-/* aboutsiteTips (右侧小块) */
-.author-content-item.aboutsiteTips {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 39%;
-}
-.author-content-item.aboutsiteTips h2 {
-  margin-top: 0;
-  font-size: 36px;
-  font-family: Helvetica;
-  line-height: 1.06;
-  letter-spacing: -0.02em;
-  color: var(--font-color);
-}
-.author-content-item.aboutsiteTips .mask {
-  height: 36px;
-  position: relative;
-  overflow: hidden;
-  margin-top: 4px;
-}
-.author-content-item.aboutsiteTips .mask span {
-  display: block;
-  position: absolute;
-  top: 36px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.author-content-item.aboutsiteTips .mask span[data-show] {
-  transform: translateY(-100%);
-  transition: 0.5s transform ease-in-out;
-}
-.author-content-item.aboutsiteTips .mask span[data-up] {
-  transform: translateY(-200%);
-  transition: 0.5s transform ease-in-out;
-}
-/* 颜色例子 */
-.author-content-item.aboutsiteTips .mask span:nth-child(1) {
-  background-image: linear-gradient(45deg, #0ecffe 50%, #07a6f1);
-}
-.author-content-item.aboutsiteTips .mask span:nth-child(2) {
-  background-image: linear-gradient(45deg, #18e198 50%, #0ec15d);
-}
-
-/***************** 半透明卡片（仅 about-page 下有效） *****************/
+/* 页面卡片背景 */
 #about-page .author-content-item {
-  /* 通用透明卡片外观 */
   background: rgba(255, 255, 255, 0.9); /* 半透明 */
   backdrop-filter: blur(5px);  /* 背景模糊 */
   border: 1px solid rgba(0, 0, 0, 0.1); /* 边框 */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 阴影 */
-  position: relative;
-  border-radius: 24px;
-  padding: 1rem 2rem;
-  overflow: hidden;
 }
 
-/* 暗黑模式下，半透明改深色 */
-[data-theme="dark"] #about-page .author-content-item {
-  background: rgba(18, 18, 18, 0.95) !important;
+
+/***************** 暗黑模式适配 *****************/
+[data-theme="dark"] .author-content-item:not(.game-yuanshen):not(.comic-content):not(.like-technology):not(.like-music):not(.about-statistic) {
+  background: rgba(18,18,18,0.95) !important;
+}
+
+
+/* 新增在原有CSS文件末尾 */
+#about-page p.p.center.large {
+  font-size: 2rem !important;
+  color: #8195f6fd !important;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+#about-page p.p.center.small {
+  font-size: 1.2rem !important;
+  color: #f7ececf1 !important;
+  margin-top: 0.5rem !important;
+  letter-spacing: 2px;
+}
+/***************** 心路历程专用样式 *****************/
+.create-site-post {
+  position: relative;
+  padding: 2rem !important;
+  line-height: 1.8;
+}
+
+/* 复选框样式 */
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin: 0.8rem 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.checkbox input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+/* 不同颜色复选框 */
+.checkbox.blue {
+  border-left: 4px solid #3498db;
+}
+
+.checkbox.red {
+  border-left: 4px solid #e74c3c;
+}
+
+/* 卡片组样式 */
+.site-card-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+#about-page .site-card {
+  display: block;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.site-card:hover {
+  transform: translateY(-5px);
+}
+/* 文字特效 */
+.p.center {
+  text-align: center !important;
+  margin: 1rem 0 !important;
+  color: #FF6347;
+}
+
+.p.large {
+  font-size: calc(1.5rem + 1vw) !important;
+  font-weight: 300 !important;
+  color: #483D8B; 
+  letter-spacing: 2px !important;
+}
+
+.p.small {
+  font-size: calc(0.9rem + 0.3vw) !important;
+  opacity: 0.9 !important;
+}
+
+/* 图片加载保护 */
+img.no-lightbox {
+  transition: opacity 0.5s ease;
+}
+
+img.no-lightbox[src] {
+  opacity: 1 !important;
+}
+
+
+[data-theme="dark"] {
+  background: #121212; /* 深色背景 */
+  color: #e1e1e1;  /* 浅色文本 */
+}
+
+[data-theme="dark"] .author-content-item {
+  background: rgba(18, 18, 18, 0.95);  /* 暗黑背景 */
   color: #e1e1e1;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/***************** 统计块 about-statistic *****************/
-#about-page .about-statistic {
-  min-height: 380px;
-  width: 39%;
-  background: url(https://img02.anheyu.com/adminuploads/1/2022/09/23/632d634f8376d.jpg) no-repeat top;
-  background-size: cover;
-  color: var(--anzhiyu-white);
-  overflow: hidden;
-  position: relative;
-}
-#about-page .about-statistic::after {
-  box-shadow: 0 -159px 173px 71px #0c1c2c inset;
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.author-content-item .card-content {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 2rem;
-}
-.author-content-item-title {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-#statistic {
-  font-size: 16px;
-  border-radius: 15px;
-  color: var(--anzhiyu-white);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-#statistic div {
-  width: 50%;
-  margin-bottom: 0.5rem;
-  display: flex;
-  flex-direction: column;
-}
-#statistic div span:first-child {
-  opacity: 0.8;
-  font-size: 12px;
-}
-#statistic div span:last-child {
-  font-weight: 700;
-  font-size: 34px;
-  line-height: 1;
-  white-space: nowrap;
-}
-.post-tips {
-  color: var(--anzhiyu-gray);
-  font-size: 14px;
-  position: absolute;
-  bottom: 1rem;
-  left: 2rem;
-}
-.post-tips a {
-  color: var(--anzhiyu-gray) !important;
-  border: none !important;
-}
-.post-tips a:hover {
-  color: var(--anzhiyu-main) !important;
-  background: none !important;
+[data-theme="dark"] .author-content-item .banner-button {
+  background: linear-gradient(45deg, #5b27ff, #00d4ff); /* 亮丽渐变色 */
+  color: #fff;
 }
 
-/***************** 按钮组 .banner-button-group *****************/
-.card-content .banner-button-group {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 2rem;
-}
-.banner-button {
-  height: 40px;
-  width: 124px;
-  border-radius: 20px;
-  background: linear-gradient(45deg, #00d4ff, #5b27ff);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-bottom: 0 !important;
-  transition: 0.3s;
-  margin-left: 1rem;
-}
-.banner-button i {
-  font-size: 1.5rem;
-  margin-right: 8px;
-}
-.banner-button:hover {
+[data-theme="dark"] .author-content-item .banner-button:hover {
   background: linear-gradient(45deg, #2193b0, #6dd5ed);
-  color: #fff;
 }
 
-/***************** 个性介绍 .personalities & 我的照片 .myphoto *****************/
-.author-content-item.personalities {
-  width: 59%;
-}
-.author-content-item.personalities .image {
-  position: absolute;
-  right: 30px;
-  top: 10px;
-  width: 220px;
-  transition: transform 2s cubic-bezier(0.13, 0.45, 0.21, 1.02);
-}
-.author-content-item.personalities .image img {
-  max-width: 100%;
-  transition: filter 375ms ease-in 0.2s;
-}
-.author-content-item.personalities:hover .image {
-  transform: rotate(-10deg);
-}
 
-.author-content-item.myphoto {
-  width: 39%;
-  min-height: 240px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.author-content-item.myphoto img {
-  position: absolute;
-  min-width: 100%;
-  object-fit: cover;
-  animation: coverIn 2s ease-out forwards;
-  transition: transform 2s ease-out !important;
-}
-.author-content-item.myphoto:hover img {
-  transform: scale(1.1);
-}
-
-/***************** 座右铭 .maxim & buff 块 *****************/
-.author-content-item.maxim {
-  width: 39%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.1;
-}
-.author-content-item.maxim .author-content-item-tips {
-  opacity: 0.8;
-  font-size: 12px;
-  margin-bottom: 0.5rem;
-}
-.author-content-item.maxim .maxim-title {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-content-item.buff {
-  width: 59%;
-  min-height: 200px;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.1;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--anzhiyu-white);
-  background: linear-gradient(120deg, #ff27e8 0, #ff8000 100%);
-  background-size: 200%;
-  animation: gradient 15s ease infinite;
-}
-.author-content-item.buff .card-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.author-content-item.buff .buff-title {
-  display: flex;
-  flex-direction: column;
-}
-.card-background-icon {
-  font-size: 12rem;
-  opacity: 0.2;
-  position: absolute;
-  right: 0;
-  bottom: -40%;
-  transform: rotate(30deg);
-  transition: 2s ease-in-out;
-}
-.author-content-item:hover .card-background-icon {
-  transform: rotate(20deg);
-}
-
-/***************** 游戏/漫画/科技/音乐 专区示例 *****************/
-.author-content-item.game-yuanshen {
-  width: 59%;
-  min-height: 300px;
-  background: url(https://img02.anheyu.com/adminuploads/1/2022/12/19/63a079ca63c8a.webp) no-repeat top;
-  background-size: cover;
-  color: var(--anzhiyu-white);
-  overflow: hidden;
+#about-page .myInfoAndSayHello {
+  background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+  padding: 2.5rem !important;
+  border-radius: 24px !important;
+  overflow: visible;
   position: relative;
 }
-.author-content-item.game-yuanshen::after {
-  box-shadow: 0 -69px 203px 11px #575d8b inset;
+
+#about-page .myInfoAndSayHello::before {
   content: "";
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #2193b0, #6dd5ed, #fff);
+  z-index: -1;
+  border-radius: 24px;
+  animation: gradientBorder 3s ease infinite;
 }
 
-.author-content-item.comic-content {
-  width: 39%;
-  min-height: 300px;
-  background: url(https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/violet.jpg) no-repeat top;
-  background-size: cover;
-  color: violet;
-  overflow: hidden;
-  position: relative;
-}
-.author-content-item.comic-content::after {
-  box-shadow: 0 -48px 203px 11px #fbe9b8 inset;
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+@keyframes gradientBorder {
+  0% { opacity: 0.8 }
+  50% { opacity: 0.3 }
+  100% { opacity: 0.8 }
 }
 
-.author-content-item.like-technology {
-  background: url(https://img02.anheyu.com/adminuploads/1/2022/09/24/632f0dd8f33c6.webp) no-repeat;
-  background-size: cover;
-  min-height: 230px;
-  color: var(--anzhiyu-white);
-}
-.author-content-item.like-music {
-  background: url(https://p2.music.126.net/Mrg1i7DwcwjWBvQPIMt_Mg==/79164837213438.jpg) no-repeat top;
-  background-size: cover;
-  min-height: 400px;
-  color: var(--anzhiyu-white);
-  overflow: hidden;
-  position: relative;
-}
-.author-content-item.like-music::after {
-  box-shadow: 0 -69px 203px 11px #453e38 inset;
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/***************** 移动端适配 *****************/
 @media (max-width: 768px) {
   /* 让左右结构自动堆叠 */
   .author-content-item {
@@ -7826,64 +7580,102 @@ blockquote.pullquote.right {
     margin-right: 4px;
   }
 }
-
-/***************** 3. 文章/段落特效 *****************/
-#about-page p.p.center.large {
-  font-size: 2rem !important;
-  color: #8195f6fd !important;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-#about-page p.p.center.small {
-  font-size: 1.2rem !important;
-  color: #f7ececf1 !important;
-  margin-top: 0.5rem !important;
-  letter-spacing: 2px;
+ /* 按钮的渐变和悬浮效果 */
+.author-content-item .banner-button {
+  background: linear-gradient(45deg, #00d4ff, #5b27ff); /* 渐变背景 */
+  color: #fff;
+  transition: 0.3s ease;
 }
 
-/***************** 4. 心路历程专用样式 *****************/
-.create-site-post {
+.author-content-item .banner-button:hover {
+  background: linear-gradient(45deg, #2193b0, #6dd5ed); /* 悬浮渐变 */
+  color: #fff;
+}
+
+
+/* 标签图标背景 */
+.tags-group-icon {
+  background: linear-gradient(135deg, #ff67e3, #ffb200) !important;  /* 渐变色 */
+  padding: 8px;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 链接颜色和悬浮效果 */
+.author-content-item .post-reward .reward-item a {
+  color: #333;
+  font-weight: 600;
+}
+
+.author-content-item .post-reward .reward-item a:hover {
+  color: #5b27ff;
+  text-decoration: underline;
+}
+
+
+/* 硬币动画 */
+.reward-button.active .coin {
+  animation: coinJump 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+/* 硬币动画优化 */
+@keyframes coinJump {
+  0% { transform: translateY(0) rotate(0) scale(1); }
+  30% { transform: translateY(-100px) rotate(180deg) scale(1.2); }
+  70% { transform: translateY(50px) rotate(360deg) scale(0.9); }
+  100% { transform: translateY(0) rotate(360deg) scale(1); }
+}
+
+.coin-animate .coin {
+  animation: coinJump 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.reward-main {
+  position: fixed; /* 固定定位 */
+  top: 50%; /* 垂直方向居中 */
+  left: 50%; /* 水平方向居中 */
+  transform: translate(-50%, -50%); /* 调整元素的位置，使其完美居中 */
+  z-index: 9999; /* 确保弹窗位于最上层 */
+  background: rgba(255,255,255,0.95); /* 设置背景颜色 */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1); /* 添加阴影效果 */
+  display: block; /* 确保弹窗是显示的，默认值为none */
+}
+
+/* 确保按钮可点击 */
+.reward-button {
   position: relative;
-  padding: 2rem !important;
-  line-height: 1.8;
+  z-index: 1;
+}
+.coin-wrapper {
+  pointer-events: none; /* 允许穿透点击 */
 }
 
-/* 复选框示例 */
-.checkbox {
+
+/* 激活状态 */
+.reward-main.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* 二维码并排显示 */
+.reward-all {
   display: flex;
-  align-items: center;
-  margin: 0.8rem 0;
-  padding: 12px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.9);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  gap: 2rem;
+  padding: 1.5rem;
 }
-.checkbox input[type="checkbox"] {
-  margin-right: 10px;
-  width: 18px;
-  height: 18px;
-}
-.checkbox.blue { border-left: 4px solid #3498db; }
-.checkbox.red { border-left: 4px solid #e74c3c; }
-
-/***************** 5. 卡片组 site-card-group *****************/
-.site-card-group {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-#about-page .site-card {
-  display: block;
-  background: white;
+/* 调整二维码显示 */
+.post-qr-code-img {
+  max-width: 280px !important;
+  border: 6px solid #fff;
   border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-.site-card:hover {
-  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/***************** 6. 赞赏弹窗 reward *****************/
+.reward-item img {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400% 100%;
+  animation: loading 1.5s infinite;
+}
 .author-content-item.single.reward {
   position: relative;
 }
@@ -7937,45 +7729,6 @@ blockquote.pullquote.right {
   }
 }
 
-/***************** 硬币动画 .coin *****************/
-.coin-wrapper {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 18rem;
-  overflow: hidden;
-  pointer-events: none;
-  transform-origin: 50% 100%;
-}
-.coin {
-  --front-y-multiplier: 0;
-  --back-y-multiplier: 0;
-  --coin-y-multiplier: 0;
-  --coin-x-multiplier: 0;
-  --coin-scale-multiplier: 0;
-  --coin-rotation-multiplier: 0;
-  position: absolute;
-  width: 3.5rem;
-  height: 3.5rem;
-  bottom: calc(var(--coin-y-multiplier) * 1rem - 3.5rem);
-  right: calc(var(--coin-x-multiplier) * 34% + 16%);
-  transform: translateX(50%) scale(calc(0.4 + var(--coin-scale-multiplier)))
-    rotate(calc(var(--coin-rotation-multiplier) * -1deg));
-  transition: opacity 0.1s linear 0.2s;
-  z-index: 3;
-}
-.coin-animate .coin {
-  animation: coinJump 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-@keyframes coinJump {
-  0% { transform: translateY(0) rotate(0) scale(1); }
-  30% { transform: translateY(-100px) rotate(180deg) scale(1.2); }
-  70% { transform: translateY(50px) rotate(360deg) scale(0.9); }
-  100% { transform: translateY(0) rotate(360deg) scale(1); }
-}
-
-/***************** 简易 Keyframes for .myInfoAndSayHello & .buff  *****************/
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -7987,7 +7740,6 @@ blockquote.pullquote.right {
   0% { transform: scale(1.2); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
-
 .author-content-item.careers {
     min-height: 400px;
   }
