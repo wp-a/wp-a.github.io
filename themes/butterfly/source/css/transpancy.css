@@ -1,10 +1,10 @@
-/* 文章页背景
+/* 文章页背景 */
 .layout_post>#post {
     /* 以下代表透明度为0.7 可以自行修改*/
-    /* background: rgba(255, 255, 255, .5);
-} */ 
-
-/* 所有页面背景
+    background: rgba(255, 255, 255, .5);
+}
+/* 
+所有页面背景 */
 #aside_content .card-widget,
 #recent-posts>.recent-post-item,
 .layout_page>div:first-child:not(.recent-posts),
@@ -12,19 +12,19 @@
 .layout_post>#post,
 .read-mode .layout_post>#post {
     /* 以下代表透明度为0.9 */
-    /* background: rgba(255, 255, 255, .5);
-} */ 
+    background: rgba(255, 255, 255, .5);
+}
 
 /*侧边卡片的透明度 */
-/* :root {
+:root {
     --card-bg: rgba(255, 255, 255, .8);
 }
 
 /* 页脚透明 */
-/* #footer {
+#footer {
     /* 以下代表透明度为0.1*/
-    /* background: rgba(255, 255, 255, .2);
-} */ 
+    background: rgba(255, 255, 255, .2);
+}
 /* 示例：自定义代码块背景色 */
 pre {
     background-color: #2d2d2d;

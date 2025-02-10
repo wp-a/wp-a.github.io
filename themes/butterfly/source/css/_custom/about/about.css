@@ -28,9 +28,9 @@
     color: #666;
   }
   
-  /* #web_bg ~ .page:has(#about-page) {
+  #web_bg ~ .page:has(#about-page) {
     background: var(--anzhiyu-background);
-  } */
+  }
   
   #about-page .author-box {
     position: relative;
@@ -388,8 +388,8 @@
     width: auto;
     text-align: none;
     pointer-events: none;
-    right: 2rem;
-    top: 2rem;
+    right: 1rem;
+    top: 1rem;
   }
   .tip-button {
     border: 0;
@@ -761,7 +761,7 @@
       /* border-radius: 0; */
       padding: 0 1rem !important;
       box-shadow: none !important;
-      background: var(--anzhiyu-background);
+      /* background: var(--anzhiyu-background); */
     }
     .author-content-item .card-content .banner-button-group .banner-button-text {
       display: none;
@@ -1173,7 +1173,7 @@
       width: 90vw !important;
       bottom: auto !important;
     }
-    #page {
+    #page:has(#about-page) {
       background: var(--anzhiyu-background) !important;
     }
     .reward-all {
@@ -1239,7 +1239,7 @@
       flex-direction: column; /* 手机端时让二维码垂直排列 */
       align-items: center;
     }
-    #page {
+    #page:has(#about-page) {
       background: var(--anzhiyu-background) !important;
     }
     .post-qr-code-img {
