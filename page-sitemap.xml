@@ -11,7 +11,7 @@
     
     <url>
         <loc>https://wp-a.github.io/charts/</loc>
-        <lastmod>2025-03-09T03:03:37.918Z</lastmod>
+        <lastmod>2025-03-09T04:40:29.439Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -57,15 +57,6 @@
     <url>
         <loc>https://wp-a.github.io/messageboard/</loc>
         <lastmod>2025-01-29T06:32:32.547Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/statistics/</loc>
-        <lastmod>2025-01-23T14:06:07.298Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
