@@ -17,18 +17,28 @@
           
           <category> 数据结构与算法 </category>
           
-          <category> 排序 </category>
+          <category> 基础知识 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 排序算法 </tag>
+            <tag> 数据结构与算法 </tag>
             
-            <tag> 算法 </tag>
+            <tag> 排序 </tag>
             
-            <tag> 编程基础 </tag>
+            <tag> 冒泡排序 </tag>
+            
+            <tag> 选择排序 </tag>
+            
+            <tag> 插入排序 </tag>
+            
+            <tag> 快速排序 </tag>
+            
+            <tag> 归并排序 </tag>
+            
+            <tag> 堆排序 </tag>
             
         </tags>
       
@@ -121,9 +131,9 @@
             
             <tag> 数据结构与算法 </tag>
             
-            <tag> 递归 </tag>
-            
             <tag> 回溯 </tag>
+            
+            <tag> 递归 </tag>
             
             <tag> 剪枝 </tag>
             
@@ -280,11 +290,11 @@
             
             <tag> 数据结构与算法 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 二叉树 </tag>
             
             <tag> 二叉树遍历 </tag>
-            
-            <tag> 递归 </tag>
             
             <tag> 迭代 </tag>
             
@@ -317,11 +327,11 @@
             
             <tag> 数据结构与算法 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 二叉树 </tag>
             
             <tag> 二叉树遍历 </tag>
-            
-            <tag> 递归 </tag>
             
             <tag> 迭代 </tag>
             
@@ -354,11 +364,11 @@
             
             <tag> 数据结构与算法 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 二叉树 </tag>
             
             <tag> 二叉树遍历 </tag>
-            
-            <tag> 递归 </tag>
             
             <tag> 迭代 </tag>
             
@@ -590,13 +600,13 @@
             
             <tag> 数据结构与算法 </tag>
             
-            <tag> 数组 </tag>
-            
             <tag> 链表 </tag>
             
             <tag> 哈希表 </tag>
             
             <tag> 查找 </tag>
+            
+            <tag> 数组 </tag>
             
         </tags>
       
@@ -734,11 +744,11 @@
             
             <tag> 数据结构与算法 </tag>
             
-            <tag> 二分查找 </tag>
-            
             <tag> 双指针 </tag>
             
             <tag> 数组 </tag>
+            
+            <tag> 二分查找 </tag>
             
         </tags>
       
