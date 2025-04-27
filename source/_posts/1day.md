@@ -2,7 +2,7 @@
 title: 代码随想录--数组
 date: 2025/1/23
 tags: [数据结构与算法,二分查找,双指针,数组]
-categories: [数据结构与算法,代码随想录]
+categories: [学习,数据结构与算法,代码随想录]
 updated: 
 type: 
 comments:

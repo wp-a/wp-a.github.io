@@ -2,7 +2,7 @@
 title: 代码随想录--数组
 date: 2025/1/24
 tags: [数据结构与算法,数组,滑动窗口,矩阵规律,前缀和]
-categories: [数据结构与算法,代码随想录]
+categories: [学习,数据结构与算法,代码随想录]
 updated: 
 description: 代码随想录--数组（下）
 keywords: [算法,复试]

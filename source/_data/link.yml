@@ -1,4 +1,11 @@
 
+- class_name: 好友
+  link_list:
+    - name: vllbc
+      link: https://blog.vllbc.top/
+      avatar: https://blog.vllbc.top/images/avatar.png
+      descr: NLP大佬
+
 - class_name: 高质量知识網站
   link_list:
     - name: CS自学指南

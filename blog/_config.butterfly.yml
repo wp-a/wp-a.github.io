@@ -1,0 +1,43 @@
+# --------------------------------------
+# Hexo Butterfly Theme Configuration
+# If you have any questions, please refer to the documentation
+# Chinese: https://butterfly.js.org/
+# English: https://butterfly.js.org/en/
+# --------------------------------------
+
+# --------------------------------------
+# Navigation Settings
+# --------------------------------------
+
+nav:
+  # Navigation bar logo image
+  logo: /img/favicon.png
+  display_title: true
+  # Whether to fix navigation bar
+  fixed: false
+
+# menu:
+#   首页: / || fas fa-home
+#   
+#   分类: /categories/ || fas fa-folder-open
+#   音乐: /music/ || fas fa-music
+#   关于: /about/ || fas fa-heart
+menu:
+   首页: / || fas fa-home
+   文章||fas fa-book:
+      分类: /categories/ || fas fa-folder-open
+      统计: /charts/ || fa fa-line-chart
+      # 统计分析: /statistics/ || fa fa-bar-chart
+      时间轴: /archives/ || fas fa-archive
+   友链||fa-solid fa-user-group:
+      本站友链: /link/ || fa-solid fa-user-tie
+      随机开往: https://www.travellings.cn/go.html || fa fa-subway
+      异次元之旅: https://travel.moe/go.html?travel=on  || fa fa-taxi
+      列表导航: https://zhblogs.ohyee.cc/ || fa fa-motorcycle
+   关于:  /about/ || fa fas fa-heart
+
+# 启用统计功能
+statistics:
+  enable: true
+# - <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+# - <script defer src="/js/statistics.js"></script> 

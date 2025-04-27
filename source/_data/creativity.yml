@@ -5,24 +5,24 @@
       icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250208211930380.png
     - name: Python
       color: "#fff"
-      icon: https://img02.anheyu.com/adminuploads/1/2022/09/25/63300647dea51.png
+      icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250427110752815.png
     - name: Java
       color: "#fff"
-      icon: https://img02.anheyu.com/adminuploads/1/2022/09/25/633005bf0fd1e.jpg
+      icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250427110902929.png
     - name: Node
-      color: "#333"
-      icon: https://npm.elemecdn.com/anzhiyu-blog@2.1.1/img/svg/node-logo.svg
+      color: "#fff"
+      icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250427110940080.png
     - name: CSS3
-      color: "#2c51db"
-      icon: https://img02.anheyu.com/adminuploads/1/2022/09/25/633006cc55e07.png
+      color: "#fff"
+      icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250427111013201.png
     - name: JS
-      color: "#f7cb4f"
-      icon: https://img02.anheyu.com/adminuploads/1/2022/09/25/633006eee047b.png
+      color: "#fff"
+      icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250427111104605.png
     - name: HTML
       color: "#e9572b"
-      icon: https://img02.anheyu.com/adminuploads/1/2022/09/25/633006f9ab27d.png
+      icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250427111153026.png
     - name: Git
-      color: "#df5b40"
+      color: "#fff"
       icon: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250208212108189.png
     # - name: Apifox
     #   color: "#e65164"

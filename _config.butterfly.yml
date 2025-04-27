@@ -16,24 +16,18 @@ nav:
   # Whether to fix navigation bar
   fixed: false
 
-# menu:
-#   首页: / || fas fa-home
-#   
-#   分类: /categories/ || fas fa-folder-open
-#   音乐: /music/ || fas fa-music
-#   关于: /about/ || fas fa-heart
 menu:
-   首页: / || fas fa-home
-   文章||fas fa-book:
-      分类: /categories/ || fas fa-folder-open
-      统计: /charts/ || fa fa-line-chart
-      时间轴: /archives/ || fas fa-archive
-   友链||fa-solid fa-user-group:
-      本站友链: /link/ || fa-solid fa-user-tie
-      随机开往: https://www.travellings.cn/go.html || fa fa-subway
-      异次元之旅: https://travel.moe/go.html?travel=on  || fa fa-taxi
-      列表导航: https://zhblogs.ohyee.cc/ || fa fa-motorcycle
-   关于:  /about/ || fa fas fa-heart
+  首页: / || fas fa-home
+  文章||fas fa-book:
+    分类: /categories/ || fas fa-folder-open
+    # 统计: /charts/ || fa fa-line-chart
+    时间轴: /archives/ || fas fa-archive
+  友链||fa-solid fa-user-group:
+    本站友链: /link/ || fa-solid fa-user-tie
+    随机开往: https://www.travellings.cn/go.html || fa fa-subway
+    异次元之旅: https://travel.moe/go.html?travel=on || fa fa-taxi
+    列表导航: https://zhblogs.ohyee.cc/ || fa fa-motorcycle
+  关于: /about/ || fa fas fa-heart
 
 # 友链样式，butterfly为默认样式，volantis为站点卡片样式,flexcard为弹性卡片样式,byer为粉丝彩蛋！
 flink_style: flexcard # butterfly | volantis | flexcard | byer
@@ -56,6 +50,10 @@ code_blocks:
   # true: shrink the code blocks | false: expand the code blocks | none: expand code blocks and hide the button
   shrink: false
   fullpage: false
+
+# 统计功能
+statistics:
+  enable: true
 
 # Social media links
 # Formal:
@@ -277,13 +275,25 @@ footer:
   owner:
     enable: true
     since: 2025
-  custom_text: Hi, welcome to my blog!
-  # Copyright of theme and framework
-  copyright: true
+  custom_text: <div id="runtime"></div>
+  statistics:
+    enable: true
+    # Visit counts will be shown after site runs for X seconds
+    publish_time: 2025/1/1 00:00:00
+    # Visit counts will be shown if count is greater than X
+    #min_count: 50
 
 # --------------------------------------
 # Aside Settings
 # --------------------------------------
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '""'
 
 aside:
   enable: true
@@ -362,7 +372,7 @@ aside:
     enable: true
     post_count: true
     last_push_date: true
-    sort_order:
+    # sort_order:
     # Time difference between publish date and now
     # Formal: Month/Day/Year Time or Year/Month/Day Time
     # Leave it empty if you don't enable this feature
@@ -453,6 +463,13 @@ busuanzi:
   site_uv: true
   site_pv: true
   page_pv: true
+  # Custom text for busuanzi count
+  site_uv_header: 访客数
+  site_pv_header: 总访问量
+  page_pv_header: 本文阅读量
+  # site_uv_footer: 人
+  # site_pv_footer: 次
+  # page_pv_footer: 次
 
 # --------------------------------------
 # Math
@@ -464,7 +481,7 @@ busuanzi:
 math:
   # Choose: mathjax, katex
   # Leave it empty if you don't need math
-  use:
+  use: mathjax
   per_page: true
   hide_scrollbar: false
 
@@ -477,7 +494,6 @@ math:
   katex:
     # Enable the copy KaTeX formula
     copy_tex: false
-
 # --------------------------------------
 # Search
 # --------------------------------------
@@ -936,7 +952,7 @@ mermaid:
 # chartjs
 # see https://www.chartjs.org/docs/latest/
 chartjs:
-  enable: false  # 确保插件已启用
+  enable: true  # 确保插件已启用
   # Do not modify unless you understand how they work.
   # The default settings are only used when the MD syntax is not specified.
   # General font color for the chart
@@ -1041,25 +1057,25 @@ structured_data: true
 css_prefix: true
 
 # Inject
-# Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-       - <link rel="stylesheet" href="/css/transpancy.css">
-       - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css">
-      # - <div class="aplayer no-destroy" data-id="2545914121" data-server="tencent" data-type="playlist"   data-order="list" data-fixed="true" data-preload="auto" data-autoplay="auto" data-mutex="true" ></div>
-       - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">  
+    - <link rel="stylesheet" href="/css/transpancy.css">
+    # - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"> # Removed Tianli GPT CSS
+    - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    # Preload the Google Fonts CSS for Roboto Slab
+    - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
+    # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
+    - <link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   bottom:
-       - <script>let tianliGPT_postSelector = '\#post \#article-container';let tianliGPT_key = '5Q5mpqRK5DkwT1X9Gi5e';</script>
-      #  - <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-      #  - <script>LA.init({id:"3LBntowT7EmP3WHU",ck:"3LBntowT7EmP3WHU",autoTrack:true})</script>
-      #  - <script src="https://sdk.51.la/perf/js-sdk-perf.min.js" crossorigin="anonymous"></script>
-      #  - <script>new LingQue.Monitor().init({id:"3LBntowT7EmP3WHU",sendSuspicious:true});</script>
-       - <script type="text/javascript" src ="/js/reward.js" ></script>
-      #  - <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.all.min.js"></script>
-      #  - <script src="https://ai.tianli0.top/static/public/tianli_gpt.min.js"></script>
-      #  - <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.9.0-rc.1/echarts.min.js"></script> 
-       - <script async src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-      #  - <script src="https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script>
+    # - <script>let tianliGPT_postSelector = '\\#post \\#article-container';let tianliGPT_key = '5Q5mpqRK5DkwT1X9Gi5e';</script> # Removed Tianli GPT script
+    - <script type="text/javascript" src ="/js/reward.js" defer></script> # Added defer
+    - <script async src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    - <script defer src="/js/runtime.js"></script>
+    - <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+    - <script defer src="/js/statistics.js"></script>
+    # Check if hexo_githubcalendar.js is injected elsewhere and add defer if found
+
 # CDN Settings
 # Don't modify the following settings unless you know how they work
 CDN:
@@ -1083,63 +1099,17 @@ CDN:
     lazyload: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js
     valine: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js
     instantpage: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js
-    fontawesomeV6: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
+    # fontawesomeV6: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
     snackbar_css: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css
     snackbar: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js
     # countupJS
     countup_js: /js/countup.js
     # abcjs_basic_js:
-    # activate_power_mode:
-    # algolia_js:
-    # algolia_search:
-    # aplayer_css:
-    # aplayer_js:
-    # artalk_css:
-    # artalk_js:
-    # blueimp_md5:
-    # busuanzi:
-    # canvas_fluttering_ribbon:
-    # canvas_nest:
-    # canvas_ribbon:
-    # chartjs:
-    # click_heart:
-    # clickShowText:
-    # disqusjs:
-    # disqusjs_css:
-    # docsearch_css:
-    # docsearch_js:
-    # egjs_infinitegrid:
-    # fancybox:
-    # fancybox_css:
-    # fireworks:
-    # fontawesome:
-    # gitalk:
-    # gitalk_css:
-    # giscus:
-    # instantpage:
-    # instantsearch:
-    # katex:
-    # katex_copytex:
-    # lazyload:
-    # local_search:
-    # main:
-    # main_css:
-    # mathjax:
-    # medium_zoom:
-    # mermaid:
-    # meting_js:
-    # prismjs_autoloader:
-    # prismjs_js:
-    # prismjs_lineNumber_js:
-    # pjax:
-    # sharejs:
-    # sharejs_css:
-    # snackbar:
-    # snackbar_css:
-    # translate:
-    # twikoo:
-    # typed:
-    # utils:
-    # valine:
-    # waline_css:
-    # waline_js:
+
+# Add runtime counter
+runtimeshow:
+  enable: true
+  publish_date: 1/22/2025 00:00:00  
+  ##网页开通时间
+  #格式: 月/日/年 时:分:秒
+  show_in_footer: true

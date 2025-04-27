@@ -1155,11 +1155,11 @@
   }
 
   /* 二维码并排显示 */
-  .reward-all {
+  /* .reward-all {
     display: flex;
     gap: 2rem;
     padding: 1.5rem;
-  }
+  } */
   /* 调整二维码显示 */
   .post-qr-code-img {
     max-width: 280px !important;

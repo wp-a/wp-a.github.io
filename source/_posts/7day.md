@@ -2,7 +2,7 @@
 title: 代码随想录--字符串
 date: 2025-02-05 17:48:35
 tags: [数据结构与算法,字符串,KMP,双指针,reverse]
-categories: [数据结构与算法,代码随想录]
+categories: [学习,数据结构与算法,代码随想录]
 updated: 
 description: 代码随想录--字符串
 ---

@@ -10,6 +10,15 @@
     
     
     <url>
+        <loc>https://wp-a.github.io/charts/</loc>
+        <lastmod>2025-03-09T04:40:29.439Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
         <loc>https://wp-a.github.io/categories/</loc>
         <lastmod>2025-02-07T17:39:59.948Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -21,15 +30,6 @@
     <url>
         <loc>https://wp-a.github.io/about/</loc>
         <lastmod>2025-02-07T17:39:52.048Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/charts/</loc>
-        <lastmod>2025-02-07T16:49:14.065Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -57,15 +57,6 @@
     <url>
         <loc>https://wp-a.github.io/messageboard/</loc>
         <lastmod>2025-01-29T06:32:32.547Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/statistics/</loc>
-        <lastmod>2025-01-23T14:06:07.298Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>

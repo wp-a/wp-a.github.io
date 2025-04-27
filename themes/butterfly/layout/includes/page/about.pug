@@ -42,7 +42,7 @@
   .author-content
     .author-content-item.skills
       .card-content
-        .author-content-item-tips 技能
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 技能
         span.author-content-item-title 开启创造力
         .skills-style-group
           .tags-group-all
@@ -68,12 +68,15 @@
             .etc ...
     .author-content-item.careers
       .card-content
-        .author-content-item-tips 生涯
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 生涯
         span.author-content-item-title 无限进步
         .careers-group
+          .careers-item(style='margin-bottom: 15px;')
+            .circle(style='background:#357ef5')
+            .name(style='font-size: 1.1em;') 2020-2024  QLU  智能科学与技术专业
           .careers-item
             .circle(style='background:#357ef5')
-            .name 2020-2024 QLU,智能科学与技术专业
+            .name(style='font-size: 1.1em;') 2025-2028  SDU  人工智能专业
         //- img.author-content-img.no-lightbox(alt='生涯', src='https://img02.anheyu.com/adminuploads/1/2022/09/26/6330e9bcc39cc.png')
 
   .author-content
@@ -97,17 +100,17 @@
       //-     b 中国，烟台市
       .author-content-item.selfInfo.single
         div
-          span.selfInfo-title 生于
+          span.selfInfo-title(style='font-size: 1.4em; font-weight: bold;') 生于
           |
           span.selfInfo-content#selfInfo-content-year(style='color:#43a6c6') 2001
         div
-          span.selfInfo-title 齐鲁工业大学
+          span.selfInfo-title(style='font-size: 1.4em; font-weight: bold;') 目前就读于
           |
-          span.selfInfo-content(style='color:#c69043') 智能科学与技术专业
-        div
-          span.selfInfo-title 现在职业
-          |
-          span.selfInfo-content(style='color:#b04fe6') 无业游民
+          span.selfInfo-content(style='color:#c69043') 山东大学人工智能专业
+        //- div
+        //-   span.selfInfo-title 现在职业
+        //-   |
+        //-   span.selfInfo-content(style='color:#b04fe6') 硕士
 
   //- .author-content
   //-   .author-content-item.personalities
@@ -128,9 +131,9 @@
   //-   .author-content-item.maxim
   //-     .author-content-item-tips 座右铭
   //-     span.maxim-title
-  //-       span(style='opacity:.6;margin-bottom:8px') 生活明朗，
+  //-       span(style='opacity:.6;margin-bottom:8px') 戒骄戒躁。
   //-       |
-  //-       span 万物可爱。
+  //-       span 。
   //-   .author-content-item.buff
   //-     .card-content
   //-       .author-content-item-tips 特长
@@ -179,37 +182,46 @@
       //- .checkbox.blue.checked
       //-   input(type='checkbox', checked)
       //-   p
-      //-     | 致力于成为一个前端小姥🐷
+      //-     | 致力于成为一个Ai小姥🐷
       //-     img.inline-img(src='https://cdn1.tianli0.top/gh/volantis-x/cdn-emoji/aru-l/0000.gif/' data-fancybox='gallery', style='display: inline;margin: 0 3px;height: 1.1em;vertical-align: text-bottom;')
-      //- .checkbox.blue.checked
-      //-   input(type='checkbox', checked)
-      //-   p
-      //-     | 又菜又爱玩🎮
-      //-     kbd ctrl
-      //-     |  +
-      //-     kbd C
-      //-     | 、
-      //-     kbd ctrl
-      //-     |  +
-      //-     kbd V
-      //-     | 高级CV工程师🏆
+      .checkbox.blue.checked
+        input(type='checkbox', checked)
+        p
+          | 又菜又爱玩🎮
+          kbd ctrl
+          |  +
+          kbd C
+          | 、
+          kbd ctrl
+          |  +
+          kbd V
+          | 高级CV工程师🏆
       .checkbox.times.red.checked
         input(type='checkbox', checked)
-        p 熟悉的语言：Chinese、English、Python、C++、C🎲
+        p 熟悉的语言：Chinese、English、Python、C++、C 🎲
       .checkbox.times.red.checked
         input(type='checkbox', checked)
         p 擅长使用微信、QQ、抖音、小红书、B站、夸克等大厂应用👻
-      span.p.h2 2025 2月 todoList
+      <span class="p h2" style="font-size: 1.5em; font-weight: bold; color: skyblue;">2025 2月-3月 todoList</span>
       .checkbox
-        input(type='checkbox')
-        p    代码随想录
+        input(type='checkbox', checked)
+        p    代码随想录一刷（较为粗略）
       .checkbox
-        input(type='checkbox')
+        input(type='checkbox', checked)
         p    数据结构与算法
       .checkbox
-        input(type='checkbox')
+        input(type='checkbox', checked)
         p    离散数学
- 
+      <span class="p h2" style="font-size: 1.5em; font-weight: bold; color: skyblue;">2025 4月-6月 todoList</span>
+      .checkbox
+        input(type='checkbox')
+        p    代码随想录二刷
+      .checkbox
+        input(type='checkbox')
+        p    深度学习
+      .checkbox
+        input(type='checkbox')
+        p    经典论文
 
   .author-content
     .author-content-item.single.reward
@@ -246,10 +258,10 @@
                 a(href='javascript:;')  <!-- 移除 target="_blank" -->
                   img.post-qr-code-img(alt='wechat', src='https://wpironman.oss-cn-qingdao.aliyuncs.com/20250208233652040.JPG')
                 .post-qr-code-desc 微信赞赏
-              li.reward-item
-                a(href='javascript:;')
-                  img.post-qr-code-img(alt='alipay', src='https://wpironman.oss-cn-qingdao.aliyuncs.com/20250208230357793.JPG') 
-                .post-qr-code-desc 支付宝赞赏
+              //- li.reward-item
+              //-   a(href='javascript:;')
+              //-     img.post-qr-code-img(alt='alipay', src='https://wpironman.oss-cn-qingdao.aliyuncs.com/20250208230357793.JPG') 
+              //-   .post-qr-code-desc 支付宝赞赏
           //- .reward-main
           //-   ul.reward-all
           //-     li.reward-item
