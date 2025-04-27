@@ -26,11 +26,13 @@ jobs:
       - name: Install Dependencies # 安装依赖
         run: npm install # <<< 如果你使用 Yarn，则使用 yarn install。这个步骤会安装 package.json 中列出的所有依赖，包括 hexo 和 hexo-deployer-git
 
-      # 移除了原有的 "Install Hexo Git Deployer" 步骤，因为它通常是多余的
+      # !!! 新增步骤：给 hexo 可执行文件添加执行权限 !!!
+      - name: Grant execute permission to hexo # 赋予 hexo 执行权限
+        run: chmod +x ./node_modules/.bin/hexo # +x 表示添加执行权限
 
       - name: Clean and Generate Static Files # 清理并生成站点
         run: |
-          # !!! 使用 npx 来执行 hexo 命令，确保找到本地安装的 hexo 可执行文件 !!!
+          # 使用 npx 来执行 hexo 命令，确保找到本地安装的 hexo 可执行文件
           npx hexo clean
           npx hexo generate
 
