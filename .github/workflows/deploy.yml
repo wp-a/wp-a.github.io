@@ -1,51 +1,67 @@
-name: Deploy Hexo to GitHub Pages
+# 工作流名称
+name: Deploy Hexo Blog # 部署 Hexo 博客
 
+# 触发工作流的事件：当推送到 main 分支时触发
 on:
   push:
     branches:
-      - main  # 当推送到 main 分支时触发
+      - main # <<< 确保这里是你的 Hexo 源码仓库的主分支，可能是 main 或 master
 
+# 定义作业 (Job)
 jobs:
-  build:
+  build_and_deploy: # 构建并部署作业
+    # 在最新的 Ubuntu 环境下运行
     runs-on: ubuntu-latest
 
+    # 定义作业步骤 (Steps)
     steps:
-      - name: Checkout repository
+      # Step 1: 拉取你的 Hexo 源码
+      - name: Checkout source code # 检出源码
         uses: actions/checkout@v4
-        with:
-          submodules: false  # 禁用子模块检查
+        # 如果你的主题是子模块，需要加上 submodules: true
+        # with:
+        #   submodules: true
 
-      - name: Setup Node.js
+      # Step 2: 设置 Node.js 环境
+      - name: Setup Node.js environment # 设置 Node.js 环境
         uses: actions/setup-node@v4
         with:
-          node-version: 'v22.13.1'
+          node-version: '22' # <<< 建议使用主要版本，例如 '20' 或 '22'
+          # cache: 'npm' # 可选：缓存依赖以加快构建速度
+          # cache-dependency-path: 'package-lock.json' # 如果使用 package-lock.json
 
-      - name: Install Dependencies
-        run: npm install
+      # Step 3: 安装 Hexo 及所有依赖 (主题、插件等)
+      - name: Install dependencies # 安装依赖
+        run: npm install # <<< 如果你使用 Yarn，则使用 yarn install
 
-      - name: Install Hexo Git Deployer
-        run: |
-          npm install hexo-deployer-git --save
-          npm install hexo-cli -g
-
-      - name: Clean and Generate Static Files
+      # Step 4: 清理并生成 Hexo 静态文件
+      - name: Clean and Generate Hexo site # 清理并生成站点
         run: |
           hexo clean
           hexo generate
 
-          - name: Configure Git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      # Step 5: 使用 peaceiris/actions-gh-pages Action 部署生成的静态文件
+      # 这个 Action 会自动处理 Git 初始化、添加、提交和推送到目标仓库
+      - name: Deploy to GitHub Pages # 部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # 使用 peaceiris/actions-gh-pages Action，v3 是稳定版本
 
+        with:
+          # 部署需要的 GitHub Token，引用你在 Secrets 中添加的名称
+          # Secret 的名称是 HEXO_DEPLOY，请确保你在仓库 Secrets 中添加的名称也是 HEXO_DEPLOY
+          github_token: ${{ secrets.HEXO_DEPLOY }} # <<< 确保 Secret 名称正确 (HEXO_DEPLOY)
 
-      - name: Deploy to GitHub Pages
-        env:
-          GH_TOKEN: ${{ secrets.HEXO_DEPLOY }}
-        run: |
-          cd public/
-          git init
-          git add -A
-          git commit -m "Create by workflows"
-          git remote add origin https://${{ secrets.HEXO_DEPLOY }}@github.com/wp-a/wp-a.github.io.git
-          git push origin HEAD:main -f
+          # 要部署的目录，Hexo 生成的静态文件在 public 目录
+          publish_dir: ./public # 发布目录
+
+          # 部署的目标仓库，格式是 用户名/仓库名 (不能是 SSH 地址)
+          publish_repo: wp-a/wp-a.github.io # <<< 替换为你的 GitHub 用户名，并确保仓库名正确
+
+          # 部署到的分支，wp-a.github.io 这种用户/组织页通常部署到 main 分支
+          publish_branch: main # <<< 通常是 main 或 master，取决于你的 wp-a.github.io 仓库设置
+
+          # committer 和 author 信息，部署时会用这些信息创建 commit
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
+          author_name: github-actions[bot]
+          author_email: github-actions[bot]@users.noreply.github.com
+
