@@ -1,5 +1,5 @@
 # 工作流名称
-name: Deploy Hexo Blog (Custom Script) # 部署 Hexo 博客 (自定义脚本)
+name: Deploy Hexo Blog # 部署 Hexo 博客
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
       - name: Install Dependencies # 安装依赖
         run: npm install # <<< 如果你使用 Yarn，则使用 yarn install。这个步骤会安装 package.json 中列出的所有依赖，包括 hexo 和 hexo-deployer-git
 
-      # !!! 新增步骤：给 hexo 可执行文件添加执行权限 !!!
+      # !!! 修复权限问题：给 hexo 可执行文件添加执行权限 !!!
       - name: Grant execute permission to hexo # 赋予 hexo 执行权限
         run: chmod +x ./node_modules/.bin/hexo # +x 表示添加执行权限
 
@@ -36,24 +36,28 @@ jobs:
           npx hexo clean
           npx hexo generate
 
-      - name: Configure Git for Deployment # 配置部署用的 Git 用户信息
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
+      # !!! 使用 peaceiris/actions-gh-pages Action 来部署 !!!
+      # 这个 Action 会自动处理 Git 初始化、添加、提交和推送到目标仓库，并正确处理认证
       - name: Deploy to GitHub Pages # 部署到 GitHub Pages
-        env:
-          GH_TOKEN: ${{ secrets.HEXO_DEPLOY }} # <<< 确保 Secret 名称正确 (HEXO_DEPLOY)
-        run: |
-          cd public/ # 进入 public 目录
-          git init # 初始化新的 Git 仓库
-          git add -A # 添加所有文件
-          git commit -m "Deploy site via GitHub Actions" # 提交
-          # 使用 HTTPS URL 和 token 进行认证，添加到 origin
-          # 确保这里的用户名和仓库名是你的部署仓库 (wp-a/wp-a.github.io)
-          git remote add origin https://github.com/wp-a/wp-a.github.io.git
-          # 设置远程 origin 的 URL，包含 token 用于认证
-          git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/wp-a/wp-a.github.io.git
-          # 强制推送到目标仓库的 main 分支
-          git push origin HEAD:main -f # <<< 确保目标分支是 main 或 master
+        uses: peaceiris/actions-gh-pages@v3 # 使用 peaceiris/actions-gh-pages Action，v3 是稳定版本
+
+        with:
+          # 部署需要的 GitHub Token，引用你在 Secrets 中添加的名称
+          # Secret 的名称是 HEXO_DEPLOY，请确保你在仓库 Secrets 中添加的名称就是 HEXO_DEPLOY
+          github_token: ${{ secrets.HEXO_DEPLOY }} # <<< 确保 Secret 名称正确 (HEXO_DEPLOY)
+
+          # 要部署的目录，Hexo 生成的静态文件在 public 目录
+          publish_dir: ./public # 发布目录
+
+          # 部署的目标仓库，格式是 用户名/仓库名 (不能是 SSH 地址)
+          publish_repo: wp-a/wp-a.github.io # <<< 替换为你的 GitHub 用户名，并确保仓库名正确
+
+          # 部署到的分支，wp-a.github.io 这种用户/组织页通常部署到 main 分支
+          publish_branch: main # <<< 通常是 main 或 master，取决于你的 wp-a.github.io 仓库设置
+
+          # committer 和 author 信息，部署时会用这些信息创建 commit
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
+          author_name: github-actions[bot]
+          author_email: github-actions[bot]@users.noreply.github.com
 
