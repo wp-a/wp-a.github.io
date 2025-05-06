@@ -460,6 +460,7 @@ wordcount:
 
 # Busuanzi count for PV / UV in site
 busuanzi:
+  enable: false
   site_uv: true
   site_pv: true
   page_pv: true
@@ -511,7 +512,7 @@ search:
 
 # Local search
 local_search:
-  enable: true
+  enable: false
   labels:
     input_placeholder: Search for Posts
     hits_empty: "We didn't find any results for the search: ${query}" # 如果没有查到内容相关内容显示
@@ -1062,7 +1063,7 @@ inject:
     - <link rel="stylesheet" href="/css/transpancy.css">
     # - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"> # Removed Tianli GPT CSS
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    # - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
