@@ -13,7 +13,7 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 
 ## 《Adaptive Mixture of Local Experts》
 
-<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501100302213.png" alt="image-20250501100255100" style="zoom:50%;" />
+<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501100302213.png" style="zoom:50%;" />
 
 1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
 
@@ -25,7 +25,7 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 
 系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
 
-<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501113347385.png" alt="image-20250501113347338" style="zoom:50%;" />
+<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501113347385.png" style="zoom:50%;" />
 
 通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
 
@@ -35,7 +35,7 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 
 **数据集**：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
 
-<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501110027054.png" alt="image-20250501110026982" style="zoom:60%;" />
+<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501110027054.png" style="zoom:60%;" />
 
 模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
 
@@ -57,7 +57,7 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 
 上一篇强调的是减小时间成本，这一篇是减小计算成本。
 
-<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501141207768.png" alt="image-20250501141207660" style="zoom:40%;" />
+<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501141207768.png" style="zoom:40%;" />
 
 ### 基础架构
 
