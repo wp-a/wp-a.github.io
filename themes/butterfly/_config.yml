@@ -279,7 +279,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: 准备复试中
+    description: 
     button:
       enable: true
       icon: fab fa-github
