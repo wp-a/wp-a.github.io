@@ -53,7 +53,7 @@ code_blocks:
 
 # 统计功能
 statistics:
-  enable: true
+  enable: false
 
 # Social media links
 # Formal:
@@ -899,7 +899,7 @@ click_heart:
 
 # Mouse click effects: words
 clickShowText:
-  enable: true
+  enable: false
   text:
     - I
     - LOVE
@@ -952,7 +952,7 @@ mermaid:
 # chartjs
 # see https://www.chartjs.org/docs/latest/
 chartjs:
-  enable: true  # 确保插件已启用
+  enable: false  # 确保插件已启用
   # Do not modify unless you understand how they work.
   # The default settings are only used when the MD syntax is not specified.
   # General font color for the chart
@@ -995,10 +995,10 @@ pjax:
     - /gallery/       # 排除相册页面
     - /about/         # 排除关于页面
 
-# Inject the css and script (aplayer/meting)
-aplayerInject:
-  enable: true
-  per_page: true
+# # Inject the css and script (aplayer/meting)
+# aplayerInject:
+#   enable: true
+#   per_page: true
 
 
 
@@ -1062,7 +1062,7 @@ inject:
     - <link rel="stylesheet" href="/css/transpancy.css">
     # - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"> # Removed Tianli GPT CSS
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    # - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
