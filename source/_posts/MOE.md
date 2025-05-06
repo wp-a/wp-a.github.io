@@ -153,6 +153,8 @@ $$
 $$
 \operatorname{Load}(X)_i = \sum_{x \in X} P(x, i)
 $$
+
+
 其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
 $$
 P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k\text{th\_excluding}(H(x), k, i) \right)

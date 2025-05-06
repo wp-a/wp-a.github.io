@@ -171,12 +171,7 @@ gitcalendar:
   gitcalendar_js: https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.js
 plugins:
   - hexo-plugin-postchat
-  
 
-markdown:
-  plugins:
-    - markdown-it-mathjax3
-  # 其他配置保持不变...
 
 admin:
   username: WPIRONMAN
