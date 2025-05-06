@@ -1061,7 +1061,7 @@ css_prefix: true
 inject:
   head:
     - <link rel="stylesheet" href="/css/transpancy.css">
-    # - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"> # Removed Tianli GPT CSS
+    - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"> # Removed Tianli GPT CSS
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
     # - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
@@ -1069,7 +1069,7 @@ inject:
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
     - <link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   bottom:
-    # - <script>let tianliGPT_postSelector = '\\#post \\#article-container';let tianliGPT_key = '5Q5mpqRK5DkwT1X9Gi5e';</script> # Removed Tianli GPT script
+    - <script>let tianliGPT_postSelector = '\\#post \\#article-container';let tianliGPT_key = '5Q5mpqRK5DkwT1X9Gi5e';</script> # Removed Tianli GPT script
     - <script type="text/javascript" src ="/js/reward.js" defer></script> # Added defer
     - <script async src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     - <script defer src="/js/runtime.js"></script>

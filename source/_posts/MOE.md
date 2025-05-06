@@ -20,7 +20,7 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 
 ### 基础架构
 
-如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $$ p_j = \exp(r_j) / \sum_i \exp(r_i) $$，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
+如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
 
 系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
 
@@ -110,7 +110,7 @@ v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
 -\infty & \text{otherwise}.
 \end{cases}
 $$
-通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 **0** ：
+通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
 
 <img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502140429369.webp" style="zoom:50%;" />
 $$
@@ -180,7 +180,7 @@ $H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
 
 $Pr(⋯>…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th\_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
 $$ {% raw %}
-P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
+P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
 $$ {% endraw %}
 Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
 $$ {% raw %}
