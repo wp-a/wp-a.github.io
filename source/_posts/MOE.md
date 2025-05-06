@@ -3,14 +3,13 @@ title: MoE
 date: 2025-04-27 20:37:24
 tags: [对比学习,论文精读]
 categories: [学习,论文精读,MOE]
+mathjax: true
 updated: 
 type: 
 cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 ---
 
 # Mixtures of Experts 
-
-参考资料：https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mixture-of-experts
 
 ## 《Adaptive Mixture of Local Experts》
 
