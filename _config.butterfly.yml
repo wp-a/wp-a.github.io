@@ -996,9 +996,9 @@ pjax:
     - /about/         # 排除关于页面
 
 # # Inject the css and script (aplayer/meting)
-# aplayerInject:
-#   enable: true
-#   per_page: true
+aplayerInject:
+  enable: false
+  per_page: true
 
 
 
@@ -1062,7 +1062,7 @@ inject:
     - <link rel="stylesheet" href="/css/transpancy.css">
     # - <link rel="stylesheet" href="https://ai.tianli0.top/static/public/tianli_gpt.min.css"> # Removed Tianli GPT CSS
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    # - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
@@ -1073,7 +1073,7 @@ inject:
     - <script async src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     - <script defer src="/js/runtime.js"></script>
     - <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
-    - <script defer src="/js/statistics.js"></script>
+    # - <script defer src="/js/statistics.js"></script>
 
 
     # Check if hexo_githubcalendar.js is injected elsewhere and add defer if found
