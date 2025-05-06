@@ -180,7 +180,7 @@ $H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
 
 $Pr(⋯>…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th\_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
 $$ {% raw %}
-P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k\text{th\_excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
+P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
 $$ {% endraw %}
 Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
 $$ {% raw %}
