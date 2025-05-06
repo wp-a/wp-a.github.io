@@ -131,11 +131,11 @@ KeepTopK 策略将每个 token 路由给几个选定的专家。
 $$
 \text{Importance}(X) = \sum_{x \in X} G(x) 
 $$
-这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算*变异系数* （ **CV** ），它告诉我们专家之间重要性得分的差异有多大。利用这个 **CV** 分数，我们可以在训练期间更新**辅助损失** ，以尽可能降低 **CV** 分数（ 从而给予每个专家同等的重要性 ）。
+这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
 
 <img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502134023343.webp" style="zoom:50%;" />
 
-如果重要性分数存在很大差异，则 **CV** 会很高，相反，如果所有专家的重要性得分都相似，那么 **CV** 就会较低
+如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
 
 <img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502134637067.webp" style="zoom:50%;" />
 $$
@@ -150,15 +150,13 @@ $$
 专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
 
 对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
-$$
-\operatorname{Load}(X)_i = \sum_{x \in X} P(x, i)
-$$
-
-
+$$ {% raw %}
+{Load}(X)_i = \sum_{x \in X} P(x, i)
+$$ {% endraw %}
 其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
-$$
-P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k\text{th\_excluding}(H(x), k, i) \right)
-$$
+$$ {% raw %}
+P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
+$$ {% endraw %}
 **$ (x \cdot W_g)_i $**：
 
 - $x $ 是输入向量（例如来自上一层的 LSTM 输出）。
@@ -172,22 +170,22 @@ $$
 - **$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $**：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
 - 这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
 
-$$
+$$ {% raw %}
 H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
-$$
+$$ {% endraw %}
 
 $H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
 
 **$k\text{th\_excluding}(H(x), k, i)$**: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
 
 $Pr(⋯>…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th\_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
-$$
+$$ {% raw %}
 P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k\text{th\_excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
-$$
+$$ {% endraw %}
 Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
-$$
+$$ {% raw %}
 L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
-$$
+$$ {% endraw %}
 初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
 
 #### Hierarchical Mixture-of-Experts
@@ -199,9 +197,9 @@ $$
 **第二级（次级门控网络）**：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
 
 **专家网络**：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
-$$
+$$ {% raw %}
 y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
-$$
+$$ {% endraw %}
 $Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
 
 $G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
@@ -209,15 +207,15 @@ $G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家�
 $ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
 
 对专家利用率的衡量指标将更改为以下内容：
-$$
+$$ {% raw %}
 \text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
-$$
+$$ {% endraw %}
 
-$$
+$$ {% raw %}
 \text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
-$$
+$$ {% endraw %}
 
-$\text{Load}_{\text{primary}}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)} $表示 X 中满足 $ G_{\text{primary}}(x)_i > 0 $ 的子集。
+$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i > 0 $ 的子集。
 
 
 
@@ -312,9 +310,9 @@ DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略�
 #### 细粒度专家分割
 
 通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
-$$
+$$ {% raw %}
 \mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$
+$$ {% endraw %}
 
 $$
 g_{i,t} = \begin{cases} 
@@ -338,9 +336,9 @@ $$
 采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
 
 隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
-$$
+$$ {% raw %}
 \mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$
+$$ {% endraw %}
 
 $$
 g_{i,t} = \begin{cases} 
@@ -364,9 +362,9 @@ $$
 ##### Expert-Level Balance Loss
 
 专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
-$$
+$$ {% raw %}
 \mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
-$$
+$$ {% endraw %}
 
 $$
 f_i = \frac{N'}{K' T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
@@ -381,17 +379,17 @@ $$
 ##### Device-Level Balance Loss
 
 将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
-$$
+$$ {% raw %}
 \mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
-$$
+$$ {% endraw %}
 
-$$
+$$ {% raw %}
 f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
-$$
+$$ {% endraw %}
 
-$$
+$$ {% raw %}
 p'_i = \sum_{j \in \mathcal{E}_i} p_j
-$$
+$$ {% endraw %}
 
 其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
 
