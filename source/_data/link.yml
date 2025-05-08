@@ -1,10 +1,15 @@
 
 - class_name: 好友
   link_list:
+    - name: 杨敏
+      link: https://sduyangmin.github.io
+      avatar: https://sduyangmin.github.io/images/yangmin.png
+      descr: 数据挖掘
     - name: vllbc
       link: https://blog.vllbc.top/
       avatar: https://blog.vllbc.top/images/avatar.png
       descr: NLP大佬
+  
 
 - class_name: 高质量知识網站
   link_list:
