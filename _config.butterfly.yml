@@ -26,7 +26,7 @@ menu:
     本站友链: /link/ || fa-solid fa-user-tie
     随机开往: https://www.travellings.cn/go.html || fa fa-subway
     异次元之旅: https://travel.moe/go.html?travel=on || fa fa-taxi
-    列表导航: https://zhblogs.ohyee.cc/ || fa fa-motorcycle
+    # 列表导航: https://zhblogs.ohyee.cc/ || fa fa-motorcycle
   关于: /about/ || fa fas fa-heart
 
 # 友链样式，butterfly为默认样式，volantis为站点卡片样式,flexcard为弹性卡片样式,byer为粉丝彩蛋！
