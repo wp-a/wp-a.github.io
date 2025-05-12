@@ -13,6 +13,10 @@
 
 - class_name: 高质量知识網站
   link_list:
+    - name: Hello算法
+      link: https://www.hello-algo.com/
+      avatar: https://www.hello-algo.com/assets/images/logo.svg
+      descr: 算法学习网站
     - name: CS自学指南
       link: https://csdiy.wiki/
       avatar: https://csdiy.wiki/images/title.png

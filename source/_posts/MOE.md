@@ -14,6 +14,8 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 
 <img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250501100302213.png" style="zoom:50%;" />
 
+论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
+
 1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
 
 核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。**每个专家接受相同的输入数据**，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
@@ -51,6 +53,8 @@ cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png
 ## 《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
 
 超大型神经网络：稀疏门控混合专家层
+
+论文链接：https://arxiv.org/abs/1701.06538
 
 2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
 
@@ -223,6 +227,8 @@ $Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级�
 
 基于条件计算和自动分片的巨型模型扩展。
 
+论文链接：https://arxiv.org/abs/2006.16668
+
 <img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502231628278.png" style="zoom:30%;" />
 
 ### 创新点
@@ -260,6 +266,8 @@ $Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级�
 
 
 ## 《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
+
+论文链接：https://arxiv.org/abs/2101.03961
 
 <img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250505161645576.png" style="zoom:35%;" />
 
