@@ -1154,23 +1154,6 @@
     pointer-events: auto;
   }
 
-  .achievements-group {
-    padding: 8px;
-    margin-top: 10px;
-  }
-  
-  .achievement-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .achievement-item .circle {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
   /* 调整二维码显示 */
   .post-qr-code-img {
     max-width: 280px !important;
