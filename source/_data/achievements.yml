@@ -1,9 +1,16 @@
-- title: 第一名 - 编程比赛
-  date: 2024年5月
-  icon: https://example.com/achievement1.png
-- title: 优秀毕业生 - 山东大学
-  date: 2025年6月
-  icon: https://example.com/achievement2.png
-- title: 开源项目贡献者
-  date: 2023年12月
-  icon: https://example.com/achievement3.png
+- title: "国家奖学金"
+  date: "2023 年 10 月"
+  organization: "教育部"
+  description: "因学业成绩优异，综合表现突出而获得。"
+
+- title: "优秀毕业论文"
+  date: "2024 年 6 月"
+  organization: "齐鲁工业大学"
+  paper_title: "《基于深度学习的...》"
+  description: "... ..."
+
+- title: "发表论文"
+  paper_title: "论文标题"
+  link: "论文链接"
+  venue: "会议/期刊名称"
+  year: "年份"
