@@ -1062,8 +1062,10 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/transpancy.css">
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    - <script async src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+    # - <script async src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
+    - <script async src="https://www.googletagmanager.com/gtag/js?id=G-J14DG9LC95"></script>
+    - <script> window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-J14DG9LC95');</script>
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
     - <link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
