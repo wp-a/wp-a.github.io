@@ -369,9 +369,9 @@ aside:
     # Sort of order. 1, asc for ascending; -1, desc for descending
     order: -1
   card_webinfo:
-    enable: false
-    post_count: false
-    last_push_date: false
+    enable: true
+    post_count: true
+    last_push_date: true
     runtime_date: 2025/1/22 22:00
 
 # --------------------------------------
@@ -446,7 +446,7 @@ copy:
 
 # Need to install the hexo-wordcount plugin
 wordcount:
-  enable: false
+  enable: true
   # Display the word count of the article in post meta
   post_wordcount: true
   # Display the time to read the article in post meta
@@ -1056,8 +1056,8 @@ inject:
     - <link rel="stylesheet" href="/css/transpancy.css">
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
     # Preload the Google Fonts CSS for Roboto Slab
-    - <script async src="https://www.googletagmanager.com/gtag/js?id=G-J14DG9LC95"></script>
-    - <script> window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-J14DG9LC95');</script>
+    # - <script async src="https://www.googletagmanager.com/gtag/js?id=G-J14DG9LC95"></script>
+    # - <script> window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-J14DG9LC95');</script>
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
     - <link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
