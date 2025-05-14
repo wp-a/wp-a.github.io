@@ -369,13 +369,9 @@ aside:
     # Sort of order. 1, asc for ascending; -1, desc for descending
     order: -1
   card_webinfo:
-    enable: true
-    post_count: true
-    last_push_date: true
-    # sort_order:
-    # Time difference between publish date and now
-    # Formal: Month/Day/Year Time or Year/Month/Day Time
-    # Leave it empty if you don't enable this feature
+    enable: false
+    post_count: false
+    last_push_date: false
     runtime_date: 2025/1/22 22:00
 
 # --------------------------------------
@@ -450,7 +446,7 @@ copy:
 
 # Need to install the hexo-wordcount plugin
 wordcount:
-  enable: true
+  enable: false
   # Display the word count of the article in post meta
   post_wordcount: true
   # Display the time to read the article in post meta
@@ -460,17 +456,14 @@ wordcount:
 
 # Busuanzi count for PV / UV in site
 busuanzi:
-  enable: true
-  site_uv: true
-  site_pv: true
-  page_pv: true
+  enable: false
+  site_uv: false
+  site_pv: false
+  page_pv: false
   # Custom text for busuanzi count
   site_uv_header: 访客数
   site_pv_header: 总访问量
   page_pv_header: 本文阅读量
-  # site_uv_footer: 人
-  # site_pv_footer: 次
-  # page_pv_footer: 次
 
 # --------------------------------------
 # Math
@@ -1062,7 +1055,6 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/transpancy.css">
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    # - <script async src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
     - <script async src="https://www.googletagmanager.com/gtag/js?id=G-J14DG9LC95"></script>
     - <script> window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-J14DG9LC95');</script>
