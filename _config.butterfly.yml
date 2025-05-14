@@ -1061,7 +1061,7 @@ inject:
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
     # - <script>fetch('https://fragrant-shadow-01b9.2829626376.workers.dev/').then(res => res.json()).then(data => {document.getElementById('my-pv').innerText = data.pv;});</script>
-    - <script>fetch('https://fragrant-shadow-01b9.2829624376.workers.dev/').then(res => res.json()).then(data => {document.getElementById('my-pv').innerText = data.pv;}).catch(() => {document.getElementById('my-pv').innerText = '获取失败';});</script>
+    - <script>fetch('https://wpironman.top/pv').then(res => res.json()).then(data => {document.getElementById('my-pv').innerText = data.pv;}).catch(() => {document.getElementById('my-pv').innerText = '获取失败';});</script>
     - <link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   bottom:
     - <script type="text/javascript" src ="/js/reward.js" defer></script> # Added defer
