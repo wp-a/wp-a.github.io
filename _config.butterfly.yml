@@ -460,7 +460,7 @@ wordcount:
 
 # Busuanzi count for PV / UV in site
 busuanzi:
-  enable: false
+  enable: true
   site_uv: true
   site_pv: true
   page_pv: true
