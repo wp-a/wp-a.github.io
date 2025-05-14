@@ -1062,7 +1062,7 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/transpancy.css">
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    - <script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js"></script>
+    - <script async src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script>
     # Preload the Google Fonts CSS for Roboto Slab
     - <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" as="style" crossorigin>
     # Async load Font Awesome CSS (Replace href with the actual URL if needed, check CDN.option below)
