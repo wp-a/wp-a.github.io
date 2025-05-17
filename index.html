@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="WPIRONMAN">
+<meta property="og:url" content="https://wp-a.github.io/index.html">
+<meta property="og:site_name" content="WPIRONMAN">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png">
+<meta property="article:author" content="WP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png"><link rel="shortcut icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png"><link rel="canonical" href="https://wp-a.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="manifest" href="/null"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: true,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WPIRONMAN',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><link rel="stylesheet" href="/css/transpancy.css"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"><link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" as="style" crossorigin=""><script>fetch('https://wpironman.top/pv').then(res => res.json()).then(data => {document.getElementById('my-pv').innerText = data.pv;}).catch(() => {document.getElementById('my-pv').innerText = '获取失败';});</script><link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'"><!-- 预加载首屏图片 --><link href="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" as="image" crossorigin="anonymous"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/2.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/favicon.png" alt="Logo"><span class="site-name">WPIRONMAN</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">WPIRONMAN</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/wp-a" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2829624376@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2025/04/MOE/" title="MoE"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoE"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/04/MOE/" title="MoE">MoE</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-27T20:37:24.000Z" title="发表于 2025-04-27 20:37:24">2025-04-27</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/MOE/">MOE</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E7%B3%BB%E7%BB%9F/">混合专家系统</a></span></div><div class="content">Mixtures of Experts 《Adaptive Mixture of Local Experts》  论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf 1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。 核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。 基础架构 如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/04/MoCo/" title="MoCo"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250425170023257.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoCo"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/04/MoCo/" title="MoCo">MoCo</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-24T20:17:27.000Z" title="发表于 2025-04-24 20:17:27">2025-04-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/">对比学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/MoCo/">MoCo</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/">对比学习</a></span></div><div class="content">MoCo Momentum Contrast for Unsupervised Visual Representation Learning  (cvpr2020) 论文地址：https://arxiv.org/pdf/1911.05722 代码地址：https://github.com/facebookresearch/moco 概述  MoCo 将对比学习看作是一个字典查找任务 ：一个编码后的查询（query）应该与其匹配的键（正样本）相似，而与其他所有的键（负样本）不相似 。 对比学习的核心思想是训练一个编码器，使其能够区分相似（正样本）和不相似（负样本）的样本 。 传统方法 VS MoCo  端到端（End-to-end）方法（SimCLR，Inva Spread）：将当前 mini-batch 内的样本作为字典 。这种方法的优点是字典中的键编码是一致的（由同一个编码器生成），但缺点是字典的大小受限于 mini-batch 的大小，而 mini-batch 大小又受限于 GPU 内存 。过大的 mini-batch 也会带来优化难题 。 Memory Bank...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/04/CSRMS/" title="CSRMS"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250418223753935.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSRMS"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/04/CSRMS/" title="CSRMS">CSRMS</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-18T22:28:59.000Z" title="发表于 2025-04-18 22:28:59">2025-04-18</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/CSRMS/">CSRMS</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81/">视觉表征</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a></span></div><div class="content">CSRMS 用于视觉表征学习的类级结构化关系建模与平滑 (MM2023) 论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf 代码地址：https://github.com/czt117/CSRMS 个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。 名词解释： 课程构建（Curriculum...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/04/Transformer/" title="Transformer"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250417222102581.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Transformer"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/04/Transformer/" title="Transformer">Transformer</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-17T22:16:19.000Z" title="发表于 2025-04-17 22:16:19">2025-04-17</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/Transformer/">Transformer</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/transformer/">transformer</a></span></div><div class="content">Attention Is All You Need 个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻。q就是你感兴趣的地方，k就是论文中的关键点。 Transformer 是一种基于注意力机制（Attention...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/" title="基于深度学习的图像分类"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250417222715500.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于深度学习的图像分类"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/" title="基于深度学习的图像分类">基于深度学习的图像分类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-04-15T15:35:25.000Z" title="发表于 2025-04-15 15:35:25">2025-04-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/">图像分类</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/CIFAR10/">CIFAR10</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/">图像分类</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Resnet/">Resnet</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Lenet/">Lenet</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CIFAR10/">CIFAR10</a></span></div><div class="content">使用ResNet18预训练模型 由于笔记本性能太差，所以在服务器上运行的，显卡配置为4090。经大量实验判断，初始学习率为0.01最后效果较差，所以初始学习率应设为0.001。全部代码代码已上传到：https://github.com/wp-a/-CIFAR10-.git 库函数导入 123456789import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device("cuda:0" if torch.cuda.is_available() else...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/03/14day/" title="代码随想录--动态规划"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码随想录--动态规划"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/14day/" title="代码随想录--动态规划">代码随想录--动态规划</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-11T14:14:03.000Z" title="发表于 2025-03-11 14:14:03">2025-03-11</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/">代码随想录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a></span></div><div class="content">代码随想录--动态规划（1）</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="常见排序算法详解"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常见排序算法详解"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="常见排序算法详解">常见排序算法详解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-08T22:00:00.000Z" title="发表于 2025-03-08 22:00:00">2025-03-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%8E%92%E5%BA%8F/">排序</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">冒泡排序</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/">选择排序</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/">堆排序</a></span></div><div class="content">排序算法详解 排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件： 123#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std; 1. 冒泡排序 (Bubble Sort) 冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。 实现原理  时间复杂度：O(n²) 空间复杂度：O(1) 稳定性：稳定  实现代码 1234567891011121314151617void bubbleSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) {        swapped = false;        // 每一轮比较      ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/03/13day/" title="代码随想录--图论"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码随想录--图论"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/13day/" title="代码随想录--图论">代码随想录--图论</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-08T21:26:31.000Z" title="发表于 2025-03-08 21:26:31">2025-03-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/">代码随想录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a></span></div><div class="content">代码随想录--图论（1）</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/03/%E5%9B%BE%E8%AE%BA/" title="图论"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图论"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/%E5%9B%BE%E8%AE%BA/" title="图论">图论</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-08T15:41:07.000Z" title="发表于 2025-03-08 15:41:07">2025-03-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a></span></div><div class="content">图论 图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。  核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。  [Image of Example Graph with Vertices and Edges] 图的例子：顶点和边 图的基本概念   图 (Graph) 一个图 G 由两个基本集合构成：  顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。 边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。  我们可以用数学符号表示一个图：  G = (V, E)   顶点 (Vertex / Node / Point)  图的基本组成部分，代表研究对象或实体。 示例:  在社交网络中，顶点可以代表 人。 在交通网络中，顶点可以代表 城市。 在电路图中，顶点可以代表 电子元件。      边 (Edge / Arc /...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/03/12day/" title="代码随想录--回溯算法"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码随想录--回溯算法"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/03/12day/" title="代码随想录--回溯算法">代码随想录--回溯算法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-03-04T22:31:53.000Z" title="发表于 2025-03-04 22:31:53">2025-03-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/">代码随想录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E9%80%92%E5%BD%92/">递归</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%9B%9E%E6%BA%AF/">回溯</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%89%AA%E6%9E%9D/">剪枝</a></span></div><div class="content">代码随想录--回溯算法（1）</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar"></div><div class="author-info-name">WP</div><div class="author-info-description">无业游民</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wp-a"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/wp-a" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2829624376@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/MOE/" title="MoE"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoE"></a><div class="content"><a class="title" href="/2025/04/MOE/" title="MoE">MoE</a><time datetime="2025-04-27T20:37:24.000Z" title="发表于 2025-04-27 20:37:24">2025-04-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/MoCo/" title="MoCo"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250425170023257.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoCo"></a><div class="content"><a class="title" href="/2025/04/MoCo/" title="MoCo">MoCo</a><time datetime="2025-04-24T20:17:27.000Z" title="发表于 2025-04-24 20:17:27">2025-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/CSRMS/" title="CSRMS"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250418223753935.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSRMS"></a><div class="content"><a class="title" href="/2025/04/CSRMS/" title="CSRMS">CSRMS</a><time datetime="2025-04-18T22:28:59.000Z" title="发表于 2025-04-18 22:28:59">2025-04-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/Transformer/" title="Transformer"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250417222102581.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Transformer"></a><div class="content"><a class="title" href="/2025/04/Transformer/" title="Transformer">Transformer</a><time datetime="2025-04-17T22:16:19.000Z" title="发表于 2025-04-17 22:16:19">2025-04-17</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">学习</span><span class="card-category-list-count">26</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">21</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/"><span class="card-category-list-name">代码随想录</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span class="card-category-list-name">基础知识</span><span class="card-category-list-count">7</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">深度学习</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/"><span class="card-category-list-name">图像分类</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/CIFAR10/"><span class="card-category-list-name">CIFAR10</span><span class="card-category-list-count">1</span></a></li></ul></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/"><span class="card-category-list-name">论文精读</span><span class="card-category-list-count">4</span></a></li></ul></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.45em; color: rgb(177, 192, 115);">数据结构与算法</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 1.25em; color: rgb(75, 50, 185);">二叉树</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/" style="font-size: 1.25em; color: rgb(88, 175, 50);">二叉树遍历</a><a href="/tags/%E9%80%92%E5%BD%92/" style="font-size: 1.4em; color: rgb(50, 184, 106);">递归</a><a href="/tags/%E8%BF%AD%E4%BB%A3/" style="font-size: 1.25em; color: rgb(120, 97, 160);">迭代</a><a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 1.2em; color: rgb(50, 81, 50);">回溯</a><a href="/tags/%E5%89%AA%E6%9E%9D/" style="font-size: 1.15em; color: rgb(105, 174, 134);">剪枝</a><a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 1.2em; color: rgb(99, 167, 50);">图论</a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.15em; color: rgb(82, 155, 50);">动态规划</a><a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.15em; color: rgb(180, 120, 50);">二分查找</a><a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.35em; color: rgb(200, 108, 50);">双指针</a><a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 1.25em; color: rgb(162, 50, 135);">数组</a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.15em; color: rgb(114, 64, 50);">滑动窗口</a><a href="/tags/%E7%9F%A9%E9%98%B5%E8%A7%84%E5%BE%8B/" style="font-size: 1.15em; color: rgb(50, 142, 135);">矩阵规律</a><a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 1.15em; color: rgb(114, 78, 50);">前缀和</a><a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.3em; color: rgb(170, 50, 147);">链表</a><a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 1.25em; color: rgb(50, 110, 147);">哈希表</a><a href="/tags/%E6%9F%A5%E6%89%BE/" style="font-size: 1.2em; color: rgb(100, 143, 182);">查找</a><a href="/tags/set/" style="font-size: 1.2em; color: rgb(50, 98, 50);">set</a><a href="/tags/map/" style="font-size: 1.25em; color: rgb(90, 50, 195);">map</a><a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 1.15em; color: rgb(98, 149, 136);">字符串</a><a href="/tags/KMP/" style="font-size: 1.15em; color: rgb(135, 66, 70);">KMP</a><a href="/tags/reverse/" style="font-size: 1.15em; color: rgb(72, 167, 112);">reverse</a><a href="/tags/%E6%A0%88/" style="font-size: 1.15em; color: rgb(131, 190, 50);">栈</a><a href="/tags/%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(50, 112, 142);">队列</a><a href="/tags/%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(189, 50, 50);">双端队列</a><a href="/tags/%E5%A0%86/" style="font-size: 1.15em; color: rgb(55, 164, 172);">堆</a><a href="/tags/queue/" style="font-size: 1.2em; color: rgb(148, 186, 50);">queue</a><a href="/tags/stack/" style="font-size: 1.2em; color: rgb(50, 50, 54);">stack</a><a href="/tags/deque/" style="font-size: 1.2em; color: rgb(50, 69, 107);">deque</a><a href="/tags/%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81/" style="font-size: 1.15em; color: rgb(127, 50, 99);">视觉表征</a><a href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" style="font-size: 1.3em; color: rgb(50, 146, 96);">论文精读</a><a href="/tags/%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 1.15em; color: rgb(50, 50, 50);">混合专家系统</a><a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/" style="font-size: 1.15em; color: rgb(50, 180, 190);">对比学习</a><a href="/tags/STL/" style="font-size: 1.15em; color: rgb(88, 50, 50);">STL</a><a href="/tags/vector/" style="font-size: 1.15em; color: rgb(50, 146, 95);">vector</a><a href="/tags/string/" style="font-size: 1.15em; color: rgb(50, 133, 166);">string</a><a href="/tags/algorithm/" style="font-size: 1.15em; color: rgb(182, 50, 82);">algorithm</a><a href="/tags/priority-queue/" style="font-size: 1.15em; color: rgb(109, 50, 50);">priority_queue</a><a href="/tags/transformer/" style="font-size: 1.15em; color: rgb(50, 90, 50);">transformer</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">6</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              二月 2025
+            </span>
+            <span class="card-archive-list-count">11</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">26</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishdate="2025-01-22T22:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">49k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastpushdate="2025-05-17T07:46:44.932Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">总访问量：</div><div class="item-count"><span id="my-pv">加载中...</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js" defer=""></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["Never Give Up!"])
+  } else {
+    document.getElementById("subtitle").textContent = "Never Give Up!"
+  }
+}
+typedJSFn.run(subtitleType)</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script type="text/javascript" src="/js/reward.js" defer=""></script><script async="" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/gallery/"]):not([href="/about/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js" defer="defer"></script></div></div><!-- hexo injector body_end start -->
+  <script data-pjax="" src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax="">
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://githubcalendarapi.shiguang666.eu.org/api?user=wp-a";
+            var git_color =['#ebedf0', '#a2f7af', '#6ce480', '#54ad63', '#469252', '#31753c', '#1f5f2a', '#13531f', '#084111', '#032b09', '#000000'];
+            var git_user ="wp-a";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>
