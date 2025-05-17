@@ -170,10 +170,6 @@ gitcalendar:
   gitcalendar_css: https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.css
   gitcalendar_js: https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.js
 
-google_analytics:
-  tracking_id: G-J14DG9LC95 
-  enable: true
-
 
 admin:
   username: WPIRONMAN
