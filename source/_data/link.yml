@@ -9,7 +9,13 @@
       link: https://blog.vllbc.top/
       avatar: https://blog.vllbc.top/images/avatar.png
       descr: NLP大佬
-  
+
+- class_name: 技术大佬
+  link_list:
+    - name: 苏剑林|BoJone
+      link: https://kexue.fm/
+      avatar: https://kexue.fm/usr/themes/geekg/images/avatar.png
+      descr: 科学空间博主
 
 - class_name: 高质量知识網站
   link_list:
