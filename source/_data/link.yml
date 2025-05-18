@@ -16,6 +16,12 @@
       link: https://kexue.fm/
       avatar: https://kexue.fm/usr/themes/geekg/images/avatar.png
       descr: 科学空间博主
+- class_name: 技术大佬
+  link_list:
+    - name: 苏剑林|BoJone
+      link: https://papers.cool/
+      avatar: https://kexue.fm/usr/themes/geekg/images/avatar.png
+      descr: 科学空间博主
 
 - class_name: 高质量知识網站
   link_list:
@@ -35,6 +41,11 @@
       link: https://programmercarl.com/
       avatar: https://code-thinking-1253855093.file.myqcloud.com/pics/20210614201246512.png
       descr: 算法学习不走弯路
+    - name: Ai论文
+      link: https://papers.cool/
+      avatar: 
+      descr: 
+
 - class_name: 高质量娱乐網站
   link_list:
     - name: 音范丝电影精选
