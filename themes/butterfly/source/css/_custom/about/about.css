@@ -1261,8 +1261,8 @@
   flex-wrap: wrap; /* 如果空间不足，允许项目换行 */
   gap: 20px; /* 设置子元素之间的间隙，根据需要调整 */
   /* 您可能需要根据具体布局调整 justify-content 和 align-items */
-  /* align-items: stretch; /* Flex items 默认拉伸，明确写出 */ */
-  /* justify-content: space-between; /* 例如：如果希望项目分散对齐 */ */
+  /* align-items: stretch; /* Flex items 默认拉伸，明确写出 */ 
+  /* justify-content: space-between; /* 例如：如果希望项目分散对齐 */ 
 }
 
 /* Individual content items within the author-content container */
@@ -1274,6 +1274,41 @@
   /* 确保这些项目自身没有固定的 height 属性 */
 }
 
+/* ====== 媒体查询：针对小屏幕设备 ====== */
+@media (max-width: 768px) {
+  .author-content {
+    flex-direction: column; /* 在屏幕宽度小于等于 768px 时，垂直堆叠子元素 */
+    /* 在垂直堆叠时，您可能需要调整一些间距 */
+    gap: 0; /* 垂直堆叠时移除整体 gap */
+  }
+
+  .author-content-item {
+    flex: none; /* 垂直堆叠时移除 flex 伸缩属性 */
+    width: 100%; /* 让每个项目占据全部宽度 */
+    margin: 10px 0; /* 垂直方向添加间距，水平方向移除 */
+  }
+
+  /* 您可能还需要针对 .publications-list 和 .achievements-list 的内部样式进行微调，
+     例如在垂直排列时增加它们彼此之间的顶部或底部间距 */
+  .author-content-item.publications .publications-list,
+  .author-content-item.achievements .achievements-list {
+      margin-top: 15px; /* 在垂直堆叠时增加内容顶部间距 */
+      margin-bottom: 15px; /* 在垂直堆叠时增加内容底部间距 */
+  }
+
+  /* 垂直堆叠时，移除出版物条目底部的分隔线（如果需要在条目间显示分隔线，可以重新考虑样式） */
+  .publications-list .publication-item:last-child hr {
+      display: none;
+  }
+
+  /* 垂直堆叠时，调整成就条目的边框和间距 */
+  .achievements-list .achievement-item {
+      border-bottom: none; /* 移除底部边框 */
+      padding-bottom: 0; /* 移除底部内边距 */
+      margin-bottom: 10px; /* 调整底部间距 */
+  }
+}
+/* ====== 媒体查询结束 ====== */
 
 /* Academic Sections Styling */
 
