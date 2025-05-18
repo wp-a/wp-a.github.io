@@ -1251,3 +1251,121 @@
       font-size: 14px;
     }
   }
+/* Outer container for sections that should be displayed side-by-side */
+/* 如果您的学术出版和学术成就等区块是并排显示在一个父容器内，
+   并且希望它们高度一致，请给那个父容器应用以下样式。
+   根据您的 Pug 代码，这个父容器很可能是 .author-content */
+.author-content {
+  display: flex; /* 启用 Flexbox 布局 */
+  /* 子元素（.author-content-item）将默认拉伸以填充父容器的高度 */
+  flex-wrap: wrap; /* 如果空间不足，允许项目换行 */
+  gap: 20px; /* 设置子元素之间的间隙，根据需要调整 */
+  /* 您可能需要根据具体布局调整 justify-content 和 align-items */
+  /* align-items: stretch; /* Flex items 默认拉伸，明确写出 */ */
+  /* justify-content: space-between; /* 例如：如果希望项目分散对齐 */ */
+}
+
+/* Individual content items within the author-content container */
+.author-content-item {
+  flex: 1; /* 让这些项目根据可用空间伸缩，并平均分配宽度 */
+  /* 或者根据需要设置固定宽度或 flex-basis */
+  /* 例如: flex-basis: 48%; */
+  /* margin: 0 10px;  如果使用了 gap 就不需要 margin 了 */
+  /* 确保这些项目自身没有固定的 height 属性 */
+}
+
+
+/* Academic Sections Styling */
+
+/* 通用列表顶部间距 */
+.publications-list,
+.interests-list,
+.education-list {
+  margin-top: 20px;
+}
+
+/* 单个出版物条目样式 */
+.publication-item {
+  margin-bottom: 20px; /* 条目底部间距 */
+}
+
+/* 出版物标题样式 */
+.publication-title {
+  font-size: 18px; /* 字号 */
+  font-weight: bold; /* 加粗 */
+  margin-bottom: 5px; /* 底部间距 */
+}
+
+/* 出版物作者样式 */
+.publication-authors {
+  font-style: italic; /* 斜体 */
+  margin-bottom: 3px; /* 底部间距 */
+  color: #333; /* 颜色，根据您的样式调整 */
+}
+
+/* 期刊/会议信息样式 */
+.publication-journal {
+  color: #666; /* 颜色 */
+  margin-bottom: 5px; /* 底部间距 */
+}
+
+/* 备注信息样式 */
+.publication-notes {
+  color: #888; /* 颜色 */
+  font-size: 0.9em; /* 字号 */
+  font-style: italic; /* 斜体 */
+}
+
+/* 研究兴趣列表样式 */
+.interests-list {
+    list-style: none; /* 移除默认列表符号 */
+    padding-left: 0; /* 移除默认左内边距 */
+}
+
+.interests-list li {
+  margin-bottom: 10px; /* 条目底部间距 */
+  padding-left: 20px; /* 左侧内边距，为自定义符号留出空间 */
+  position: relative; /* 使伪元素定位参照此元素 */
+  color: #333; /* 颜色，根据您的样式调整 */
+}
+
+/* 自定义研究兴趣列表符号 */
+.interests-list li:before {
+  content: "•"; /* 符号内容 */
+  position: absolute; /* 绝对定位 */
+  left: 0; /* 定位在左侧 */
+  top: 0; /* 垂直方向顶部对齐 */
+  color: #357ef5; /* 符号颜色 */
+  font-size: 1.2em; /* 符号大小 */
+}
+
+/* 教育经历条目样式 */
+.education-item {
+  margin-bottom: 25px; /* 条目底部间距 */
+  padding-left: 15px; /* 左侧内边距 */
+  border-left: 3px solid #357ef5; /* 左侧边框作为装饰线 */
+}
+
+/* 学位信息样式 */
+.education-degree {
+  font-size: 18px; /* 字号 */
+  margin-bottom: 5px; /* 底部间距 */
+}
+
+/* 学校名称样式 */
+.education-school {
+  font-weight: bold; /* 加粗 */
+  margin-bottom: 3px; /* 底部间距 */
+}
+
+/* 时间信息样式 */
+.education-time {
+  color: #666; /* 颜色 */
+  margin-bottom: 5px; /* 底部间距 */
+}
+
+/* 论文标题样式 */
+.education-thesis {
+  font-style: italic; /* 斜体 */
+  color: #777; /* 颜色 */
+}

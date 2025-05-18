@@ -68,15 +68,21 @@
             .etc ...
     .author-content-item.careers
       .card-content
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 生涯
-        span.author-content-item-title 无限进步
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 研究兴趣
+        span.author-content-item-title LLM
         .careers-group
           .careers-item(style='margin-bottom: 15px;')
             .circle(style='background:#357ef5')
-            .name(style='font-size: 1.1em;') 2020-2024  QLU  智能科学与技术专业
-          .careers-item
+            .name(style='font-size: 1.1em;') 计算机视觉
+          .careers-item(style='margin-bottom: 15px;')
             .circle(style='background:#357ef5')
-            .name(style='font-size: 1.1em;') 2025-2028  SDU  人工智能专业
+            .name(style='font-size: 1.1em;') 自然语言处理
+          .careers-item(style='margin-bottom: 15px;')
+            .circle(style='background:#357ef5')
+            .name(style='font-size: 1.1em;') 多模态
+          .careers-item(style='margin-bottom: 15px;')
+            .circle(style='background:#357ef5')
+            .name(style='font-size: 1.1em;') 机器学习
         //- img.author-content-img.no-lightbox(alt='生涯', src='https://img02.anheyu.com/adminuploads/1/2022/09/26/6330e9bcc39cc.png')
 
   .author-content
@@ -111,6 +117,62 @@
         //-   span.selfInfo-title 现在职业
         //-   |
         //-   span.selfInfo-content(style='color:#b04fe6') 硕士
+  //- =============== 学术内容开始 ===============
+
+  //- 出版物区块
+  if site.data.publications && site.data.publications.length > 0
+    .author-content
+      .author-content-item.publications
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 学术出版
+        .publications-list
+          each pub in site.data.publications
+            .publication-item
+              if pub.link
+                h4.publication-title
+                  a(href=pub.link, target="_blank", rel="noopener noreferrer")= pub.title
+              else
+                h4.publication-title= pub.title
+              p.publication-authors= pub.authors
+              p.publication-journal
+                span= pub.journal || pub.publisher
+                if pub.year
+                  span= ", " + pub.year
+              if pub.notes
+                p.publication-notes= pub.notes
+            hr(style="border-top: 1px dashed #ccc; margin: 10px 0;")
+
+  //- 研究兴趣区块
+  if site.data.research_interests && site.data.research_interests.length > 0
+    .author-content
+      .author-content-item.research-interests
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 竞赛奖项
+        ul.interests-list
+          each interest in site.data.research_interests
+            li= interest.name
+    
+      .author-content-item.education
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 教育背景
+        //- span.author-content-item-title 学历历程
+        .education-list
+          each edu in site.data.education
+            .education-item
+              h4.education-degree= edu.degree + " - " + edu.major
+              p.education-school= edu.school
+              p.education-time= edu.start_year + " - " + edu.end_year
+              if edu.thesis
+                p.education-thesis 研究方向: #{edu.thesis}
+  else
+    .author-content
+      .author-content-item.research-interests
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 研究兴趣
+        ul.interests-list
+          li 人工智能与机器学习
+          li 自然语言处理
+          li 计算机视觉
+
+  //- 教育背景区块
+  //- if site.data.education && site.data.education.length > 0
+
 
   //- .author-content
   //-   .author-content-item.personalities
@@ -223,6 +285,7 @@
         input(type='checkbox')
         p    经典论文
 
+
   .author-content
     .author-content-item.single.reward
       .author-content-item-tips 致谢
@@ -272,6 +335,7 @@
           //-       a(href='https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png', target='_blank')
           //-         img.post-qr-code-img(alt='alipay', src='https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png')
           //-       .post-qr-code-desc alipay
+
 
 script(src=url_for(theme.CDN.option.countup_js))
 script(src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/gsap/3.9.1/gsap.min.js")

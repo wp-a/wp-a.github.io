@@ -1,16 +1,8 @@
-- title: "国家奖学金"
-  date: "2023 年 10 月"
-  organization: "教育部"
-  description: "因学业成绩优异，综合表现突出而获得。"
-
-- title: "优秀毕业论文"
-  date: "2024 年 6 月"
-  organization: "齐鲁工业大学"
-  paper_title: "《基于深度学习的...》"
-  description: "... ..."
-
-- title: "发表论文"
-  paper_title: "论文标题"
-  link: "论文链接"
-  venue: "会议/期刊名称"
-  year: "年份"
+- title: 全国计算机设计大赛一等奖
+  year: 2023年
+  # 您可以根据需要在这里为每个成就添加其他字段，例如 description, link 等
+- title: 中国研究生人工智能创新大赛二等奖
+  year: 2024年
+- title: 优秀研究生奖学金
+  year: 2024-2025学年
+# 在这里按照同样的格式添加更多的学术成就条目

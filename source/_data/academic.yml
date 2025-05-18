@@ -1,0 +1,15 @@
+- title: "我的第一篇论文标题 (My First Paper Title)"
+  authors: "张三 (San Zhang), 李四 (Si Li), 王五 (Wu Wang)"
+  journal: "国际顶级期刊 (International Premier Journal), Vol. 1, No. 1, pp. 1-10"
+  year: 2024
+  link: "https://example.com/link-to-paper1.pdf" # 可选，论文链接
+  notes: "这是一个关于...的开创性研究。" # 可选，备注
+
+- title: "学术专著：XX领域探索 (Monograph: Exploration in XX Field)"
+  authors: "王五 (Wu Wang)"
+  publisher: "知名出版社 (Renowned Publisher)"
+  year: 2023
+  link: "https://example.com/link-to-book"
+  notes: "被引次数超过XX次。"
+
+# ... 更多出版物
