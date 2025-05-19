@@ -68,7 +68,7 @@
             .etc ...
     .author-content-item.careers
       .card-content
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 研究兴趣
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 🔥 研究兴趣
         span.author-content-item-title LLM
         .careers-group
           .careers-item(style='margin-bottom: 15px;')
@@ -85,7 +85,7 @@
             .name(style='font-size: 1.1em;') 机器学习
         //- img.author-content-img.no-lightbox(alt='生涯', src='https://img02.anheyu.com/adminuploads/1/2022/09/26/6330e9bcc39cc.png')
 
-  .author-content
+  //- .author-content
     //- .about-statistic.author-content-item
     //-   .card-content
     //-     .author-content-item-tips 数据
@@ -99,20 +99,20 @@
     //-         i.fas.fa-circle-right
     //-         |
     //-         span.banner-button-text 文章隧道
-    .author-content-item-group.column.mapAndInfo
+    //- .author-content-item-group.column.mapAndInfo
       //- .author-content-item.map.single
       //-   span.map-title
       //-     | 我现在住在
       //-     b 中国，烟台市
-      .author-content-item.selfInfo.single
-        div
-          span.selfInfo-title(style='font-size: 1.4em; font-weight: bold;') 生于
-          |
-          span.selfInfo-content#selfInfo-content-year(style='color:#43a6c6') 2001
-        div
-          span.selfInfo-title(style='font-size: 1.4em; font-weight: bold;') 目前就读于
-          |
-          span.selfInfo-content(style='color:#c69043') 山东大学人工智能专业
+      //- .author-content-item.selfInfo.single
+      //-   div
+      //-     span.selfInfo-title(style='font-size: 1.4em; font-weight: bold;') 生于
+      //-     |
+      //-     span.selfInfo-content#selfInfo-content-year(style='color:#43a6c6') 2001
+      //-   div
+      //-     span.selfInfo-title(style='font-size: 1.4em; font-weight: bold;') 目前就读于
+      //-     |
+      //-     span.selfInfo-content(style='color:#c69043') 山东大学人工智能专业
         //- div
         //-   span.selfInfo-title 现在职业
         //-   |
@@ -123,7 +123,7 @@
   if site.data.publications && site.data.publications.length > 0
     .author-content
       .author-content-item.publications
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 📝学术出版
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 📝 学术出版
         .publications-list
           each pub in site.data.publications
             .publication-item
@@ -145,13 +145,13 @@
   if site.data.research_interests && site.data.research_interests.length > 0
     .author-content
       .author-content-item.research-interests
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 🎖竞赛奖项
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 🎖 竞赛奖项
         ul.interests-list
           each interest in site.data.research_interests
             li= interest.name
     
       .author-content-item.education
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 📖教育背景
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 📖 教育背景
         //- span.author-content-item-title 学历历程
         .education-list
           each edu in site.data.education
