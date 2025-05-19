@@ -10,8 +10,12 @@
       avatar: https://blog.vllbc.top/images/avatar.png
       descr: NLP大佬
 
-- class_name: 技术大佬
+- class_name: 技术博客
   link_list:
+    - name: 翁荔
+      link: https://lilianweng.github.io/
+      avatar: https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=dCa-pW8AAAAJ&citpid=17
+      descr: Lil'Log
     - name: 苏剑林|BoJone
       link: https://kexue.fm/
       avatar: https://kexue.fm/usr/themes/geekg/images/avatar.png
