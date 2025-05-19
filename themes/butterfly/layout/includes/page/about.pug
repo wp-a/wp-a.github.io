@@ -123,7 +123,7 @@
   if site.data.publications && site.data.publications.length > 0
     .author-content
       .author-content-item.publications
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 学术出版
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 📝学术出版
         .publications-list
           each pub in site.data.publications
             .publication-item
@@ -145,13 +145,13 @@
   if site.data.research_interests && site.data.research_interests.length > 0
     .author-content
       .author-content-item.research-interests
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 竞赛奖项
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 🎖竞赛奖项
         ul.interests-list
           each interest in site.data.research_interests
             li= interest.name
     
       .author-content-item.education
-        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 教育背景
+        .author-content-item-tips(style='font-size: 1.5em; font-weight: bold;') 📖教育背景
         //- span.author-content-item-title 学历历程
         .education-list
           each edu in site.data.education
