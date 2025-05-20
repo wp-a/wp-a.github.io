@@ -25,7 +25,7 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
           div!= body
         else
           block content
-          if theme.aside.enable && page.aside !== false
+          if theme.aside.enable && page.aside !== false && globalPageType !== 'categories'
             include widget/index.pug
 
       - const footerBg = theme.footer_img
