@@ -58,164 +58,6 @@
   border-color: var(--theme-color);
 }
 
-/* 分类页面样式 */
-#category {
-  background-color: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: var(--card-box-shadow);
-  padding: 30px;
-  margin: 25px 0;
-  animation: fadeIn 0.8s ease-out;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-}
-
-/* 标题样式 */
-#category .article-sort-title {
-  margin-bottom: 30px;
-  padding-left: 25px;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--font-color);
-  position: relative;
-  border-bottom: none;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.5px;
-}
-
-/* #category .article-sort-title:before { */
-  /* content: ''; */
-  /* position: absolute; */
-  /* left: 0; */
-  /* top: 50%; */
-  /* transform: translateY(-50%); */
-  /* width: 4px; */
-  /* height: 24px; */
-  /* background: var(--theme-color); */
-  /* border-radius: 2px; */
-  /* transition: all 0.3s ease; */
-/* } */
-
-/* #category .article-sort-title:hover:before { */
-  /* width: 6px; */
-  /* background: var(--theme-color-hover); */
-  /* box-shadow: 0 0 8px var(--theme-color); */
-/* } */
-
-/* 文章列表样式 */
-#category .article-sort-item {
-  position: relative;
-  margin: 0 auto 25px auto;
-  max-width: 800px;
-  padding: 20px;
-  border-radius: 12px;
-  background: var(--card-bg);
-  box-shadow: var(--card-box-shadow);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  border-left: 4px solid transparent;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  backdrop-filter: blur(5px);
-  min-height: 80px;
-  padding-left: 35px;
-  justify-content: center;
-}
-
-#category .article-sort-item:hover {
-  border-left-color: var(--theme-color);
-  transform: translateX(0);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-#category .article-sort-item-time {
-  color: var(--font-color);
-  font-size: 0.9rem;
-  opacity: 0.85;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 5px;
-  font-weight: 500;
-  margin-bottom: 10px;
-  align-self: flex-start;
-  position: absolute;
-  left: 0px;
-  top: 15px;
-  width: 100%;
-  box-sizing: border-box;
-  padding-left: 15px;
-}
-
-#category .article-sort-item-time:before {
-  content: '📅';
-  font-size: 1rem;
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
-}
-
-#category .article-sort-item-title {
-  color: var(--font-color);
-  font-size: 1.2rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  line-height: 1.4;
-  letter-spacing: 0.2px;
-}
-
-#category .article-sort-item-title:before {
-  content: '📝';
-  font-size: 1.2rem;
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
-}
-
-#category .article-sort-item-title:hover {
-  color: var(--theme-color);
-  transform: translateX(0);
-  text-shadow: 0 0 1px rgba(var(--theme-color-rgb), 0.2);
-}
-
-/* 分页器样式 */
-#category + .pagination {
-  margin-top: 40px;
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-#category + .pagination .page-number,
-#category + .pagination .extend {
-  display: inline-block;
-  margin: 0 5px;
-  padding: 10px 18px;
-  background: var(--card-bg);
-  color: var(--font-color);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  box-shadow: var(--card-box-shadow);
-  font-weight: 500;
-  border: 1px solid transparent;
-}
-
-#category + .pagination .page-number.current {
-  background: linear-gradient(to right, var(--theme-color), var(--theme-color-hover));
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(var(--theme-color-rgb), 0.3);
-  font-weight: 600;
-}
-
-#category + .pagination .page-number:hover,
-#category + .pagination .extend:hover {
-  background: var(--theme-color);
-  color: #fff;
-  transform: translateY(-3px);
-  border-color: var(--theme-color-hover);
-}
-
 /* 分类列表页面样式 */
 #category-container {
   max-width: 1200px;
@@ -378,8 +220,8 @@
   margin: 30px auto;
   padding: 0 25px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 45px;
 }
 
 /* 每个分类区块 */
@@ -387,7 +229,7 @@
   background-color: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  padding: 25px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -423,10 +265,10 @@
 
 /* 分类区块标题 */
 .category-block-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--font-color);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -445,7 +287,7 @@
 .category-block-posts {
   list-style: none;
   padding: 0;
-  margin: 0 0 15px 0;
+  margin: 0 0 10px 0;
   flex-grow: 1;
 }
 
@@ -503,7 +345,7 @@
 .category-block-more {
   text-align: right;
   font-size: 1rem;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .category-block-more a {
@@ -537,37 +379,12 @@
 /* 响应式调整 */
 @media (max-width: 1024px) {
   #category-blocks-container {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 35px;
   }
 }
 
 @media (max-width: 768px) {
-  #category {
-    padding: 20px;
-    margin: 15px 0;
-  }
-  
-  #category .article-sort-title {
-    font-size: 1.5rem;
-    padding-left: 20px;
-  }
-  
-  #category .article-sort-item {
-    padding: 15px;
-    margin: 0 auto 15px auto;
-    max-width: 95%;
-  }
-  
-  #category .article-sort-item-time {
-    justify-content: center;
-  }
-  
-  #category .article-sort-item-title {
-    font-size: 1.1rem;
-    justify-content: center;
-  }
-  
   #category-container {
     padding: 15px;
   }
@@ -596,23 +413,23 @@
   }
   
   #category-blocks-container {
-    padding: 0 25px;
+    padding: 0 15px;
     gap: 25px;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   }
   
   .category-block {
-    padding: 20px;
+    padding: 15px;
   }
   
   .category-block-title {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
   }
   
   .category-block-posts {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   
   .category-block-post-item {
@@ -638,28 +455,20 @@
     font-size: 0.9rem;
     padding-right: 5px;
   }
+  
+  .category-block-more {
+    margin-top: 8px;
+  }
 }
 
 @media (max-width: 480px) {
-  #category {
-    padding: 15px;
-  }
-  
-  #category .article-sort-title {
-    font-size: 1.3rem;
-  }
-  
-  #category-container .category-title {
-    font-size: 1.3rem;
-  }
-  
   #category-blocks-container {
     grid-template-columns: 1fr;
     gap: 20px;
   }
   
   .category-block-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   
   .category-block-post-item a {
@@ -669,7 +478,6 @@
 
 /* 深色模式增强 */
 @media (prefers-color-scheme: dark) {
-  #category,
   #category-container .category-lists,
   .category-block {
     background-color: var(--card-bg);
@@ -677,16 +485,13 @@
     border-color: rgba(255, 255, 255, 0.05);
   }
   
-  #category .article-sort-item,
   #category-container .category-list-item {
     background-color: var(--card-bg);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
   
-  #category + .pagination .page-number,
-  #category + .pagination .extend {
-    background-color: var(--card-bg);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  #category-container .category-list-item:after {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05));
   }
   
   .category-block-post-item {
@@ -701,3 +506,21 @@
     background: rgba(var(--theme-color-rgb), 0.3);
   }
 }
+
+/* 清除所有为时间线绘制添加的伪元素样式 */
+/* #category-container .category-list-item::before, #category-container .category-list-item::after,
+#category-container .category-list-item-time::before, #category-container .category-list-item-time::after,
+#category-container .category-list-item-time .timeline-dot {
+    content: none !important;
+    position: unset !important;
+    left: unset !important;
+    top: unset !important;
+    bottom: unset !important;
+    width: unset !important;
+    height: unset !important;
+    background: unset !important;
+    border-radius: unset !important;
+    z-index: unset !important;
+    margin: unset !important;
+    padding: unset !important;
+} */
