@@ -2,7 +2,7 @@
 title: MoCo
 date: 2025-04-24 20:17:27
 tags: [对比学习,论文精读]
-categories: [论文精读,对比学习,MoCo]
+categories: [论文精读,MoCo]
 updated: 
 type: 
 cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250425170023257.png

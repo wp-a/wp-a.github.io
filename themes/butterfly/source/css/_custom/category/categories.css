@@ -459,6 +459,12 @@
   .category-block-more {
     margin-top: 8px;
   }
+  
+  #category .article-sort-item {
+    padding: 20px 15px;
+    margin: 0 auto 15px auto;
+    max-width: 95%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -473,6 +479,10 @@
   
   .category-block-post-item a {
     font-size: 1rem;
+  }
+  
+  #category .article-sort-item {
+    padding: 18px 15px;
   }
 }
 
