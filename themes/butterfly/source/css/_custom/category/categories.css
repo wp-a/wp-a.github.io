@@ -289,6 +289,7 @@
   padding: 0;
   margin: 0 0 10px 0;
   flex-grow: 1;
+  padding-left: 15px;
 }
 
 .category-block-post-item {
@@ -361,18 +362,9 @@
   background: rgba(var(--theme-color-rgb), 0.1);
 }
 
-.category-block-more a:after {
-  content: '→';
-  font-size: 1.1em;
-  transition: transform 0.3s ease;
-}
-
 .category-block-more a:hover {
   color: var(--theme-color-hover);
   background: rgba(var(--theme-color-rgb), 0.15);
-}
-
-.category-block-more a:hover:after {
   transform: translateX(5px);
 }
 
@@ -430,6 +422,7 @@
   
   .category-block-posts {
     margin-bottom: 8px;
+    padding-left: 10px;
   }
   
   .category-block-post-item {
