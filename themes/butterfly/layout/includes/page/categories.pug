@@ -1,1 +1,13 @@
-.category-lists!= list_categories()
+#category-blocks-container
+  each topCategory in site.categories.toArray()
+    if !topCategory.parent
+      .category-block
+        .category-block-title
+          i.fas.fa-folder
+          h2= topCategory.name
+        .category-block-posts
+          each post in topCategory.posts.sort('-date').limit(5).toArray()
+            .category-block-post-item
+              a(href=url_for(post.path) title=post.title)= post.title
+        .category-block-more
+          a(href=url_for(topCategory.path))= '更多 >>'

@@ -2,9 +2,9 @@
 title: 代码随想录--图论
 date: 2025-03-08 21:26:31
 tags: [数据结构与算法,图论]
-categories: [学习,数据结构与算法,代码随想录]
+categories: [数据结构与算法,代码随想录]
 updated: 
-description: 代码随想录--图论（1）
+description: 代码随想录--图论
 ---
 
 ## 图论

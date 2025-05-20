@@ -2,7 +2,7 @@
 title: Transformer
 date: 2025-04-17 22:16:19
 tags: [transformer,论文精读]
-categories: [学习,论文精读,Transformer]
+categories: [论文精读,Transformer]
 updated: 
 type: 
 cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250417222102581.png

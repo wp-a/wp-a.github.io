@@ -2,7 +2,7 @@
 title: 代码随想录--链表
 date: 2025-01-26 10:33:31
 tags: [数据结构与算法,递归,双指针,链表]
-categories: [学习,数据结构与算法,代码随想录]
+categories: [数据结构与算法,代码随想录]
 updated: 
 description: 代码随想录--链表（下）
 keywords: [算法,复试]

@@ -1053,6 +1053,7 @@ css_prefix: true
 # Inject
 inject:
   head:
+    - <link rel="stylesheet" href="/css/_custom/category/categories.css">
     - <link rel="stylesheet" href="/css/transpancy.css">
     - <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=JetBrains+Mono&display=swap" rel="stylesheet">
     # Preload the Google Fonts CSS for Roboto Slab

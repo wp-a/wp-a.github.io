@@ -5,8 +5,11 @@ block content
     include ./includes/mixins/indexPostUI.pug
     +indexPostUI
   else
-    include ./includes/mixins/article-sort.pug
     #category
-      .article-sort-title= _p('page.category') + ' - ' + page.category
+      .article-sort-title
+        span= _p('page.category') + ' - ' + page.category
+      
+      // Display articles in this category
+      include ./includes/mixins/article-sort.pug
       +articleSort(page.posts)
       include includes/pagination.pug

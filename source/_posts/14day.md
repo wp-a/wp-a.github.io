@@ -2,9 +2,9 @@
 title: 代码随想录--动态规划
 date: 2025-03-11 14:14:03
 tags: [数据结构与算法,动态规划]
-categories: [学习,数据结构与算法,代码随想录]
+categories: [数据结构与算法,代码随想录]
 updated: 
-description: 代码随想录--动态规划（1）
+description: 代码随想录--动态规划
 ---
 
 ## 动态规划

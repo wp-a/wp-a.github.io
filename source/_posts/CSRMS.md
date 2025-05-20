@@ -2,7 +2,7 @@
 title: CSRMS
 date: 2025-04-18 22:28:59
 tags: [视觉表征,论文精读]
-categories: [学习,论文精读,CSRMS]
+categories: [论文精读,CSRMS]
 updated: 
 type: 
 cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/20250418223753935.png

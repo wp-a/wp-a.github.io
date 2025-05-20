@@ -2,7 +2,7 @@
 title: STL
 date: 2025-02-11 00:11:46
 tags: [STL,vector,string,deque,set,map,stack,queue,algorithm,priority_queue]
-categories: [学习,数据结构与算法,基础知识]
+categories: [数据结构与算法,基础知识]
 updated: 
 type: 
 cover: https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp
