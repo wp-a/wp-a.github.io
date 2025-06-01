@@ -14,9 +14,7 @@ STL 即标准模板库（Standard Template Library），是 C++  标准库的一
 
 ## STL容器
 
-![](https://oi-wiki.org/lang/csl/images/container1.png)
-
-
+<img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250601144904492.png" style="zoom:50%;" />
 
 ### 迭代器
 
