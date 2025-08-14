@@ -42,11 +42,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3 # 使用 peaceiris/actions-gh-pages Action，v3 是稳定版本
 
         with:
-          # !!! 修正：使用 personal_token 引用 Secret !!!
-          # 部署需要的 GitHub Token，引用你在 Secrets 中添加的名称
-          # Secret 的名称是 HEXO_DEPLOY，请确保你在仓库 Secrets 中添加的名称就是 HEXO_DEPLOY
-          personal_token: ${{ secrets.HEXO_DEPLOY }} # <<< 确保 Secret 名称正确 (HEXO_DEPLOY)
-          # 移除了 github_token 参数
+          # 使用内置的 GITHUB_TOKEN，无需额外设置
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
           # 要部署的目录，Hexo 生成的静态文件在 public 目录
           publish_dir: ./public # 发布目录
