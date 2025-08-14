@@ -37,13 +37,12 @@ jobs:
           npx hexo generate
 
       # 使用 peaceiris/actions-gh-pages Action 来部署
-      # 修正了参数名称并添加了 force_orphan
       - name: Deploy to GitHub Pages # 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3 # 使用 peaceiris/actions-gh-pages Action，v3 是稳定版本
 
         with:
-          # 使用内置的 GITHUB_TOKEN，无需额外设置
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 使用 Personal Access Token 来访问外部仓库
+          personal_token: ${{ secrets.HEXO_DEPLOY }}
 
           # 要部署的目录，Hexo 生成的静态文件在 public 目录
           publish_dir: ./public # 发布目录
