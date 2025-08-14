@@ -113,7 +113,7 @@ runtimeshow:
   publish_date: 1/23/2025 00:00:00
 
 image_lazyload:
-  enable: true
+  enable: false
   # 可选项：图片加载时的占位符
   placeholder: /images/placeholder.png
 

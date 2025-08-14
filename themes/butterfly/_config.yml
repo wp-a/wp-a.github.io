@@ -55,17 +55,17 @@ social:
 favicon: /img/favicon.png
 
 avatar:
-  img: /img/butterfly-icon.png
+  img: https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png
   effect: false
 
 # Disable all banner images
 disable_top_img: false
 
 # If the banner of page not setting, it will show the default_top_img
-default_top_img:
+default_top_img: https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp
 
 # The banner image of index page
-index_img:
+index_img: https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp
 
 # The banner image of archive page
 archive_img:
@@ -100,7 +100,7 @@ cover:
   archives_enable: true
   # When cover is not set, the default cover is displayed
   default_cover:
-    # - xxx.jpg
+    - https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp
 
 # Replace Broken Images
 error_img:
@@ -172,7 +172,7 @@ subtitle:
 # 5: Info displayed on the cover
 # 6: Masonry layout - Cover on top, info on the bottom
 # 7: Masonry layout - Info displayed on the cover
-index_layout: 3
+index_layout: 1
 
 # Display the article introduction on homepage
 # 1: description
@@ -987,6 +987,7 @@ instantpage: false
 # https://github.com/verlok/vanilla-lazyload
 lazyload:
   enable: false
+  native: true
   # Specify the field to use lazyload (site or post)
   field: site
   placeholder:
