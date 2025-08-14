@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main  # 或者 master，根据你的默认分支
+      - main  # 确认这是你的默认分支名
 
 jobs:
   deploy:
@@ -11,25 +11,31 @@ jobs:
     
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
-        submodules: false
+        fetch-depth: 0
         
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'npm'
         
     - name: Install dependencies
       run: npm ci
       
     - name: Build
-      run: npm run build
+      run: |
+        # npm run build
+        # 或者使用 hexo generate
+        npx hexo clean && npx hexo generate
       
-    - name: Deploy
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        external_repository: wp-a/wp-a.github.io
+        external_repository: wp-a/wp-a.github.io  # 替换为实际的仓库名
         publish_dir: ./public
-        publish_branch: main  # 或者 gh-pages
+        publish_branch: main  # 或者 gh-pages，根据目标仓库设置
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
