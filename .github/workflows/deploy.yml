@@ -30,6 +30,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        external_repository: wp-a/wp-a.github.io
+        external_repository: wp-a.github.io
         publish_dir: ./public
         publish_branch: main  # 或者 gh-pages
