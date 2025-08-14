@@ -1050,6 +1050,7 @@ CDN:
   custom_format:
 
   option:
+    countup_js: https://cdn.jsdelivr.net/npm/countup.js@2.6.0/dist/countUp.min.js
     # abcjs_basic_js:
     # activate_power_mode:
     # algolia_js:
