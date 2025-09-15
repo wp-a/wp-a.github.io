@@ -1,0 +1,503 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>图神经网络 | WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="图神经网络（GNN）全面指：从基础到高级应用 引言 在数据爆炸的时代，传统深度学习模型如CNN和RNN在处理结构化数据（如图像和序列）上取得了巨大成功，但现实世界中的许多数据都具有图结构（Graph Structure），例如社交网络、分子结构、知识图谱、交通网络等。这些数据是非欧几里德的（Non-Euclidean），节点之间存在复杂的拓扑关系，无法直接用网格或序列表示。这就是**图神经网络（G">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图神经网络">
+<meta property="og:url" content="https://wp-a.github.io/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="WPIRONMAN">
+<meta property="og:description" content="图神经网络（GNN）全面指：从基础到高级应用 引言 在数据爆炸的时代，传统深度学习模型如CNN和RNN在处理结构化数据（如图像和序列）上取得了巨大成功，但现实世界中的许多数据都具有图结构（Graph Structure），例如社交网络、分子结构、知识图谱、交通网络等。这些数据是非欧几里德的（Non-Euclidean），节点之间存在复杂的拓扑关系，无法直接用网格或序列表示。这就是**图神经网络（G">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png">
+<meta property="article:published_time" content="2025-09-07T01:28:09.000Z">
+<meta property="article:modified_time" content="2025-09-08T12:25:29.475Z">
+<meta property="article:author" content="WP">
+<meta property="article:tag" content="论文精读">
+<meta property="article:tag" content="GNN">
+<meta property="article:tag" content="图神经网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "图神经网络",
+  "url": "https://wp-a.github.io/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/",
+  "image": "https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png",
+  "datePublished": "2025-09-07T01:28:09.000Z",
+  "dateModified": "2025-09-08T12:25:29.475Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "WP",
+      "url": "https://wp-a.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png"><link rel="canonical" href="https://wp-a.github.io/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="manifest" href="/null"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '图神经网络',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/_custom/category/categories.css"><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/construction-detection.css"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"><link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" as="style" crossorigin=""><script>fetch('https://wpironman.top/pv').then(res => res.json()).then(data => {document.getElementById('my-pv').innerText = data.pv;}).catch(() => {document.getElementById('my-pv').innerText = '获取失败';});</script><link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'"><!-- 预加载首屏图片 --><link href="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" as="image" crossorigin="anonymous"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar" loading="lazy"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-tools"></i><span> 工具</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/construction-detection/"><i class="fa-fw fas fa-hard-hat"></i><span> 工地检测</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/favicon.png" alt="Logo" loading="lazy"><span class="site-name">WPIRONMAN</span></a><a class="nav-page-title" href="/"><span class="site-name">图神经网络</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-tools"></i><span> 工具</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/construction-detection/"><i class="fa-fw fas fa-hard-hat"></i><span> 工地检测</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">图神经网络<a class="post-edit-link" href="null_posts/图卷积网络.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2025-09-07T01:28:09.000Z" title="发表于 2025-09-07 09:28:09">2025-09-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/GNN/">GNN</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>图神经网络（GNN）全面指：从基础到高级应用</h1>
+<h2 id="引言">引言</h2>
+<p>在数据爆炸的时代，传统深度学习模型如CNN和RNN在处理结构化数据（如图像和序列）上取得了巨大成功，但现实世界中的许多数据都具有<strong>图结构</strong>（Graph Structure），例如社交网络、分子结构、知识图谱、交通网络等。这些数据是非欧几里德的（Non-Euclidean），节点之间存在复杂的拓扑关系，无法直接用网格或序列表示。这就是**图神经网络（Graph Neural Networks, GNN）**登场的原因。</p>
+<p>GNN 通过模拟节点间的消息传递机制，捕捉图的局部和全局结构，实现对图数据的表示学习。它已在推荐系统、药物发现、蛋白质折叠预测等领域大放异彩。本文将从基础概念入手，逐步深入GNN的核心原理、经典模型、实现技巧和实际应用，帮助你全面掌握这一技术。无论你是初学者还是有经验的从业者，这篇指南都能提供实用价值。</p>
+<h2 id="图数据基础">图数据基础</h2>
+<h3 id="图的定义与表示">图的定义与表示</h3>
+<p>图 $ G = (V, E) $ 由节点集 $ V $（Vertices）和边集 $ E $（Edges）组成：</p>
+<ul>
+<li><strong>节点（Nodes）</strong>：实体，如用户、原子。</li>
+<li><strong>边（Edges）</strong>：关系，如友谊、化学键。</li>
+<li><strong>类型</strong>：
+<ul>
+<li>无向图：边无方向（e.g., 社交网络）。</li>
+<li>有向图：边有方向（e.g., 网页链接）。</li>
+<li>加权图：边有权重 $ w_{uv} $（e.g., 相似度分数）。</li>
+<li>异构图：节点/边有多种类型（e.g., 知识图谱）。</li>
+</ul>
+</li>
+</ul>
+<p>图的常见表示方法：</p>
+<ul>
+<li><strong>邻接矩阵（Adjacency Matrix）</strong> $ A \in \mathbb{R}^{|V| \times |V|} $：$ A_{uv} = 1 $ 如果存在边 $ (u, v) $，否则为0。适合小图，但空间复杂度 $ O(|V|^2) $。</li>
+<li><strong>边列表（Edge List）</strong>：稀疏表示，如 $[ (u_1, v_1), (u_2, v_2), \dots ] $，适合大图。</li>
+<li><strong>度矩阵（Degree Matrix）</strong> $ D $，对角线 $ D_{ii} = \sum_j A_{ij} $（节点i的度）。</li>
+<li><strong>拉普拉斯矩阵（Laplacian Matrix）</strong> $ L = D - A $，用于谱分析：它是半正定的，特征分解 $ L = U \Lambda U^T $，其中 $ U $ 是傅里叶基。</li>
+</ul>
+<h3 id="图任务类型">图任务类型</h3>
+<p>GNN 针对不同粒度的数据设计：</p>
+<ul>
+<li><strong>节点级任务</strong>：节点分类（e.g., 预测论文类别）、节点回归（e.g., 预测节点影响力）。</li>
+<li><strong>边级任务</strong>：链接预测（e.g., 推荐朋友）。</li>
+<li><strong>图级任务</strong>：图分类（e.g., 判断分子是否毒性）、图回归（e.g., 预测分子能量）。</li>
+</ul>
+<p>数据集示例：</p>
+<ul>
+<li><strong>节点分类</strong>：Cora（论文引用网络，2708节点，5429边）。</li>
+<li><strong>图分类</strong>：MUTAG（188个分子图）。</li>
+</ul>
+<h2 id="GNN-核心原理">GNN 核心原理</h2>
+<p>GNN 的本质是**消息传递神经网络（Message Passing Neural Network, MPNN）**框架，由Scarselli等人在2009年提出。它通过多层迭代，让每个节点从邻居聚合信息，逐步捕捉多跳（multi-hop）依赖。</p>
+<h3 id="消息传递机制">消息传递机制</h3>
+<p>假设初始节点特征 $ h_v^{(0)} = x_v $（节点v的输入特征）。 在第 $ k $ 层：</p>
+<ol>
+<li><strong>消息生成（Message Generation）</strong>：对于每条边 $ (u, v) $，生成消息 $ m_{uv}^{(k)} = f(h_u^{(k-1)}, h_v^{(k-1)}, e_{uv}) $，其中 $ f $ 是可学习函数（如MLP），$ e_{uv} $ 是边特征。</li>
+<li><strong>聚合（Aggregation）</strong>：节点v聚合邻居消息 $ \tilde{h}<em>v^{(k)} = \text{AGGREGATE}({ m</em>{uv}^{(k)} : u \in \mathcal{N}(v) }) $。
+<ul>
+<li>常见AGG：Sum（求和）、Mean（平均）、Max（最大）、Attention（注意力）。</li>
+</ul>
+</li>
+<li><strong>更新（Update）</strong>：$ h_v^{(k)} = \text{UPDATE}(\tilde{h}_v^{(k)}, h_v^{(k-1)}) $，UPDATE 如GRU、MLP + ReLU。</li>
+<li><strong>读出（Readout）</strong>（仅图级任务）：全局池化 $ \hat{y} = \text{READOUT}({ h_v^{(K)} : v \in V }) $，如mean pooling或sum。</li>
+</ol>
+<p>数学上，整个过程可并行化，使用稀疏矩阵运算。关键假设：<strong>同质性（Homophily）</strong>，相连节点相似。</p>
+<h3 id="谱方法-vs-空间方法">谱方法 vs 空间方法</h3>
+<ul>
+<li><strong>谱方法（Spectral GNN）</strong>：基于图信号处理（Graph Signal Processing）。图卷积定义为 $ g_\theta * x = U g_\theta(\Lambda) U^T x $，其中 $ g_\theta(\lambda) $ 是滤波器（e.g., 多项式）。优点：理论基础强；缺点：计算 $ U $ 成本高（O(|V|^3)）。
+<ul>
+<li>示例：ChebNet（2017），用Chebyshev多项式近似滤波器，K阶多项式只需O(K)参数。</li>
+</ul>
+</li>
+<li><strong>空间方法（Spatial GNN）</strong>：直接在节点邻域操作，更高效、可扩展。主流模型如GCN、GAT均属此类。</li>
+</ul>
+<h2 id="经典GNN模型详解">经典GNN模型详解</h2>
+<h3 id="Graph-Convolutional-Network-GCN">Graph Convolutional Network (GCN)</h3>
+<p>Kipf &amp; Welling (2017) 的开创性工作，将CNN推广到图。</p>
+<ul>
+<li><strong>层公式</strong>：$ H^{(l+1)} = \sigma( \hat{D}^{-1/2} \hat{A} \hat{D}^{-1/2} H^{(l)} W^{(l)} ) $。
+<ul>
+<li>$ \hat{A} = A + I $（加自环，包含自身信息）。</li>
+<li>$ \hat{D} $ 是 $ \hat{A} $ 的度矩阵。</li>
+<li>解释：$ \hat{D}^{-1/2} \hat{A} \hat{D}^{-1/2} $ 是归一化邻接矩阵，第一阶谱卷积近似（localized filter）。</li>
+</ul>
+</li>
+<li><strong>推导简述</strong>：从谱卷积 $ g_\theta * x = U (g_\theta(\Lambda) \odot (U^T x)) U^T $ 简化为一阶Taylor展开，假设 $ g_\theta(\Lambda) = \sum_{k=0}^K T_k(\tilde{L}) \theta_k $（$ \tilde{L} = 2\lambda_{\max}^{-1} L - I $）。</li>
+<li><strong>优点</strong>：简单、参数共享；<strong>缺点</strong>：假设1-hop邻居同质，深层易过平滑。</li>
+<li><strong>应用</strong>：半监督节点分类，在Cora上准确率达81.5%。</li>
+</ul>
+<h3 id="Graph-Attention-Network-GAT">Graph Attention Network (GAT)</h3>
+<p>Veličković等 (2018) 引入注意力机制，提升表达力。</p>
+<ul>
+<li><strong>注意力计算</strong>：$ \alpha_{vu} = \text{softmax}_u ( \text{LeakyReLU}( \mathbf{a}^T [ \mathbf{W} \mathbf{h}_v | \mathbf{W} \mathbf{h}_u ] ) ) $。
+<ul>
+<li>$ | $ 是拼接，$ \mathbf{a} $ 是注意力向量。</li>
+<li>动态权重，避免固定均值聚合。</li>
+</ul>
+</li>
+<li><strong>更新</strong>：$ \mathbf{h}<em>v’ = \sigma( \sum</em>{u \in \mathcal{N}(v)} \alpha_{vu} \mathbf{W} \mathbf{h}_u ) $。</li>
+<li><strong>多头注意力</strong>：K个头并行，平均或拼接输出，提升稳定性（类似Transformer）。</li>
+<li><strong>优点</strong>：解释性强（可视化注意力权重）；<strong>缺点</strong>：O(|E| d^2)复杂度（d为特征维）。</li>
+<li><strong>变体</strong>：GATv2 (2021)，修复静态注意力问题。</li>
+</ul>
+<h3 id="GraphSAGE">GraphSAGE</h3>
+<p>Hamilton等 (2017) 针对大图设计，支持归纳学习。</p>
+<ul>
+<li><strong>采样聚合</strong>：随机采样固定大小的k-hop邻居，避免全图计算。</li>
+<li><strong>聚合函数</strong>：
+<ul>
+<li>Mean：$ \text{AGG} = \text{mean}({ \mathbf{h}_u : u \in \text{sample}(\mathcal{N}(v)) }) $。</li>
+<li>Pool：每个邻居用MLP池化后sum。</li>
+<li>LSTM：顺序处理邻居消息。</li>
+</ul>
+</li>
+<li><strong>更新</strong>：$ \mathbf{h}_v^{(k)} = \sigma( \mathbf{W}^{(k)} \cdot \text{CONCAT}( \mathbf{h}_v^{(k-1)}, \text{AGG} ) ) $。</li>
+<li><strong>优点</strong>：可扩展到百万节点图；<strong>缺点</strong>：采样引入方差。</li>
+<li><strong>应用</strong>：Pinterest的引脚推荐。</li>
+</ul>
+<h3 id="Graph-Isomorphism-Network-GIN">Graph Isomorphism Network (GIN)</h3>
+<p>Xu等 (2019) 提升图级表示的区分力。</p>
+<ul>
+<li><strong>公式</strong>：$ \mathbf{h}_v^{(k)} = \text{MLP}^{(k)} ( (1 + \epsilon^{(k)}) \mathbf{h}<em>v^{(k-1)} + \sum</em>{u \in \mathcal{N}(v)} \mathbf{h}_u^{(k-1)} ) $。
+<ul>
+<li>$ \epsilon^{(k)} $ 可学习，控制自环权重。</li>
+<li>读出：$ \mathbf{h}_G = \text{MLP}( \sum_v \mathbf{h}_v^{(K)} ) $。</li>
+</ul>
+</li>
+<li><strong>理论</strong>：等价于Weisfeiler-Lehman (WL) 图同构测试，能区分更多非同构图。</li>
+<li><strong>优点</strong>：SOTA于图分类基准（如OGB）。</li>
+</ul>
+<h2 id="实现与实践">实现与实践</h2>
+<h3 id="框架选择">框架选择</h3>
+<ul>
+<li><strong>PyTorch Geometric (PyG)</strong>：基于PyTorch，易用。安装：pip install torch-geometric。</li>
+<li><strong>Deep Graph Library (DGL)</strong>：支持PyTorch/TensorFlow/MXNet，适合异构图。</li>
+<li><strong>Spektral</strong>：Keras接口。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://wp-a.github.io">WP</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://wp-a.github.io/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/">https://wp-a.github.io/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://wp-a.github.io" target="_blank">WPIRONMAN</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">论文精读</a><a class="post-meta__tags" href="/tags/GNN/">GNN</a><a class="post-meta__tags" href="/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">图神经网络</a></div><div class="post-share"><div class="social-share" data-image="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/123.JPG" target="_blank"><img class="post-qr-code-img" src="/img/123.JPG" alt="微信" loading="lazy"></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250601121856303.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading="lazy"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">手撕 Vision Transformer</div></div><div class="info-2"><div class="info-item-1">手撕 Vision...</div></div></div></a><a class="pagination-related" href="/2025/09/MambaOut/" title="MambaOut"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509111759034.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading="lazy"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MambaOut</div></div><div class="info-2"><div class="info-item-1">MambaOut MambaOut: Do We Really Need Mamba for Vision?  (CVPR 2025) 论文地址：https://github.com/yuweihao/MambaOut 代码地址：https://arxiv.org/pdf/2405.07992 mamba主要被引入解决注意力机制的二次复杂度问题，与基于卷积和注意力的模型相比，Mamba在视觉方面的表现通常令人失望。本文得出了一个结论就是Mamba非常适合具有长序列和自回归特征的任务，由于图像分类和这两种特征都不符合，所以通过堆叠mamba块，同时移除核心token混合器SSM，得到MambaOut模型在ImageNet图像分类任务上超越了所有视觉Mamba模型。 </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/04/CSRMS/" title="CSRMS"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250418223753935.png" alt="cover" loading="lazy"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-18</div><div class="info-item-2">CSRMS</div></div><div class="info-2"><div class="info-item-1">CSRMS 用于视觉表征学习的类级结构化关系建模与平滑 (MM2023) 论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf 代码地址：https://github.com/czt117/CSRMS 个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。 名词解释： 课程构建（Curriculum...</div></div></div></a><a class="pagination-related" href="/2025/04/MOE/" title="MoE"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png" alt="cover" loading="lazy"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-27</div><div class="info-item-2">MoE</div></div><div class="info-2"><div class="info-item-1">Mixtures of Experts 《Adaptive Mixture of Local Experts》  论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf 1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。 核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。 基础架构 如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$...</div></div></div></a><a class="pagination-related" href="/2025/04/MoCo/" title="MoCo"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250425170023257.png" alt="cover" loading="lazy"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-24</div><div class="info-item-2">MoCo</div></div><div class="info-2"><div class="info-item-1">MoCo Momentum Contrast for Unsupervised Visual Representation Learning  (cvpr2020) 论文地址：https://arxiv.org/pdf/1911.05722 代码地址：https://github.com/facebookresearch/moco 概述  MoCo 将对比学习看作是一个字典查找任务 ：一个编码后的查询（query）应该与其匹配的键（正样本）相似，而与其他所有的键（负样本）不相似 。 对比学习的核心思想是训练一个编码器，使其能够区分相似（正样本）和不相似（负样本）的样本 。 传统方法 VS MoCo  端到端（End-to-end）方法（SimCLR，Inva Spread）：将当前 mini-batch 内的样本作为字典 。这种方法的优点是字典中的键编码是一致的（由同一个编码器生成），但缺点是字典的大小受限于 mini-batch 的大小，而 mini-batch 大小又受限于 GPU 内存 。过大的 mini-batch 也会带来优化难题 。 Memory Bank...</div></div></div></a><a class="pagination-related" href="/2025/04/Transformer/" title="Transformer"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250417222102581.png" alt="cover" loading="lazy"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-17</div><div class="info-item-2">Transformer</div></div><div class="info-2"><div class="info-item-1">Attention Is All You Need 个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。 Transformer 是一种基于注意力机制（Attention...</div></div></div></a><a class="pagination-related" href="/2025/09/MambaOut/" title="MambaOut"><img class="cover" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509111759034.png" alt="cover" loading="lazy"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-10</div><div class="info-item-2">MambaOut</div></div><div class="info-2"><div class="info-item-1">MambaOut MambaOut: Do We Really Need Mamba for Vision?  (CVPR 2025) 论文地址：https://github.com/yuweihao/MambaOut 代码地址：https://arxiv.org/pdf/2405.07992 mamba主要被引入解决注意力机制的二次复杂度问题，与基于卷积和注意力的模型相比，Mamba在视觉方面的表现通常令人失望。本文得出了一个结论就是Mamba非常适合具有长序列和自回归特征的任务，由于图像分类和这两种特征都不符合，所以通过堆叠mamba块，同时移除核心token混合器SSM，得到MambaOut模型在ImageNet图像分类任务上超越了所有视觉Mamba模型。 </div></div></div></a></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div><h1 id="site-title" fetchpriority="high" style="font-display: swap;">图神经网络</h1></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">图神经网络（GNN）全面指：从基础到高级应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%9F%BA%E7%A1%80"><span class="toc-number">1.2.</span> <span class="toc-text">图数据基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">图的定义与表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.2.</span> <span class="toc-text">图任务类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GNN-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">GNN 核心原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6"><span class="toc-number">1.3.1.</span> <span class="toc-text">消息传递机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%B1%E6%96%B9%E6%B3%95-vs-%E7%A9%BA%E9%97%B4%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.2.</span> <span class="toc-text">谱方法 vs 空间方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8GNN%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.4.</span> <span class="toc-text">经典GNN模型详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Graph-Convolutional-Network-GCN"><span class="toc-number">1.4.1.</span> <span class="toc-text">Graph Convolutional Network (GCN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Graph-Attention-Network-GAT"><span class="toc-number">1.4.2.</span> <span class="toc-text">Graph Attention Network (GAT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GraphSAGE"><span class="toc-number">1.4.3.</span> <span class="toc-text">GraphSAGE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Graph-Isomorphism-Network-GIN"><span class="toc-number">1.4.4.</span> <span class="toc-text">Graph Isomorphism Network (GIN)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.5.</span> <span class="toc-text">实现与实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E9%80%89%E6%8B%A9"><span class="toc-number">1.5.1.</span> <span class="toc-text">框架选择</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: 'B3GpDA8AVyqx7H7uFClhxmMn-MdYXbMMI',
+      appKey: 'nNNXxEpK6ldH3OkcySiOdNAo',
+      avatar: 'monsterid',
+      serverURLs: 'https://b3gpda8a.api.lncldglobal.com',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script type="text/javascript" src="/js/reward.js" defer=""></script><script async="" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script><script src="/js/construction-detection.js" defer=""></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/gallery/"]):not([href="/about/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js" defer="defer"></script></div></div><!-- hexo injector body_end start -->
+  <script data-pjax="" src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax="">
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://githubcalendarapi.shiguang666.eu.org/api?user=wp-a";
+            var git_color =['#ebedf0', '#a2f7af', '#6ce480', '#54ad63', '#469252', '#31753c', '#1f5f2a', '#13531f', '#084111', '#032b09', '#000000'];
+            var git_user ="wp-a";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>

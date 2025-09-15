@@ -7680,13 +7680,7 @@ blockquote.pullquote.right {
     pointer-events: auto;
   }
 
-  /* 二维码并排显示 */
-  /* .reward-all {
-    display: flex;
-    gap: 2rem;
-    padding: 1.5rem;
-  } */
-  /* 调整二维码显示 */
+
   .post-qr-code-img {
     max-width: 280px !important;
     border: 6px solid #fff;
@@ -7777,34 +7771,20 @@ blockquote.pullquote.right {
       font-size: 14px;
     }
   }
-/* Outer container for sections that should be displayed side-by-side */
-/* 如果您的学术出版和学术成就等区块是并排显示在一个父容器内，
-   并且希望它们高度一致，请给那个父容器应用以下样式。
-   根据您的 Pug 代码，这个父容器很可能是 .author-content */
+
 .author-content {
-  display: flex; /* 启用 Flexbox 布局 */
-  /* 子元素（.author-content-item）将默认拉伸以填充父容器的高度 */
-  flex-wrap: wrap; /* 如果空间不足，允许项目换行 */
-  gap: 20px; /* 设置子元素之间的间隙，根据需要调整 */
-  /* 您可能需要根据具体布局调整 justify-content 和 align-items */
-  /* align-items: stretch; /* Flex items 默认拉伸，明确写出 */ 
-  /* justify-content: space-between; /* 例如：如果希望项目分散对齐 */ 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 20px; 
 }
 
-/* Individual content items within the author-content container */
 .author-content-item {
-  flex: 1; /* 让这些项目根据可用空间伸缩，并平均分配宽度 */
-  /* 或者根据需要设置固定宽度或 flex-basis */
-  /* 例如: flex-basis: 48%; */
-  /* margin: 0 10px;  如果使用了 gap 就不需要 margin 了 */
-  /* 确保这些项目自身没有固定的 height 属性 */
+  flex: 1; 
 }
 
-/* ====== 媒体查询：针对小屏幕设备 ====== */
 @media (max-width: 768px) {
   .author-content {
-    flex-direction: column; /* 在屏幕宽度小于等于 768px 时，垂直堆叠子元素 */
-    /* 在垂直堆叠时，您可能需要调整一些间距 */
+    flex-direction: column; 
     gap: 0; /* 垂直堆叠时移除整体 gap */
   }
 
@@ -7813,9 +7793,6 @@ blockquote.pullquote.right {
     width: 100%; /* 让每个项目占据全部宽度 */
     margin: 10px 0; /* 垂直方向添加间距，水平方向移除 */
   }
-
-  /* 您可能还需要针对 .publications-list 和 .achievements-list 的内部样式进行微调，
-     例如在垂直排列时增加它们彼此之间的顶部或底部间距 */
   .author-content-item.publications .publications-list,
   .author-content-item.achievements .achievements-list {
       margin-top: 15px; /* 在垂直堆叠时增加内容顶部间距 */
@@ -8148,6 +8125,7 @@ blockquote.pullquote.right {
     width: 100%;
     background: #fff;
     mix-blend-mode: screen;
+    pointer-events: none;
   }
   [data-theme="dark"] .hello-about .content {
     background: transparent;
