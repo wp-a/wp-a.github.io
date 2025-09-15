@@ -2,13 +2,12 @@
 
 class ConstructionDetection {
   constructor() {
-    // 🔑 API配置 - 请在此处配置您的大模型API
-    this.apiEndpoint = 'https://api.openai.com/v1/chat/completions'; // OpenAI API端点
-    this.apiKey = ''; // ⚠️ 请在此处填入您的API密钥，或使用环境变量
+    // 🔑 Gemini API配置
+    this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent'; // Gemini API端点
+    this.apiKey = 'AIzaSyDu4aoJjPM9zcxHToWZUMgA6Seov9dOEtY'; // 您的Gemini API密钥
     
-    // 💡 其他可用的API端点示例：
-    // this.apiEndpoint = 'https://your-custom-api.com/v1/chat/completions'; // 自定义API
-    // this.apiKey = process.env.OPENAI_API_KEY || 'your-api-key-here'; // 使用环境变量
+    // OAuth2.0配置（如果需要）
+    this.clientId = '179572801582-e7t0sf1iubaqppat305hp99ofgf2g4ov.apps.googleusercontent.com';
     
     this.currentImage = null;
     this.init();
@@ -207,6 +206,17 @@ class ConstructionDetection {
     });
   }
 
+  detectImageMimeType(imageBase64) {
+    // 从base64字符串中提取MIME类型
+    const mimeMatch = imageBase64.match(/data:([^;]+);base64,/);
+    if (mimeMatch) {
+      return mimeMatch[1];
+    }
+    
+    // 如果无法从base64中获取，默认使用JPEG
+    return 'image/jpeg';
+  }
+
   buildDetectionPrompt(selectedOptions, customPrompt) {
     const optionNames = {
       'safety': '安全检测',
@@ -238,44 +248,71 @@ class ConstructionDetection {
   }
 
   async callAIApi(imageBase64, prompt) {
-    // 注意：这里需要配置实际的API密钥
-    // 建议使用环境变量或配置文件来存储API密钥
+    // 检测图片MIME类型
+    const mimeType = this.detectImageMimeType(imageBase64);
     
-    const response = await fetch(this.apiEndpoint, {
+    // 构建Gemini API请求
+    const requestBody = {
+      contents: [{
+        parts: [
+          {
+            text: prompt
+          },
+          {
+            inline_data: {
+              mime_type: mimeType,
+              data: imageBase64.split(',')[1] // 移除data:image/xxx;base64,前缀
+            }
+          }
+        ]
+      }],
+      generationConfig: {
+        temperature: 0.7,
+        topK: 32,
+        topP: 1,
+        maxOutputTokens: 2000,
+      },
+      safetySettings: [
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        }
+      ]
+    };
+
+    const response = await fetch(`${this.apiEndpoint}?key=${this.apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`
       },
-      body: JSON.stringify({
-        model: 'gpt-4-vision-preview',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: prompt
-              },
-              {
-                type: 'image_url',
-                image_url: {
-                  url: imageBase64
-                }
-              }
-            ]
-          }
-        ],
-        max_tokens: 2000
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
-      throw new Error(`API请求失败: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Gemini API请求失败: ${response.status} - ${errorData.error?.message || response.statusText}`);
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    
+    // 检查响应结构
+    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+      return data.candidates[0].content.parts[0].text;
+    } else {
+      throw new Error('Gemini API响应格式异常');
+    }
   }
 
   displayResults(result) {
@@ -489,17 +526,18 @@ class ConstructionDetection {
             <li>重新部署网站</li>
           </ol>
           
-          <h4>支持的API服务：</h4>
+          <h4>当前配置的API服务：</h4>
           <ul>
-            <li>OpenAI GPT-4 Vision</li>
-            <li>Azure OpenAI Service</li>
-            <li>其他兼容OpenAI API格式的服务</li>
+            <li>✅ Google Gemini 1.5 Pro (已配置)</li>
+            <li>支持图像理解和多模态分析</li>
+            <li>API密钥已配置完成</li>
           </ul>
           
           <div class="config-example">
-            <h4>配置示例：</h4>
-            <pre><code>// 在 construction-detection.js 中修改
-this.apiKey = 'your-api-key-here';</code></pre>
+            <h4>当前配置：</h4>
+            <pre><code>// Gemini API配置
+this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
+this.apiKey = 'AIzaSyDu4aoJjPM9zcxHToWZUMgA6Seov9dOEtY';</code></pre>
           </div>
           
           <p><strong>详细配置说明请查看：</strong> <a href="/construction-detection/api-config/" target="_blank">API配置文档</a></p>
