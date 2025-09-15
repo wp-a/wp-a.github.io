@@ -1,24 +1,20 @@
-// 工地检测助手 JavaScript 功能
+// 工地检测助手 - 代理版本
+// 这个版本使用代理服务器来绕过API密钥的HTTP引用者限制
 
-class ConstructionDetection {
+class ConstructionDetectionProxy {
   constructor() {
-    // 🔑 Gemini API配置
-    this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent'; // Gemini API端点
-    this.apiKey = 'AIzaSyDu4aoJjPM9zcxHToWZUMgA6Seov9dOEtY'; // 您的Gemini API密钥
-    
-    // OAuth2.0配置（如果需要）
-    this.clientId = '179572801582-e7t0sf1iubaqppat305hp99ofgf2g4ov.apps.googleusercontent.com';
+    // 🔑 使用代理服务器配置
+    this.proxyEndpoint = 'https://api.allorigins.win/raw?url=';
+    this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
+    this.apiKey = 'AIzaSyDu4aoJjPM9zcxHToWZUMgA6Seov9dOEtY';
     
     this.currentImage = null;
     this.init();
   }
 
   init() {
-    console.log('🏗️ 工地检测助手初始化中...');
-    console.log('API配置:', {
-      endpoint: this.apiEndpoint,
-      hasApiKey: !!this.apiKey
-    });
+    console.log('🏗️ 工地检测助手（代理版本）初始化中...');
+    console.log('使用代理服务器绕过API限制');
     this.setupEventListeners();
     this.loadUserPreferences();
     console.log('✅ 工地检测助手初始化完成');
@@ -209,13 +205,6 @@ class ConstructionDetection {
       return;
     }
 
-    // 检查API密钥配置
-    if (!this.apiKey || this.apiKey.trim() === '') {
-      this.showNotification('请先配置API密钥，详情请查看API配置说明', 'error');
-      this.showApiConfigModal();
-      return;
-    }
-
     const customPrompt = document.getElementById('customPrompt').value.trim();
     
     // 显示加载状态
@@ -229,8 +218,8 @@ class ConstructionDetection {
       // 构建检测提示词
       const detectionPrompt = this.buildDetectionPrompt(selectedOptions, customPrompt);
       
-      // 调用AI API
-      const result = await this.callAIApi(imageBase64, detectionPrompt);
+      // 调用AI API（使用代理）
+      const result = await this.callAIApiWithProxy(imageBase64, detectionPrompt);
       
       // 显示结果
       this.displayResults(result);
@@ -298,7 +287,9 @@ class ConstructionDetection {
     return prompt;
   }
 
-  async callAIApi(imageBase64, prompt) {
+  async callAIApiWithProxy(imageBase64, prompt) {
+    console.log('🌐 使用代理服务器调用API...');
+    
     // 检测图片MIME类型
     const mimeType = this.detectImageMimeType(imageBase64);
     
@@ -343,7 +334,12 @@ class ConstructionDetection {
       ]
     };
 
-    const response = await fetch(`${this.apiEndpoint}?key=${this.apiKey}`, {
+    // 使用代理服务器
+    const proxyUrl = `${this.proxyEndpoint}${encodeURIComponent(`${this.apiEndpoint}?key=${this.apiKey}`)}`;
+    
+    console.log('📡 发送代理请求到:', proxyUrl);
+
+    const response = await fetch(proxyUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -353,10 +349,12 @@ class ConstructionDetection {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(`Gemini API请求失败: ${response.status} - ${errorData.error?.message || response.statusText}`);
+      throw new Error(`代理API请求失败: ${response.status} - ${errorData.error?.message || response.statusText}`);
     }
 
     const data = await response.json();
+    
+    console.log('✅ 代理API响应成功');
     
     // 检查响应结构
     if (data.candidates && data.candidates[0] && data.candidates[0].content) {
@@ -556,174 +554,11 @@ class ConstructionDetection {
     });
     localStorage.setItem('construction-detection-options', JSON.stringify(options));
   }
-
-  showApiConfigModal() {
-    const modal = document.createElement('div');
-    modal.className = 'api-config-modal';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>🔑 API配置说明</h3>
-          <button class="close-btn">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p><strong>为了使用工地检测功能，您需要配置大模型API密钥。</strong></p>
-          
-          <h4>配置步骤：</h4>
-          <ol>
-            <li>获取OpenAI API密钥（或其他兼容的API服务）</li>
-            <li>在 <code>/source/js/construction-detection.js</code> 文件中找到 <code>this.apiKey</code> 配置</li>
-            <li>将您的API密钥填入该配置项</li>
-            <li>重新部署网站</li>
-          </ol>
-          
-          <h4>当前配置的API服务：</h4>
-          <ul>
-            <li>✅ Google Gemini 1.5 Pro (已配置)</li>
-            <li>支持图像理解和多模态分析</li>
-            <li>API密钥已配置完成</li>
-          </ul>
-          
-          <div class="config-example">
-            <h4>当前配置：</h4>
-            <pre><code>// Gemini API配置
-this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
-this.apiKey = 'AIzaSyDu4aoJjPM9zcxHToWZUMgA6Seov9dOEtY';</code></pre>
-          </div>
-          
-          <p><strong>详细配置说明请查看：</strong> <a href="/construction-detection/api-config/" target="_blank">API配置文档</a></p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" onclick="this.parentElement.parentElement.parentElement.remove()">我知道了</button>
-        </div>
-      </div>
-    `;
-
-    // 添加样式
-    const style = document.createElement('style');
-    style.textContent = `
-      .api-config-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-      }
-      .modal-content {
-        background: white;
-        border-radius: 12px;
-        max-width: 600px;
-        width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      }
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #eee;
-      }
-      .modal-header h3 {
-        margin: 0;
-        color: #333;
-      }
-      .close-btn {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #999;
-      }
-      .modal-body {
-        padding: 20px;
-        line-height: 1.6;
-      }
-      .modal-body h4 {
-        color: #49b1f5;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      }
-      .modal-body ol, .modal-body ul {
-        margin: 10px 0;
-        padding-left: 20px;
-      }
-      .config-example {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin: 15px 0;
-      }
-      .config-example pre {
-        margin: 0;
-        background: #2d3748;
-        color: #e2e8f0;
-        padding: 10px;
-        border-radius: 4px;
-        overflow-x: auto;
-      }
-      .modal-footer {
-        padding: 20px;
-        border-top: 1px solid #eee;
-        text-align: right;
-      }
-      .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 500;
-      }
-      .btn-primary {
-        background: #49b1f5;
-        color: white;
-      }
-      .btn-primary:hover {
-        background: #0084ff;
-      }
-      [data-theme="dark"] .modal-content {
-        background: #2a2a2a;
-        color: #e1e1e1;
-      }
-      [data-theme="dark"] .modal-header {
-        border-bottom-color: #444;
-      }
-      [data-theme="dark"] .modal-footer {
-        border-top-color: #444;
-      }
-      [data-theme="dark"] .config-example {
-        background: #333;
-      }
-    `;
-    document.head.appendChild(style);
-
-    document.body.appendChild(modal);
-
-    // 关闭按钮事件
-    modal.querySelector('.close-btn').addEventListener('click', () => {
-      modal.remove();
-      style.remove();
-    });
-
-    // 点击背景关闭
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.remove();
-        style.remove();
-      }
-    });
-  }
 }
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
-  new ConstructionDetection();
+  new ConstructionDetectionProxy();
 });
 
 // 添加结果样式

@@ -1,5 +1,9 @@
 /* 工地检测助手页面样式 */
 
+.construction-detection-page {
+  min-height: 100vh;
+}
+
 .construction-detection-container {
   max-width: 1200px;
   margin: 0 auto;
