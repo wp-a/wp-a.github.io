@@ -169,9 +169,9 @@
       
         <tags>
             
-            <tag> 视觉表征 </tag>
-            
             <tag> 论文精读 </tag>
+            
+            <tag> 视觉表征 </tag>
             
         </tags>
       
@@ -944,11 +944,11 @@
             
             <tag> 数据结构与算法 </tag>
             
-            <tag> 数组 </tag>
-            
             <tag> 二分查找 </tag>
             
             <tag> 双指针 </tag>
+            
+            <tag> 数组 </tag>
             
         </tags>
       
