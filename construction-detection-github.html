@@ -1,0 +1,1180 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WPIRONMAN | WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="工地检测助手 - GitHub Pages 版本                                  🏗️ 工地检测助手                                           🔑 API 密钥设置                 由于 GitHub Pages 不支持服务器端 API，请直接输入您的 Gemini A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WPIRONMAN">
+<meta property="og:url" content="https://wp-a.github.io/construction-detection-github.html">
+<meta property="og:site_name" content="WPIRONMAN">
+<meta property="og:description" content="工地检测助手 - GitHub Pages 版本                                  🏗️ 工地检测助手                                           🔑 API 密钥设置                 由于 GitHub Pages 不支持服务器端 API，请直接输入您的 Gemini A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png">
+<meta property="article:published_time" content="2025-09-19T13:27:57.273Z">
+<meta property="article:modified_time" content="2025-09-19T13:27:57.273Z">
+<meta property="article:author" content="WP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png"><link rel="shortcut icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png"><link rel="canonical" href="https://wp-a.github.io/construction-detection-github.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="manifest" href="/null"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WPIRONMAN',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="/css/_custom/category/categories.css"><link rel="stylesheet" href="/css/transpancy.css"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"><link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" as="style" crossorigin=""><script>fetch('https://wpironman.top/pv').then(res => res.json()).then(data => {document.getElementById('my-pv').innerText = data.pv;}).catch(() => {document.getElementById('my-pv').innerText = '获取失败';});</script><link rel="preload" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.rel='stylesheet'"><!-- 预加载首屏图片 --><link href="https://wpironman.oss-cn-qingdao.aliyuncs.com/1.webp" as="image" crossorigin="anonymous"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/10year.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar" loading="lazy"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-tools"></i><span> 工具</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/construction-detection/"><i class="fa-fw fas fa-hard-hat"></i><span> 工地检测</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(https://wpironman.oss-cn-qingdao.aliyuncs.com/3000.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/favicon.png" alt="Logo" loading="lazy"><span class="site-name">WPIRONMAN</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-tools"></i><span> 工具</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/construction-detection/"><i class="fa-fw fas fa-hard-hat"></i><span> 工地检测</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-user-group"></i><span> 友链</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa-solid fa-user-tie"></i><span> 本站友链</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://www.travellings.cn/go.html"><i class="fa-fw fa fa-subway"></i><span> 随机开往</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://travel.moe/go.html?travel=on"><i class="fa-fw fa fa-taxi"></i><span> 异次元之旅</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title"></h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工地检测助手 - GitHub Pages 版本</title>
+    <link rel="stylesheet" href="/css/construction-detection.css">
+
+
+    <div class="construction-detection-page">
+        <div class="construction-detection-container">
+            <h1>🏗️ 工地检测助手</h1>
+            
+            <div class="api-key-section" style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h3>🔑 API 密钥设置</h3>
+                <p>由于 GitHub Pages 不支持服务器端 API，请直接输入您的 Gemini API 密钥：</p>
+                <input type="password" id="apiKeyInput" placeholder="请输入您的 Gemini API 密钥" value="AIzaSyAc9Rl40qShC4PNHmkso5x5gqZXqMbA6Fc" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+                <p style="font-size: 12px; color: #666;">获取地址: <a href="https://makersuite.google.com/app/apikey" target="_blank">https://makersuite.google.com/app/apikey</a></p>
+            </div>
+            
+            <p>欢迎使用基于Google Gemini AI驱动的工地检测助手！通过上传工地图片，我可以帮助您分析：</p>
+            
+            <ul>
+                <li><strong>安全检测</strong>：识别安全隐患、违规操作</li>
+                <li><strong>进度监控</strong>：评估施工进度、质量状况</li>
+                <li><strong>设备检查</strong>：检测机械设备状态、工具摆放</li>
+                <li><strong>人员管理</strong>：分析人员配置、安全装备佩戴</li>
+                <li><strong>环境评估</strong>：检查现场环境、清洁度等</li>
+            </ul>
+
+            <hr>
+
+            <h2>📸 上传检测图片</h2>
+
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">
+                        <p>点击或拖拽上传工地图片</p>
+                        <p class="upload-hint">支持 JPG、PNG、WEBP 格式，最大 10MB</p>
+                    </div>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                </div>
+                
+                <div class="image-preview" id="imagePreview" style="display: none;">
+                    <img id="previewImg" alt="预览图片" loading="lazy">
+                    <button class="remove-btn" id="removeBtn">移除</button>
+                </div>
+            </div>
+
+            <div class="detection-options">
+                <h3>🔍 选择检测类型</h3>
+                <div class="options-grid">
+                    <label class="option-item">
+                        <input type="checkbox" value="safety" checked="">
+                        <span class="option-text">安全检测</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="checkbox" value="progress" checked="">
+                        <span class="option-text">进度监控</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="checkbox" value="equipment" checked="">
+                        <span class="option-text">设备检查</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="checkbox" value="personnel" checked="">
+                        <span class="option-text">人员管理</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="checkbox" value="environment" checked="">
+                        <span class="option-text">环境评估</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="custom-prompt-section">
+                <h3>✏️ 自定义检测要求</h3>
+                <textarea id="customPrompt" placeholder="请输入您特别关注的检测要求（可选）..."></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button id="detectBtn" class="btn btn-primary" disabled="">
+                    <span class="btn-text">开始检测</span>
+                    <span class="btn-loading" style="display: none;">检测中...</span>
+                </button>
+                <button id="clearBtn" class="btn btn-secondary">清空重来</button>
+            </div>
+
+            <div id="resultsSection" class="results-section" style="display: none;">
+                <h3>检测结果</h3>
+                <div class="result-info">
+                    <div id="detectionTime"></div>
+                    <div id="imageInfo"></div>
+                </div>
+                <div id="resultsContent" class="results-content"></div>
+                <div class="result-actions">
+                    <button id="downloadBtn" class="btn btn-success">下载报告</button>
+                    <button id="shareBtn" class="btn btn-info">分享结果</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/gemini-direct-client.js"></script>
+    <script>
+        // 工地检测助手 - GitHub Pages 版本
+        class ConstructionDetectionGitHubPages {
+            constructor() {
+                this.directClient = new GeminiDirectClient();
+                this.state = {
+                    currentImage: null,
+                    isDetecting: false,
+                    lastResults: null
+                };
+                
+                this.init();
+            }
+
+            init() {
+                console.log('工地检测助手初始化中...');
+                this.setupEventListeners();
+                this.setupDragDropZone();
+                this.loadUserPreferences();
+                console.log('初始化完成');
+            }
+
+            setupEventListeners() {
+                this.elements = {
+                    apiKeyInput: document.getElementById('apiKeyInput'),
+                    uploadArea: document.getElementById('uploadArea'),
+                    imageInput: document.getElementById('imageInput'),
+                    imagePreview: document.getElementById('imagePreview'),
+                    previewImg: document.getElementById('previewImg'),
+                    removeBtn: document.getElementById('removeBtn'),
+                    detectBtn: document.getElementById('detectBtn'),
+                    clearBtn: document.getElementById('clearBtn'),
+                    customPrompt: document.getElementById('customPrompt'),
+                    resultsSection: document.getElementById('resultsSection'),
+                    resultsContent: document.getElementById('resultsContent'),
+                    detectionTime: document.getElementById('detectionTime'),
+                    imageInfo: document.getElementById('imageInfo'),
+                    downloadBtn: document.getElementById('downloadBtn'),
+                    shareBtn: document.getElementById('shareBtn')
+                };
+
+                // API 密钥输入监听
+                this.elements.apiKeyInput.addEventListener('input', (e) => {
+                    if (e.target.value.trim()) {
+                        this.directClient.setApiKey(e.target.value.trim());
+                        this.updateDetectButton();
+                    }
+                });
+
+                this.elements.uploadArea.addEventListener('click', () => {
+                    this.elements.imageInput.click();
+                });
+
+                this.elements.imageInput.addEventListener('change', (e) => {
+                    this.handleFileSelect(e.target.files[0]);
+                });
+
+                this.elements.removeBtn?.addEventListener('click', () => {
+                    this.removeImage();
+                });
+
+                this.elements.detectBtn.addEventListener('click', () => {
+                    this.startDetection();
+                });
+
+                this.elements.clearBtn?.addEventListener('click', () => {
+                    this.clearAll();
+                });
+
+                this.elements.downloadBtn?.addEventListener('click', () => {
+                    this.downloadReport();
+                });
+
+                this.elements.shareBtn?.addEventListener('click', () => {
+                    this.shareResults();
+                });
+
+                const checkboxes = document.querySelectorAll('.option-item input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        this.updateDetectButton();
+                    });
+                });
+            }
+
+            setupDragDropZone() {
+                const uploadArea = this.elements.uploadArea;
+                if (!uploadArea) return;
+
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, () => {
+                        uploadArea.classList.add('dragover');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, () => {
+                        uploadArea.classList.remove('dragover');
+                    });
+                });
+
+                uploadArea.addEventListener('drop', (e) => {
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        this.handleFileSelect(files[0]);
+                    }
+                });
+            }
+
+            async handleFileSelect(file) {
+                if (!file) return;
+
+                if (!file.type.startsWith('image/')) {
+                    this.showNotification('请选择图片文件', 'error');
+                    return;
+                }
+
+                if (file.size > 10 * 1024 * 1024) {
+                    this.showNotification('文件大小不能超过 10MB', 'error');
+                    return;
+                }
+
+                try {
+                    this.showNotification('正在处理图片...', 'info');
+                    
+                    // 压缩图片
+                    const processedFile = await this.compressImage(file);
+                    this.state.currentImage = processedFile;
+                    
+                    await this.displayImagePreview(processedFile);
+                    this.updateDetectButton();
+                    this.showNotification('图片上传成功', 'success');
+                } catch (error) {
+                    console.error('文件处理失败:', error);
+                    this.showNotification('图片处理失败，请重试', 'error');
+                }
+            }
+
+            async compressImage(file) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    img.onload = () => {
+                        const maxSize = 2048;
+                        let { width, height } = img;
+                        
+                        if (width > maxSize || height > maxSize) {
+                            const ratio = Math.min(maxSize / width, maxSize / height);
+                            width = Math.round(width * ratio);
+                            height = Math.round(height * ratio);
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob(
+                            (blob) => {
+                                if (blob) {
+                                    const compressedFile = new File([blob], file.name, {
+                                        type: file.type,
+                                        lastModified: Date.now()
+                                    });
+                                    resolve(compressedFile);
+                                } else {
+                                    reject(new Error('图片压缩失败'));
+                                }
+                            },
+                            file.type,
+                            0.8
+                        );
+                    };
+
+                    img.onerror = () => reject(new Error('图片加载失败'));
+                    img.src = URL.createObjectURL(file);
+                });
+            }
+
+            async displayImagePreview(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    
+                    reader.onload = (e) => {
+                        if (this.elements.previewImg && this.elements.imagePreview) {
+                            this.elements.previewImg.src = e.target.result;
+                            this.elements.imagePreview.style.display = 'block';
+                            this.elements.uploadArea.style.display = 'none';
+                        }
+                        resolve();
+                    };
+                    
+                    reader.onerror = () => reject(new Error('图片预览失败'));
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            removeImage() {
+                this.state.currentImage = null;
+                
+                if (this.elements.imagePreview && this.elements.uploadArea) {
+                    this.elements.imagePreview.style.display = 'none';
+                    this.elements.uploadArea.style.display = 'block';
+                }
+                
+                if (this.elements.imageInput) {
+                    this.elements.imageInput.value = '';
+                }
+                
+                this.updateDetectButton();
+                this.showNotification('图片已移除', 'info');
+            }
+
+            updateDetectButton() {
+                const hasImage = !!this.state.currentImage;
+                const hasApiKey = !!this.directClient.apiKey;
+                const hasSelectedOptions = this.getSelectedOptions().length > 0;
+                
+                if (this.elements.detectBtn) {
+                    this.elements.detectBtn.disabled = !(hasImage && hasApiKey && hasSelectedOptions) || this.state.isDetecting;
+                }
+            }
+
+            getSelectedOptions() {
+                const checkboxes = document.querySelectorAll('.option-item input[type="checkbox"]:checked');
+                return Array.from(checkboxes).map(cb => cb.value);
+            }
+
+            async startDetection() {
+                if (!this.state.currentImage) {
+                    this.showNotification('请先上传图片', 'error');
+                    return;
+                }
+
+                if (!this.directClient.apiKey) {
+                    this.showNotification('请先输入 API 密钥', 'error');
+                    return;
+                }
+
+                const selectedOptions = this.getSelectedOptions();
+                if (selectedOptions.length === 0) {
+                    this.showNotification('请至少选择一种检测类型', 'error');
+                    return;
+                }
+
+                this.state.isDetecting = true;
+                this.setLoadingState(true);
+                this.showResultsSection(false);
+
+                try {
+                    const imageBase64 = await this.fileToBase64(this.state.currentImage);
+                    const customPrompt = this.elements.customPrompt?.value.trim() || '';
+                    const detectionPrompt = this.buildDetectionPrompt(selectedOptions, customPrompt);
+
+                    const result = await this.directClient.callAPI({
+                        image: imageBase64,
+                        prompt: detectionPrompt,
+                        model: 'gemini-1.5-flash',
+                        config: {
+                            temperature: 0.7,
+                            maxOutputTokens: 2000
+                        }
+                    });
+
+                    this.displayResults(result.result);
+                    this.showResultsSection(true);
+                    this.state.lastResults = result.result;
+
+                    this.showNotification('检测完成', 'success');
+
+                } catch (error) {
+                    console.error('检测失败:', error);
+                    this.showError(error.message);
+                } finally {
+                    this.state.isDetecting = false;
+                    this.setLoadingState(false);
+                }
+            }
+
+            async fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            buildDetectionPrompt(selectedOptions, customPrompt) {
+                const optionNames = {
+                    'safety': '安全检测 - 识别安全隐患、违规操作、防护设备佩戴情况',
+                    'progress': '进度监控 - 评估施工进度、质量状况、完工程度',
+                    'equipment': '设备检查 - 检测机械设备状态、工具摆放、设备安全',
+                    'personnel': '人员管理 - 分析人员配置、安全装备、作业规范',
+                    'environment': '环境评估 - 检查现场环境、清洁度、周边安全'
+                };
+
+                let prompt = `作为专业的建筑工程安全检测专家，请对这张工地图片进行全面分析。
+
+重点检测内容：
+${selectedOptions.map(option => `• ${optionNames[option] || option}`).join('\n')}
+
+${customPrompt ? `\n特别关注事项：\n${customPrompt}` : ''}
+
+请按以下结构提供专业分析报告：
+
+## 1. 总体评估
+- 工地整体安全状况
+- 主要风险等级评估
+
+## 2. 详细发现
+- 安全隐患识别
+- 违规操作发现
+- 设备状态评估
+- 人员配置分析
+
+## 3. 问题分类
+- 高风险问题（需立即整改）
+- 中风险问题（需尽快处理）
+- 低风险问题（建议改进）
+
+## 4. 改进建议
+- 具体整改措施
+- 预防措施建议
+- 管理流程优化
+
+## 5. 合规性检查
+- 相关标准符合情况
+- 法规要求对照
+
+请确保分析准确、专业，并提供可操作的具体建议。`;
+
+                return prompt;
+            }
+
+            displayResults(result) {
+                if (!this.elements.resultsContent) return;
+
+                const formattedResult = this.formatResult(result);
+                this.elements.resultsContent.innerHTML = formattedResult;
+
+                if (this.elements.detectionTime) {
+                    this.elements.detectionTime.textContent = `检测时间: ${new Date().toLocaleString('zh-CN')}`;
+                }
+
+                if (this.elements.imageInfo && this.state.currentImage) {
+                    const sizeMB = (this.state.currentImage.size / 1024 / 1024).toFixed(2);
+                    this.elements.imageInfo.textContent = `图片信息: ${this.state.currentImage.name} (${sizeMB}MB)`;
+                }
+            }
+
+            formatResult(result) {
+                let html = result
+                    .replace(/## (.*)/g, '<h3 class="result-section-title">$1<\/h3>')
+                    .replace(/### (.*)/g, '<h4 class="result-subsection-title">$1<\/h4>')
+                    .replace(/^\- (.*)/gm, '<li class="result-list-item">$1<\/li>')
+                    .replace(/^\* (.*)/gm, '<li class="result-list-item">$1<\/li>')
+                    .replace(/^\d+\. (.*)/gm, '<li class="result-numbered-item">$1<\/li>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1<\/strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1<\/em>');
+
+                html = html.replace(/(<li class="result-list-item">.*<\/li>)/gs, '<ul class="result-list">$1<\/ul>');
+                html = html.replace(/(<li class="result-numbered-item">.*<\/li>)/gs, '<ol class="result-numbered-list">$1<\/ol>');
+
+                html = html.split('\n\n').map(paragraph => {
+                    if (paragraph.trim() && !paragraph.includes('<h') && !paragraph.includes('<ul') && !paragraph.includes('<ol')) {
+                        return `<p class="result-paragraph">${paragraph.trim()}<\/p>`;
+                    }
+                    return paragraph;
+                }).join('\n');
+
+                return html;
+            }
+
+            setLoadingState(loading) {
+                if (!this.elements.detectBtn) return;
+
+                const btnText = this.elements.detectBtn.querySelector('.btn-text');
+                const btnLoading = this.elements.detectBtn.querySelector('.btn-loading');
+
+                if (loading) {
+                    this.elements.detectBtn.disabled = true;
+                    if (btnText) btnText.style.display = 'none';
+                    if (btnLoading) btnLoading.style.display = 'inline-block';
+                } else {
+                    this.elements.detectBtn.disabled = false;
+                    if (btnText) btnText.style.display = 'inline';
+                    if (btnLoading) btnLoading.style.display = 'none';
+                }
+            }
+
+            showResultsSection(show) {
+                if (this.elements.resultsSection) {
+                    this.elements.resultsSection.style.display = show ? 'block' : 'none';
+                    if (show) {
+                        this.elements.resultsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            }
+
+            showError(message) {
+                if (!this.elements.resultsContent) return;
+
+                this.elements.resultsContent.innerHTML = `
+                    <div class="error-container">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-content">
+                            <h3>检测失败</h3>
+                            <p class="error-message">${message}</p>
+                            <div class="error-solutions">
+                                <h4>可能的解决方案：</h4>
+                                <ul>
+                                    <li>检查网络连接是否正常</li>
+                                    <li>确认 API 密钥是否正确</li>
+                                    <li>尝试重新上传图片</li>
+                                    <li>联系技术支持</li>
+                                </ul>
+                            </div>
+                            <button class="retry-btn" onclick="window.constructionDetector.startDetection()">
+                                重试检测
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                this.showResultsSection(true);
+            }
+
+            clearAll() {
+                this.removeImage();
+                
+                if (this.elements.customPrompt) {
+                    this.elements.customPrompt.value = '';
+                }
+
+                const checkboxes = document.querySelectorAll('.option-item input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+
+                this.showResultsSection(false);
+                this.state.lastResults = null;
+                this.updateDetectButton();
+                this.showNotification('已清空所有内容', 'success');
+            }
+
+            downloadReport() {
+                if (!this.state.lastResults) {
+                    this.showNotification('没有可下载的报告', 'error');
+                    return;
+                }
+
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+                const filename = `工地检测报告_${timestamp}.txt`;
+                
+                const content = `工地检测报告
+生成时间: ${new Date().toLocaleString('zh-CN')}
+图片信息: ${this.state.currentImage?.name || '未知'}
+
+${this.state.lastResults}`;
+
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                this.showNotification('报告已下载', 'success');
+            }
+
+            shareResults() {
+                if (!this.state.lastResults) {
+                    this.showNotification('没有可分享的结果', 'error');
+                    return;
+                }
+
+                const shareData = {
+                    title: '工地检测报告',
+                    text: this.state.lastResults.substring(0, 200) + '...',
+                    url: window.location.href
+                };
+
+                if (navigator.share && navigator.canShare(shareData)) {
+                    navigator.share(shareData);
+                } else if (navigator.clipboard) {
+                    navigator.clipboard.writeText(this.state.lastResults).then(() => {
+                        this.showNotification('检测结果已复制到剪贴板', 'success');
+                    }).catch(() => {
+                        this.showNotification('复制失败，请手动选择复制', 'error');
+                    });
+                } else {
+                    this.showNotification('您的浏览器不支持分享功能', 'error');
+                }
+            }
+
+            showNotification(message, type = 'info', duration = 3000) {
+                const existingNotification = document.querySelector('.notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <span class="notification-icon">${this.getNotificationIcon(type)}</span>
+                        <span class="notification-message">${message}</span>
+                        <button class="notification-close">&times;</button>
+                    </div>
+                `;
+
+                Object.assign(notification.style, {
+                    position: 'fixed',
+                    top: '20px',
+                    right: '20px',
+                    padding: '12px 16px',
+                    borderRadius: '8px',
+                    color: 'white',
+                    fontWeight: '500',
+                    zIndex: '10000',
+                    opacity: '0',
+                    transform: 'translateX(100%)',
+                    transition: 'all 0.3s ease',
+                    maxWidth: '400px',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    backgroundColor: this.getNotificationColor(type)
+                });
+
+                document.body.appendChild(notification);
+
+                requestAnimationFrame(() => {
+                    notification.style.opacity = '1';
+                    notification.style.transform = 'translateX(0)';
+                });
+
+                notification.querySelector('.notification-close').addEventListener('click', () => {
+                    this.hideNotification(notification);
+                });
+
+                if (duration > 0) {
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            this.hideNotification(notification);
+                        }
+                    }, duration);
+                }
+            }
+
+            hideNotification(notification) {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    success: '✅',
+                    error: '❌',
+                    warning: '⚠️',
+                    info: 'ℹ️'
+                };
+                return icons[type] || icons.info;
+            }
+
+            getNotificationColor(type) {
+                const colors = {
+                    success: '#52c41a',
+                    error: '#ff4d4f', 
+                    warning: '#faad14',
+                    info: '#1890ff'
+                };
+                return colors[type] || colors.info;
+            }
+
+            loadUserPreferences() {
+                try {
+                    const saved = localStorage.getItem('construction-detection-preferences');
+                    if (saved) {
+                        const preferences = JSON.parse(saved);
+                        
+                        if (preferences.detectionOptions) {
+                            Object.entries(preferences.detectionOptions).forEach(([key, checked]) => {
+                                const checkbox = document.querySelector(`input[value="${key}"]`);
+                                if (checkbox) {
+                                    checkbox.checked = checked;
+                                }
+                            });
+                        }
+
+                        if (preferences.customPrompt && this.elements.customPrompt) {
+                            this.elements.customPrompt.value = preferences.customPrompt;
+                        }
+                    }
+                } catch (error) {
+                    console.warn('加载用户偏好失败:', error);
+                }
+            }
+
+            saveUserPreferences() {
+                try {
+                    const preferences = {
+                        detectionOptions: {},
+                        customPrompt: this.elements.customPrompt?.value || '',
+                        lastSaved: new Date().toISOString()
+                    };
+
+                    const checkboxes = document.querySelectorAll('.option-item input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        preferences.detectionOptions[checkbox.value] = checkbox.checked;
+                    });
+
+                    localStorage.setItem('construction-detection-preferences', JSON.stringify(preferences));
+                } catch (error) {
+                    console.warn('保存用户偏好失败:', error);
+                }
+            }
+        }
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', () => {
+            window.constructionDetector = new ConstructionDetectionGitHubPages();
+        });
+    </script>
+<!-- hexo injector body_end start -->
+  <script data-pjax="" src="/js/hexo_githubcalendar.js"></script>
+  <script data-pjax="">
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://githubcalendarapi.shiguang666.eu.org/api?user=wp-a";
+            var git_color =['#ebedf0', '#a2f7af', '#6ce480', '#54ad63', '#469252', '#31753c', '#1f5f2a', '#13531f', '#084111', '#032b09', '#000000'];
+            var git_user ="wp-a";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end -->
+
+</div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar" loading="lazy"></div><div class="author-info-name">WP</div><div class="author-info-description">无业游民</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wp-a"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/wp-a" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2829624376@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">🏗️ 工地检测助手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.0.1.</span> <span class="toc-text">🔑 API 密钥设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">📸 上传检测图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.1.</span> <span class="toc-text">🔍 选择检测类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.2.</span> <span class="toc-text">✏️ 自定义检测要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#resultsSection"><span class="toc-number">1.1.3.</span> <span class="toc-text">检测结果</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/MambaOut/" title="MambaOut"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509111759034.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MambaOut" loading="lazy"></a><div class="content"><a class="title" href="/2025/09/MambaOut/" title="MambaOut">MambaOut</a><time datetime="2025-09-10T22:00:53.000Z" title="发表于 2025-09-10 22:00:53">2025-09-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/" title="图神经网络"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图神经网络" loading="lazy"></a><div class="content"><a class="title" href="/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/" title="图神经网络">图神经网络</a><time datetime="2025-09-07T09:28:09.000Z" title="发表于 2025-09-07 09:28:09">2025-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250601121856303.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手撕 Vision Transformer" loading="lazy"></a><div class="content"><a class="title" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer">手撕 Vision Transformer</a><time datetime="2025-06-01T12:09:13.000Z" title="发表于 2025-06-01 12:09:13">2025-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/MOE/" title="MoE"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoE" loading="lazy"></a><div class="content"><a class="title" href="/2025/04/MOE/" title="MoE">MoE</a><time datetime="2025-04-27T20:37:24.000Z" title="发表于 2025-04-27 20:37:24">2025-04-27</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/"><span class="card-category-list-name">手撕代码</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/Vision-Transformer/"><span class="card-category-list-name">Vision Transformer</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">21</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/"><span class="card-category-list-name">代码随想录</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span class="card-category-list-name">基础知识</span><span class="card-category-list-count">7</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">深度学习</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/"><span class="card-category-list-name">图像分类</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/"><span class="card-category-list-name">论文精读</span><span class="card-category-list-count">6</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.45em; color: rgb(80, 187, 196);">数据结构与算法</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 1.25em; color: rgb(143, 78, 50);">二叉树</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/" style="font-size: 1.25em; color: rgb(105, 158, 50);">二叉树遍历</a><a href="/tags/%E9%80%92%E5%BD%92/" style="font-size: 1.4em; color: rgb(182, 50, 50);">递归</a><a href="/tags/%E8%BF%AD%E4%BB%A3/" style="font-size: 1.25em; color: rgb(50, 166, 50);">迭代</a><a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 1.2em; color: rgb(182, 50, 50);">回溯</a><a href="/tags/%E5%89%AA%E6%9E%9D/" style="font-size: 1.15em; color: rgb(161, 147, 50);">剪枝</a><a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 1.2em; color: rgb(164, 50, 175);">图论</a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.15em; color: rgb(74, 50, 190);">动态规划</a><a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.15em; color: rgb(79, 185, 107);">二分查找</a><a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.35em; color: rgb(50, 113, 50);">双指针</a><a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 1.25em; color: rgb(50, 57, 50);">数组</a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.15em; color: rgb(83, 50, 85);">滑动窗口</a><a href="/tags/%E7%9F%A9%E9%98%B5%E8%A7%84%E5%BE%8B/" style="font-size: 1.15em; color: rgb(123, 50, 146);">矩阵规律</a><a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 1.15em; color: rgb(120, 165, 140);">前缀和</a><a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.3em; color: rgb(50, 134, 137);">链表</a><a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 1.25em; color: rgb(99, 137, 193);">哈希表</a><a href="/tags/%E6%9F%A5%E6%89%BE/" style="font-size: 1.2em; color: rgb(142, 199, 85);">查找</a><a href="/tags/set/" style="font-size: 1.2em; color: rgb(50, 174, 90);">set</a><a href="/tags/map/" style="font-size: 1.25em; color: rgb(123, 90, 166);">map</a><a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 1.15em; color: rgb(93, 180, 146);">字符串</a><a href="/tags/KMP/" style="font-size: 1.15em; color: rgb(61, 187, 57);">KMP</a><a href="/tags/reverse/" style="font-size: 1.15em; color: rgb(50, 153, 50);">reverse</a><a href="/tags/%E6%A0%88/" style="font-size: 1.15em; color: rgb(84, 74, 140);">栈</a><a href="/tags/%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(55, 186, 144);">队列</a><a href="/tags/%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(50, 165, 132);">双端队列</a><a href="/tags/%E5%A0%86/" style="font-size: 1.15em; color: rgb(50, 110, 198);">堆</a><a href="/tags/queue/" style="font-size: 1.2em; color: rgb(173, 107, 168);">queue</a><a href="/tags/stack/" style="font-size: 1.2em; color: rgb(62, 50, 194);">stack</a><a href="/tags/deque/" style="font-size: 1.2em; color: rgb(157, 155, 57);">deque</a><a href="/tags/%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81/" style="font-size: 1.15em; color: rgb(182, 157, 125);">视觉表征</a><a href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" style="font-size: 1.4em; color: rgb(177, 154, 119);">论文精读</a><a href="/tags/%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 1.15em; color: rgb(126, 132, 50);">混合专家系统</a><a href="/tags/Mamba/" style="font-size: 1.15em; color: rgb(50, 97, 194);">Mamba</a><a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/" style="font-size: 1.15em; color: rgb(154, 178, 96);">对比学习</a><a href="/tags/STL/" style="font-size: 1.15em; color: rgb(170, 56, 120);">STL</a><a href="/tags/vector/" style="font-size: 1.15em; color: rgb(190, 50, 196);">vector</a><a href="/tags/string/" style="font-size: 1.15em; color: rgb(104, 67, 50);">string</a><a href="/tags/algorithm/" style="font-size: 1.15em; color: rgb(183, 51, 50);">algorithm</a><a href="/tags/priority-queue/" style="font-size: 1.15em; color: rgb(155, 136, 50);">priority_queue</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">6</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              二月 2025
+            </span>
+            <span class="card-archive-list-count">11</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">29</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishdate="2025-01-22T22:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">51.7k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastpushdate="2025-09-19T13:28:26.615Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">总访问量：</div><div class="item-count"><span id="my-pv">加载中...</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const valineConfig = {
+      el: '#vcomment',
+      appId: 'B3GpDA8AVyqx7H7uFClhxmMn-MdYXbMMI',
+      appKey: 'nNNXxEpK6ldH3OkcySiOdNAo',
+      avatar: 'monsterid',
+      serverURLs: 'https://b3gpda8a.api.lncldglobal.com',
+      emojiMaps: "",
+      visitor: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
+    }
+
+    new Valine(valineConfig)
+  }
+
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js')
+      initValine(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
+    return
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script type="text/javascript" src="/js/reward.js" defer=""></script><script async="" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/gallery/"]):not([href="/about/"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+})()</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js" defer="defer"></script></div></div></body></html>
