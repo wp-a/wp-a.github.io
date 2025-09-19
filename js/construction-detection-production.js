@@ -5,13 +5,14 @@ class ConstructionDetectionImproved {
     constructor() {
         // 配置信息
         this.config = {
-            // 多个API后端选项（按运行环境动态生成）
-            apiEndpoints: this.buildApiEndpoints(),
             maxFileSize: 10 * 1024 * 1024, // 10MB
             supportedTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
             compressionQuality: 0.8,
             maxImageDimension: 2048
         };
+        
+        // 初始化 API 客户端
+        this.apiClient = new GeminiAPIClient();
         
         this.state = {
             currentImage: null,
@@ -22,42 +23,12 @@ class ConstructionDetectionImproved {
         this.init();
     }
 
-    buildApiEndpoints() {
-        const endpoints = [];
-        const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
-        // 优先使用同源（适用于 Vercel 等平台：/api/gemini-proxy 存在）
-        if (origin) {
-            endpoints.push(`${origin}/api/gemini-proxy`);
-        } else {
-            endpoints.push('/api/gemini-proxy');
-        }
-
-        // Netlify Functions（若在 Netlify 上）
-        endpoints.push(`${origin}/.netlify/functions/gemini-proxy`);
-
-        // 传统主机 PHP 代理（若服务器支持 PHP）
-        if (origin) {
-            endpoints.push(`${origin}/api/gemini-proxy.php`);
-        } else {
-            endpoints.push('/api/gemini-proxy.php');
-        }
-
-        // 仅在本地预览时才加入本地 Node 后端
-        if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-            endpoints.unshift('http://localhost:3000/api/gemini-proxy');
-        }
-
-        // 去重
-        return Array.from(new Set(endpoints));
-    }
 
     init() {
         console.log('工地检测助手初始化中...');
         this.setupEventListeners();
         this.setupDragDropZone();
         this.loadUserPreferences();
-        this.checkApiAvailability();
         console.log('初始化完成');
     }
 
@@ -442,112 +413,22 @@ ${customPrompt ? `\n特别关注事项：\n${customPrompt}` : ''}
     }
 
     async callDetectionApi(imageBase64, prompt) {
-        const errors = [];
-        
-        // 尝试多个API端点
-        for (const endpoint of this.config.apiEndpoints) {
-            try {
-                console.log(`尝试API端点: ${endpoint}`);
-                
-                const result = await this.tryApiEndpoint(endpoint, imageBase64, prompt);
-                if (result) {
-                    return result;
-                }
-            } catch (error) {
-                console.error(`API端点失败 ${endpoint}:`, error);
-                errors.push(`${endpoint}: ${error.message}`);
-            }
-        }
-
-        // 所有端点都失败，抛出错误
-        throw new Error(`所有API端点都无法访问:\n${errors.join('\n')}\n\n解决方案:\n1. 检查网络连接\n2. 配置后端API代理\n3. 联系系统管理员`);
-    }
-
-    async tryApiEndpoint(endpoint, imageBase64, prompt) {
-        // 根据不同的端点类型构建请求
-        if (endpoint.includes('gemini-proxy')) {
-            return await this.callGeminiProxy(endpoint, imageBase64, prompt);
-        } else {
-            return await this.callCustomApi(endpoint, imageBase64, prompt);
-        }
-    }
-
-    async callGeminiProxy(endpoint, imageBase64, prompt) {
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        try {
+            const result = await this.apiClient.callAPI({
                 image: imageBase64,
                 prompt: prompt,
-                model: 'gemini-1.5-flash'
-            })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`代理服务器错误: ${response.status} - ${errorText}`);
+                model: 'gemini-1.5-flash',
+                config: {
+                    temperature: 0.7,
+                    maxOutputTokens: 2000
+                }
+            });
+            
+            return result.result;
+        } catch (error) {
+            console.error('API 调用失败:', error);
+            throw error;
         }
-
-        const data = await response.json();
-        return data.result || data.response || data.text;
-    }
-
-    async callOpenAiApi(endpoint, imageBase64, prompt) {
-        // 注意：这需要配置OpenAI API密钥
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY || 'your-api-key'}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-4-vision-preview',
-                messages: [
-                    {
-                        role: 'user',
-                        content: [
-                            { type: 'text', text: prompt },
-                            { 
-                                type: 'image_url', 
-                                image_url: { 
-                                    url: imageBase64 
-                                } 
-                            }
-                        ]
-                    }
-                ],
-                max_tokens: 2000
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`OpenAI API错误: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.choices[0].message.content;
-    }
-
-    async callCustomApi(endpoint, imageBase64, prompt) {
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                image: imageBase64,
-                prompt: prompt
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`自定义API错误: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.result || data.response;
     }
 
     displayResults(result) {
@@ -721,29 +602,6 @@ ${this.state.lastResults}`;
         }
     }
 
-    async checkApiAvailability() {
-        // 检查API可用性
-        console.log('检查API可用性...');
-        
-        // 这里可以添加简单的健康检查
-        for (const endpoint of this.config.apiEndpoints) {
-            try {
-                if (endpoint.startsWith('http') && !endpoint.includes('openai.com')) {
-                    const response = await fetch(endpoint.replace(/\/[^\/]*$/, '/health'), {
-                        method: 'GET',
-                        timeout: 5000
-                    }).catch(() => null);
-                    
-                    if (response?.ok) {
-                        console.log(`API端点可用: ${endpoint}`);
-                        return;
-                    }
-                }
-            } catch (error) {
-                // 静默处理检查失败
-            }
-        }
-    }
 
     showNotification(message, type = 'info', duration = 3000) {
         // 移除现有通知
