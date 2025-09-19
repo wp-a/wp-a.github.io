@@ -13,6 +13,7 @@ class ConstructionDetectionImproved {
         
         // 初始化 API 客户端
         this.apiClient = new GeminiAPIClient();
+        this.directClient = new GeminiDirectClient();
         
         this.state = {
             currentImage: null,
@@ -414,6 +415,7 @@ ${customPrompt ? `\n特别关注事项：\n${customPrompt}` : ''}
 
     async callDetectionApi(imageBase64, prompt) {
         try {
+            // 首先尝试代理服务器
             const result = await this.apiClient.callAPI({
                 image: imageBase64,
                 prompt: prompt,
@@ -426,8 +428,32 @@ ${customPrompt ? `\n特别关注事项：\n${customPrompt}` : ''}
             
             return result.result;
         } catch (error) {
-            console.error('API 调用失败:', error);
-            throw error;
+            console.error('代理服务器调用失败，尝试直接调用:', error);
+            
+            // 如果代理服务器失败，尝试直接调用
+            try {
+                // 提示用户输入 API 密钥
+                const apiKey = prompt('代理服务器不可用，请输入您的 Gemini API 密钥以直接调用 API:');
+                if (!apiKey) {
+                    throw new Error('需要 API 密钥才能继续');
+                }
+                
+                this.directClient.setApiKey(apiKey);
+                const result = await this.directClient.callAPI({
+                    image: imageBase64,
+                    prompt: prompt,
+                    model: 'gemini-1.5-flash',
+                    config: {
+                        temperature: 0.7,
+                        maxOutputTokens: 2000
+                    }
+                });
+                
+                return result.result;
+            } catch (directError) {
+                console.error('直接调用也失败:', directError);
+                throw new Error(`所有 API 调用方式都失败:\n代理服务器: ${error.message}\n直接调用: ${directError.message}\n\n解决方案:\n1. 检查网络连接\n2. 配置正确的 API 密钥\n3. 联系系统管理员`);
+            }
         }
     }
 
