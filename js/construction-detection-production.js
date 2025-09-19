@@ -36,6 +36,13 @@ class ConstructionDetectionImproved {
         // Netlify Functions（若在 Netlify 上）
         endpoints.push(`${origin}/.netlify/functions/gemini-proxy`);
 
+        // 传统主机 PHP 代理（若服务器支持 PHP）
+        if (origin) {
+            endpoints.push(`${origin}/api/gemini-proxy.php`);
+        } else {
+            endpoints.push('/api/gemini-proxy.php');
+        }
+
         // 仅在本地预览时才加入本地 Node 后端
         if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
             endpoints.unshift('http://localhost:3000/api/gemini-proxy');
