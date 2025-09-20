@@ -10,17 +10,8 @@
     
     
     <url>
-        <loc>https://wp-a.github.io/construction-detection/</loc>
-        <lastmod>2025-09-20T02:10:53.806Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
         <loc>https://wp-a.github.io/link/</loc>
-        <lastmod>2025-09-20T02:10:53.806Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.077Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -29,7 +20,7 @@
     
     <url>
         <loc>https://wp-a.github.io/messageboard/</loc>
-        <lastmod>2025-09-20T02:10:53.806Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.077Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -38,7 +29,7 @@
     
     <url>
         <loc>https://wp-a.github.io/tags/</loc>
-        <lastmod>2025-09-20T02:10:53.806Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.077Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -47,7 +38,7 @@
     
     <url>
         <loc>https://wp-a.github.io/construction-detection-github.html</loc>
-        <lastmod>2025-09-20T02:10:53.805Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.076Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -56,7 +47,7 @@
     
     <url>
         <loc>https://wp-a.github.io/about/</loc>
-        <lastmod>2025-09-20T02:10:53.805Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.076Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -65,7 +56,7 @@
     
     <url>
         <loc>https://wp-a.github.io/categories/</loc>
-        <lastmod>2025-09-20T02:10:53.805Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.076Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -74,7 +65,16 @@
     
     <url>
         <loc>https://wp-a.github.io/charts/</loc>
-        <lastmod>2025-09-20T02:10:53.805Z</lastmod>
+        <lastmod>2025-09-20T02:21:53.076Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/construction-detection/</loc>
+        <lastmod>2025-09-20T02:21:53.076Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
