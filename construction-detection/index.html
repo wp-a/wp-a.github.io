@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WPIRONMAN | WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="工地检测助手                   /* 美化样式 */         .construction-detection-page {             background: linear-gradient(135deg, #f8fbff 0%, #e3f2fd 50%, #f0f8ff 100%);             min-heig">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WPIRONMAN | WPIRONMAN</title><meta name="author" content="WP"><meta name="copyright" content="WP"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="工地检测助手              * {             margin: 0;             padding: 0;             box-sizing: border-box;         }          body {             font-family: -apple-system, BlinkMacSy">
 <meta property="og:type" content="website">
 <meta property="og:title" content="WPIRONMAN">
 <meta property="og:url" content="https://wp-a.github.io/construction-detection/index.html">
 <meta property="og:site_name" content="WPIRONMAN">
-<meta property="og:description" content="工地检测助手                   /* 美化样式 */         .construction-detection-page {             background: linear-gradient(135deg, #f8fbff 0%, #e3f2fd 50%, #f0f8ff 100%);             min-heig">
+<meta property="og:description" content="工地检测助手              * {             margin: 0;             padding: 0;             box-sizing: border-box;         }          body {             font-family: -apple-system, BlinkMacSy">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png">
-<meta property="article:published_time" content="2025-09-22T07:23:31.093Z">
-<meta property="article:modified_time" content="2025-09-22T07:23:31.093Z">
+<meta property="article:published_time" content="2025-09-22T07:29:51.388Z">
+<meta property="article:modified_time" content="2025-09-22T07:29:51.388Z">
 <meta property="article:author" content="WP">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png"><link rel="shortcut icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png"><link rel="canonical" href="https://wp-a.github.io/construction-detection/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="manifest" href="/null"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
@@ -149,1159 +149,764 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>工地检测助手</title>
-    <link rel="stylesheet" href="/css/construction-detection.css">
     <style>
-        /* 美化样式 */
-        .construction-detection-page {
-            background: linear-gradient(135deg, #f8fbff 0%, #e3f2fd 50%, #f0f8ff 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px 0;
-            position: relative;
-            overflow: hidden;
+            padding: 20px;
         }
-        
-        .construction-detection-page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(33,150,243,0.08)"/><circle cx="75" cy="75" r="1" fill="rgba(33,150,243,0.06)"/><circle cx="50" cy="10" r="0.5" fill="rgba(33,150,243,0.04)"/><circle cx="10" cy="60" r="0.5" fill="rgba(33,150,243,0.04)"/><circle cx="90" cy="40" r="0.5" fill="rgba(33,150,243,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        
-        .construction-detection-container {
+
+        .container {
             max-width: 1000px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(20px);
-            padding: 50px;
-            position: relative;
-            z-index: 1;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            backdrop-filter: blur(10px);
         }
-        
-        .construction-detection-container h1 {
+
+        .header {
             text-align: center;
-            color: #1565c0;
-            font-size: 3em;
             margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite alternate;
+            margin-bottom: 10px;
         }
-        
-        @keyframes titleGlow {
-            0% { filter: drop-shadow(0 0 5px rgba(25, 118, 210, 0.3)); }
-            100% { filter: drop-shadow(0 0 15px rgba(25, 118, 210, 0.6)); }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
         }
-        
+
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            border: 1px solid #e0e6ff;
+        }
+
+        .section h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 上传区域 */
         .upload-area {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border: 3px dashed #1976d2;
-            border-radius: 20px;
-            padding: 40px 20px;
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
         }
-        
-        .upload-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(25, 118, 210, 0.15), transparent);
-            transition: left 0.5s;
-        }
-        
-        .upload-area:hover::before {
-            left: 100%;
-        }
-        
+
         .upload-area:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(25, 118, 210, 0.2);
-            background: linear-gradient(135deg, #d1e7dd 0%, #a3d5ff 100%);
-        }
-        
-        .upload-area.dragover {
-            background: linear-gradient(135deg, #90caf9 0%, #64b5f6 100%);
-            transform: scale(1.05);
-            box-shadow: 0 25px 50px rgba(25, 118, 210, 0.3);
-        }
-        
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-            opacity: 0.8;
-        }
-        
-        .upload-text {
-            color: #1565c0;
-            font-weight: 500;
-        }
-        
-        .upload-text p {
-            margin: 8px 0;
-            font-size: 16px;
-        }
-        
-        .upload-hint {
-            font-size: 14px !important;
-            opacity: 0.7;
-            color: #666 !important;
-        }
-        
-        .option-item {
-            background: linear-gradient(135deg, #f3f8ff 0%, #e8f4fd 100%);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 15px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid #e3f2fd;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .option-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .option-item:hover::before {
-            opacity: 1;
-        }
-        
-        .option-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(25, 118, 210, 0.2);
-            border-color: #1976d2;
-            background: linear-gradient(135deg, #e8f4fd 0%, #d1e7dd 100%);
-        }
-        
-        .option-item input[type="checkbox"]:checked + .option-text {
-            color: #1565c0;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(25, 118, 210, 0.3);
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-            border: none;
-            border-radius: 50px;
-            padding: 15px 35px;
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(25, 118, 210, 0.6);
-        }
-        
-        .btn:active {
-            transform: translateY(-1px) scale(1.02);
-        }
-        
-        .btn:disabled {
-            background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
-            transform: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .results-section {
-            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
-            border-radius: 25px;
-            padding: 40px;
-            margin-top: 40px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .results-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
-            opacity: 0.3;
-        }
-        
-        .result-section-title {
-            color: #fff;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 15px;
-            margin: 30px 0 20px 0;
-            font-size: 1.5em;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-            text-align: left;
-            padding-left: 0;
-        }
-        
-        .result-subsection-title {
-            color: #f8f9fa;
-            margin: 25px 0 15px 0;
-            font-size: 1.2em;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-            text-align: left;
-            padding-left: 0;
-        }
-        
-        .result-list, .result-numbered-list {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .result-list-item, .result-numbered-item {
-            color: #f8f9fa;
-            margin: 12px 0;
-            line-height: 1.8;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        
-        .result-paragraph {
-            color: #f8f9fa;
-            margin: 20px 0;
-            line-height: 1.9;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        
-        .custom-prompt-section textarea {
-            border-radius: 20px;
-            border: 2px solid #e9ecef;
-            padding: 20px;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-        }
-        
-        .custom-prompt-section textarea:focus {
-            border-color: #1976d2;
-            box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.2);
-            outline: none;
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #f0f2ff 0%, #f8f9ff 100%);
             transform: translateY(-2px);
         }
-        
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #e0e6ff 0%, #f0f2ff 100%);
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            color: #4a5568;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        /* 图片预览 */
         .image-preview {
-            border-radius: 20px;
+            display: none;
+            position: relative;
+            margin-top: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
-        .image-preview:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
-        
+
         .image-preview img {
             width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.4s ease;
+            max-height: 400px;
+            object-fit: contain;
+            background: #f8f9fa;
         }
-        
-        .image-preview:hover img {
-            transform: scale(1.05);
-        }
-        
+
         .remove-btn {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            background: rgba(255, 59, 48, 0.9);
+            color: white;
             border: none;
             border-radius: 50%;
-            padding: 8px;
-            color: white;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-            width: 32px;
-            height: 32px;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            line-height: 1;
+            transition: all 0.3s ease;
         }
-        
+
         .remove-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+            background: rgba(255, 59, 48, 1);
+            transform: scale(1.1);
         }
-        
-        .notification {
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+        /* AI模型选择 */
+        .model-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
         }
-        
-        .error-container {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+
+        .model-option {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid #e0e6ff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
         }
-        
-        .retry-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+
+        .model-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .model-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+        }
+
+        .model-option input {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+
+        .model-info h3 {
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .model-info p {
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        /* 隐患类别选择 */
+        .hazard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .hazard-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 1px solid #e0e6ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .hazard-item:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            transform: translateX(5px);
+        }
+
+        .hazard-item.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f2ff 0%, #f8f9ff 100%);
+        }
+
+        .hazard-item input {
+            margin-right: 12px;
+            margin-top: 3px;
+            transform: scale(1.1);
+        }
+
+        .hazard-text {
+            color: #2d3748;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        /* 按钮样式 */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
             border: none;
             border-radius: 25px;
-            padding: 15px 30px;
-            color: white;
+            font-size: 1em;
             font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .retry-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
-        
-        /* 加载动画 */
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(113, 128, 150, 0.3);
+        }
+
+        /* 自定义提示 */
+        .custom-prompt {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #e0e6ff;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .custom-prompt:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* 结果区域 */
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .results h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .results-content {
+            background: rgba(255, 255, 255, 0.95);
+            color: #2d3748;
+            padding: 25px;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        /* 加载状态 */
         .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e6ff;
+            border-top: 4px solid #667eea;
             border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
-        
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        
+
+        /* 通知样式 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .construction-detection-container {
+            .container {
                 margin: 10px;
-                padding: 30px 20px;
-                border-radius: 20px;
+                padding: 25px;
             }
-            
-            .construction-detection-container h1 {
-                font-size: 2.2em;
+
+            .header h1 {
+                font-size: 2em;
             }
-            
-            .options-grid {
-                display: grid;
+
+            .model-options,
+            .hazard-grid {
                 grid-template-columns: 1fr;
-                gap: 10px;
             }
-            
-            .model-options {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 15px;
-                margin: 20px 0;
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
             }
-            
-            .model-selection {
-                margin-bottom: 30px;
-            }
-            
-            .option-item input[type="radio"] {
-                margin-right: 10px;
-            }
-            
-            .option-item small {
-                color: #666;
-                font-style: italic;
-            }
-            
-            
-            
-            .hazard-selection {
-                margin-bottom: 30px;
-                background: linear-gradient(135deg, #f8fbff 0%, #e3f2fd 50%, #f0f8ff 100%);
-                border-radius: 25px;
-                padding: 30px;
-                border: 2px solid rgba(25, 118, 210, 0.2);
-                box-shadow: 0 15px 35px rgba(25, 118, 210, 0.1);
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .hazard-selection::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hazardGrain" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="0.8" fill="rgba(25,118,210,0.06)"/><circle cx="10" cy="40" r="0.5" fill="rgba(25,118,210,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23hazardGrain)"/></svg>');
-                opacity: 0.3;
-                pointer-events: none;
-            }
-            
-            .hazard-selection h3 {
-                color: #1565c0;
-                font-size: 1.4em;
-                margin-bottom: 15px;
-                text-shadow: 0 2px 4px rgba(25, 118, 210, 0.1);
-                position: relative;
-                z-index: 1;
-            }
-            
-            .hazard-selection-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                gap: 15px;
-                margin: 20px 0;
-                max-height: 400px;
-                overflow-y: auto;
-                padding-right: 10px;
-                position: relative;
-                z-index: 1;
-            }
-            
-            .hazard-selection-item {
-                background: linear-gradient(135deg, #f3f8ff 0%, #e8f4fd 100%);
-                padding: 12px 15px;
-                border-radius: 15px;
-                border: 2px solid #e3f2fd;
-                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                cursor: pointer;
-                display: flex;
-                align-items: flex-start;
-                gap: 10px;
-                font-size: 14px;
-                line-height: 1.4;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .hazard-selection-item::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-            
-            .hazard-selection-item:hover::before {
-                opacity: 1;
-            }
-            
-            .hazard-selection-item:hover {
-                transform: translateY(-3px) scale(1.02);
-                box-shadow: 0 8px 25px rgba(25, 118, 210, 0.2);
-                border-color: #1976d2;
-                background: linear-gradient(135deg, #e8f4fd 0%, #d1e7dd 100%);
-            }
-            
-            .hazard-selection-item input[type="checkbox"]:checked + .hazard-text {
-                color: #1565c0;
-                font-weight: bold;
-                text-shadow: 0 0 10px rgba(25, 118, 210, 0.3);
-            }
-            
-            .hazard-selection-item input[type="checkbox"] {
-                margin-top: 2px;
-                transform: scale(1.1);
-                flex-shrink: 0;
-            }
-            
-            .hazard-text {
-                color: #2c3e50;
-                font-weight: 500;
-            }
-            
-            .selection-actions {
-                display: flex;
-                gap: 15px;
-                justify-content: center;
-                margin-top: 25px;
-                position: relative;
-                z-index: 1;
-            }
-            
-            .selection-actions .btn-secondary {
-                background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-                border: none;
-                border-radius: 25px;
-                padding: 12px 24px;
-                color: white;
-                font-weight: 600;
-                font-size: 14px;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: 0 6px 20px rgba(66, 165, 245, 0.3);
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .selection-actions .btn-secondary::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-                transition: left 0.5s;
-            }
-            
-            .selection-actions .btn-secondary:hover::before {
-                left: 100%;
-            }
-            
-            .selection-actions .btn-secondary:hover {
-                transform: translateY(-2px) scale(1.05);
-                box-shadow: 0 8px 25px rgba(66, 165, 245, 0.4);
-                background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
-            }
-            
-            .btn-secondary {
-                background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-                color: white;
-                border: none;
-                border-radius: 25px;
-                padding: 8px 20px;
-                font-size: 14px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .btn-secondary:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
-            }
-            
+
             .btn {
-                padding: 12px 25px;
-                font-size: 14px;
+                width: 100%;
+                max-width: 300px;
             }
-        }
-        
-        /* 滚动条美化 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
         }
     </style>
 
 
-    <div class="construction-detection-page">
-        <div class="construction-detection-container">
+    <div class="container">
+        <div class="header">
             <h1>🏗️ 工地检测助手</h1>
-            
-            
-            
-            <p>欢迎使用基于<strong>大语言模型</strong>驱动的专业工地隐患检测系统！通过上传施工现场图片，系统将：</p>
-            
-            <ul>
-                <li><strong>🔍 隐患识别</strong>：精准识别安全隐患类别和违规行为</li>
-                <li><strong>📋 风险评估</strong>：专业的风险等级分析和影响评估</li>
-                <li><strong>💡 整改建议</strong>：提供具体可执行的整改措施和预防方案</li>
-                <li><strong>📚 合规检查</strong>：对照国家标准和法规要求进行合规性分析</li>
-                <li><strong>⚡ 智能分析</strong>：基于先进AI技术的深度图像理解</li>
-            </ul>
+            <p>专业的AI驱动工地安全隐患检测系统</p>
+        </div>
 
-            <hr>
-
+        <!-- 图片上传 -->
+        <div class="section">
             <h2>📸 上传检测图片</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">点击或拖拽上传工地图片</div>
+                <div class="upload-hint">支持 JPG、PNG、WEBP 格式，最大 10MB</div>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            
+            <div class="image-preview" id="imagePreview">
+                <img id="previewImg" alt="预览图片" loading="lazy">
+                <button class="remove-btn" id="removeBtn">×</button>
+            </div>
+        </div>
 
-            <div class="upload-section">
-                <div class="upload-area" id="uploadArea">
-                    <div class="upload-icon">📷</div>
-                    <div class="upload-text">
-                        <p>点击或拖拽上传工地图片</p>
-                        <p class="upload-hint">支持 JPG、PNG、WEBP 格式，最大 10MB</p>
+        <!-- AI模型选择 -->
+        <div class="section">
+            <h2>🤖 选择AI模型</h2>
+            <div class="model-options">
+                <label class="model-option selected">
+                    <input type="radio" name="model" value="gemini-1.5-flash" checked="">
+                    <div class="model-info">
+                        <h3>Gemini 1.5 Flash</h3>
+                        <p>快速响应，适合日常检测</p>
                     </div>
-                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                </div>
-                
-                <!-- 备用上传方式 -->
-                <div class="backup-upload" style="margin-top: 15px; text-align: center;">
-                    <button type="button" class="btn-secondary" id="backupUploadBtn">
-                        📁 备用上传方式
-                    </button>
-                    <input type="file" id="backupImageInput" accept="image/*" style="display: none;">
-                </div>
-                
-                <div class="image-preview" id="imagePreview" style="display: none;">
-                    <img id="previewImg" alt="预览图片" loading="lazy">
-                    <button class="remove-btn" id="removeBtn">移除</button>
-                </div>
+                </label>
+                <label class="model-option">
+                    <input type="radio" name="model" value="gemini-1.5-pro">
+                    <div class="model-info">
+                        <h3>Gemini 1.5 Pro</h3>
+                        <p>高精度分析，适合专业评估</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- 隐患类别选择 -->
+        <div class="section">
+            <h2>🎯 选择要检测的隐患类别</h2>
+            <p style="color: #718096; margin-bottom: 20px;">请选择您希望重点检测的隐患类别（可多选）：</p>
+            
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="selectAllHazards()">全选</button>
+                <button class="btn btn-secondary" onclick="clearAllHazards()">清空</button>
             </div>
 
-
-            <div class="model-selection">
-                <h3>🤖 选择AI模型</h3>
-                <div class="model-options">
-                    <label class="option-item">
-                        <input type="radio" name="aiModel" value="gemini-1.5-flash" checked="">
-                        <span class="option-text">
-                            <strong>Gemini 1.5 Flash</strong><br>
-                            <small>快速响应，适合日常检测</small>
-                        </span>
-                    </label>
-                    <label class="option-item">
-                        <input type="radio" name="aiModel" value="gemini-1.5-pro">
-                        <span class="option-text">
-                            <strong>Gemini 1.5 Pro</strong><br>
-                            <small>高精度分析，适合专业评估</small>
-                        </span>
-                    </label>
-                </div>
+            <div class="hazard-grid" id="hazardGrid">
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="1" checked="">
+                    <span class="hazard-text">1. 未按规定穿戴反光安全服</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="2" checked="">
+                    <span class="hazard-text">2. 高处作业未正确使用安全带</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="3" checked="">
+                    <span class="hazard-text">3. 配电箱未及时锁闭</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="4" checked="">
+                    <span class="hazard-text">4. 未按规定配置灭火器、消防设施等</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="5" checked="">
+                    <span class="hazard-text">5. 现场防护栏等安全防护设施缺失、破损或设置不规范</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="6" checked="">
+                    <span class="hazard-text">6. 设备安全防护设施、装置缺失或失效</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="7" checked="">
+                    <span class="hazard-text">7. 起重吊装设备钢丝绳磨损、断丝严重，搭接长度不足</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="8" checked="">
+                    <span class="hazard-text">8. 汽车吊、随车吊、泵车支腿未全部伸出、未垫枕木进行作业</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="9" checked="">
+                    <span class="hazard-text">9. 基坑支护措施不到位</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="10" checked="">
+                    <span class="hazard-text">10. 灭火器未按规定要求放置</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="11" checked="">
+                    <span class="hazard-text">11. 未按规定设置接地线或接地不良</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="12" checked="">
+                    <span class="hazard-text">12. 安全警示标志标识缺失或设置不规范</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="13" checked="">
+                    <span class="hazard-text">13. 灭火器压力不足，灭火器、消防设施等未按规定进行检查、维护</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="14" checked="">
+                    <span class="hazard-text">14. 不符合"三级配电两级漏电保护、一机一闸一漏一箱"要求</span>
+                </label>
+                <label class="hazard-item selected">
+                    <input type="checkbox" value="15" checked="">
+                    <span class="hazard-text">15. 电缆外皮破损或敷设不规范</span>
+                </label>
             </div>
+        </div>
 
+        <!-- 自定义检测要求 -->
+        <div class="section">
+            <h2>✏️ 自定义检测要求</h2>
+            <textarea class="custom-prompt" id="customPrompt" placeholder="请描述您的特别关注事项，例如：重点检查高处作业安全措施是否到位..."></textarea>
+        </div>
 
-            <div class="hazard-selection">
-                <h3>🎯 选择要检测的隐患类别</h3>
-                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">请选择您希望重点检测的隐患类别（可多选）：</p>
-                <div class="hazard-selection-grid">
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="1" checked="">
-                        <span class="hazard-text">1. 未按规定穿戴反光安全服</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="2" checked="">
-                        <span class="hazard-text">2. 高处作业未正确使用安全带</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="3" checked="">
-                        <span class="hazard-text">3. 配电箱未及时锁闭</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="4" checked="">
-                        <span class="hazard-text">4. 未按规定配置灭火器、消防设施等</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="5" checked="">
-                        <span class="hazard-text">5. 现场防护栏等安全防护设施缺失、破损或设置不规范</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="6" checked="">
-                        <span class="hazard-text">6. 设备安全防护设施、装置缺失或失效</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="7" checked="">
-                        <span class="hazard-text">7. 起重吊装设备钢丝绳磨损、断丝严重，搭接长度不足</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="8" checked="">
-                        <span class="hazard-text">8. 汽车吊、随车吊、泵车支腿未全部伸出、未垫枕木进行作业</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="9" checked="">
-                        <span class="hazard-text">9. 基坑支护措施不到位</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="10" checked="">
-                        <span class="hazard-text">10. 灭火器未按规定要求放置</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="11" checked="">
-                        <span class="hazard-text">11. 未按规定设置接地线或接地不良</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="12" checked="">
-                        <span class="hazard-text">12. 安全警示标志标识缺失或设置不规范</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="13" checked="">
-                        <span class="hazard-text">13. 灭火器压力不足，灭火器、消防设施等未按规定进行检查、维护</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="14" checked="">
-                        <span class="hazard-text">14. 不符合"三级配电两级漏电保护、一机一闸一漏一箱"要求</span>
-                    </label>
-                    <label class="hazard-selection-item">
-                        <input type="checkbox" value="15" checked="">
-                        <span class="hazard-text">15. 电缆外皮破损或敷设不规范</span>
-                    </label>
-                </div>
-                <div class="selection-actions">
-                    <button type="button" class="btn-secondary" onclick="window.constructionDetector.selectAllHazards()">全选</button>
-                    <button type="button" class="btn-secondary" onclick="window.constructionDetector.clearAllHazards()">清空</button>
-                </div>
-            </div>
+        <!-- 开始检测按钮 -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="detectBtn" disabled="">
+                🔍 开始检测
+            </button>
+            <button class="btn btn-secondary" onclick="clearAll()">
+                🗑️ 清空重置
+            </button>
+        </div>
 
-            <div class="custom-prompt-section">
-                <h3>✏️ 自定义检测要求</h3>
-                <textarea id="customPrompt" placeholder="请输入您特别关注的检测要求（可选）..."></textarea>
-            </div>
+        <!-- 加载状态 -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>AI正在分析图片，请稍候...</p>
+        </div>
 
-            <div class="action-buttons">
-                <button id="detectBtn" class="btn btn-primary" disabled="">
-                    <span class="btn-text">开始检测</span>
-                    <span class="btn-loading" style="display: none;">检测中...</span>
-                </button>
-                <button id="clearBtn" class="btn btn-secondary">清空重来</button>
-            </div>
-
-            <div id="resultsSection" class="results-section" style="display: none;">
-                <h3>检测结果</h3>
-                <div class="result-info">
-                    <div id="detectionTime"></div>
-                    <div id="imageInfo"></div>
-                </div>
-                <div id="resultsContent" class="results-content"></div>
-                <div class="result-actions">
-                    <button id="downloadBtn" class="btn btn-success">下载报告</button>
-                    <button id="shareBtn" class="btn btn-info">分享结果</button>
-                </div>
-            </div>
+        <!-- 检测结果 -->
+        <div class="results" id="results">
+            <h2>📋 检测结果</h2>
+            <div class="results-content" id="resultsContent"></div>
         </div>
     </div>
 
+    <!-- Gemini API 客户端 -->
     <script src="/js/gemini-direct-client.js"></script>
+    
     <script>
-        // 工地检测助手 - 简化版本
-        class ConstructionDetectionSimple {
+        class ConstructionDetector {
             constructor() {
+                this.currentImage = null;
                 this.directClient = new GeminiDirectClient();
-                this.directClient.setApiKey('AIzaSyAc9Rl40qShC4PNHmkso5x5gqZXqMbA6Fc');
-                this.state = {
-                    currentImage: null,
-                    isDetecting: false,
-                    lastResults: null
-                };
-                
                 this.init();
             }
 
             init() {
-                try {
-                    this.setupEventListeners();
-                    this.setupDragDropZone();
-                } catch (error) {
-                    console.error('初始化失败:', error);
-                    this.showNotification('系统初始化失败，请刷新页面重试', 'error');
-                }
+                this.setupEventListeners();
+                this.setupDragAndDrop();
+                this.updateDetectButton();
             }
 
             setupEventListeners() {
-                // 获取所有必需的DOM元素
-                this.elements = {
-                    uploadArea: document.getElementById('uploadArea'),
-                    imageInput: document.getElementById('imageInput'),
-                    backupUploadBtn: document.getElementById('backupUploadBtn'),
-                    backupImageInput: document.getElementById('backupImageInput'),
-                    imagePreview: document.getElementById('imagePreview'),
-                    previewImg: document.getElementById('previewImg'),
-                    removeBtn: document.getElementById('removeBtn'),
-                    detectBtn: document.getElementById('detectBtn'),
-                    clearBtn: document.getElementById('clearBtn'),
-                    customPrompt: document.getElementById('customPrompt'),
-                    resultsSection: document.getElementById('resultsSection'),
-                    resultsContent: document.getElementById('resultsContent'),
-                    detectionTime: document.getElementById('detectionTime'),
-                    imageInfo: document.getElementById('imageInfo'),
-                    downloadBtn: document.getElementById('downloadBtn'),
-                    shareBtn: document.getElementById('shareBtn')
-                };
+                // 上传区域点击
+                document.getElementById('uploadArea').addEventListener('click', () => {
+                    document.getElementById('fileInput').click();
+                });
 
-                // 检查关键元素是否存在
-                const requiredElements = ['uploadArea', 'imageInput', 'detectBtn'];
-                const missingElements = requiredElements.filter(id => !this.elements[id]);
-                
-                if (missingElements.length > 0) {
-                    console.error('缺少必需的DOM元素:', missingElements);
-                    this.showNotification(`页面元素加载失败: ${missingElements.join(', ')}`, 'error');
-                    return;
-                }
-                
+                // 文件选择
+                document.getElementById('fileInput').addEventListener('change', (e) => {
+                    if (e.target.files[0]) {
+                        this.handleFile(e.target.files[0]);
+                    }
+                });
 
-
-                // 上传区域点击事件 - 重新实现
-                if (this.elements.uploadArea && this.elements.imageInput) {
-                    // 清除所有事件监听器
-                    this.elements.uploadArea.replaceWith(this.elements.uploadArea.cloneNode(true));
-                    this.elements.uploadArea = document.getElementById('uploadArea');
-                    
-                    // 重新绑定点击事件
-                    this.elements.uploadArea.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('上传区域点击事件触发');
-                        this.elements.imageInput.click();
-                    });
-                    
-                    // 确保上传区域可见且可点击
-                    this.elements.uploadArea.style.pointerEvents = 'auto';
-                    this.elements.uploadArea.style.cursor = 'pointer';
-                    
-                } else {
-                    console.error('关键上传元素缺失');
-                    this.showNotification('上传组件初始化失败', 'error');
-                }
-
-                // 文件选择事件
-                if (this.elements.imageInput) {
-                    this.elements.imageInput.addEventListener('change', (e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                            this.handleFileSelect(e.target.files[0]);
-                        }
-                    });
-                }
-
-                // 备用上传按钮事件
-                if (this.elements.backupUploadBtn && this.elements.backupImageInput) {
-                    this.elements.backupUploadBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('备用上传按钮点击');
-                        this.elements.backupImageInput.click();
-                    });
-
-                    this.elements.backupImageInput.addEventListener('change', (e) => {
-                        console.log('备用文件选择:', e.target.files);
-                        if (e.target.files && e.target.files.length > 0) {
-                            this.handleFileSelect(e.target.files[0]);
-                        }
-                    });
-                    
-                    // 确保备用按钮可见且可点击
-                    this.elements.backupUploadBtn.style.pointerEvents = 'auto';
-                    this.elements.backupUploadBtn.style.cursor = 'pointer';
-                }
-
-                this.elements.removeBtn?.addEventListener('click', () => {
+                // 移除图片
+                document.getElementById('removeBtn').addEventListener('click', () => {
                     this.removeImage();
                 });
 
-                this.elements.detectBtn.addEventListener('click', () => {
-                    this.startDetection();
+                // 模型选择
+                document.querySelectorAll('input[name="model"]').forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        this.updateModelSelection();
+                    });
                 });
 
-                this.elements.clearBtn?.addEventListener('click', () => {
-                    this.clearAll();
-                });
-
-                this.elements.downloadBtn?.addEventListener('click', () => {
-                    this.downloadReport();
-                });
-
-                this.elements.shareBtn?.addEventListener('click', () => {
-                    this.shareResults();
-                });
-
-                // 隐患类别选择事件监听
-                const hazardCheckboxes = document.querySelectorAll('.hazard-selection-item input[type="checkbox"]');
-                hazardCheckboxes.forEach(checkbox => {
+                // 隐患类别选择
+                document.querySelectorAll('.hazard-item input').forEach(checkbox => {
                     checkbox.addEventListener('change', () => {
+                        this.updateHazardSelection();
                         this.updateDetectButton();
                     });
                 });
+
+                // 检测按钮
+                document.getElementById('detectBtn').addEventListener('click', () => {
+                    this.startDetection();
+                });
             }
 
-            setupDragDropZone() {
-                const uploadArea = this.elements.uploadArea;
-                if (!uploadArea) return;
-
+            setupDragAndDrop() {
+                const uploadArea = document.getElementById('uploadArea');
+                
                 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    uploadArea.addEventListener(eventName, (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    });
+                    uploadArea.addEventListener(eventName, this.preventDefaults, false);
                 });
 
                 ['dragenter', 'dragover'].forEach(eventName => {
                     uploadArea.addEventListener(eventName, () => {
                         uploadArea.classList.add('dragover');
-                    });
+                    }, false);
                 });
 
                 ['dragleave', 'drop'].forEach(eventName => {
                     uploadArea.addEventListener(eventName, () => {
                         uploadArea.classList.remove('dragover');
-                    });
+                    }, false);
                 });
 
                 uploadArea.addEventListener('drop', (e) => {
                     const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        this.handleFileSelect(files[0]);
+                    if (files[0]) {
+                        this.handleFile(files[0]);
                     }
-                });
+                }, false);
             }
 
-            async handleFileSelect(file) {
-                if (!file) return;
+            preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
+            async handleFile(file) {
+                // 验证文件
                 if (!file.type.startsWith('image/')) {
-                    this.showNotification('请选择图片文件（JPG、PNG、WEBP等）', 'error');
+                    this.showNotification('请选择图片文件', 'error');
                     return;
                 }
 
                 if (file.size > 10 * 1024 * 1024) {
-                    this.showNotification('文件大小不能超过 10MB', 'error');
+                    this.showNotification('图片大小不能超过10MB', 'error');
                     return;
                 }
 
                 try {
-                    this.showNotification('正在处理图片...', 'info');
-                    
-                    // 压缩图片
-                    const processedFile = await this.compressImage(file);
-                    this.state.currentImage = processedFile;
-                    
-                    await this.displayImagePreview(processedFile);
+                    // 压缩并显示预览
+                    const compressedFile = await this.compressImage(file);
+                    this.currentImage = compressedFile;
+                    this.showImagePreview(compressedFile);
                     this.updateDetectButton();
                     this.showNotification('图片上传成功', 'success');
                 } catch (error) {
-                    console.error('文件处理失败:', error);
+                    console.error('图片处理失败:', error);
                     this.showNotification('图片处理失败，请重试', 'error');
                 }
             }
 
-            async compressImage(file) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
+            async compressImage(file, maxWidth = 1200, quality = 0.8) {
+                return new Promise((resolve) => {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-
+                    const img = new Image();
+                    
                     img.onload = () => {
-                        const maxSize = 2048;
-                        let { width, height } = img;
+                        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+                        canvas.width = img.width * ratio;
+                        canvas.height = img.height * ratio;
                         
-                        if (width > maxSize || height > maxSize) {
-                            const ratio = Math.min(maxSize / width, maxSize / height);
-                            width = Math.round(width * ratio);
-                            height = Math.round(height * ratio);
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        canvas.toBlob(
-                            (blob) => {
-                                if (blob) {
-                                    const compressedFile = new File([blob], file.name, {
-                                        type: file.type,
-                                        lastModified: Date.now()
-                                    });
-                                    resolve(compressedFile);
-                                } else {
-                                    reject(new Error('图片压缩失败'));
-                                }
-                            },
-                            file.type,
-                            0.8
-                        );
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        canvas.toBlob(resolve, 'image/jpeg', quality);
                     };
-
-                    img.onerror = () => reject(new Error('图片加载失败'));
+                    
                     img.src = URL.createObjectURL(file);
                 });
             }
 
-            async displayImagePreview(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    
-                    reader.onload = (e) => {
-                        if (this.elements.previewImg && this.elements.imagePreview) {
-                            this.elements.previewImg.src = e.target.result;
-                            this.elements.imagePreview.style.display = 'block';
-                            this.elements.uploadArea.style.display = 'none';
-                        }
-                        resolve();
-                    };
-                    
-                    reader.onerror = () => reject(new Error('图片预览失败'));
-                    reader.readAsDataURL(file);
-                });
+            showImagePreview(file) {
+                const preview = document.getElementById('imagePreview');
+                const img = document.getElementById('previewImg');
+                
+                img.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+                
+                // 隐藏上传区域
+                document.getElementById('uploadArea').style.display = 'none';
             }
 
             removeImage() {
-                this.state.currentImage = null;
-                
-                if (this.elements.imagePreview && this.elements.uploadArea) {
-                    this.elements.imagePreview.style.display = 'none';
-                    this.elements.uploadArea.style.display = 'block';
-                }
-                
-                if (this.elements.imageInput) {
-                    this.elements.imageInput.value = '';
-                }
-                
+                this.currentImage = null;
+                document.getElementById('imagePreview').style.display = 'none';
+                document.getElementById('uploadArea').style.display = 'block';
+                document.getElementById('fileInput').value = '';
                 this.updateDetectButton();
-                this.showNotification('图片已移除', 'info');
+            }
+
+            updateModelSelection() {
+                document.querySelectorAll('.model-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                const selectedRadio = document.querySelector('input[name="model"]:checked');
+                selectedRadio.closest('.model-option').classList.add('selected');
+            }
+
+            updateHazardSelection() {
+                document.querySelectorAll('.hazard-item').forEach(item => {
+                    const checkbox = item.querySelector('input');
+                    if (checkbox.checked) {
+                        item.classList.add('selected');
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
             }
 
             updateDetectButton() {
-                const hasImage = !!this.state.currentImage;
-                const hasSelectedHazards = this.getSelectedHazards().length > 0;
+                const btn = document.getElementById('detectBtn');
+                const hasImage = this.currentImage !== null;
+                const hasSelectedHazards = document.querySelectorAll('.hazard-item input:checked').length > 0;
                 
-                if (this.elements.detectBtn) {
-                    this.elements.detectBtn.disabled = !(hasImage && hasSelectedHazards) || this.state.isDetecting;
-                }
-            }
-
-            getSelectedHazards() {
-                const checkboxes = document.querySelectorAll('.hazard-selection-item input[type="checkbox"]:checked');
-                return Array.from(checkboxes).map(cb => parseInt(cb.value)).sort((a, b) => a - b);
-            }
-
-            getSelectedModel() {
-                const modelRadio = document.querySelector('input[name="aiModel"]:checked');
-                return modelRadio ? modelRadio.value : 'gemini-1.5-flash';
-            }
-
-
-            selectAllHazards() {
-                const checkboxes = document.querySelectorAll('.hazard-selection-item input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = true;
-                });
-                this.showNotification('已选择所有隐患类别', 'success');
-                this.updateDetectButton();
-            }
-
-            clearAllHazards() {
-                const checkboxes = document.querySelectorAll('.hazard-selection-item input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = false;
-                });
-                this.showNotification('已清空所有隐患类别选择', 'info');
-                this.updateDetectButton();
+                btn.disabled = !(hasImage && hasSelectedHazards);
             }
 
             async startDetection() {
-                if (!this.state.currentImage) {
-                    this.showNotification('请先上传图片', 'error');
-                    return;
-                }
+                if (!this.currentImage) return;
 
-
-                const selectedHazards = this.getSelectedHazards();
-                if (selectedHazards.length === 0) {
-                    this.showNotification('请至少选择一个隐患类别', 'error');
-                    return;
-                }
-
-                this.state.isDetecting = true;
-                this.setLoadingState(true);
-                this.showResultsSection(false);
+                this.showLoading(true);
+                this.hideResults();
 
                 try {
-                    const imageBase64 = await this.fileToBase64(this.state.currentImage);
-                    const customPrompt = this.elements.customPrompt?.value.trim() || '';
-                    const detectionPrompt = this.buildDetectionPrompt(selectedHazards, customPrompt);
-                    const selectedModel = this.getSelectedModel();
-
+                    const imageBase64 = await this.fileToBase64(this.currentImage);
+                    const selectedModel = document.querySelector('input[name="model"]:checked').value;
+                    const selectedHazards = Array.from(document.querySelectorAll('.hazard-item input:checked')).map(cb => cb.value);
+                    const customPrompt = document.getElementById('customPrompt').value.trim();
+                    
+                    const prompt = this.buildPrompt(selectedHazards, customPrompt);
+                    
                     const result = await this.directClient.callAPI({
                         image: imageBase64,
-                        prompt: detectionPrompt,
+                        prompt: prompt,
                         model: selectedModel,
-                        config: {
-                            temperature: 0.3, // 降低温度以提高准确性
-                            maxOutputTokens: 3000 // 增加输出长度以支持详细分析
-                        }
+                        temperature: 0.3,
+                        maxOutputTokens: 2000
                     });
 
-                    this.displayResults(result.result);
-                    this.showResultsSection(true);
-                    this.state.lastResults = result.result;
-
+                    this.showResults(result);
                     this.showNotification('检测完成', 'success');
 
                 } catch (error) {
                     console.error('检测失败:', error);
-                    this.showError(error.message);
+                    this.showNotification('检测失败，请重试', 'error');
                 } finally {
-                    this.state.isDetecting = false;
-                    this.setLoadingState(false);
+                    this.showLoading(false);
                 }
             }
 
-            async fileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            buildDetectionPrompt(selectedHazards, customPrompt) {
+            buildPrompt(selectedHazards, customPrompt) {
                 const hazardCategories = [
                     "1. 未按规定穿戴反光安全服",
                     "2. 高处作业未正确使用安全带", 
@@ -1316,313 +921,114 @@
                     "11. 未按规定设置接地线或接地不良",
                     "12. 安全警示标志标识缺失或设置不规范",
                     "13. 灭火器压力不足，灭火器、消防设施等未按规定进行检查、维护",
-                    "14. 不符合"三级配电两级漏电保护、一机一闸一漏一箱"要求",
+                    "14. 不符合'三级配电两级漏电保护、一机一闸一漏一箱'要求",
                     "15. 电缆外皮破损或敷设不规范"
                 ];
 
-                // 根据用户选择的隐患类别生成重点检测列表
                 const selectedHazardsList = selectedHazards.map(num => hazardCategories[num - 1]).filter(Boolean);
 
-                let prompt = `作为一个专业的工地隐患检查人员，你的任务是分析这张工地图片，重点检测以下用户选择的隐患类别：
+                return `作为专业的工地安全隐患检查员，请分析这张工地图片，重点检测以下用户选择的隐患类别：
 
-【用户选择的重点检测类别】：
+【重点检测类别】：
 ${selectedHazardsList.join('\n')}
 
-【完整隐患类别参考】：
-${hazardCategories.join('\n')}
+${customPrompt ? `【特别关注事项】：${customPrompt}\n` : ''}
 
-${customPrompt ? `\n【特别关注事项】：\n${customPrompt}` : ''}
+请按照以下格式输出分析结果：
 
-请严格按照以下简洁格式输出分析结果：
+## 检测结果
 
-## 输出
+**隐患类别：** [从15个标准类别中选择最匹配的]
 
-**隐患类别：**"[从15个标准类别中选择最匹配的隐患类别名称]"
+**隐患描述：** [简洁描述观察到的具体违规行为或不安全状态]
 
-**隐患描述：**"[简洁描述图片中观察到的具体违规行为或不安全状态，说明可能导致的安全风险]"
-
-**整改意见：**"[提供具体的、可操作的整改措施和预防建议，包括立即措施和长期管理要求]"
+**整改建议：** [提供具体可操作的整改措施和预防建议]
 
 要求：
-1. 每个部分用一句话简洁表达，不要使用列表或分点
-2. 隐患类别必须从15个标准类别中选择
-3. 描述要具体、客观，直接说明风险
-4. 整改意见要实用、可操作
-5. 语言专业但易懂
-
-注意：请基于图片内容进行客观分析，如果没有明显隐患，请如实说明。`;
-
-                return prompt;
+1. 语言简洁专业
+2. 描述客观准确
+3. 建议实用可行
+4. 如无明显隐患请如实说明`;
             }
 
-            displayResults(result) {
-                if (!this.elements.resultsContent) return;
-
-                const formattedResult = this.formatResult(result);
-                this.elements.resultsContent.innerHTML = formattedResult;
-
-                if (this.elements.detectionTime) {
-                    this.elements.detectionTime.textContent = `检测时间: ${new Date().toLocaleString('zh-CN')}`;
-                }
-
-                if (this.elements.imageInfo && this.state.currentImage) {
-                    const sizeMB = (this.state.currentImage.size / 1024 / 1024).toFixed(2);
-                    this.elements.imageInfo.textContent = `图片信息: ${this.state.currentImage.name} (${sizeMB}MB)`;
-                }
-            }
-
-            formatResult(result) {
-                let html = result
-                    .replace(/## (.*)/g, '<h3 class="result-section-title">$1<\/h3>')
-                    .replace(/### (.*)/g, '<h4 class="result-subsection-title">$1<\/h4>')
-                    .replace(/^\- (.*)/gm, '<li class="result-list-item">$1<\/li>')
-                    .replace(/^\* (.*)/gm, '<li class="result-list-item">$1<\/li>')
-                    .replace(/^\d+\. (.*)/gm, '<li class="result-numbered-item">$1<\/li>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #e74c3c;">$1<\/strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1<\/em>');
-
-                // 特殊格式处理
-                html = html.replace(/🚨/g, '<span style="color: #e74c3c; font-size: 1.2em;">🚨</span>');
-                html = html.replace(/📊/g, '<span style="color: #3498db; font-size: 1.2em;">📊</span>');
-                html = html.replace(/🔍/g, '<span style="color: #27ae60; font-size: 1.2em;">🔍</span>');
-                
-                // 风险等级着色
-                html = html.replace(/高风险/g, '<span style="color: #e74c3c; font-weight: bold; background: rgba(231, 76, 60, 0.1); padding: 2px 6px; border-radius: 4px;">⚠️ 高风险</span>');
-                html = html.replace(/中风险/g, '<span style="color: #f39c12; font-weight: bold; background: rgba(243, 156, 18, 0.1); padding: 2px 6px; border-radius: 4px;">⚡ 中风险</span>');
-                html = html.replace(/低风险/g, '<span style="color: #27ae60; font-weight: bold; background: rgba(39, 174, 96, 0.1); padding: 2px 6px; border-radius: 4px;">✅ 低风险</span>');
-                
-                // 隐患编号高亮
-                html = html.replace(/隐患编号(\d+)：/g, '<span style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; padding: 3px 8px; border-radius: 6px; font-weight: bold; margin-right: 8px;">🔍 隐患编号$1</span>');
-                html = html.replace(/(\d+)\.\s*([^：\n]+)/g, '<span style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 5px;">$1</span>$2');
-
-                html = html.replace(/(<li class="result-list-item">.*<\/li>)/gs, '<ul class="result-list">$1<\/ul>');
-                html = html.replace(/(<li class="result-numbered-item">.*<\/li>)/gs, '<ol class="result-numbered-list">$1<\/ol>');
-
-                html = html.split('\n\n').map(paragraph => {
-                    if (paragraph.trim() && !paragraph.includes('<h') && !paragraph.includes('<ul') && !paragraph.includes('<ol')) {
-                        return `<p class="result-paragraph">${paragraph.trim()}<\/p>`;
-                    }
-                    return paragraph;
-                }).join('\n');
-
-                return html;
-            }
-
-            setLoadingState(loading) {
-                if (!this.elements.detectBtn) return;
-
-                const btnText = this.elements.detectBtn.querySelector('.btn-text');
-                const btnLoading = this.elements.detectBtn.querySelector('.btn-loading');
-
-                if (loading) {
-                    this.elements.detectBtn.disabled = true;
-                    if (btnText) btnText.style.display = 'none';
-                    if (btnLoading) btnLoading.style.display = 'inline-block';
-                } else {
-                    this.elements.detectBtn.disabled = false;
-                    if (btnText) btnText.style.display = 'inline';
-                    if (btnLoading) btnLoading.style.display = 'none';
-                }
-            }
-
-            showResultsSection(show) {
-                if (this.elements.resultsSection) {
-                    this.elements.resultsSection.style.display = show ? 'block' : 'none';
-                    if (show) {
-                        this.elements.resultsSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            }
-
-            showError(message) {
-                if (!this.elements.resultsContent) return;
-
-                this.elements.resultsContent.innerHTML = `
-                    <div class="error-container">
-                        <div class="error-icon">⚠️</div>
-                        <div class="error-content">
-                            <h3>检测失败</h3>
-                            <p class="error-message">${message}</p>
-                            <div class="error-solutions">
-                                <h4>可能的解决方案：</h4>
-                                <ul>
-                                    <li>检查网络连接是否正常</li>
-                                    <li>确认 API 密钥是否正确</li>
-                                    <li>尝试重新上传图片</li>
-                                    <li>联系技术支持</li>
-                                </ul>
-                            </div>
-                            <button class="retry-btn" onclick="window.constructionDetector.startDetection()">
-                                重试检测
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                this.showResultsSection(true);
-            }
-
-            clearAll() {
-                this.removeImage();
-                
-                if (this.elements.customPrompt) {
-                    this.elements.customPrompt.value = '';
-                }
-
-                const checkboxes = document.querySelectorAll('.option-item input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = true;
+            async fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
                 });
-
-                this.showResultsSection(false);
-                this.state.lastResults = null;
-                this.updateDetectButton();
-                this.showNotification('已清空所有内容', 'success');
             }
 
-            downloadReport() {
-                if (!this.state.lastResults) {
-                    this.showNotification('没有可下载的报告', 'error');
-                    return;
-                }
+            showLoading(show) {
+                document.getElementById('loading').style.display = show ? 'block' : 'none';
+            }
 
-                const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                const filename = `工地检测报告_${timestamp}.txt`;
+            showResults(content) {
+                const results = document.getElementById('results');
+                const resultsContent = document.getElementById('resultsContent');
                 
-                const content = `工地检测报告
-生成时间: ${new Date().toLocaleString('zh-CN')}
-图片信息: ${this.state.currentImage?.name || '未知'}
-
-${this.state.lastResults}`;
-
-                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
+                // 格式化结果
+                let formattedContent = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                formattedContent = formattedContent.replace(/\n/g, '<br>');
                 
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                this.showNotification('报告已下载', 'success');
+                resultsContent.innerHTML = formattedContent;
+                results.style.display = 'block';
+                results.scrollIntoView({ behavior: 'smooth' });
             }
 
-            shareResults() {
-                if (!this.state.lastResults) {
-                    this.showNotification('没有可分享的结果', 'error');
-                    return;
-                }
-
-                const shareData = {
-                    title: '工地检测报告',
-                    text: this.state.lastResults.substring(0, 200) + '...',
-                    url: window.location.href
-                };
-
-                if (navigator.share && navigator.canShare(shareData)) {
-                    navigator.share(shareData);
-                } else if (navigator.clipboard) {
-                    navigator.clipboard.writeText(this.state.lastResults).then(() => {
-                        this.showNotification('检测结果已复制到剪贴板', 'success');
-                    }).catch(() => {
-                        this.showNotification('复制失败，请手动选择复制', 'error');
-                    });
-                } else {
-                    this.showNotification('您的浏览器不支持分享功能', 'error');
-                }
+            hideResults() {
+                document.getElementById('results').style.display = 'none';
             }
 
-            showNotification(message, type = 'info', duration = 3000) {
-                const existingNotification = document.querySelector('.notification');
-                if (existingNotification) {
-                    existingNotification.remove();
-                }
-
+            showNotification(message, type) {
                 const notification = document.createElement('div');
-                notification.className = `notification notification-${type}`;
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
                 
-                notification.innerHTML = `
-                    <div class="notification-content">
-                        <span class="notification-icon">${this.getNotificationIcon(type)}</span>
-                        <span class="notification-message">${message}</span>
-                        <button class="notification-close">&times;</button>
-                    </div>
-                `;
-
-                Object.assign(notification.style, {
-                    position: 'fixed',
-                    top: '20px',
-                    right: '20px',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    color: 'white',
-                    fontWeight: '500',
-                    zIndex: '10000',
-                    opacity: '0',
-                    transform: 'translateX(100%)',
-                    transition: 'all 0.3s ease',
-                    maxWidth: '400px',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                    backgroundColor: this.getNotificationColor(type)
-                });
-
                 document.body.appendChild(notification);
-
-                requestAnimationFrame(() => {
-                    notification.style.opacity = '1';
-                    notification.style.transform = 'translateX(0)';
-                });
-
-                notification.querySelector('.notification-close').addEventListener('click', () => {
-                    this.hideNotification(notification);
-                });
-
-                if (duration > 0) {
-                    setTimeout(() => {
-                        if (document.body.contains(notification)) {
-                            this.hideNotification(notification);
-                        }
-                    }, duration);
-                }
-            }
-
-            hideNotification(notification) {
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateX(100%)';
+                
                 setTimeout(() => {
-                    if (document.body.contains(notification)) {
+                    notification.classList.add('show');
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
                         document.body.removeChild(notification);
-                    }
-                }, 300);
+                    }, 300);
+                }, 3000);
             }
-
-            getNotificationIcon(type) {
-                const icons = {
-                    success: '✅',
-                    error: '❌',
-                    warning: '⚠️',
-                    info: 'ℹ️'
-                };
-                return icons[type] || icons.info;
-            }
-
-            getNotificationColor(type) {
-                const colors = {
-                    success: '#52c41a',
-                    error: '#ff4d4f', 
-                    warning: '#faad14',
-                    info: '#1890ff'
-                };
-                return colors[type] || colors.info;
-            }
-
         }
 
-        // 初始化应用
+        // 全局函数
+        function selectAllHazards() {
+            document.querySelectorAll('.hazard-item input').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            detector.updateHazardSelection();
+            detector.updateDetectButton();
+        }
+
+        function clearAllHazards() {
+            document.querySelectorAll('.hazard-item input').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            detector.updateHazardSelection();
+            detector.updateDetectButton();
+        }
+
+        function clearAll() {
+            detector.removeImage();
+            clearAllHazards();
+            document.getElementById('customPrompt').value = '';
+            detector.hideResults();
+        }
+
+        // 初始化
+        let detector;
         document.addEventListener('DOMContentLoaded', () => {
-            window.constructionDetector = new ConstructionDetectionSimple();
+            detector = new ConstructionDetector();
         });
     </script>
 <!-- hexo injector body_end start -->
@@ -1648,7 +1054,7 @@ ${this.state.lastResults}`;
     <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
     <style></style><!-- hexo injector body_end end -->
 
-</div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar" loading="lazy"></div><div class="author-info-name">WP</div><div class="author-info-description">无业游民</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wp-a"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/wp-a" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2829624376@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">🏗️ 工地检测助手</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">📸 上传检测图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.1.</span> <span class="toc-text">🤖 选择AI模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.2.</span> <span class="toc-text">🎯 选择要检测的隐患类别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.1.3.</span> <span class="toc-text">✏️ 自定义检测要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#resultsSection"><span class="toc-number">1.1.4.</span> <span class="toc-text">检测结果</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/MambaOut/" title="MambaOut"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509111759034.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MambaOut" loading="lazy"></a><div class="content"><a class="title" href="/2025/09/MambaOut/" title="MambaOut">MambaOut</a><time datetime="2025-09-10T22:00:53.000Z" title="发表于 2025-09-10 22:00:53">2025-09-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/" title="图神经网络"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图神经网络" loading="lazy"></a><div class="content"><a class="title" href="/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/" title="图神经网络">图神经网络</a><time datetime="2025-09-07T09:28:09.000Z" title="发表于 2025-09-07 09:28:09">2025-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250601121856303.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手撕 Vision Transformer" loading="lazy"></a><div class="content"><a class="title" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer">手撕 Vision Transformer</a><time datetime="2025-06-01T12:09:13.000Z" title="发表于 2025-06-01 12:09:13">2025-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/MOE/" title="MoE"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoE" loading="lazy"></a><div class="content"><a class="title" href="/2025/04/MOE/" title="MoE">MoE</a><time datetime="2025-04-27T20:37:24.000Z" title="发表于 2025-04-27 20:37:24">2025-04-27</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+</div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/head.png" onerror="this.onerror=null;this.src='https://wpironman.oss-cn-qingdao.aliyuncs.com/head.gif'" alt="avatar" loading="lazy"></div><div class="author-info-name">WP</div><div class="author-info-description">无业游民</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">59</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wp-a"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/wp-a" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2829624376@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">🏗️ 工地检测助手</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.1.</span> <span class="toc-text">📸 上传检测图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.2.</span> <span class="toc-text">🤖 选择AI模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.2.1.</span> <span class="toc-text">Gemini 1.5 Flash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.2.2.</span> <span class="toc-text">Gemini 1.5 Pro</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.3.</span> <span class="toc-text">🎯 选择要检测的隐患类别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.4.</span> <span class="toc-text">✏️ 自定义检测要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#results"><span class="toc-number">1.5.</span> <span class="toc-text">📋 检测结果</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/MambaOut/" title="MambaOut"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509111759034.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MambaOut" loading="lazy"></a><div class="content"><a class="title" href="/2025/09/MambaOut/" title="MambaOut">MambaOut</a><time datetime="2025-09-10T22:00:53.000Z" title="发表于 2025-09-10 22:00:53">2025-09-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/" title="图神经网络"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202509071900984.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图神经网络" loading="lazy"></a><div class="content"><a class="title" href="/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/" title="图神经网络">图神经网络</a><time datetime="2025-09-07T09:28:09.000Z" title="发表于 2025-09-07 09:28:09">2025-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250601121856303.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="手撕 Vision Transformer" loading="lazy"></a><div class="content"><a class="title" href="/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/" title="手撕 Vision Transformer">手撕 Vision Transformer</a><time datetime="2025-06-01T12:09:13.000Z" title="发表于 2025-06-01 12:09:13">2025-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/MOE/" title="MoE"><img src="https://wpironman.oss-cn-qingdao.aliyuncs.com/20250502161913940.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MoE" loading="lazy"></a><div class="content"><a class="title" href="/2025/04/MOE/" title="MoE">MoE</a><time datetime="2025-04-27T20:37:24.000Z" title="发表于 2025-04-27 20:37:24">2025-04-27</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             <a class="card-more-btn" href="/categories/" title="查看更多">
@@ -1656,7 +1062,7 @@ ${this.state.lastResults}`;
           </div>
           <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/"><span class="card-category-list-name">手撕代码</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%89%8B%E6%92%95%E4%BB%A3%E7%A0%81/Vision-Transformer/"><span class="card-category-list-name">Vision Transformer</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="card-category-list-name">数据结构与算法</span><span class="card-category-list-count">21</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95/"><span class="card-category-list-name">代码随想录</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span class="card-category-list-name">基础知识</span><span class="card-category-list-count">7</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">深度学习</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/"><span class="card-category-list-name">图像分类</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/"><span class="card-category-list-name">论文精读</span><span class="card-category-list-count">6</span></a></li>
-          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.45em; color: rgb(50, 86, 175);">数据结构与算法</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 1.25em; color: rgb(50, 75, 180);">二叉树</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/" style="font-size: 1.25em; color: rgb(176, 50, 50);">二叉树遍历</a><a href="/tags/%E9%80%92%E5%BD%92/" style="font-size: 1.4em; color: rgb(163, 50, 50);">递归</a><a href="/tags/%E8%BF%AD%E4%BB%A3/" style="font-size: 1.25em; color: rgb(50, 50, 149);">迭代</a><a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 1.2em; color: rgb(102, 79, 93);">回溯</a><a href="/tags/%E5%89%AA%E6%9E%9D/" style="font-size: 1.15em; color: rgb(63, 79, 57);">剪枝</a><a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 1.2em; color: rgb(167, 116, 50);">图论</a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.15em; color: rgb(77, 50, 176);">动态规划</a><a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.15em; color: rgb(52, 50, 91);">二分查找</a><a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.35em; color: rgb(50, 164, 120);">双指针</a><a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 1.25em; color: rgb(70, 76, 50);">数组</a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.15em; color: rgb(115, 183, 61);">滑动窗口</a><a href="/tags/%E7%9F%A9%E9%98%B5%E8%A7%84%E5%BE%8B/" style="font-size: 1.15em; color: rgb(89, 146, 59);">矩阵规律</a><a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 1.15em; color: rgb(159, 50, 185);">前缀和</a><a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.3em; color: rgb(82, 142, 102);">链表</a><a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 1.25em; color: rgb(181, 80, 151);">哈希表</a><a href="/tags/%E6%9F%A5%E6%89%BE/" style="font-size: 1.2em; color: rgb(50, 156, 170);">查找</a><a href="/tags/set/" style="font-size: 1.2em; color: rgb(50, 81, 87);">set</a><a href="/tags/map/" style="font-size: 1.25em; color: rgb(153, 79, 128);">map</a><a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 1.15em; color: rgb(169, 130, 161);">字符串</a><a href="/tags/KMP/" style="font-size: 1.15em; color: rgb(50, 118, 138);">KMP</a><a href="/tags/reverse/" style="font-size: 1.15em; color: rgb(50, 72, 75);">reverse</a><a href="/tags/%E6%A0%88/" style="font-size: 1.15em; color: rgb(50, 129, 56);">栈</a><a href="/tags/%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(93, 50, 146);">队列</a><a href="/tags/%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(99, 173, 50);">双端队列</a><a href="/tags/%E5%A0%86/" style="font-size: 1.15em; color: rgb(174, 50, 191);">堆</a><a href="/tags/queue/" style="font-size: 1.2em; color: rgb(181, 123, 58);">queue</a><a href="/tags/stack/" style="font-size: 1.2em; color: rgb(67, 50, 154);">stack</a><a href="/tags/deque/" style="font-size: 1.2em; color: rgb(50, 145, 93);">deque</a><a href="/tags/%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81/" style="font-size: 1.15em; color: rgb(147, 157, 190);">视觉表征</a><a href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" style="font-size: 1.4em; color: rgb(165, 73, 50);">论文精读</a><a href="/tags/%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 1.15em; color: rgb(97, 50, 146);">混合专家系统</a><a href="/tags/Mamba/" style="font-size: 1.15em; color: rgb(105, 69, 85);">Mamba</a><a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/" style="font-size: 1.15em; color: rgb(135, 167, 89);">对比学习</a><a href="/tags/STL/" style="font-size: 1.15em; color: rgb(74, 109, 50);">STL</a><a href="/tags/vector/" style="font-size: 1.15em; color: rgb(188, 164, 132);">vector</a><a href="/tags/string/" style="font-size: 1.15em; color: rgb(151, 50, 50);">string</a><a href="/tags/algorithm/" style="font-size: 1.15em; color: rgb(50, 169, 93);">algorithm</a><a href="/tags/priority-queue/" style="font-size: 1.15em; color: rgb(148, 54, 196);">priority_queue</a></div></div><div class="card-widget card-archives">
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 1.45em; color: rgb(50, 73, 191);">数据结构与算法</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 1.25em; color: rgb(82, 50, 50);">二叉树</a><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/" style="font-size: 1.25em; color: rgb(81, 125, 70);">二叉树遍历</a><a href="/tags/%E9%80%92%E5%BD%92/" style="font-size: 1.4em; color: rgb(104, 102, 167);">递归</a><a href="/tags/%E8%BF%AD%E4%BB%A3/" style="font-size: 1.25em; color: rgb(123, 50, 120);">迭代</a><a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 1.2em; color: rgb(83, 150, 50);">回溯</a><a href="/tags/%E5%89%AA%E6%9E%9D/" style="font-size: 1.15em; color: rgb(169, 198, 191);">剪枝</a><a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 1.2em; color: rgb(55, 50, 104);">图论</a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.15em; color: rgb(107, 80, 50);">动态规划</a><a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.15em; color: rgb(50, 65, 198);">二分查找</a><a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.35em; color: rgb(188, 50, 170);">双指针</a><a href="/tags/%E6%95%B0%E7%BB%84/" style="font-size: 1.25em; color: rgb(151, 144, 190);">数组</a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.15em; color: rgb(76, 96, 148);">滑动窗口</a><a href="/tags/%E7%9F%A9%E9%98%B5%E8%A7%84%E5%BE%8B/" style="font-size: 1.15em; color: rgb(50, 58, 154);">矩阵规律</a><a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" style="font-size: 1.15em; color: rgb(65, 139, 177);">前缀和</a><a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.3em; color: rgb(50, 50, 193);">链表</a><a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 1.25em; color: rgb(132, 114, 60);">哈希表</a><a href="/tags/%E6%9F%A5%E6%89%BE/" style="font-size: 1.2em; color: rgb(180, 90, 179);">查找</a><a href="/tags/set/" style="font-size: 1.2em; color: rgb(95, 176, 91);">set</a><a href="/tags/map/" style="font-size: 1.25em; color: rgb(56, 194, 117);">map</a><a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="font-size: 1.15em; color: rgb(74, 50, 53);">字符串</a><a href="/tags/KMP/" style="font-size: 1.15em; color: rgb(152, 50, 50);">KMP</a><a href="/tags/reverse/" style="font-size: 1.15em; color: rgb(50, 178, 192);">reverse</a><a href="/tags/%E6%A0%88/" style="font-size: 1.15em; color: rgb(111, 50, 77);">栈</a><a href="/tags/%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(50, 50, 50);">队列</a><a href="/tags/%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97/" style="font-size: 1.15em; color: rgb(144, 71, 89);">双端队列</a><a href="/tags/%E5%A0%86/" style="font-size: 1.15em; color: rgb(50, 50, 50);">堆</a><a href="/tags/queue/" style="font-size: 1.2em; color: rgb(108, 61, 50);">queue</a><a href="/tags/stack/" style="font-size: 1.2em; color: rgb(121, 172, 62);">stack</a><a href="/tags/deque/" style="font-size: 1.2em; color: rgb(115, 57, 137);">deque</a><a href="/tags/%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81/" style="font-size: 1.15em; color: rgb(84, 70, 128);">视觉表征</a><a href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" style="font-size: 1.4em; color: rgb(111, 141, 98);">论文精读</a><a href="/tags/%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 1.15em; color: rgb(135, 50, 199);">混合专家系统</a><a href="/tags/Mamba/" style="font-size: 1.15em; color: rgb(176, 128, 50);">Mamba</a><a href="/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/" style="font-size: 1.15em; color: rgb(164, 200, 65);">对比学习</a><a href="/tags/STL/" style="font-size: 1.15em; color: rgb(50, 60, 119);">STL</a><a href="/tags/vector/" style="font-size: 1.15em; color: rgb(50, 54, 60);">vector</a><a href="/tags/string/" style="font-size: 1.15em; color: rgb(50, 54, 50);">string</a><a href="/tags/algorithm/" style="font-size: 1.15em; color: rgb(165, 50, 101);">algorithm</a><a href="/tags/priority-queue/" style="font-size: 1.15em; color: rgb(50, 165, 136);">priority_queue</a></div></div><div class="card-widget card-archives">
     <div class="item-headline">
       <i class="fas fa-archive"></i>
       <span>归档</span>
@@ -1720,7 +1126,7 @@ ${this.state.lastResults}`;
         </li>
       
     </ul>
-  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">29</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishdate="2025-01-22T22:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">51.7k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastpushdate="2025-09-22T07:23:52.685Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">总访问量：</div><div class="item-count"><span id="my-pv">加载中...</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">29</div></div><div class="webinfo-item"><div class="item-name">运行时间 :</div><div class="item-count" id="runtimeshow" data-publishdate="2025-01-22T22:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">51.7k</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastpushdate="2025-09-22T07:30:15.273Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">总访问量：</div><div class="item-count"><span id="my-pv">加载中...</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2025 By WP</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer=""></script><script src="/js/main.js" defer=""></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {
