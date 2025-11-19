@@ -11,7 +11,16 @@
     
     <url>
         <loc>https://wp-a.github.io/construction-detection/</loc>
-        <lastmod>2025-09-15T06:53:53.847Z</lastmod>
+        <lastmod>2025-09-22T09:34:30.707Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/construction-detection-github.html</loc>
+        <lastmod>2025-09-20T01:30:34.425Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
