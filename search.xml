@@ -220,13 +220,13 @@
       
         <tags>
             
+            <tag> 论文精读 </tag>
+            
             <tag> BERT </tag>
             
             <tag> Transformer </tag>
             
             <tag> 自然语言处理 </tag>
-            
-            <tag> 论文精读 </tag>
             
         </tags>
       
@@ -400,9 +400,9 @@
       
         <tags>
             
-            <tag> 论文精读 </tag>
-            
             <tag> 视觉表征 </tag>
+            
+            <tag> 论文精读 </tag>
             
         </tags>
       
@@ -623,9 +623,9 @@
             
             <tag> 数据结构与算法 </tag>
             
-            <tag> 递归 </tag>
-            
             <tag> 回溯 </tag>
+            
+            <tag> 递归 </tag>
             
             <tag> 剪枝 </tag>
             
@@ -745,11 +745,11 @@
             
             <tag> 数据结构与算法 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 二叉树 </tag>
             
             <tag> 二叉树遍历 </tag>
-            
-            <tag> 递归 </tag>
             
             <tag> 迭代 </tag>
             
@@ -780,11 +780,11 @@
             
             <tag> 数据结构与算法 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 二叉树 </tag>
             
             <tag> 二叉树遍历 </tag>
-            
-            <tag> 递归 </tag>
             
             <tag> 迭代 </tag>
             
@@ -815,11 +815,11 @@
             
             <tag> 数据结构与算法 </tag>
             
+            <tag> 递归 </tag>
+            
             <tag> 二叉树 </tag>
             
             <tag> 二叉树遍历 </tag>
-            
-            <tag> 递归 </tag>
             
             <tag> 迭代 </tag>
             
@@ -848,9 +848,9 @@
       
         <tags>
             
-            <tag> map </tag>
-            
             <tag> set </tag>
+            
+            <tag> map </tag>
             
             <tag> queue </tag>
             
@@ -1006,11 +1006,11 @@
             
             <tag> 哈希表 </tag>
             
-            <tag> map </tag>
-            
             <tag> 查找 </tag>
             
             <tag> set </tag>
+            
+            <tag> map </tag>
             
         </tags>
       
