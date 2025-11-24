@@ -2,6 +2,56 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
+class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
+版本二
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
     <url>/2025/02/10day/</url>
     <content><![CDATA[二叉树层序遍历
 二叉树层序遍历的模板
@@ -84,56 +134,6 @@ class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
-class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
-版本二
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--回溯算法</title>
     <url>/2025/03/12day/</url>
     <content><![CDATA[回溯
@@ -174,44 +174,6 @@ class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&
         <tag>递归</tag>
         <tag>回溯</tag>
         <tag>剪枝</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--动态规划</title>
-    <url>/2025/03/14day/</url>
-    <content><![CDATA[动态规划
-动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
-斐波那契数
-题目链接：509. 斐波那契数
-前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
-class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
-爬楼梯
-题目链接：70. 爬楼梯
-按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
-class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
-使用最小花费爬楼梯
-题目链接：746. 使用最小花费爬楼梯
-class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
-不同路径
-题目链接：62. 不同路径
-class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
-比特位计数
-题目链接：LCR 003. 比特位计数
-除以2
-如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
-如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
-位运算
-进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -259,6 +221,44 @@ for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点    
       <tags>
         <tag>数据结构与算法</tag>
         <tag>图论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--动态规划</title>
+    <url>/2025/03/14day/</url>
+    <content><![CDATA[动态规划
+动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
+斐波那契数
+题目链接：509. 斐波那契数
+前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
+class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
+爬楼梯
+题目链接：70. 爬楼梯
+按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
+class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
+使用最小花费爬楼梯
+题目链接：746. 使用最小花费爬楼梯
+class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
+不同路径
+题目链接：62. 不同路径
+class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
+比特位计数
+题目链接：LCR 003. 比特位计数
+除以2
+如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
+如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
+位运算
+进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -637,6 +637,53 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/9day/</url>
+    <content><![CDATA[二叉树前中后序遍历
+二叉树定义
+struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
+二叉树的前序遍历
+题目链接：144. 二叉树的前序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
+
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
+统一迭代法
+每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的中序遍历
+题目链接：94. 二叉树的中序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
+
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
+统一迭代法
+
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的后序遍历
+题目链接：145. 二叉树的后序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
+迭代遍历
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
+统一迭代法
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--栈·队列</title>
     <url>/2025/02/8day/</url>
     <content><![CDATA[栈·队列
@@ -816,53 +863,6 @@ class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    pub
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/9day/</url>
-    <content><![CDATA[二叉树前中后序遍历
-二叉树定义
-struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
-二叉树的前序遍历
-题目链接：144. 二叉树的前序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
-
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
-统一迭代法
-每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的中序遍历
-题目链接：94. 二叉树的中序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
-
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
-统一迭代法
-
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的后序遍历
-题目链接：145. 二叉树的后序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
-迭代遍历
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
-统一迭代法
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
       </tags>
   </entry>
   <entry>
@@ -1990,6 +1990,212 @@ Transformer具备全局建模能力，即便仅看到25%的patch也能捕捉结�
       </tags>
   </entry>
   <entry>
+    <title>Mamba详解 - 选择性状态空间模型精读</title>
+    <url>/2025/11/Mamba/</url>
+    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
+论文地址：https://arxiv.org/pdf/2312.00752
+代码地址：https://github.com/state-spaces/mamba
+引言
+Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
+Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
+背景知识：状态空间模型（SSM）与S4
+连续与离散SSM
+连续时间SSM：
+$$
+\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+$$
+离散化后：
+$$
+x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+$$
+其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
+S4的关键思想
+
+通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
+使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
+优点：理论稳定、长依赖强；
+局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
+
+Mamba的核心创新
+
+
+选择性扫描（Selective Scan）：
+
+令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
+避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
+
+
+
+输入条件化的SSM参数化：
+
+将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
+结合高效实现，使其仍保持线性复杂度。
+
+
+
+GPU友好的实现与块并行：
+
+通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
+内存访问模式优化，显著提升吞吐。
+
+
+
+端到端可训练的稳定性：
+
+对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
+
+
+
+模型架构
+典型的 Mamba Block 包含：
+
+输入投影与门控（选择性）
+选择性SSM扫描（线性复杂度）
+前馈网络（MLP/GEGLU）
+残差连接与归一化
+
+流程示意：
+X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
+相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
+选择性扫描（Selective Scan）要点
+
+将序列划分为若干块（blocks），每块内部执行线性递推扫描；
+记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
+通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
+与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
+
+复杂度与性能
+
+时间复杂度：$O(N)$ 随序列长度线性；
+空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
+对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
+在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
+
+训练与实践
+
+优化器：AdamW；学习率余弦退火；warmup数千步；
+正则：Dropout/Stochastic Depth 按深度线性增长；
+初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
+长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
+
+与Transformer/Conv的比较
+
+
+
+方向
+Transformer
+ConvNet
+Mamba（SSM）
+
+
+
+
+复杂度
+O(N^2)
+O(N)
+O(N)
+
+
+长距离依赖
+强（显式全连接）
+弱-中
+强（稳定递推核）
+
+
+并行性
+训练强/推理弱（自回归）
+强
+强（块并行扫描）
+
+
+归纳偏置
+弱
+强（局部）
+中（递推+选择性）
+
+
+适用场景
+通用
+局部模式
+超长序列/低时延
+
+
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
+
+注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
+
+实验要点与经验
+
+序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
+批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
+任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
+可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
+
+优缺点
+优点
+
+线性复杂度，适合超长序列与端侧低时延应用；
+选择性门控使得对稀疏/非稳态事件更敏感；
+GPU友好实现，训练/推理吞吐高；
+理论上可与注意力/卷积并行或互补，形成混合结构。
+
+缺点
+
+对全局两两交互的显式建模不如注意力直观；
+超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
+在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
+
+相关与后续工作
+
+S4/S5：结构化SSM与其后续改进；
+MambaOut：面向视觉分类的实用化改造；
+Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
+混合架构：SSM + Attention/Conv的多路并行。
+
+参考文献
+
+
+Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
+
+
+Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
+
+
+Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
+
+
+Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
+
+
+思考题
+
+为什么选择性扫描能在保持线性复杂度的同时提升表达力？
+如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
+在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
+针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
+
+思考题答案
+
+选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
+采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
+可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
+提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>序列建模</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+        <tag>SSM</tag>
+        <tag>序列建模</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MoE</title>
     <url>/2025/04/MOE/</url>
     <content><![CDATA[Mixtures of Experts
@@ -2234,212 +2440,6 @@ $$
       <tags>
         <tag>论文精读</tag>
         <tag>混合专家系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mamba详解 - 选择性状态空间模型精读</title>
-    <url>/2025/11/Mamba/</url>
-    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
-论文地址：https://arxiv.org/pdf/2312.00752
-代码地址：https://github.com/state-spaces/mamba
-引言
-Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
-Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
-背景知识：状态空间模型（SSM）与S4
-连续与离散SSM
-连续时间SSM：
-$$
-\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
-$$
-离散化后：
-$$
-x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
-$$
-其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
-S4的关键思想
-
-通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
-使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
-优点：理论稳定、长依赖强；
-局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
-
-Mamba的核心创新
-
-
-选择性扫描（Selective Scan）：
-
-令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
-避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
-
-
-
-输入条件化的SSM参数化：
-
-将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
-结合高效实现，使其仍保持线性复杂度。
-
-
-
-GPU友好的实现与块并行：
-
-通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
-内存访问模式优化，显著提升吞吐。
-
-
-
-端到端可训练的稳定性：
-
-对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
-
-
-
-模型架构
-典型的 Mamba Block 包含：
-
-输入投影与门控（选择性）
-选择性SSM扫描（线性复杂度）
-前馈网络（MLP/GEGLU）
-残差连接与归一化
-
-流程示意：
-X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
-相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
-选择性扫描（Selective Scan）要点
-
-将序列划分为若干块（blocks），每块内部执行线性递推扫描；
-记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
-通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
-与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
-
-复杂度与性能
-
-时间复杂度：$O(N)$ 随序列长度线性；
-空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
-对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
-在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
-
-训练与实践
-
-优化器：AdamW；学习率余弦退火；warmup数千步；
-正则：Dropout/Stochastic Depth 按深度线性增长；
-初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
-长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
-
-与Transformer/Conv的比较
-
-
-
-方向
-Transformer
-ConvNet
-Mamba（SSM）
-
-
-
-
-复杂度
-O(N^2)
-O(N)
-O(N)
-
-
-长距离依赖
-强（显式全连接）
-弱-中
-强（稳定递推核）
-
-
-并行性
-训练强/推理弱（自回归）
-强
-强（块并行扫描）
-
-
-归纳偏置
-弱
-强（局部）
-中（递推+选择性）
-
-
-适用场景
-通用
-局部模式
-超长序列/低时延
-
-
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
-
-注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
-
-实验要点与经验
-
-序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
-批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
-任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
-可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
-
-优缺点
-优点
-
-线性复杂度，适合超长序列与端侧低时延应用；
-选择性门控使得对稀疏/非稳态事件更敏感；
-GPU友好实现，训练/推理吞吐高；
-理论上可与注意力/卷积并行或互补，形成混合结构。
-
-缺点
-
-对全局两两交互的显式建模不如注意力直观；
-超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
-在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
-
-相关与后续工作
-
-S4/S5：结构化SSM与其后续改进；
-MambaOut：面向视觉分类的实用化改造；
-Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
-混合架构：SSM + Attention/Conv的多路并行。
-
-参考文献
-
-
-Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
-
-
-Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
-
-
-Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
-
-
-Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
-
-
-思考题
-
-为什么选择性扫描能在保持线性复杂度的同时提升表达力？
-如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
-在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
-针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
-
-思考题答案
-
-选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
-采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
-可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
-提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>序列建模</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>Mamba</tag>
-        <tag>SSM</tag>
-        <tag>序列建模</tag>
       </tags>
   </entry>
   <entry>
@@ -3422,6 +3422,28 @@ reserve(n)
       </tags>
   </entry>
   <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基础知识--哈希表</title>
     <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
     <content><![CDATA[哈希表
@@ -3565,25 +3587,574 @@ void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+    <title>基础知识--图论</title>
+    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
+    <content><![CDATA[基础知识–图论
+图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
 
+核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
+
+图的基本概念
+
+
+图 (Graph)
+一个图 G 由两个基本集合构成：
+
+顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
+边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
+
+我们可以用数学符号表示一个图：  G = (V, E)
+
+
+顶点 (Vertex / Node / Point)
+
+图的基本组成部分，代表研究对象或实体。
+示例:
+
+在社交网络中，顶点可以代表 人。
+在交通网络中，顶点可以代表 城市。
+在电路图中，顶点可以代表 电子元件。
+
+
+
+
+
+边 (Edge / Arc / Line)
+
+连接两个顶点的线，表示顶点之间存在的关系。
+示例:
+
+在社交网络中，边可以表示两个人之间的 朋友关系。
+在交通网络中，边可以表示两个城市之间的 道路。
+在电路图中，边可以代表 导线。
+
+
+
+
+
+关联 (Incidence)
+
+如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
+简单来说，就是边“连接到”哪些顶点。
+
+
+
+邻接 (Adjacency)
+
+顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
+边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
+
+
+
+度 (Degree)
+
+
+一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
+
+
+有向图的度:  对于有向图，度分为两种：
+
+入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
+出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
+
+
+
+
+
+路径 (Path)
+
+图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
+路径中通常不重复经过顶点，除非是环路。
+
+
+
+环路/回路 (Cycle)
+
+一种特殊的路径，起点和终点是同一个顶点。
+环路表示从一个点出发，可以回到原点的路径。
+
+
+
+简单路径 (Simple Path)
+
+路径中所有顶点都不同的路径。
+简单路径避免了在路径中重复访问同一个顶点。
+
+
+
+简单环路/简单回路 (Simple Cycle)
+
+环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
+简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
+
+
+
+图的类型
+有向图 vs 无向图
+
+
+无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
+
+
+有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
+
+
+有权图 vs 无权图
+
+
+有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
+
+
+无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
+
+
+连通图 vs 非连通图
+
+
+连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
+
+
+非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
+
+
+连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
+
+
+强连通 vs 单连通
+
+强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
+单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
+
+图的表示方法
+邻接矩阵表示法
+邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
+
+对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
+对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
+
+优点：
+
+实现简单，便于理解
+查询两点间是否有边的时间复杂度为 O(1)
+适合表示稠密图
+
+缺点：
+
+空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
+添加/删除顶点的操作较为复杂
+
+邻接表表示法
+邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
+
+数组索引 i 对应顶点 i
+链表中存储的是与顶点 i 相邻的所有顶点
+
+优点：
+
+节省空间，特别适合稀疏图
+容易找到给定顶点的所有邻接点
+添加顶点操作简单
+
+缺点：
+
+查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
+对有向图求逆邻接表较困难
+
+十字链表表示法
+十字链表是邻接表的改进版本，主要用于有向图：
+
+结合了邻接表和逆邻接表的特点
+每个顶点有一个出边表和一个入边表
+每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
+
+优点：
+
+容易找到顶点的所有出边和入边
+适合需要频繁查询入度和出度的应用场景
+
+邻接多重表
+邻接多重表主要用于无向图：
+
+每条边只存储一次
+每个顶点有一个边表
+每条边连接到与其关联的两个顶点的边表中
+
+优点：
+
+便于删除和查找特定边
+节省空间
+
+边集数组表示法
+边集数组直接存储图中所有的边：
+
+使用一个一维数组存储所有顶点信息
+使用另一个数组存储所有边的信息（包括起点、终点和权值）
+
+优点：
+
+实现简单
+适合只关注边的操作，如最小生成树的Kruskal算法
+适合稀疏图
+
+缺点：
+
+查找操作效率较低
+不易找到与特定顶点相连的所有边
+
+选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
+图的遍历方法
+DFS(深度优先搜索)
+深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问
+对该顶点的每个未访问的邻接点，递归地应用DFS
+如果当前顶点没有未访问的邻接点，则回溯
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)
+空间复杂度：O(V)
+
+应用场景
+
+拓扑排序
+寻找连通分量
+判断图中是否有环
+寻找路径（如迷宫问题）
+
+BFS(广度优先搜索)
+广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问，并放入队列中
+当队列不为空时，执行以下操作：
+
+取出队列中的第一个顶点u
+访问顶点u
+将u的所有未访问过的邻接点标记为已访问并加入队列
+
+
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)，其中V是顶点数，E是边数
+空间复杂度：O(V)，用于存储访问状态和队列
+
+应用场景
+
+寻找最短路径（无权图）
+网络爬虫
+社交网络中的关系距离（如&quot;六度分隔&quot;理论）
+层次遍历
+
+图的应用
+最小生成树算法
+无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
+Kruskal算法
+
+
+思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
+步骤：
+
+对所有边按照权值进行排序。
+依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
+重复直到生成树中包含 n−1 条边。
+
+
+特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
+
+Prim算法
+
+思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
+步骤：
+
+从任一顶点开始，将其加入生成树。
+找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
+重复直到所有顶点都被加入生成树。
+
+
+特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
+
+最短路径算法
+Dijkstra算法
+从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
+基本流程
+
+初始化：源点距离设为0，其他顶点距离设为无穷大
+每次选择未访问的距离最小的顶点，标记为已访问
+更新该顶点的邻居顶点的距离
+重复步骤2-3直到所有顶点被访问
+
+算法复杂度
+
+时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
+空间复杂度：O(V)
+
+算法的局限性
+
+迪杰斯特拉算法不能处理负权边
+在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
+
+应用场景
+
+导航系统
+网络路由协议
+社交网络分析
+电信网络规划
+
+Floyd-Warshall算法
+对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
+基本流程
+
+初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
+对于每一个顶点k，检查所有顶点对(i,j)
+对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
+重复步骤2和3，直到遍历完所有顶点
+
+算法复杂度
+
+时间复杂度：O(V³)，其中V是顶点数
+空间复杂度：O(V²)
+
+与迪杰斯特拉算法的比较
+
+范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
+适用场景：
+
+对于稀疏图，运行V次迪杰斯特拉算法更高效
+对于稠密图，弗洛伊德算法更优
+
+
+负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
+
+算法优势
+
+实现简单，代码简洁
+可以处理有向图和负权边（但不能有负权环）
+一次运行可以得到所有顶点对之间的最短路径
+
+应用场景
+
+网络路由算法
+交通规划
+寻找图中的传递闭包
+计算最大流问题
+
+A*算法
+A*算法是一种启发式搜索算法，常用于路径规划问题。
+
+结合了Dijkstra算法和启发式搜索的优点
+使用估价函数指导搜索方向
+在有好的启发函数时效率很高
+
+基本流程
+
+初始化：起点放入开放列表
+每次从开放列表中选择f值最小的节点n
+如果n是目标节点，算法结束
+否则，将n移到关闭列表，并检查所有邻居节点
+对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
+更新邻居节点信息并加入开放列表
+重复步骤2-6直到找到目标或开放列表为空
+
+拓扑排序
+拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
+算法原理
+每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
+时间复杂度与空间复杂度
+
+时间复杂度: O(V + E)，其中V是顶点数，E是边数
+空间复杂度: O(V)，需要存储顶点的访问状态和结果
+
+特性和局限性
+
+唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
+环检测: 如果图中存在环，则无法进行拓扑排序
+适用范围: 只适用于有向无环图（DAG）
+初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
 
 ]]></content>
       <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
+        <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
+        <tag>数据结构与算法</tag>
+        <tag>图论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于深度学习的图像分类</title>
+    <url>/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[使用ResNet18预训练模型
+由于笔记本性能太差，所以在服务器上运行的，显卡配置为4090。经大量实验判断，初始学习率为0.01最后效果较差，所以初始学习率应设为0.001。全部代码代码已上传到：https://github.com/wp-a/-CIFAR10-.git
+库函数导入
+import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+数据集加载及增强操作
+transform_train = transforms.Compose([    transforms.Resize(224),	#图像从32x32放大到224x224是通过在原始像素之间插入新的像素点来实现的。插入的像素值是根据周围原始像素的值，通过不同的插值算法计算出来的，默认使用双线性插值。    transforms.RandomHorizontalFlip(), #以 0.5 的概率水平随机翻转图像    transforms.RandomRotation(10),  #将图像随机旋转 -10 到 10 度之间的角度    transforms.ToTensor(),  #将图像从 PIL 图像格式转换为 PyTorch 张量    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))     #使用为三个颜色通道中的每一个提供的平均和标准差来标准化图像的像素值(归一化)])transform_test = transforms.Compose([    transforms.Resize(224),    transforms.ToTensor(),    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))])# 加载CIFAR-10数据集train_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, transform=transform_train)test_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, train=False, transform=transform_test)batch_size = 64  train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)#返回数字对应的类名def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
+加载预训练模型
+def get_resnet18(pretrained=True):    model = torchvision.models.resnet18(pretrained=pretrained)    model.fc = nn.Linear(512, 10)  # 修改最后一层以适应CIFAR10的10个类别    return modelmodel = get_resnet18()model = model.to(device)
+模型训练超参数设置
+#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。Adam负责在参数层面进行自适应的学习率调整，以加快收敛。学习率调度器负责在训练过程的宏观层面调整全局学习率，以提高模型的最终性能和泛化能力。二者不会产生冲突。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
+模型训练
+num_epochs = 6count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()              total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
+实验结果保存
+torch.save(model.state_dict(), &#x27;resnet18_cifar10.pth&#x27;)print(&#x27;Model saved to resnet18_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for ResNet on CIFAR-10:&quot;)print(classification_report(flat_labels, flat_predictions, target_names=classes))
+实验结果分析
+lr分析
+由实验结果可得lr=0.01时，效果较差，所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
+lr=0.01
+
+lr=0.001
+
+lr=1e6
+
+batchsize分析
+Batchsize：64    epoch：6      lr_decay_epoch：2      初始学习率为0.001       94.46%
+
+
+
+
+Batchsize：128       epoch：12      lr_decay_epoch：3        初始学习率为0.001     95.23%
+
+
+
+
+Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.01        85.87%
+和分析的一致，对比下面实验，控制变量，只有初始学习率改变，精度提升10%左右。
+
+
+
+
+Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.44%
+
+
+
+
+Batchsize：64      epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.66%
+
+
+
+
+使用LeNet网络
+与Resnet相比换了一个网络和改了数据加载模块，其他没啥变化。
+库函数导入
+import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+数据集加载及增强操作
+transform = transforms.Compose(        [transforms.RandomHorizontalFlip(),         transforms.RandomCrop(32, padding=4),         transforms.ToTensor(),         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])trainset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=True,                                            download=True, transform=transform)train_loader = torch.utils.data.DataLoader(trainset, batch_size=32,                                              shuffle=True, num_workers=2)testset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=False,                                           download=True, transform=transform)test_loader = torch.utils.data.DataLoader(testset, batch_size=32,                                             shuffle=False, num_workers=2)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
+LeNet模型
+class C1(nn.Module):    def __init__(self):        super(C1, self).__init__()        self.c1 = nn.Sequential(OrderedDict([            (&#x27;conv1&#x27;, nn.Conv2d(3, 6, kernel_size=(5, 5))),            (&#x27;relu1&#x27;, nn.ReLU()),            (&#x27;pool1&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c1(img)        return outputclass C3(nn.Module):    def __init__(self):        super(C3, self).__init__()        self.c3 = nn.Sequential(OrderedDict([            (&#x27;conv3&#x27;, nn.Conv2d(6, 16, kernel_size=(5, 5))),            (&#x27;relu3&#x27;, nn.ReLU()),            (&#x27;pool3&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c3(img)        return outputclass F4(nn.Module):    def __init__(self):        super(F4, self).__init__()        self.f4 = nn.Sequential(OrderedDict([            (&#x27;fc4&#x27;, nn.Linear(16 * 5 * 5, 120)),            (&#x27;relu4&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f4(img)        return outputclass F5(nn.Module):    def __init__(self):        super(F5, self).__init__()        self.f5 = nn.Sequential(OrderedDict([            (&#x27;fc5&#x27;, nn.Linear(120, 84)),            (&#x27;relu5&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f5(img)        return outputclass F6(nn.Module):    def __init__(self):        super(F6, self).__init__()        self.f6 = nn.Sequential(OrderedDict([            (&#x27;fc6&#x27;, nn.Linear(84, 10))        ]))    def forward(self, img):        output = self.f6(img)        return outputclass LeNet5(nn.Module):    def __init__(self):        super(LeNet5, self).__init__()        self.c1 = C1()        self.c3 = C3()        self.f4 = F4()        self.f5 = F5()        self.f6 = F6()    def forward(self, img):        output = self.c1(img)        output = self.c3(output)        output = output.view(-1, 16 * 5 * 5)        output = self.f4(output)        output = self.f5(output)        output = self.f6(output)        return output
+模型训练超参数设置
+#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
+模型训练
+num_epochs = 20count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()             total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
+实验结果保存
+torch.save(model.state_dict(), &#x27;lenet5_cifar10.pth&#x27;) print(&#x27;Model saved to lenet5_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for LeNet on CIFAR-10:&quot;) print(classification_report(flat_labels, flat_predictions, target_names=classes))
+实验结果分析
+使用图像增强操作
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
+
+
+
+
+未使用图像增强操作
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       62.66%
+
+
+
+
+使用FashionNet
+代码详见github
+图像增强操作训练结果分析
+使用图像增强操作
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        71.51%
+
+
+未使用图像增强操作
+Batchsize：128      epoch：30      lr_decay_epoch：6     初始学习率为 0.01        71.69%
+
+
+
+
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
+
+
+
+
+Gradcam实现图像特征可视化
+Grad-CAM 的目标层均为最后一个卷积层
+Resnet效果图
+参数配置    Batch_size：64    epoch：20      lr_decay_epoch：5     lr：0.001      95.66%
+图片来自谷歌。
+  
+      
+FashionNet效果图
+参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
+  
+      
+LeNet效果图
+参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
+  
+      
+总结
+数据集在不同模型上的准确率
+
+
+
+模型
+准确率
+
+
+
+
+ResNet
+95.66%
+
+
+LeNet
+62.66%
+
+
+FashionNet
+74.25%
+
+
+
+LeNet对数据集进行图像增强操作的影响
+分析：由于模型过于简单，本来就会出现欠拟合现象，继续进行图像增强操作后会导致模型更加欠拟合。所以出现三个模型精度差距较大，主要是因为模型复杂度的差距。虽然是欠拟合，但是继续增加epoch也并不会提高精度，因为模型对数据已经学到了尽可能多的知识。
+
+
+
+未归一化
+归一化
+图像增强操作
+大量图像增强操作
+
+
+
+
+58.75%
+62.66%
+60.56%
+56.78%
+
+
+
+神经网络参数对模型准确率的影响
+batch_size：64或128并无太大影响。
+初始学习率：由实验结果可得lr=0.01时，效果较差，三个网络都使用了0.01进行测试得出的结果，有的实验结果没贴图。所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。
+lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
+]]></content>
+      <categories>
+        <category>手撕代码</category>
+        <category>图像分类</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+        <tag>图像分类</tag>
+        <tag>Resnet</tag>
+        <tag>Lenet</tag>
+        <tag>CIFAR10</tag>
       </tags>
   </entry>
   <entry>
@@ -4066,403 +4637,6 @@ Wu, Z., et al. (2020). A comprehensive survey on graph neural networks. IEEE TNN
         <tag>论文精读</tag>
         <tag>GNN</tag>
         <tag>图神经网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--图论</title>
-    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
-    <content><![CDATA[基础知识–图论
-图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
-
-核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
-
-图的基本概念
-
-
-图 (Graph)
-一个图 G 由两个基本集合构成：
-
-顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
-边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
-
-我们可以用数学符号表示一个图：  G = (V, E)
-
-
-顶点 (Vertex / Node / Point)
-
-图的基本组成部分，代表研究对象或实体。
-示例:
-
-在社交网络中，顶点可以代表 人。
-在交通网络中，顶点可以代表 城市。
-在电路图中，顶点可以代表 电子元件。
-
-
-
-
-
-边 (Edge / Arc / Line)
-
-连接两个顶点的线，表示顶点之间存在的关系。
-示例:
-
-在社交网络中，边可以表示两个人之间的 朋友关系。
-在交通网络中，边可以表示两个城市之间的 道路。
-在电路图中，边可以代表 导线。
-
-
-
-
-
-关联 (Incidence)
-
-如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
-简单来说，就是边“连接到”哪些顶点。
-
-
-
-邻接 (Adjacency)
-
-顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
-边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
-
-
-
-度 (Degree)
-
-
-一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
-
-
-有向图的度:  对于有向图，度分为两种：
-
-入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
-出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
-
-
-
-
-
-路径 (Path)
-
-图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
-路径中通常不重复经过顶点，除非是环路。
-
-
-
-环路/回路 (Cycle)
-
-一种特殊的路径，起点和终点是同一个顶点。
-环路表示从一个点出发，可以回到原点的路径。
-
-
-
-简单路径 (Simple Path)
-
-路径中所有顶点都不同的路径。
-简单路径避免了在路径中重复访问同一个顶点。
-
-
-
-简单环路/简单回路 (Simple Cycle)
-
-环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
-简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
-
-
-
-图的类型
-有向图 vs 无向图
-
-
-无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
-
-
-有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
-
-
-有权图 vs 无权图
-
-
-有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
-
-
-无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
-
-
-连通图 vs 非连通图
-
-
-连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
-
-
-非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
-
-
-连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
-
-
-强连通 vs 单连通
-
-强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
-单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
-
-图的表示方法
-邻接矩阵表示法
-邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
-
-对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
-对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
-
-优点：
-
-实现简单，便于理解
-查询两点间是否有边的时间复杂度为 O(1)
-适合表示稠密图
-
-缺点：
-
-空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
-添加/删除顶点的操作较为复杂
-
-邻接表表示法
-邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
-
-数组索引 i 对应顶点 i
-链表中存储的是与顶点 i 相邻的所有顶点
-
-优点：
-
-节省空间，特别适合稀疏图
-容易找到给定顶点的所有邻接点
-添加顶点操作简单
-
-缺点：
-
-查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
-对有向图求逆邻接表较困难
-
-十字链表表示法
-十字链表是邻接表的改进版本，主要用于有向图：
-
-结合了邻接表和逆邻接表的特点
-每个顶点有一个出边表和一个入边表
-每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
-
-优点：
-
-容易找到顶点的所有出边和入边
-适合需要频繁查询入度和出度的应用场景
-
-邻接多重表
-邻接多重表主要用于无向图：
-
-每条边只存储一次
-每个顶点有一个边表
-每条边连接到与其关联的两个顶点的边表中
-
-优点：
-
-便于删除和查找特定边
-节省空间
-
-边集数组表示法
-边集数组直接存储图中所有的边：
-
-使用一个一维数组存储所有顶点信息
-使用另一个数组存储所有边的信息（包括起点、终点和权值）
-
-优点：
-
-实现简单
-适合只关注边的操作，如最小生成树的Kruskal算法
-适合稀疏图
-
-缺点：
-
-查找操作效率较低
-不易找到与特定顶点相连的所有边
-
-选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
-图的遍历方法
-DFS(深度优先搜索)
-深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问
-对该顶点的每个未访问的邻接点，递归地应用DFS
-如果当前顶点没有未访问的邻接点，则回溯
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)
-空间复杂度：O(V)
-
-应用场景
-
-拓扑排序
-寻找连通分量
-判断图中是否有环
-寻找路径（如迷宫问题）
-
-BFS(广度优先搜索)
-广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问，并放入队列中
-当队列不为空时，执行以下操作：
-
-取出队列中的第一个顶点u
-访问顶点u
-将u的所有未访问过的邻接点标记为已访问并加入队列
-
-
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)，其中V是顶点数，E是边数
-空间复杂度：O(V)，用于存储访问状态和队列
-
-应用场景
-
-寻找最短路径（无权图）
-网络爬虫
-社交网络中的关系距离（如&quot;六度分隔&quot;理论）
-层次遍历
-
-图的应用
-最小生成树算法
-无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
-Kruskal算法
-
-
-思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
-步骤：
-
-对所有边按照权值进行排序。
-依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
-重复直到生成树中包含 n−1 条边。
-
-
-特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
-
-Prim算法
-
-思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
-步骤：
-
-从任一顶点开始，将其加入生成树。
-找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
-重复直到所有顶点都被加入生成树。
-
-
-特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
-
-最短路径算法
-Dijkstra算法
-从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
-基本流程
-
-初始化：源点距离设为0，其他顶点距离设为无穷大
-每次选择未访问的距离最小的顶点，标记为已访问
-更新该顶点的邻居顶点的距离
-重复步骤2-3直到所有顶点被访问
-
-算法复杂度
-
-时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
-空间复杂度：O(V)
-
-算法的局限性
-
-迪杰斯特拉算法不能处理负权边
-在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
-
-应用场景
-
-导航系统
-网络路由协议
-社交网络分析
-电信网络规划
-
-Floyd-Warshall算法
-对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
-基本流程
-
-初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
-对于每一个顶点k，检查所有顶点对(i,j)
-对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
-重复步骤2和3，直到遍历完所有顶点
-
-算法复杂度
-
-时间复杂度：O(V³)，其中V是顶点数
-空间复杂度：O(V²)
-
-与迪杰斯特拉算法的比较
-
-范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
-适用场景：
-
-对于稀疏图，运行V次迪杰斯特拉算法更高效
-对于稠密图，弗洛伊德算法更优
-
-
-负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
-
-算法优势
-
-实现简单，代码简洁
-可以处理有向图和负权边（但不能有负权环）
-一次运行可以得到所有顶点对之间的最短路径
-
-应用场景
-
-网络路由算法
-交通规划
-寻找图中的传递闭包
-计算最大流问题
-
-A*算法
-A*算法是一种启发式搜索算法，常用于路径规划问题。
-
-结合了Dijkstra算法和启发式搜索的优点
-使用估价函数指导搜索方向
-在有好的启发函数时效率很高
-
-基本流程
-
-初始化：起点放入开放列表
-每次从开放列表中选择f值最小的节点n
-如果n是目标节点，算法结束
-否则，将n移到关闭列表，并检查所有邻居节点
-对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
-更新邻居节点信息并加入开放列表
-重复步骤2-6直到找到目标或开放列表为空
-
-拓扑排序
-拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
-算法原理
-每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
-时间复杂度与空间复杂度
-
-时间复杂度: O(V + E)，其中V是顶点数，E是边数
-空间复杂度: O(V)，需要存储顶点的访问状态和结果
-
-特性和局限性
-
-唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
-环检测: 如果图中存在环，则无法进行拓扑排序
-适用范围: 只适用于有向无环图（DAG）
-初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>图论</tag>
       </tags>
   </entry>
   <entry>
@@ -5271,180 +5445,6 @@ Memory更新策略：能否利用动量更新与自适应权重结合，既保�
       </tags>
   </entry>
   <entry>
-    <title>基于深度学习的图像分类</title>
-    <url>/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[使用ResNet18预训练模型
-由于笔记本性能太差，所以在服务器上运行的，显卡配置为4090。经大量实验判断，初始学习率为0.01最后效果较差，所以初始学习率应设为0.001。全部代码代码已上传到：https://github.com/wp-a/-CIFAR10-.git
-库函数导入
-import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
-数据集加载及增强操作
-transform_train = transforms.Compose([    transforms.Resize(224),	#图像从32x32放大到224x224是通过在原始像素之间插入新的像素点来实现的。插入的像素值是根据周围原始像素的值，通过不同的插值算法计算出来的，默认使用双线性插值。    transforms.RandomHorizontalFlip(), #以 0.5 的概率水平随机翻转图像    transforms.RandomRotation(10),  #将图像随机旋转 -10 到 10 度之间的角度    transforms.ToTensor(),  #将图像从 PIL 图像格式转换为 PyTorch 张量    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))     #使用为三个颜色通道中的每一个提供的平均和标准差来标准化图像的像素值(归一化)])transform_test = transforms.Compose([    transforms.Resize(224),    transforms.ToTensor(),    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))])# 加载CIFAR-10数据集train_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, transform=transform_train)test_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, train=False, transform=transform_test)batch_size = 64  train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)#返回数字对应的类名def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
-加载预训练模型
-def get_resnet18(pretrained=True):    model = torchvision.models.resnet18(pretrained=pretrained)    model.fc = nn.Linear(512, 10)  # 修改最后一层以适应CIFAR10的10个类别    return modelmodel = get_resnet18()model = model.to(device)
-模型训练超参数设置
-#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。Adam负责在参数层面进行自适应的学习率调整，以加快收敛。学习率调度器负责在训练过程的宏观层面调整全局学习率，以提高模型的最终性能和泛化能力。二者不会产生冲突。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
-模型训练
-num_epochs = 6count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()              total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
-实验结果保存
-torch.save(model.state_dict(), &#x27;resnet18_cifar10.pth&#x27;)print(&#x27;Model saved to resnet18_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for ResNet on CIFAR-10:&quot;)print(classification_report(flat_labels, flat_predictions, target_names=classes))
-实验结果分析
-lr分析
-由实验结果可得lr=0.01时，效果较差，所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
-lr=0.01
-
-lr=0.001
-
-lr=1e6
-
-batchsize分析
-Batchsize：64    epoch：6      lr_decay_epoch：2      初始学习率为0.001       94.46%
-
-
-
-
-Batchsize：128       epoch：12      lr_decay_epoch：3        初始学习率为0.001     95.23%
-
-
-
-
-Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.01        85.87%
-和分析的一致，对比下面实验，控制变量，只有初始学习率改变，精度提升10%左右。
-
-
-
-
-Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.44%
-
-
-
-
-Batchsize：64      epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.66%
-
-
-
-
-使用LeNet网络
-与Resnet相比换了一个网络和改了数据加载模块，其他没啥变化。
-库函数导入
-import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
-数据集加载及增强操作
-transform = transforms.Compose(        [transforms.RandomHorizontalFlip(),         transforms.RandomCrop(32, padding=4),         transforms.ToTensor(),         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])trainset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=True,                                            download=True, transform=transform)train_loader = torch.utils.data.DataLoader(trainset, batch_size=32,                                              shuffle=True, num_workers=2)testset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=False,                                           download=True, transform=transform)test_loader = torch.utils.data.DataLoader(testset, batch_size=32,                                             shuffle=False, num_workers=2)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
-LeNet模型
-class C1(nn.Module):    def __init__(self):        super(C1, self).__init__()        self.c1 = nn.Sequential(OrderedDict([            (&#x27;conv1&#x27;, nn.Conv2d(3, 6, kernel_size=(5, 5))),            (&#x27;relu1&#x27;, nn.ReLU()),            (&#x27;pool1&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c1(img)        return outputclass C3(nn.Module):    def __init__(self):        super(C3, self).__init__()        self.c3 = nn.Sequential(OrderedDict([            (&#x27;conv3&#x27;, nn.Conv2d(6, 16, kernel_size=(5, 5))),            (&#x27;relu3&#x27;, nn.ReLU()),            (&#x27;pool3&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c3(img)        return outputclass F4(nn.Module):    def __init__(self):        super(F4, self).__init__()        self.f4 = nn.Sequential(OrderedDict([            (&#x27;fc4&#x27;, nn.Linear(16 * 5 * 5, 120)),            (&#x27;relu4&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f4(img)        return outputclass F5(nn.Module):    def __init__(self):        super(F5, self).__init__()        self.f5 = nn.Sequential(OrderedDict([            (&#x27;fc5&#x27;, nn.Linear(120, 84)),            (&#x27;relu5&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f5(img)        return outputclass F6(nn.Module):    def __init__(self):        super(F6, self).__init__()        self.f6 = nn.Sequential(OrderedDict([            (&#x27;fc6&#x27;, nn.Linear(84, 10))        ]))    def forward(self, img):        output = self.f6(img)        return outputclass LeNet5(nn.Module):    def __init__(self):        super(LeNet5, self).__init__()        self.c1 = C1()        self.c3 = C3()        self.f4 = F4()        self.f5 = F5()        self.f6 = F6()    def forward(self, img):        output = self.c1(img)        output = self.c3(output)        output = output.view(-1, 16 * 5 * 5)        output = self.f4(output)        output = self.f5(output)        output = self.f6(output)        return output
-模型训练超参数设置
-#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
-模型训练
-num_epochs = 20count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()             total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
-实验结果保存
-torch.save(model.state_dict(), &#x27;lenet5_cifar10.pth&#x27;) print(&#x27;Model saved to lenet5_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for LeNet on CIFAR-10:&quot;) print(classification_report(flat_labels, flat_predictions, target_names=classes))
-实验结果分析
-使用图像增强操作
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
-
-
-
-
-未使用图像增强操作
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       62.66%
-
-
-
-
-使用FashionNet
-代码详见github
-图像增强操作训练结果分析
-使用图像增强操作
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        71.51%
-
-
-未使用图像增强操作
-Batchsize：128      epoch：30      lr_decay_epoch：6     初始学习率为 0.01        71.69%
-
-
-
-
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
-
-
-
-
-Gradcam实现图像特征可视化
-Grad-CAM 的目标层均为最后一个卷积层
-Resnet效果图
-参数配置    Batch_size：64    epoch：20      lr_decay_epoch：5     lr：0.001      95.66%
-图片来自谷歌。
-  
-      
-FashionNet效果图
-参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
-  
-      
-LeNet效果图
-参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
-  
-      
-总结
-数据集在不同模型上的准确率
-
-
-
-模型
-准确率
-
-
-
-
-ResNet
-95.66%
-
-
-LeNet
-62.66%
-
-
-FashionNet
-74.25%
-
-
-
-LeNet对数据集进行图像增强操作的影响
-分析：由于模型过于简单，本来就会出现欠拟合现象，继续进行图像增强操作后会导致模型更加欠拟合。所以出现三个模型精度差距较大，主要是因为模型复杂度的差距。虽然是欠拟合，但是继续增加epoch也并不会提高精度，因为模型对数据已经学到了尽可能多的知识。
-
-
-
-未归一化
-归一化
-图像增强操作
-大量图像增强操作
-
-
-
-
-58.75%
-62.66%
-60.56%
-56.78%
-
-
-
-神经网络参数对模型准确率的影响
-batch_size：64或128并无太大影响。
-初始学习率：由实验结果可得lr=0.01时，效果较差，三个网络都使用了0.01进行测试得出的结果，有的实验结果没贴图。所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。
-lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-        <tag>图像分类</tag>
-        <tag>Resnet</tag>
-        <tag>Lenet</tag>
-        <tag>CIFAR10</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>手撕 Vision Transformer</title>
     <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
     <content><![CDATA[手撕 Vision Transformer
@@ -5460,887 +5460,6 @@ import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# �
       <tags>
         <tag>Vit</tag>
         <tag>手撕代码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--排序算法</title>
-    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[排序算法详解
-排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
-#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
-1. 冒泡排序 (Bubble Sort)
-冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
-2. 选择排序 (Selection Sort)
-选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
-3. 插入排序 (Insertion Sort)
-插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
-4. 快速排序 (Quick Sort)
-快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
-实现原理
-
-时间复杂度：平均 O(nlogn)，最坏 O(n²)
-空间复杂度：O(logn)
-稳定性：不稳定
-
-实现代码
-int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
-5. 归并排序 (Merge Sort)
-归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(n)
-稳定性：稳定
-
-实现代码
-void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
-6. 堆排序 (Heap Sort)
-堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
-排序算法的比较
-
-
-
-排序算法
-平均时间复杂度
-最坏时间复杂度
-空间复杂度
-稳定性
-
-
-
-
-冒泡排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-选择排序
-O(n²)
-O(n²)
-O(1)
-不稳定
-
-
-插入排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-快速排序
-O(nlogn)
-O(n²)
-O(logn)
-不稳定
-
-
-归并排序
-O(nlogn)
-O(nlogn)
-O(n)
-稳定
-
-
-堆排序
-O(nlogn)
-O(nlogn)
-O(1)
-不稳定
-
-
-
-如何选择排序算法？
-
-数据量小（n &lt; 50）：插入排序
-数据量大：
-
-要求稳定：归并排序
-不要求稳定：快速排序
-
-
-内存空间有限：堆排序
-数据基本有序：插入排序
-数据量特别大且有重复：计数排序/基数排序
-
-总结
-每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>排序</tag>
-        <tag>冒泡排序</tag>
-        <tag>选择排序</tag>
-        <tag>插入排序</tag>
-        <tag>快速排序</tag>
-        <tag>归并排序</tag>
-        <tag>堆排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>监督对比学习</title>
-    <url>/2025/11/%E7%9B%91%E7%9D%A3%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[Supervised Contrastive Learning
-论文地址：https://arxiv.org/pdf/2004.11362
-代码地址：https://github.com/HobbitLong/SupContrast
-引言
-监督对比学习（Supervised Contrastive Learning, SupCon） 是2020年提出的一种结合监督学习和对比学习优势的深度学习方法。与传统的交叉熵损失相比，SupCon通过显式地拉近同类样本、推远异类样本，在图像分类、鲁棒性学习等任务上取得了显著提升。
-为什么需要监督对比学习？
-传统交叉熵损失的局限：
-
-
-只关注分类边界
-
-交叉熵只要求正确分类，不关心特征空间的结构
-导致同类样本在特征空间可能很分散
-决策边界可能过于接近某些样本
-
-
-
-忽略类间关系
-
-将所有错误分类同等对待
-&quot;猫被分类为狗&quot;和&quot;猫被分类为汽车&quot;的惩罚相同
-无法利用类别间的语义相似性
-
-
-
-对噪声标签敏感
-
-错误标签直接影响分类边界
-难以从噪声中恢复
-
-
-
-监督对比学习的优势：
-
-
-更好的特征空间结构
-
-同类样本紧密聚集
-不同类样本明确分离
-形成清晰的聚类结构
-
-
-
-更强的鲁棒性
-
-对标签噪声更鲁棒
-对对抗样本更鲁棒
-更好的泛化能力
-
-
-
-灵活的应用
-
-可以自然处理开放集识别
-支持少样本学习
-便于增量学习新类别
-
-
-
-方法对比
-
-
-
-特性
-交叉熵损失
-监督对比损失
-
-
-
-
-优化目标
-分类准确率
-特征空间结构
-
-
-类内约束
-无
-拉近同类样本
-
-
-类间约束
-间接（通过分类）
-直接推远异类
-
-
-特征分布
-可能分散
-紧密聚类
-
-
-鲁棒性
-一般
-更强
-
-
-计算复杂度
-O(NC)
-O(N²)
-
-
-
-其中N是batch size，C是类别数。
-背景知识
-对比学习简介
-对比学习的核心思想是：通过对比正样本对和负样本对，学习到区分性的表示。
-无监督对比学习（如SimCLR、MoCo）：
-
-正样本：同一图像的不同增强视图
-负样本：不同图像的增强视图
-目标：学习到对数据增强不变的表示
-
-关键挑战：
-
-需要大量负样本才能学到好的表示
-对数据增强策略敏感
-可能学到与下游任务无关的特征
-
-监督学习与对比学习的结合
-传统监督学习（交叉熵）：
-
-只关注样本与标签的匹配
-忽略了同类样本间的相似性
-对对抗样本和噪声不够鲁棒
-
-监督对比学习的优势：
-
-利用标签信息，正样本对更明确（同类样本）
-负样本对更丰富（所有异类样本）
-学习到的表示更具判别性和鲁棒性
-
-论文核心思想
-主要贡献
-
-提出监督对比损失（Supervised Contrastive Loss）：将标签信息融入对比学习框架
-理论分析：证明了SupCon损失的梯度特性优于交叉熵
-实验验证：在ImageNet等数据集上取得SOTA性能，并显著提升鲁棒性
-
-核心创新
-关键洞察：在监督学习中，同类样本应该聚集在一起，异类样本应该分离。这与对比学习的目标天然一致。
-方法：将同一类别的所有样本视为正样本，不同类别的样本视为负样本，构建对比学习目标。
-方法原理
-监督对比损失（Supervised Contrastive Loss）
-给定一个batch的样本 ${x_1, x_2, …, x_N}$ 及其标签 ${y_1, y_2, …, y_N}$，对每个样本 $x_i$：
-$$
-\mathcal{L}{sup} = \sum{i=1}^{N} \mathcal{L}_{sup}^i
-$$
-其中：
-$$
-\mathcal{L}{sup}^i = -\frac{1}{|P(i)|} \sum{p \in P(i)} \log \frac{\exp(z_i \cdot z_p / \tau)}{\sum_{a \in A(i)} \exp(z_i \cdot z_a / \tau)}
-$$
-符号说明：
-
-$z_i = f(x_i)$：样本 $x_i$ 的归一化特征表示
-$P(i) = {p \in A(i): y_p = y_i}$：与 $x_i$ 同类的样本集合（正样本）
-$A(i) = {1, 2, …, N} \backslash {i}$：除 $i$ 外的所有样本（正样本+负样本）
-$\tau$：温度参数，控制分布的尖锐程度
-
-直观理解：
-
-分子：拉近同类样本的相似度
-分母：推远所有样本（包括异类和同类）的相似度
-归一化：确保同类样本的贡献相等（$\frac{1}{|P(i)|}$）
-
-与交叉熵损失的对比
-交叉熵损失：
-$$
-\mathcal{L}{CE} = -\log \frac{\exp(W{y_i}^T z_i)}{\sum_{j=1}^{C} \exp(W_j^T z_i)}
-$$
-关键区别：
-
-
-
-特性
-交叉熵
-监督对比损失
-
-
-
-
-优化目标
-样本与分类器权重匹配
-样本间相似性
-
-
-梯度特性
-只关注当前样本
-同时考虑所有同类/异类样本
-
-
-表示学习
-间接（通过分类器）
-直接（样本间关系）
-
-
-鲁棒性
-较弱
-更强
-
-
-
-训练流程
-
-数据增强：对每个样本应用两次随机增强，得到两个视图
-特征提取：使用编码器 $f(\cdot)$ 提取特征
-归一化：对特征进行L2归一化
-计算损失：使用监督对比损失
-反向传播：更新编码器参数
-
-注意：SupCon可以单独使用，也可以与交叉熵损失结合使用。
-损失函数详解
-温度参数 $\tau$ 的作用
-
-$\tau$ 较小：分布更尖锐，模型更关注困难样本
-$\tau$ 较大：分布更平滑，模型对所有样本的关注更均匀
-典型取值：0.07 或 0.1
-
-梯度分析
-SupCon损失的梯度特性：
-$$
-\frac{\partial \mathcal{L}{sup}^i}{\partial z_i} = \frac{1}{\tau} \left[ \sum{p \in P(i)} \frac{z_p}{|P(i)|} - \sum_{a \in A(i)} w_a z_a \right]
-$$
-其中 $w_a$ 是softmax权重。
-关键观察：
-
-梯度包含所有同类样本的平均（第一项）
-梯度包含所有样本的加权平均（第二项）
-这比交叉熵只关注单个样本-权重匹配更丰富
-
-与InfoNCE的关系
-SupCon可以看作监督版本的InfoNCE：
-
-InfoNCE：正样本是同一图像的不同增强
-SupCon：正样本是同一类别的所有样本
-
-实验分析
-数据集
-论文在多个数据集上进行了实验：
-
-ImageNet：大规模图像分类基准
-CIFAR-10/100：小规模图像分类
-STL-10：无监督/半监督学习基准
-
-实验设置
-网络架构：
-
-ResNet-50/200 作为backbone
-投影头：2层MLP（2048→128）
-
-训练细节：
-
-优化器：LARS（ImageNet）或SGD
-学习率：0.3（ImageNet）或0.1（CIFAR）
-Batch size：1024（ImageNet）或256（CIFAR）
-温度参数：$\tau = 0.07$
-数据增强：RandomResizedCrop、ColorJitter、RandomHorizontalFlip等
-
-实验结果
-ImageNet分类性能：
-
-
-
-方法
-Top-1 Acc
-Top-5 Acc
-
-
-
-
-Cross-Entropy
-76.5%
-93.1%
-
-
-SupCon
-78.0%
-93.8%
-
-
-SupCon + CE
-78.4%
-94.0%
-
-
-
-鲁棒性提升：
-
-对对抗攻击的鲁棒性显著提升
-对常见数据损坏（噪声、模糊等）的鲁棒性更好
-在长尾分布数据集上表现更优
-
-消融实验：
-
-温度参数 $\tau$：0.07 效果最好
-投影头维度：128维足够
-数据增强：重要，但SupCon对增强策略的敏感性低于无监督对比学习
-
-代码实现
-PyTorch实现
-import torchimport torch.nn as nnimport torch.nn.functional as Fclass SupConLoss(nn.Module):    &quot;&quot;&quot;Supervised Contrastive Learning Loss&quot;&quot;&quot;        def __init__(self, temperature=0.07, base_temperature=0.07):        super().__init__()        self.temperature = temperature        self.base_temperature = base_temperature    def forward(self, features, labels):        &quot;&quot;&quot;        Args:            features: hidden vector of shape [bsz, n_views, ...] or [bsz * n_views, ...].            labels: ground truth of shape [bsz].        Returns:            A loss scalar.        &quot;&quot;&quot;        device = features.device                # 如果features是[batch_size, n_views, dim]，reshape为[batch_size * n_views, dim]        if len(features.shape) &lt; 3:            features = features.unsqueeze(1)        batch_size = features.shape[0]                if labels is not None:            # 扩展labels以匹配增强后的样本数            labels = labels.contiguous().view(-1, 1)            if labels.shape[0] != batch_size:                raise ValueError(&#x27;Num of labels does not match num of features&#x27;)            mask = torch.eq(labels, labels.T).float().to(device)        else:            # 无监督情况：同一图像的增强视图为正样本            mask = torch.eye(batch_size, dtype=torch.float32).to(device)                # 归一化特征        features = F.normalize(features, dim=-1)                # 计算相似度矩阵        contrast_feature = features        anchor_feature = features                # 计算所有样本对之间的相似度        anchor_dot_contrast = torch.div(            torch.matmul(anchor_feature, contrast_feature.T),            self.temperature        )                # 数值稳定性：减去最大值        logits_max, _ = torch.max(anchor_dot_contrast, dim=1, keepdim=True)        logits = anchor_dot_contrast - logits_max.detach()                # 计算exp        exp_logits = torch.exp(logits)                # 计算log_prob        log_prob = logits - torch.log(exp_logits.sum(1, keepdim=True))                # 计算每个样本的正样本平均log_prob        mask = mask.repeat(1, 1)  # 扩展mask以匹配batch_size        mean_log_prob_pos = (mask * log_prob).sum(1) / mask.sum(1)                # 损失        loss = - (self.temperature / self.base_temperature) * mean_log_prob_pos        loss = loss.mean()                return loss# 使用示例class SupConModel(nn.Module):    def __init__(self, encoder, projection_dim=128):        super().__init__()        self.encoder = encoder        self.projector = nn.Sequential(            nn.Linear(encoder.fc.in_features, 2048),            nn.ReLU(),            nn.Linear(2048, projection_dim)        )        # 移除分类头（如果存在）        if hasattr(encoder, &#x27;fc&#x27;):            self.encoder.fc = nn.Identity()        def forward(self, x):        features = self.encoder(x)        projections = self.projector(features)        return F.normalize(projections, dim=-1)# 训练循环示例def train_step(model, images, labels, criterion, optimizer):    # 假设images已经是增强后的[batch_size, 2, C, H, W]    batch_size = images.shape[0]    images = images.view(batch_size * 2, *images.shape[2:])        # 前向传播    features = model(images)    features = features.view(batch_size, 2, -1)        # 计算损失    loss = criterion(features, labels)        # 反向传播    optimizer.zero_grad()    loss.backward()    optimizer.step()        return loss.item()
-简化版本
-def supervised_contrastive_loss(features, labels, temperature=0.07):    &quot;&quot;&quot;    简化版监督对比损失        Args:        features: [batch_size, feature_dim] 归一化特征        labels: [batch_size] 标签        temperature: 温度参数    &quot;&quot;&quot;    device = features.device    batch_size = features.shape[0]        # 计算相似度矩阵    similarity_matrix = torch.matmul(features, features.T) / temperature        # 构建正样本mask（同类样本）    labels = labels.contiguous().view(-1, 1)    mask = torch.eq(labels, labels.T).float().to(device)        # 移除自身    logits_mask = torch.scatter(        torch.ones_like(mask),        1,        torch.arange(batch_size).view(-1, 1).to(device),        0    )    mask = mask * logits_mask        # 计算exp    exp_logits = torch.exp(similarity_matrix) * logits_mask        # 计算log_prob    log_prob = similarity_matrix - torch.log(exp_logits.sum(1, keepdim=True) + 1e-8)        # 平均正样本的log_prob    mean_log_prob_pos = (mask * log_prob).sum(1) / (mask.sum(1) + 1e-8)        # 损失    loss = -mean_log_prob_pos.mean()        return loss
-技术细节与优化
-数据增强策略
-SupCon对数据增强的依赖低于无监督对比学习，但仍需要合理的增强：
-推荐增强：
-
-RandomResizedCrop
-RandomHorizontalFlip
-ColorJitter（适度）
-RandomGrayscale（可选）
-
-避免过度增强：过度增强可能破坏语义信息，反而降低性能。
-投影头设计
-
-层数：2层MLP通常足够
-维度：128-256维
-激活函数：ReLU或GELU
-归一化：输出层L2归一化
-
-温度参数调优
-
-起始值：0.07
-调优范围：0.05 - 0.2
-原则：如果模型难以区分困难样本，降低$\tau$；如果训练不稳定，提高$\tau$
-
-优缺点分析
-优点
-
-性能提升：在多个数据集上超越交叉熵损失
-鲁棒性强：对对抗样本、噪声、数据损坏更鲁棒
-表示质量高：学习到的特征更具判别性和泛化能力
-易于实现：损失函数简单，易于集成到现有框架
-
-缺点
-
-计算成本：需要计算所有样本对的相似度，batch size较大时内存消耗高
-需要标签：相比无监督对比学习，需要标注数据
-超参数敏感：温度参数等需要仔细调优
-
-与其他方法的关系
-vs. 交叉熵损失
-
-交叉熵：关注样本-分类器匹配
-SupCon：关注样本-样本关系
-结合使用：SupCon + CE 通常效果最好
-
-vs. 无监督对比学习
-
-SimCLR/MoCo：正样本是同一图像的不同视图
-SupCon：正样本是同一类别的所有样本
-优势：SupCon利用标签信息，正样本对更明确
-
-vs. 三元组损失
-
-三元组损失：每次只考虑一个正样本和一个负样本
-SupCon：同时考虑所有正样本和负样本
-优势：SupCon的梯度更稳定，训练更高效
-
-应用场景
-
-图像分类：提升分类精度和鲁棒性
-长尾学习：在类别不平衡数据上表现优异
-少样本学习：学习到的表示泛化能力强
-鲁棒性训练：提升模型对对抗攻击的防御能力
-
-总结
-监督对比学习通过将标签信息融入对比学习框架，成功结合了监督学习和对比学习的优势。其核心思想是：同类样本应该聚集，异类样本应该分离。通过显式优化样本间的相似性关系，SupCon学习到的表示更具判别性、鲁棒性和泛化能力。
-SupCon的提出证明了对比学习不仅适用于无监督场景，在监督学习中同样有效，为后续的对比学习研究提供了重要启发。
-参考文献
-
-
-Khosla, P., et al. (2020). Supervised Contrastive Learning. Advances in Neural Information Processing Systems, 33. https://arxiv.org/pdf/2004.11362
-
-
-Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
-
-
-He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
-
-
-Hadsell, R., Chopra, S., &amp; LeCun, Y. (2006). Dimensionality reduction by learning an invariant mapping. CVPR 2006.
-
-
-思考题
-
-为什么监督对比学习比交叉熵损失更能提升模型的鲁棒性？
-温度参数 $\tau$ 如何影响模型的学习？如何选择合适的 $\tau$？
-在类别数量很多的情况下，SupCon损失的计算复杂度如何？如何优化？
-SupCon与交叉熵损失结合使用时，如何平衡两者的权重？
-监督对比学习在少样本学习场景下的优势是什么？
-
-思考题答案
-1. 为什么监督对比学习比交叉熵损失更能提升模型的鲁棒性？
-原因分析：
-
-
-表示学习方式不同：
-
-交叉熵：只关注样本与分类器权重的匹配，可能学到与分类器相关的脆弱特征
-SupCon：直接优化样本间的相似性，学习到更本质的表示
-
-
-
-梯度特性：
-
-交叉熵：梯度只来自当前样本与分类器的匹配
-SupCon：梯度来自所有同类和异类样本，信息更丰富，训练更稳定
-
-
-
-特征空间结构：
-
-交叉熵：可能形成不规则的决策边界
-SupCon：显式地拉近同类、推远异类，形成更紧凑的类内分布和更大的类间间隔
-
-
-
-对噪声的鲁棒性：
-
-SupCon通过对比学习，模型学会关注样本间的相对关系而非绝对特征，对噪声更鲁棒
-
-
-
-2. 温度参数 $\tau$ 如何影响模型的学习？如何选择合适的 $\tau$？
-$\tau$ 的影响：
-
-
-$\tau$ 较小（如0.05）：
-
-分布更尖锐，模型更关注困难样本（hard negatives）
-学习到的表示区分性更强
-但可能训练不稳定，容易过拟合
-
-
-
-$\tau$ 较大（如0.2）：
-
-分布更平滑，对所有样本的关注更均匀
-训练更稳定
-但可能学习到的表示区分性较弱
-
-
-
-选择策略：
-
-起始值：从0.07开始（论文推荐值）
-观察训练曲线：
-
-如果损失下降很快但验证集性能差 → 降低$\tau$
-如果训练不稳定或损失不下降 → 提高$\tau$
-
-
-网格搜索：在[0.05, 0.1, 0.15, 0.2]范围内搜索
-任务相关：
-
-细粒度分类（类别相似度高）→ 较小的$\tau$
-粗粒度分类（类别差异大）→ 较大的$\tau$
-
-
-
-3. 在类别数量很多的情况下，SupCon损失的计算复杂度如何？如何优化？
-复杂度分析：
-
-时间复杂度：$O(N^2 \cdot d)$，其中$N$是batch size，$d$是特征维度
-空间复杂度：$O(N^2)$（相似度矩阵）
-
-优化策略：
-
-
-减小batch size：
-
-使用梯度累积保持有效batch size
-或使用负样本采样（但会损失部分性能）
-
-
-
-混合精度训练：
-
-使用FP16/BF16降低内存和计算成本
-
-
-
-分布式训练：
-
-将batch分散到多个GPU，每个GPU计算部分损失
-
-
-
-近似方法：
-
-只计算部分负样本（如hard negative mining）
-使用memory bank存储历史特征（类似MoCo）
-
-
-
-损失近似：
-
-使用NCE（Noise Contrastive Estimation）近似
-或使用采样方法估计分母
-
-
-
-4. SupCon与交叉熵损失结合使用时，如何平衡两者的权重？
-结合方式：
-$$
-\mathcal{L}{total} = \lambda{sup} \mathcal{L}{sup} + \lambda{ce} \mathcal{L}_{ce}
-$$
-权重选择策略：
-
-
-等权重：$\lambda_{sup} = \lambda_{ce} = 1.0$（常见起始点）
-
-
-动态调整：
-
-早期训练：$\lambda_{sup}$较大，学习好的表示
-后期训练：$\lambda_{ce}$较大，微调分类边界
-
-
-
-任务相关：
-
-如果表示学习更重要（如few-shot）→ 增大$\lambda_{sup}$
-如果分类精度更重要 → 增大$\lambda_{ce}$
-
-
-
-实验验证：
-
-在验证集上搜索：$\lambda_{sup} \in [0.5, 1.0, 1.5, 2.0]$
-通常$\lambda_{sup} = 1.0, \lambda_{ce} = 0.5$效果较好
-
-
-
-注意事项：
-
-两个损失的尺度可能不同，需要归一化或调整权重
-可以先用SupCon预训练，再用CE微调
-
-5. 监督对比学习在少样本学习场景下的优势是什么？
-优势分析：
-
-
-更好的表示学习：
-
-SupCon学习到的特征更具判别性和泛化能力
-即使样本少，也能学到类别的本质特征
-
-
-
-类内紧凑性：
-
-显式拉近同类样本，形成紧凑的类内分布
-在少样本情况下，这有助于减少类内方差
-
-
-
-类间分离性：
-
-显式推远异类样本，增大类间间隔
-在少样本情况下，这有助于提高分类精度
-
-
-
-数据效率：
-
-每个样本都参与多个正样本对和负样本对的学习
-充分利用有限的标注数据
-
-
-
-泛化能力：
-
-学习到的表示对数据增强、噪声等更鲁棒
-在测试时遇到新样本时泛化更好
-
-
-
-实际应用：
-
-在few-shot learning中，先用SupCon在base classes上预训练
-然后在novel classes上用few-shot learning方法微调
-通常能取得比直接使用交叉熵更好的效果
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
-      </categories>
-      <tags>
-        <tag>对比学习</tag>
-        <tag>深度学习</tag>
-        <tag>监督学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--线性表</title>
-    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
-    <content><![CDATA[线性表
-线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
-顺序存储（顺序表）
-存取
-顺序表随机存取，存取某个元素的时间复杂度为O(1)。
-查找
-平均时间复杂度O(n)
-插入删除
-平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
-链式存储（链表）
-链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
-单链表
-单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
-
-数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
-指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
-
-创建链表
-**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
-**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
-查找
-查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
-插入删除
-在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
-单链表的缺点
-
-访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
-存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
-不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
-
-双链表
-双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
-
-前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
-数据域 (Data):  与单链表相同，用于存储数据元素。
-后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
-
-创建链表
-创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
-查找
-与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
-双链表的优点
-
-双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
-删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
-某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
-
-双链表的缺点
-
-存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
-插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
-访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>链表</tag>
-        <tag>线性表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--绪论</title>
-    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
-    <content><![CDATA[绪论
-数据结构
-数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
-逻辑结构
-线性结构
-一般线性表：线性表
-特殊线性表：栈、队列、字符串
-线性表的推广：数组、广义表
-非线性结构
-树结构：树、二叉树
-图结构：有向图、无向图
-集合结构
-存储结构
-顺序存储
-逻辑上连续，物理上连续
-优点：
-
-随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
-内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
-空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
-
-缺点：
-
-插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
-固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
-内存浪费：若预分配空间过大，可能造成内存冗余。
-
-链式存储
-逻辑上不要求连续，物理上⼀定连续
-优点：
-
-动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
-插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
-灵活性强：支持多种衍生结构（如双向链表、循环链表）。
-
-缺点：
-
-
-无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
-
-
-额外空间开销：每个节点需存储指针字段，占用更多内存。
-
-
-内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
-
-
-算法的效率
-算法是为了解决某类问题而规定的一个有限长的操作序列。
-算法时间复杂度
-一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
-算法空间复杂度
-所⽤到的临时空间⼤⼩
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>绪论</tag>
       </tags>
   </entry>
   <entry>
@@ -7227,8 +6346,889 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       <tags>
         <tag>自监督学习</tag>
         <tag>对比学习</tag>
-        <tag>无监督学习</tag>
         <tag>深度学习</tag>
+        <tag>无监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>监督对比学习</title>
+    <url>/2025/11/%E7%9B%91%E7%9D%A3%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[Supervised Contrastive Learning
+论文地址：https://arxiv.org/pdf/2004.11362
+代码地址：https://github.com/HobbitLong/SupContrast
+引言
+监督对比学习（Supervised Contrastive Learning, SupCon） 是2020年提出的一种结合监督学习和对比学习优势的深度学习方法。与传统的交叉熵损失相比，SupCon通过显式地拉近同类样本、推远异类样本，在图像分类、鲁棒性学习等任务上取得了显著提升。
+为什么需要监督对比学习？
+传统交叉熵损失的局限：
+
+
+只关注分类边界
+
+交叉熵只要求正确分类，不关心特征空间的结构
+导致同类样本在特征空间可能很分散
+决策边界可能过于接近某些样本
+
+
+
+忽略类间关系
+
+将所有错误分类同等对待
+&quot;猫被分类为狗&quot;和&quot;猫被分类为汽车&quot;的惩罚相同
+无法利用类别间的语义相似性
+
+
+
+对噪声标签敏感
+
+错误标签直接影响分类边界
+难以从噪声中恢复
+
+
+
+监督对比学习的优势：
+
+
+更好的特征空间结构
+
+同类样本紧密聚集
+不同类样本明确分离
+形成清晰的聚类结构
+
+
+
+更强的鲁棒性
+
+对标签噪声更鲁棒
+对对抗样本更鲁棒
+更好的泛化能力
+
+
+
+灵活的应用
+
+可以自然处理开放集识别
+支持少样本学习
+便于增量学习新类别
+
+
+
+方法对比
+
+
+
+特性
+交叉熵损失
+监督对比损失
+
+
+
+
+优化目标
+分类准确率
+特征空间结构
+
+
+类内约束
+无
+拉近同类样本
+
+
+类间约束
+间接（通过分类）
+直接推远异类
+
+
+特征分布
+可能分散
+紧密聚类
+
+
+鲁棒性
+一般
+更强
+
+
+计算复杂度
+O(NC)
+O(N²)
+
+
+
+其中N是batch size，C是类别数。
+背景知识
+对比学习简介
+对比学习的核心思想是：通过对比正样本对和负样本对，学习到区分性的表示。
+无监督对比学习（如SimCLR、MoCo）：
+
+正样本：同一图像的不同增强视图
+负样本：不同图像的增强视图
+目标：学习到对数据增强不变的表示
+
+关键挑战：
+
+需要大量负样本才能学到好的表示
+对数据增强策略敏感
+可能学到与下游任务无关的特征
+
+监督学习与对比学习的结合
+传统监督学习（交叉熵）：
+
+只关注样本与标签的匹配
+忽略了同类样本间的相似性
+对对抗样本和噪声不够鲁棒
+
+监督对比学习的优势：
+
+利用标签信息，正样本对更明确（同类样本）
+负样本对更丰富（所有异类样本）
+学习到的表示更具判别性和鲁棒性
+
+论文核心思想
+主要贡献
+
+提出监督对比损失（Supervised Contrastive Loss）：将标签信息融入对比学习框架
+理论分析：证明了SupCon损失的梯度特性优于交叉熵
+实验验证：在ImageNet等数据集上取得SOTA性能，并显著提升鲁棒性
+
+核心创新
+关键洞察：在监督学习中，同类样本应该聚集在一起，异类样本应该分离。这与对比学习的目标天然一致。
+方法：将同一类别的所有样本视为正样本，不同类别的样本视为负样本，构建对比学习目标。
+方法原理
+监督对比损失（Supervised Contrastive Loss）
+给定一个batch的样本 ${x_1, x_2, …, x_N}$ 及其标签 ${y_1, y_2, …, y_N}$，对每个样本 $x_i$：
+$$
+\mathcal{L}{sup} = \sum{i=1}^{N} \mathcal{L}_{sup}^i
+$$
+其中：
+$$
+\mathcal{L}{sup}^i = -\frac{1}{|P(i)|} \sum{p \in P(i)} \log \frac{\exp(z_i \cdot z_p / \tau)}{\sum_{a \in A(i)} \exp(z_i \cdot z_a / \tau)}
+$$
+符号说明：
+
+$z_i = f(x_i)$：样本 $x_i$ 的归一化特征表示
+$P(i) = {p \in A(i): y_p = y_i}$：与 $x_i$ 同类的样本集合（正样本）
+$A(i) = {1, 2, …, N} \backslash {i}$：除 $i$ 外的所有样本（正样本+负样本）
+$\tau$：温度参数，控制分布的尖锐程度
+
+直观理解：
+
+分子：拉近同类样本的相似度
+分母：推远所有样本（包括异类和同类）的相似度
+归一化：确保同类样本的贡献相等（$\frac{1}{|P(i)|}$）
+
+与交叉熵损失的对比
+交叉熵损失：
+$$
+\mathcal{L}{CE} = -\log \frac{\exp(W{y_i}^T z_i)}{\sum_{j=1}^{C} \exp(W_j^T z_i)}
+$$
+关键区别：
+
+
+
+特性
+交叉熵
+监督对比损失
+
+
+
+
+优化目标
+样本与分类器权重匹配
+样本间相似性
+
+
+梯度特性
+只关注当前样本
+同时考虑所有同类/异类样本
+
+
+表示学习
+间接（通过分类器）
+直接（样本间关系）
+
+
+鲁棒性
+较弱
+更强
+
+
+
+训练流程
+
+数据增强：对每个样本应用两次随机增强，得到两个视图
+特征提取：使用编码器 $f(\cdot)$ 提取特征
+归一化：对特征进行L2归一化
+计算损失：使用监督对比损失
+反向传播：更新编码器参数
+
+注意：SupCon可以单独使用，也可以与交叉熵损失结合使用。
+损失函数详解
+温度参数 $\tau$ 的作用
+
+$\tau$ 较小：分布更尖锐，模型更关注困难样本
+$\tau$ 较大：分布更平滑，模型对所有样本的关注更均匀
+典型取值：0.07 或 0.1
+
+梯度分析
+SupCon损失的梯度特性：
+$$
+\frac{\partial \mathcal{L}{sup}^i}{\partial z_i} = \frac{1}{\tau} \left[ \sum{p \in P(i)} \frac{z_p}{|P(i)|} - \sum_{a \in A(i)} w_a z_a \right]
+$$
+其中 $w_a$ 是softmax权重。
+关键观察：
+
+梯度包含所有同类样本的平均（第一项）
+梯度包含所有样本的加权平均（第二项）
+这比交叉熵只关注单个样本-权重匹配更丰富
+
+与InfoNCE的关系
+SupCon可以看作监督版本的InfoNCE：
+
+InfoNCE：正样本是同一图像的不同增强
+SupCon：正样本是同一类别的所有样本
+
+实验分析
+数据集
+论文在多个数据集上进行了实验：
+
+ImageNet：大规模图像分类基准
+CIFAR-10/100：小规模图像分类
+STL-10：无监督/半监督学习基准
+
+实验设置
+网络架构：
+
+ResNet-50/200 作为backbone
+投影头：2层MLP（2048→128）
+
+训练细节：
+
+优化器：LARS（ImageNet）或SGD
+学习率：0.3（ImageNet）或0.1（CIFAR）
+Batch size：1024（ImageNet）或256（CIFAR）
+温度参数：$\tau = 0.07$
+数据增强：RandomResizedCrop、ColorJitter、RandomHorizontalFlip等
+
+实验结果
+ImageNet分类性能：
+
+
+
+方法
+Top-1 Acc
+Top-5 Acc
+
+
+
+
+Cross-Entropy
+76.5%
+93.1%
+
+
+SupCon
+78.0%
+93.8%
+
+
+SupCon + CE
+78.4%
+94.0%
+
+
+
+鲁棒性提升：
+
+对对抗攻击的鲁棒性显著提升
+对常见数据损坏（噪声、模糊等）的鲁棒性更好
+在长尾分布数据集上表现更优
+
+消融实验：
+
+温度参数 $\tau$：0.07 效果最好
+投影头维度：128维足够
+数据增强：重要，但SupCon对增强策略的敏感性低于无监督对比学习
+
+代码实现
+PyTorch实现
+import torchimport torch.nn as nnimport torch.nn.functional as Fclass SupConLoss(nn.Module):    &quot;&quot;&quot;Supervised Contrastive Learning Loss&quot;&quot;&quot;        def __init__(self, temperature=0.07, base_temperature=0.07):        super().__init__()        self.temperature = temperature        self.base_temperature = base_temperature    def forward(self, features, labels):        &quot;&quot;&quot;        Args:            features: hidden vector of shape [bsz, n_views, ...] or [bsz * n_views, ...].            labels: ground truth of shape [bsz].        Returns:            A loss scalar.        &quot;&quot;&quot;        device = features.device                # 如果features是[batch_size, n_views, dim]，reshape为[batch_size * n_views, dim]        if len(features.shape) &lt; 3:            features = features.unsqueeze(1)        batch_size = features.shape[0]                if labels is not None:            # 扩展labels以匹配增强后的样本数            labels = labels.contiguous().view(-1, 1)            if labels.shape[0] != batch_size:                raise ValueError(&#x27;Num of labels does not match num of features&#x27;)            mask = torch.eq(labels, labels.T).float().to(device)        else:            # 无监督情况：同一图像的增强视图为正样本            mask = torch.eye(batch_size, dtype=torch.float32).to(device)                # 归一化特征        features = F.normalize(features, dim=-1)                # 计算相似度矩阵        contrast_feature = features        anchor_feature = features                # 计算所有样本对之间的相似度        anchor_dot_contrast = torch.div(            torch.matmul(anchor_feature, contrast_feature.T),            self.temperature        )                # 数值稳定性：减去最大值        logits_max, _ = torch.max(anchor_dot_contrast, dim=1, keepdim=True)        logits = anchor_dot_contrast - logits_max.detach()                # 计算exp        exp_logits = torch.exp(logits)                # 计算log_prob        log_prob = logits - torch.log(exp_logits.sum(1, keepdim=True))                # 计算每个样本的正样本平均log_prob        mask = mask.repeat(1, 1)  # 扩展mask以匹配batch_size        mean_log_prob_pos = (mask * log_prob).sum(1) / mask.sum(1)                # 损失        loss = - (self.temperature / self.base_temperature) * mean_log_prob_pos        loss = loss.mean()                return loss# 使用示例class SupConModel(nn.Module):    def __init__(self, encoder, projection_dim=128):        super().__init__()        self.encoder = encoder        self.projector = nn.Sequential(            nn.Linear(encoder.fc.in_features, 2048),            nn.ReLU(),            nn.Linear(2048, projection_dim)        )        # 移除分类头（如果存在）        if hasattr(encoder, &#x27;fc&#x27;):            self.encoder.fc = nn.Identity()        def forward(self, x):        features = self.encoder(x)        projections = self.projector(features)        return F.normalize(projections, dim=-1)# 训练循环示例def train_step(model, images, labels, criterion, optimizer):    # 假设images已经是增强后的[batch_size, 2, C, H, W]    batch_size = images.shape[0]    images = images.view(batch_size * 2, *images.shape[2:])        # 前向传播    features = model(images)    features = features.view(batch_size, 2, -1)        # 计算损失    loss = criterion(features, labels)        # 反向传播    optimizer.zero_grad()    loss.backward()    optimizer.step()        return loss.item()
+简化版本
+def supervised_contrastive_loss(features, labels, temperature=0.07):    &quot;&quot;&quot;    简化版监督对比损失        Args:        features: [batch_size, feature_dim] 归一化特征        labels: [batch_size] 标签        temperature: 温度参数    &quot;&quot;&quot;    device = features.device    batch_size = features.shape[0]        # 计算相似度矩阵    similarity_matrix = torch.matmul(features, features.T) / temperature        # 构建正样本mask（同类样本）    labels = labels.contiguous().view(-1, 1)    mask = torch.eq(labels, labels.T).float().to(device)        # 移除自身    logits_mask = torch.scatter(        torch.ones_like(mask),        1,        torch.arange(batch_size).view(-1, 1).to(device),        0    )    mask = mask * logits_mask        # 计算exp    exp_logits = torch.exp(similarity_matrix) * logits_mask        # 计算log_prob    log_prob = similarity_matrix - torch.log(exp_logits.sum(1, keepdim=True) + 1e-8)        # 平均正样本的log_prob    mean_log_prob_pos = (mask * log_prob).sum(1) / (mask.sum(1) + 1e-8)        # 损失    loss = -mean_log_prob_pos.mean()        return loss
+技术细节与优化
+数据增强策略
+SupCon对数据增强的依赖低于无监督对比学习，但仍需要合理的增强：
+推荐增强：
+
+RandomResizedCrop
+RandomHorizontalFlip
+ColorJitter（适度）
+RandomGrayscale（可选）
+
+避免过度增强：过度增强可能破坏语义信息，反而降低性能。
+投影头设计
+
+层数：2层MLP通常足够
+维度：128-256维
+激活函数：ReLU或GELU
+归一化：输出层L2归一化
+
+温度参数调优
+
+起始值：0.07
+调优范围：0.05 - 0.2
+原则：如果模型难以区分困难样本，降低$\tau$；如果训练不稳定，提高$\tau$
+
+优缺点分析
+优点
+
+性能提升：在多个数据集上超越交叉熵损失
+鲁棒性强：对对抗样本、噪声、数据损坏更鲁棒
+表示质量高：学习到的特征更具判别性和泛化能力
+易于实现：损失函数简单，易于集成到现有框架
+
+缺点
+
+计算成本：需要计算所有样本对的相似度，batch size较大时内存消耗高
+需要标签：相比无监督对比学习，需要标注数据
+超参数敏感：温度参数等需要仔细调优
+
+与其他方法的关系
+vs. 交叉熵损失
+
+交叉熵：关注样本-分类器匹配
+SupCon：关注样本-样本关系
+结合使用：SupCon + CE 通常效果最好
+
+vs. 无监督对比学习
+
+SimCLR/MoCo：正样本是同一图像的不同视图
+SupCon：正样本是同一类别的所有样本
+优势：SupCon利用标签信息，正样本对更明确
+
+vs. 三元组损失
+
+三元组损失：每次只考虑一个正样本和一个负样本
+SupCon：同时考虑所有正样本和负样本
+优势：SupCon的梯度更稳定，训练更高效
+
+应用场景
+
+图像分类：提升分类精度和鲁棒性
+长尾学习：在类别不平衡数据上表现优异
+少样本学习：学习到的表示泛化能力强
+鲁棒性训练：提升模型对对抗攻击的防御能力
+
+总结
+监督对比学习通过将标签信息融入对比学习框架，成功结合了监督学习和对比学习的优势。其核心思想是：同类样本应该聚集，异类样本应该分离。通过显式优化样本间的相似性关系，SupCon学习到的表示更具判别性、鲁棒性和泛化能力。
+SupCon的提出证明了对比学习不仅适用于无监督场景，在监督学习中同样有效，为后续的对比学习研究提供了重要启发。
+参考文献
+
+
+Khosla, P., et al. (2020). Supervised Contrastive Learning. Advances in Neural Information Processing Systems, 33. https://arxiv.org/pdf/2004.11362
+
+
+Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
+
+
+He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
+
+
+Hadsell, R., Chopra, S., &amp; LeCun, Y. (2006). Dimensionality reduction by learning an invariant mapping. CVPR 2006.
+
+
+思考题
+
+为什么监督对比学习比交叉熵损失更能提升模型的鲁棒性？
+温度参数 $\tau$ 如何影响模型的学习？如何选择合适的 $\tau$？
+在类别数量很多的情况下，SupCon损失的计算复杂度如何？如何优化？
+SupCon与交叉熵损失结合使用时，如何平衡两者的权重？
+监督对比学习在少样本学习场景下的优势是什么？
+
+思考题答案
+1. 为什么监督对比学习比交叉熵损失更能提升模型的鲁棒性？
+原因分析：
+
+
+表示学习方式不同：
+
+交叉熵：只关注样本与分类器权重的匹配，可能学到与分类器相关的脆弱特征
+SupCon：直接优化样本间的相似性，学习到更本质的表示
+
+
+
+梯度特性：
+
+交叉熵：梯度只来自当前样本与分类器的匹配
+SupCon：梯度来自所有同类和异类样本，信息更丰富，训练更稳定
+
+
+
+特征空间结构：
+
+交叉熵：可能形成不规则的决策边界
+SupCon：显式地拉近同类、推远异类，形成更紧凑的类内分布和更大的类间间隔
+
+
+
+对噪声的鲁棒性：
+
+SupCon通过对比学习，模型学会关注样本间的相对关系而非绝对特征，对噪声更鲁棒
+
+
+
+2. 温度参数 $\tau$ 如何影响模型的学习？如何选择合适的 $\tau$？
+$\tau$ 的影响：
+
+
+$\tau$ 较小（如0.05）：
+
+分布更尖锐，模型更关注困难样本（hard negatives）
+学习到的表示区分性更强
+但可能训练不稳定，容易过拟合
+
+
+
+$\tau$ 较大（如0.2）：
+
+分布更平滑，对所有样本的关注更均匀
+训练更稳定
+但可能学习到的表示区分性较弱
+
+
+
+选择策略：
+
+起始值：从0.07开始（论文推荐值）
+观察训练曲线：
+
+如果损失下降很快但验证集性能差 → 降低$\tau$
+如果训练不稳定或损失不下降 → 提高$\tau$
+
+
+网格搜索：在[0.05, 0.1, 0.15, 0.2]范围内搜索
+任务相关：
+
+细粒度分类（类别相似度高）→ 较小的$\tau$
+粗粒度分类（类别差异大）→ 较大的$\tau$
+
+
+
+3. 在类别数量很多的情况下，SupCon损失的计算复杂度如何？如何优化？
+复杂度分析：
+
+时间复杂度：$O(N^2 \cdot d)$，其中$N$是batch size，$d$是特征维度
+空间复杂度：$O(N^2)$（相似度矩阵）
+
+优化策略：
+
+
+减小batch size：
+
+使用梯度累积保持有效batch size
+或使用负样本采样（但会损失部分性能）
+
+
+
+混合精度训练：
+
+使用FP16/BF16降低内存和计算成本
+
+
+
+分布式训练：
+
+将batch分散到多个GPU，每个GPU计算部分损失
+
+
+
+近似方法：
+
+只计算部分负样本（如hard negative mining）
+使用memory bank存储历史特征（类似MoCo）
+
+
+
+损失近似：
+
+使用NCE（Noise Contrastive Estimation）近似
+或使用采样方法估计分母
+
+
+
+4. SupCon与交叉熵损失结合使用时，如何平衡两者的权重？
+结合方式：
+$$
+\mathcal{L}{total} = \lambda{sup} \mathcal{L}{sup} + \lambda{ce} \mathcal{L}_{ce}
+$$
+权重选择策略：
+
+
+等权重：$\lambda_{sup} = \lambda_{ce} = 1.0$（常见起始点）
+
+
+动态调整：
+
+早期训练：$\lambda_{sup}$较大，学习好的表示
+后期训练：$\lambda_{ce}$较大，微调分类边界
+
+
+
+任务相关：
+
+如果表示学习更重要（如few-shot）→ 增大$\lambda_{sup}$
+如果分类精度更重要 → 增大$\lambda_{ce}$
+
+
+
+实验验证：
+
+在验证集上搜索：$\lambda_{sup} \in [0.5, 1.0, 1.5, 2.0]$
+通常$\lambda_{sup} = 1.0, \lambda_{ce} = 0.5$效果较好
+
+
+
+注意事项：
+
+两个损失的尺度可能不同，需要归一化或调整权重
+可以先用SupCon预训练，再用CE微调
+
+5. 监督对比学习在少样本学习场景下的优势是什么？
+优势分析：
+
+
+更好的表示学习：
+
+SupCon学习到的特征更具判别性和泛化能力
+即使样本少，也能学到类别的本质特征
+
+
+
+类内紧凑性：
+
+显式拉近同类样本，形成紧凑的类内分布
+在少样本情况下，这有助于减少类内方差
+
+
+
+类间分离性：
+
+显式推远异类样本，增大类间间隔
+在少样本情况下，这有助于提高分类精度
+
+
+
+数据效率：
+
+每个样本都参与多个正样本对和负样本对的学习
+充分利用有限的标注数据
+
+
+
+泛化能力：
+
+学习到的表示对数据增强、噪声等更鲁棒
+在测试时遇到新样本时泛化更好
+
+
+
+实际应用：
+
+在few-shot learning中，先用SupCon在base classes上预训练
+然后在novel classes上用few-shot learning方法微调
+通常能取得比直接使用交叉熵更好的效果
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>对比学习</tag>
+        <tag>深度学习</tag>
+        <tag>监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--线性表</title>
+    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[线性表
+线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
+顺序存储（顺序表）
+存取
+顺序表随机存取，存取某个元素的时间复杂度为O(1)。
+查找
+平均时间复杂度O(n)
+插入删除
+平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
+链式存储（链表）
+链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
+单链表
+单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
+
+数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
+指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
+
+创建链表
+**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
+**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
+查找
+查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
+插入删除
+在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
+单链表的缺点
+
+访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
+存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
+不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
+
+双链表
+双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
+
+前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
+数据域 (Data):  与单链表相同，用于存储数据元素。
+后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
+
+创建链表
+创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
+查找
+与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
+双链表的优点
+
+双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
+删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
+某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
+
+双链表的缺点
+
+存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
+插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
+访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+        <tag>线性表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--绪论</title>
+    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
+    <content><![CDATA[绪论
+数据结构
+数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
+逻辑结构
+线性结构
+一般线性表：线性表
+特殊线性表：栈、队列、字符串
+线性表的推广：数组、广义表
+非线性结构
+树结构：树、二叉树
+图结构：有向图、无向图
+集合结构
+存储结构
+顺序存储
+逻辑上连续，物理上连续
+优点：
+
+随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
+内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
+空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
+
+缺点：
+
+插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
+固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
+内存浪费：若预分配空间过大，可能造成内存冗余。
+
+链式存储
+逻辑上不要求连续，物理上⼀定连续
+优点：
+
+动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
+插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
+灵活性强：支持多种衍生结构（如双向链表、循环链表）。
+
+缺点：
+
+
+无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
+
+
+额外空间开销：每个节点需存储指针字段，占用更多内存。
+
+
+内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
+
+
+算法的效率
+算法是为了解决某类问题而规定的一个有限长的操作序列。
+算法时间复杂度
+一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
+算法空间复杂度
+所⽤到的临时空间⼤⼩
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>绪论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--排序算法</title>
+    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[排序算法详解
+排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
+#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
+1. 冒泡排序 (Bubble Sort)
+冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
+2. 选择排序 (Selection Sort)
+选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
+3. 插入排序 (Insertion Sort)
+插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
+4. 快速排序 (Quick Sort)
+快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
+实现原理
+
+时间复杂度：平均 O(nlogn)，最坏 O(n²)
+空间复杂度：O(logn)
+稳定性：不稳定
+
+实现代码
+int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
+5. 归并排序 (Merge Sort)
+归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
+稳定性：稳定
+
+实现代码
+void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
+6. 堆排序 (Heap Sort)
+堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
+排序算法的比较
+
+
+
+排序算法
+平均时间复杂度
+最坏时间复杂度
+空间复杂度
+稳定性
+
+
+
+
+冒泡排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+选择排序
+O(n²)
+O(n²)
+O(1)
+不稳定
+
+
+插入排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+快速排序
+O(nlogn)
+O(n²)
+O(logn)
+不稳定
+
+
+归并排序
+O(nlogn)
+O(nlogn)
+O(n)
+稳定
+
+
+堆排序
+O(nlogn)
+O(nlogn)
+O(1)
+不稳定
+
+
+
+如何选择排序算法？
+
+数据量小（n &lt; 50）：插入排序
+数据量大：
+
+要求稳定：归并排序
+不要求稳定：快速排序
+
+
+内存空间有限：堆排序
+数据基本有序：插入排序
+数据量特别大且有重复：计数排序/基数排序
+
+总结
+每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>排序</tag>
+        <tag>冒泡排序</tag>
+        <tag>选择排序</tag>
+        <tag>插入排序</tag>
+        <tag>快速排序</tag>
+        <tag>归并排序</tag>
+        <tag>堆排序</tag>
       </tags>
   </entry>
 </search>
