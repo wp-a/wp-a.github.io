@@ -2,6 +2,56 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution {public:    int countNodes(TreeNode* root) {        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty()){            int s=q.size();            for(int i=0;i&lt;s;i++){                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            }        }        return sum;    }};
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution {    int get_height(TreeNode* node){        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    }public:     bool isBalanced(TreeNode* root) {        return get_height(root) != -1;    }};
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution {private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) {        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) {            result.push_back(path);            return;        }        if (cur-&gt;left) traversal(cur-&gt;left, path + "-&gt;", result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + "-&gt;", result); // 右    }public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) {        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    }};
+class Solution {public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) {        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty()){            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left){                treeSt.push(node-&gt;left);                path.push(p+"-&gt;"+to_string(node-&gt;left-&gt;val));            }            if(node-&gt;right){                treeSt.push(node-&gt;right);                path.push(p+"-&gt;"+to_string(node-&gt;right-&gt;val));            }        }        return ans;    }};
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution {public:    int sumOfLeftLeaves(TreeNode* root) {        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty()){            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        }        return sum;    }};
+递归法：
+class Solution {public:    int sumOfLeftLeaves(TreeNode* root) {        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) { // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        }        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    }};
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution {public:    int findBottomLeftValue(TreeNode* root) {        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty()){            int s=q.size();            for(int i=0;i&lt;s;i++)            {                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            }        }        return ans;    }};
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution {public:    bool hasPathSum(TreeNode* root, int targetSum) {        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) {            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        }          while (!s.empty()) {            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) {                return true;            }                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) {                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            }            if (node-&gt;left) {                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            }        }                return false;    }};
+版本二
+class Solution {public:    bool hasPathSum(TreeNode* root, int targetSum) {        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push({root, root-&gt;val}); // 初始化，根节点和它的值              while (!s.empty()) {            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) {                return true;            }                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push({node-&gt;right, currentSum + node-&gt;right-&gt;val});            if (node-&gt;left) s.push({node-&gt;left, currentSum + node-&gt;left-&gt;val});        }             return false;    }};
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
     <url>/2025/02/10day/</url>
     <content><![CDATA[二叉树层序遍历
 二叉树层序遍历的模板
@@ -70,56 +120,6 @@ class Solution {public:    bool isSymmetric(TreeNode* root) {        if (root ==
 class Solution {public:    bool isSymmetric(TreeNode* root) {        if (root == NULL) return true;        stack&lt;TreeNode*&gt; st; // 这里改成了栈        st.push(root-&gt;left);        st.push(root-&gt;right);        while (!st.empty()) {            TreeNode* rightNode = st.top(); st.pop();            TreeNode* leftNode = st.top(); st.pop();            if (!leftNode &amp;&amp; !rightNode) {                continue;            }            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) {                return false;            }            st.push(leftNode-&gt;left);            st.push(rightNode-&gt;right);            st.push(leftNode-&gt;right);            st.push(rightNode-&gt;left);        }        return true;    }};
 递归法：
 class Solution {public:    bool compare(TreeNode* left, TreeNode* right) {        // 首先排除空节点的情况        if (left == NULL &amp;&amp; right != NULL) return false;        else if (left != NULL &amp;&amp; right == NULL) return false;        else if (left == NULL &amp;&amp; right == NULL) return true;        // 排除了空节点，再排除数值不相同的情况        else if (left-&gt;val != right-&gt;val) return false;        // 此时就是：左右节点都不为空，且数值相同的情况        // 此时才做递归，做下一层的判断        bool outside = compare(left-&gt;left, right-&gt;right);   // 左子树：左、 右子树：右        bool inside = compare(left-&gt;right, right-&gt;left);    // 左子树：右、 右子树：左        bool isSame = outside &amp;&amp; inside;                    // 左子树：中、 右子树：中 （逻辑处理）        return isSame;    }    bool isSymmetric(TreeNode* root) {        if (root == NULL) return true;        return compare(root-&gt;left, root-&gt;right);    }};
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution {public:    int countNodes(TreeNode* root) {        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty()){            int s=q.size();            for(int i=0;i&lt;s;i++){                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            }        }        return sum;    }};
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution {    int get_height(TreeNode* node){        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    }public:     bool isBalanced(TreeNode* root) {        return get_height(root) != -1;    }};
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution {private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) {        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) {            result.push_back(path);            return;        }        if (cur-&gt;left) traversal(cur-&gt;left, path + "-&gt;", result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + "-&gt;", result); // 右    }public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) {        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    }};
-class Solution {public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) {        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty()){            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left){                treeSt.push(node-&gt;left);                path.push(p+"-&gt;"+to_string(node-&gt;left-&gt;val));            }            if(node-&gt;right){                treeSt.push(node-&gt;right);                path.push(p+"-&gt;"+to_string(node-&gt;right-&gt;val));            }        }        return ans;    }};
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution {public:    int sumOfLeftLeaves(TreeNode* root) {        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty()){            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        }        return sum;    }};
-递归法：
-class Solution {public:    int sumOfLeftLeaves(TreeNode* root) {        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) { // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        }        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    }};
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution {public:    int findBottomLeftValue(TreeNode* root) {        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty()){            int s=q.size();            for(int i=0;i&lt;s;i++)            {                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            }        }        return ans;    }};
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution {public:    bool hasPathSum(TreeNode* root, int targetSum) {        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) {            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        }          while (!s.empty()) {            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) {                return true;            }                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) {                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            }            if (node-&gt;left) {                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            }        }                return false;    }};
-版本二
-class Solution {public:    bool hasPathSum(TreeNode* root, int targetSum) {        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push({root, root-&gt;val}); // 初始化，根节点和它的值              while (!s.empty()) {            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) {                return true;            }                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push({node-&gt;right, currentSum + node-&gt;right-&gt;val});            if (node-&gt;left) s.push({node-&gt;left, currentSum + node-&gt;left-&gt;val});        }             return false;    }};
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -317,60 +317,6 @@ class Solution {public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--数组</title>
-    <url>/2025/01/2day/</url>
-    <content><![CDATA[滑动窗口
-​	刚开始不太好想到滑动窗口这种方法，即使想到了也并没有办法证明滑动窗口方法的正确性，现在我也不会证明。只是会用，前几天做过一次，这是第二次做，记住了这个方法之后也是没有什么障碍。
-例题
-题目链接：209. 长度最小的子数组
-题目描述：找出数组中满足其总和大于等于 target 的长度最小的子数组，并返回其长度**。**如果不存在符合条件的子数组，返回 0 。
-class Solution {public:    int minSubArrayLen(int target, vector&lt;int&gt;&amp; nums) {      int n=nums.size();      int sum=0,m=100010,j=0;      for(int i=0;i&lt;n;i++)      {        sum=sum+nums[i];        while(sum&gt;=target){            m=min(m,i-j+1);            sum-=nums[j++];        }      }      if(m==100010) return 0;      return m;    }};
-相关题目
-904. 水果成篮
-题目描述：找一个最长连续子数组，满足子数组中至多有两种数字。返回子数组的长度。
-这题题目描述很抽象，没看懂啥意思，去评论区的解释。
-76. 最小覆盖子串
-不会做，没思路，目前水平不够，直接跳。
-矩阵规律
-题目链接：59. 螺旋矩阵 II
-题目描述：给定一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
-例题
-贪吃蛇输出
-题目思路：直接按顺序输出，定义上下左右四个边界，从左到右输出上边界加一，从上到下输出右边界减一，从右向左输出下边界减一，从下到上输出左边界加一，依次输出就可以，因为上边界加一，从上到下就少输出一个，右边界减一，从右到左输出就少输出一个。从下向上输出时，下边界减一，上边界加一，正好按顺序输出，完美！
-class Solution {public:    vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) {        vector&lt;vector&lt;int&gt;&gt; res(n, vector&lt;int&gt;(n, 0));        int l=0,r=n-1,t=0,b=n-1,count=1;        while(count&lt;=(n*n))        {            for(int i=l;i&lt;=r;i++)            {                res[t][i]=count;                count++;            }            t++;            for(int j=t;j&lt;=b;j++)            {                res[j][r]=count;                count++;            }            r--;            for(int j=r;j&gt;=l;j--)            {                res[b][j]=count;                count++;            }            b--;            for(int j=b;j&gt;=t;j--)            {                res[j][l]=count;                count++;            }            l++;        }        return res;    }};
-循环不变量原则
-思路：每条边按左闭右开的输出，每圈输出四次，每次输出边长减一个，这里直接贴一下代码随想录的代码。
-class Solution {public:    vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) {        vector&lt;vector&lt;int&gt;&gt; res(n, vector&lt;int&gt;(n, 0)); // 使用vector定义一个二维数组        int startx = 0, starty = 0; // 定义每循环一个圈的起始位置        int loop = n / 2;         // 每个圈循环几次，例如n为奇数3，那么loop = 1 只是循环一圈，矩阵中间的值需要单独处理        int mid = n / 2;         // 矩阵中间的位置，例如：n为3， 中间的位置就是(1，1)，n为5，中间位置为(2, 2)        int count = 1; // 用来给矩阵中每一个空格赋值        int offset = 1; // 需要控制每一条边遍历的长度，每次循环右边界收缩一位        int i,j;        while (loop --) {            i = startx;            j = starty;        // 下面开始的四个for就是模拟转了一圈        // 模拟填充上行从左到右(左闭右开)            for (j; j &lt; n - offset; j++) res[i][j] = count++;        // 模拟填充右列从上到下(左闭右开)            for (i; i &lt; n - offset; i++) res[i][j] = count++;        // 模拟填充下行从右到左(左闭右开)            for (; j &gt; starty; j--) res[i][j] = count++;        // 模拟填充左列从下到上(左闭右开)            for (; i &gt; startx; i--) res[i][j] = count++;        // 第二圈开始的时候，起始位置要各自加1， 例如：第一圈起始位置是(0, 0)，第二圈起始位置是(1, 1)            startx++;            starty++;        // offset 控制每一圈里每一条边遍历的长度            offset += 1;        }        // 如果n为奇数的话，需要单独给矩阵最中间的位置赋值        if (n % 2) res[mid][mid] = count;        return res;    }};
-相关题目
-54. 螺旋矩阵
-进阶了一下，今天没时间了改天再做，这两天光建blog了。
-LCR 146. 螺旋遍历二维数组
-这题虽然是简单题，但是做起来比例题难，这题边界问题比较棘手。
-class Solution {public:    vector&lt;int&gt; spiralArray(vector&lt;vector&lt;int&gt;&gt;&amp; array) {        if (array.empty() || array[0].empty()) {            return {}; // 返回空 vector        }        int t=0,l=0,r=array[0].size() -1,b=array.size()-1,n=array[0].size()*array.size();        vector&lt;int&gt; ans(n);        int j=0;        while(t &lt;= b &amp;&amp; l &lt;= r){            for(int i=l;i&lt;=r;i++) ans[j++]=array[t][i];            t++;            for(int i=t;i&lt;=b;i++) ans[j++]=array[i][r];            r--;            if (t &lt;= b) { // 确保没有重复遍历                for (int i = r; i &gt;= l; i--) {                    ans[j++] = array[b][i];                }                b--;            }            if (l &lt;= r) { // 确保没有重复遍历                for (int i = b; i &gt;= t; i--) {                    ans[j++] = array[i][l];                }                l++;            }        }        return ans;    }};
-前缀和
-前缀和 在涉及计算区间和的问题时非常有用！
-刚开始使用的暴力解法，一直不行，知道看了题解才知道，故意卡暴力解。然后自己也想不出什么好方法，就问的chatgpt，这种方法刚开始我还以为时间复杂度差不多呢。
-例题
-题目链接：区间和
-题目描述：给定一个整数数组 Array，请计算该数组在每个指定区间内元素的总和。
-#include &lt;cstdio&gt;int main() {    int n;    scanf("%d", &amp;n);    int a[n];    // 读取数组元素    for (int i = 0; i &lt; n; i++) {        scanf("%d", &amp;a[i]);    }    // 计算前缀和数组    int prefixSum[n + 1];  // prefixSum[0] = 0    prefixSum[0] = 0;    for (int i = 1; i &lt;= n; i++) {        prefixSum[i] = prefixSum[i - 1] + a[i - 1];    }    // 处理区间查询    int l, r;    while (scanf("%d %d", &amp;l, &amp;r) != EOF) {        // 使用前缀和快速计算区间 [l, r] 的和        printf("%d\n", prefixSum[r + 1] - prefixSum[l]);    }    return 0;}
-相关题目
-开发商购买土地
-看起来挺难的，没看懂题目意思，明天再研究。
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>滑动窗口</tag>
-        <tag>矩阵规律</tag>
-        <tag>前缀和</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--链表</title>
     <url>/2025/01/3day/</url>
     <content><![CDATA[链表基础
@@ -482,6 +428,60 @@ class Solution {public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums,
         <tag>查找</tag>
         <tag>set</tag>
         <tag>map</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--数组</title>
+    <url>/2025/01/2day/</url>
+    <content><![CDATA[滑动窗口
+​	刚开始不太好想到滑动窗口这种方法，即使想到了也并没有办法证明滑动窗口方法的正确性，现在我也不会证明。只是会用，前几天做过一次，这是第二次做，记住了这个方法之后也是没有什么障碍。
+例题
+题目链接：209. 长度最小的子数组
+题目描述：找出数组中满足其总和大于等于 target 的长度最小的子数组，并返回其长度**。**如果不存在符合条件的子数组，返回 0 。
+class Solution {public:    int minSubArrayLen(int target, vector&lt;int&gt;&amp; nums) {      int n=nums.size();      int sum=0,m=100010,j=0;      for(int i=0;i&lt;n;i++)      {        sum=sum+nums[i];        while(sum&gt;=target){            m=min(m,i-j+1);            sum-=nums[j++];        }      }      if(m==100010) return 0;      return m;    }};
+相关题目
+904. 水果成篮
+题目描述：找一个最长连续子数组，满足子数组中至多有两种数字。返回子数组的长度。
+这题题目描述很抽象，没看懂啥意思，去评论区的解释。
+76. 最小覆盖子串
+不会做，没思路，目前水平不够，直接跳。
+矩阵规律
+题目链接：59. 螺旋矩阵 II
+题目描述：给定一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
+例题
+贪吃蛇输出
+题目思路：直接按顺序输出，定义上下左右四个边界，从左到右输出上边界加一，从上到下输出右边界减一，从右向左输出下边界减一，从下到上输出左边界加一，依次输出就可以，因为上边界加一，从上到下就少输出一个，右边界减一，从右到左输出就少输出一个。从下向上输出时，下边界减一，上边界加一，正好按顺序输出，完美！
+class Solution {public:    vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) {        vector&lt;vector&lt;int&gt;&gt; res(n, vector&lt;int&gt;(n, 0));        int l=0,r=n-1,t=0,b=n-1,count=1;        while(count&lt;=(n*n))        {            for(int i=l;i&lt;=r;i++)            {                res[t][i]=count;                count++;            }            t++;            for(int j=t;j&lt;=b;j++)            {                res[j][r]=count;                count++;            }            r--;            for(int j=r;j&gt;=l;j--)            {                res[b][j]=count;                count++;            }            b--;            for(int j=b;j&gt;=t;j--)            {                res[j][l]=count;                count++;            }            l++;        }        return res;    }};
+循环不变量原则
+思路：每条边按左闭右开的输出，每圈输出四次，每次输出边长减一个，这里直接贴一下代码随想录的代码。
+class Solution {public:    vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) {        vector&lt;vector&lt;int&gt;&gt; res(n, vector&lt;int&gt;(n, 0)); // 使用vector定义一个二维数组        int startx = 0, starty = 0; // 定义每循环一个圈的起始位置        int loop = n / 2;         // 每个圈循环几次，例如n为奇数3，那么loop = 1 只是循环一圈，矩阵中间的值需要单独处理        int mid = n / 2;         // 矩阵中间的位置，例如：n为3， 中间的位置就是(1，1)，n为5，中间位置为(2, 2)        int count = 1; // 用来给矩阵中每一个空格赋值        int offset = 1; // 需要控制每一条边遍历的长度，每次循环右边界收缩一位        int i,j;        while (loop --) {            i = startx;            j = starty;        // 下面开始的四个for就是模拟转了一圈        // 模拟填充上行从左到右(左闭右开)            for (j; j &lt; n - offset; j++) res[i][j] = count++;        // 模拟填充右列从上到下(左闭右开)            for (i; i &lt; n - offset; i++) res[i][j] = count++;        // 模拟填充下行从右到左(左闭右开)            for (; j &gt; starty; j--) res[i][j] = count++;        // 模拟填充左列从下到上(左闭右开)            for (; i &gt; startx; i--) res[i][j] = count++;        // 第二圈开始的时候，起始位置要各自加1， 例如：第一圈起始位置是(0, 0)，第二圈起始位置是(1, 1)            startx++;            starty++;        // offset 控制每一圈里每一条边遍历的长度            offset += 1;        }        // 如果n为奇数的话，需要单独给矩阵最中间的位置赋值        if (n % 2) res[mid][mid] = count;        return res;    }};
+相关题目
+54. 螺旋矩阵
+进阶了一下，今天没时间了改天再做，这两天光建blog了。
+LCR 146. 螺旋遍历二维数组
+这题虽然是简单题，但是做起来比例题难，这题边界问题比较棘手。
+class Solution {public:    vector&lt;int&gt; spiralArray(vector&lt;vector&lt;int&gt;&gt;&amp; array) {        if (array.empty() || array[0].empty()) {            return {}; // 返回空 vector        }        int t=0,l=0,r=array[0].size() -1,b=array.size()-1,n=array[0].size()*array.size();        vector&lt;int&gt; ans(n);        int j=0;        while(t &lt;= b &amp;&amp; l &lt;= r){            for(int i=l;i&lt;=r;i++) ans[j++]=array[t][i];            t++;            for(int i=t;i&lt;=b;i++) ans[j++]=array[i][r];            r--;            if (t &lt;= b) { // 确保没有重复遍历                for (int i = r; i &gt;= l; i--) {                    ans[j++] = array[b][i];                }                b--;            }            if (l &lt;= r) { // 确保没有重复遍历                for (int i = b; i &gt;= t; i--) {                    ans[j++] = array[i][l];                }                l++;            }        }        return ans;    }};
+前缀和
+前缀和 在涉及计算区间和的问题时非常有用！
+刚开始使用的暴力解法，一直不行，知道看了题解才知道，故意卡暴力解。然后自己也想不出什么好方法，就问的chatgpt，这种方法刚开始我还以为时间复杂度差不多呢。
+例题
+题目链接：区间和
+题目描述：给定一个整数数组 Array，请计算该数组在每个指定区间内元素的总和。
+#include &lt;cstdio&gt;int main() {    int n;    scanf("%d", &amp;n);    int a[n];    // 读取数组元素    for (int i = 0; i &lt; n; i++) {        scanf("%d", &amp;a[i]);    }    // 计算前缀和数组    int prefixSum[n + 1];  // prefixSum[0] = 0    prefixSum[0] = 0;    for (int i = 1; i &lt;= n; i++) {        prefixSum[i] = prefixSum[i - 1] + a[i - 1];    }    // 处理区间查询    int l, r;    while (scanf("%d %d", &amp;l, &amp;r) != EOF) {        // 使用前缀和快速计算区间 [l, r] 的和        printf("%d\n", prefixSum[r + 1] - prefixSum[l]);    }    return 0;}
+相关题目
+开发商购买土地
+看起来挺难的，没看懂题目意思，明天再研究。
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>数组</tag>
+        <tag>滑动窗口</tag>
+        <tag>矩阵规律</tag>
+        <tag>前缀和</tag>
       </tags>
   </entry>
   <entry>
@@ -863,93 +863,6 @@ class Solution {public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) 
         <tag>二叉树遍历</tag>
         <tag>递归</tag>
         <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSRMS</title>
-    <url>/2025/04/CSRMS/</url>
-    <content><![CDATA[CSRMS
-用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
-论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
-代码地址：https://github.com/czt117/CSRMS
-个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
-名词解释：
-课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
-实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
-对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
-研究目的
-缓解类内多样性和类间相似性问题
-
-整体架构
-CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
-在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
-
-离线学习阶段
-类级关系建模
-类级关系定义
-(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
-
-(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
-
-© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
-
-主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
-混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
-ART聚类
-自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。
-
-得到三个级别：类级别、模式级别、实例级别。然后构建关系图  。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
-训练阶段
-类感知图采样
-正样本采样
-使用主导模式采样器，从类别  主导的最大簇  中选择与  距离最大的前 个正样本。为每个批次样本选择正样本集合 ，以解决类内多样性。
-选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
-
-负样本采样
-视觉相似模式采样器 ，从类别  主导的最大簇  中选择与  距离最大的前 个正样本。为每个批次样本选择负样本集合，以解决类间相似性和混类簇。
-选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
-
-课程学习
-基于易难估计，为批次样本分配难度级别。
-
-调整学习权重
-使用“衰减方法”，设置惩罚系数，并通过参数调节。
-
-初期：、接近 1，优先学习简单样本。
-后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 、，引入更多困难样本。
-构建批次子图
- 是 的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
-关系图引导的表示学习
-簇感知表征平滑
-图形平滑
-使用图卷积网络（GCN），基于子图  和正样本 ，聚合同一类别图像的信息。
-
-簇级特征平滑
-将表征  与簇原型   对齐，其中是类别 主导的最大簇 的原型。
-
-类级分布正则化
-类级表征对齐
-表征  与类原型  对齐，其中  是类别  在所有主导簇中的表征聚合。
-
-负样本约束
-构建负样本损失，推远不同类别表征：
-
-类间约束
-构建类间分散损失，进一步推远不同类别表征：
-
-分类器训练
-使用分类器 预测类别：
-
-使用交叉熵损失 优化：
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
-      </categories>
-      <tags>
-        <tag>视觉表征</tag>
-        <tag>论文精读</tag>
       </tags>
   </entry>
   <entry>
@@ -1509,10 +1422,97 @@ BERT是"真双向"：真正的双向同时编码和融合
         <category>自然语言处理</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
         <tag>BERT</tag>
         <tag>Transformer</tag>
         <tag>自然语言处理</tag>
+        <tag>论文精读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSRMS</title>
+    <url>/2025/04/CSRMS/</url>
+    <content><![CDATA[CSRMS
+用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
+论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
+代码地址：https://github.com/czt117/CSRMS
+个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
+名词解释：
+课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
+实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
+对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
+研究目的
+缓解类内多样性和类间相似性问题
+
+整体架构
+CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
+在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
+
+离线学习阶段
+类级关系建模
+类级关系定义
+(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
+
+(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
+
+© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
+
+主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
+混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
+ART聚类
+自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。
+
+得到三个级别：类级别、模式级别、实例级别。然后构建关系图  。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
+训练阶段
+类感知图采样
+正样本采样
+使用主导模式采样器，从类别  主导的最大簇  中选择与  距离最大的前 个正样本。为每个批次样本选择正样本集合 ，以解决类内多样性。
+选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
+
+负样本采样
+视觉相似模式采样器 ，从类别  主导的最大簇  中选择与  距离最大的前 个正样本。为每个批次样本选择负样本集合，以解决类间相似性和混类簇。
+选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
+
+课程学习
+基于易难估计，为批次样本分配难度级别。
+
+调整学习权重
+使用“衰减方法”，设置惩罚系数，并通过参数调节。
+
+初期：、接近 1，优先学习简单样本。
+后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 、，引入更多困难样本。
+构建批次子图
+ 是 的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
+关系图引导的表示学习
+簇感知表征平滑
+图形平滑
+使用图卷积网络（GCN），基于子图  和正样本 ，聚合同一类别图像的信息。
+
+簇级特征平滑
+将表征  与簇原型   对齐，其中是类别 主导的最大簇 的原型。
+
+类级分布正则化
+类级表征对齐
+表征  与类原型  对齐，其中  是类别  在所有主导簇中的表征聚合。
+
+负样本约束
+构建负样本损失，推远不同类别表征：
+
+类间约束
+构建类间分散损失，进一步推远不同类别表征：
+
+分类器训练
+使用分类器 预测类别：
+
+使用交叉熵损失 优化：
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>视觉表征</tag>
       </tags>
   </entry>
   <entry>
@@ -2745,28 +2745,6 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--STL</title>
     <url>/2025/02/STL/</url>
     <content><![CDATA[标准模板库（STL）
@@ -3337,6 +3315,28 @@ reserve(n)
         <tag>string</tag>
         <tag>algorithm</tag>
         <tag>priority_queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -4687,7 +4687,10 @@ NCE原理
 
 损失函数：
 $$
-\mathcal{L}{\text{NCE}}(\theta) = -\mathbb{E}{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v’)\sim P_n}[\log\big(1 - h(i, v’)\big)]
+\begin{aligned}
+\mathcal{L}{\text{NCE}}(\theta) &amp;= -\mathbb{E}{(i,v)\sim P_d}[\log h(i, v)] \
+&amp;\quad - m \cdot \mathbb{E}_{(i,v’)\sim P_n}[\log\big(1 - h(i, v’)\big)]
+\end{aligned}
 $$
 归一化常数估计
 计算  仍然昂贵，使用蒙特卡洛估计：
@@ -4706,7 +4709,10 @@ Proximal Regularization（近端正则化）
 
 完整损失：
 $$
-\mathcal{L}{\text{NCE}}(\theta) = -\mathbb{E}{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v’)\sim P_n}\Big[\log\big(1 - h(i, v’^{(t-1)})\big)\Big]
+\begin{aligned}
+\mathcal{L}{\text{NCE}}(\theta) &amp;= -\mathbb{E}{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] \
+&amp;\quad - m \cdot \mathbb{E}_{(i,v’)\sim P_n}\Big[\log\big(1 - h(i, v’^{(t-1)})\big)\Big]
+\end{aligned}
 $$
 加权k-NN分类器
 测试时分类：
@@ -5339,158 +5345,6 @@ import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# �
       <tags>
         <tag>Vit</tag>
         <tag>手撕代码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--排序算法</title>
-    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[排序算法详解
-排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
-#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
-1. 冒泡排序 (Bubble Sort)
-冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void bubbleSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) {        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) {            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) {                swap(arr[j], arr[j+1]);                swapped = true;            }        }        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    }}
-2. 选择排序 (Selection Sort)
-选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void selectionSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) {        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) {            if(arr[j] &lt; arr[min_idx]) {                min_idx = j;            }        }        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) {            swap(arr[i], arr[min_idx]);        }    }}
-3. 插入排序 (Insertion Sort)
-插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void insertionSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    for(int i = 1; i &lt; n; i++) {        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) {            arr[j+1] = arr[j];            j--;        }        arr[j+1] = key;    }}
-4. 快速排序 (Quick Sort)
-快速排序是一种分治算法，它通过选择一个"基准"元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
-实现原理
-
-时间复杂度：平均 O(nlogn)，最坏 O(n²)
-空间复杂度：O(logn)
-稳定性：不稳定
-
-实现代码
-int partition(vector&lt;int&gt;&amp; arr, int low, int high) {    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) {        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) {            i++;            swap(arr[i], arr[j]);        }    }    swap(arr[i + 1], arr[high]);    return i + 1;}void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) {    if(low &lt; high) {        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    }}// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) {    quickSort(arr, 0, arr.size() - 1);}
-5. 归并排序 (Merge Sort)
-归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(n)
-稳定性：稳定
-
-实现代码
-void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) {    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) {        if(arr[i] &lt;= arr[j]) {            temp[k++] = arr[i++];        } else {            temp[k++] = arr[j++];        }    }        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) {        arr[left + i] = temp[i];    }}void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) {    if(left &lt; right) {        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    }}// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) {    mergeSort(arr, 0, arr.size() - 1);}
-6. 堆排序 (Heap Sort)
-堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void heapify(vector&lt;int&gt;&amp; arr, int n, int i) {    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) {        largest = left;    }        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) {        largest = right;    }        // 如果最大值不是根节点    if(largest != i) {        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    }}void heapSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) {        heapify(arr, n, i);    }        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) {        swap(arr[0], arr[i]);        heapify(arr, i, 0);    }}
-排序算法的比较
-
-
-
-排序算法
-平均时间复杂度
-最坏时间复杂度
-空间复杂度
-稳定性
-
-
-
-
-冒泡排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-选择排序
-O(n²)
-O(n²)
-O(1)
-不稳定
-
-
-插入排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-快速排序
-O(nlogn)
-O(n²)
-O(logn)
-不稳定
-
-
-归并排序
-O(nlogn)
-O(nlogn)
-O(n)
-稳定
-
-
-堆排序
-O(nlogn)
-O(nlogn)
-O(1)
-不稳定
-
-
-
-如何选择排序算法？
-
-数据量小（n &lt; 50）：插入排序
-数据量大：
-
-要求稳定：归并排序
-不要求稳定：快速排序
-
-
-内存空间有限：堆排序
-数据基本有序：插入排序
-数据量特别大且有重复：计数排序/基数排序
-
-总结
-每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>排序</tag>
-        <tag>冒泡排序</tag>
-        <tag>选择排序</tag>
-        <tag>插入排序</tag>
-        <tag>快速排序</tag>
-        <tag>归并排序</tag>
-        <tag>堆排序</tag>
       </tags>
   </entry>
   <entry>
@@ -6381,6 +6235,158 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>无监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--排序算法</title>
+    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[排序算法详解
+排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
+#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
+1. 冒泡排序 (Bubble Sort)
+冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void bubbleSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) {        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) {            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) {                swap(arr[j], arr[j+1]);                swapped = true;            }        }        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    }}
+2. 选择排序 (Selection Sort)
+选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void selectionSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) {        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) {            if(arr[j] &lt; arr[min_idx]) {                min_idx = j;            }        }        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) {            swap(arr[i], arr[min_idx]);        }    }}
+3. 插入排序 (Insertion Sort)
+插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void insertionSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();    for(int i = 1; i &lt; n; i++) {        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) {            arr[j+1] = arr[j];            j--;        }        arr[j+1] = key;    }}
+4. 快速排序 (Quick Sort)
+快速排序是一种分治算法，它通过选择一个"基准"元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
+实现原理
+
+时间复杂度：平均 O(nlogn)，最坏 O(n²)
+空间复杂度：O(logn)
+稳定性：不稳定
+
+实现代码
+int partition(vector&lt;int&gt;&amp; arr, int low, int high) {    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) {        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) {            i++;            swap(arr[i], arr[j]);        }    }    swap(arr[i + 1], arr[high]);    return i + 1;}void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) {    if(low &lt; high) {        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    }}// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) {    quickSort(arr, 0, arr.size() - 1);}
+5. 归并排序 (Merge Sort)
+归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
+稳定性：稳定
+
+实现代码
+void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) {    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) {        if(arr[i] &lt;= arr[j]) {            temp[k++] = arr[i++];        } else {            temp[k++] = arr[j++];        }    }        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) {        arr[left + i] = temp[i];    }}void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) {    if(left &lt; right) {        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    }}// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) {    mergeSort(arr, 0, arr.size() - 1);}
+6. 堆排序 (Heap Sort)
+堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void heapify(vector&lt;int&gt;&amp; arr, int n, int i) {    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) {        largest = left;    }        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) {        largest = right;    }        // 如果最大值不是根节点    if(largest != i) {        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    }}void heapSort(vector&lt;int&gt;&amp; arr) {    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) {        heapify(arr, n, i);    }        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) {        swap(arr[0], arr[i]);        heapify(arr, i, 0);    }}
+排序算法的比较
+
+
+
+排序算法
+平均时间复杂度
+最坏时间复杂度
+空间复杂度
+稳定性
+
+
+
+
+冒泡排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+选择排序
+O(n²)
+O(n²)
+O(1)
+不稳定
+
+
+插入排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+快速排序
+O(nlogn)
+O(n²)
+O(logn)
+不稳定
+
+
+归并排序
+O(nlogn)
+O(nlogn)
+O(n)
+稳定
+
+
+堆排序
+O(nlogn)
+O(nlogn)
+O(1)
+不稳定
+
+
+
+如何选择排序算法？
+
+数据量小（n &lt; 50）：插入排序
+数据量大：
+
+要求稳定：归并排序
+不要求稳定：快速排序
+
+
+内存空间有限：堆排序
+数据基本有序：插入排序
+数据量特别大且有重复：计数排序/基数排序
+
+总结
+每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>排序</tag>
+        <tag>冒泡排序</tag>
+        <tag>选择排序</tag>
+        <tag>插入排序</tag>
+        <tag>快速排序</tag>
+        <tag>归并排序</tag>
+        <tag>堆排序</tag>
       </tags>
   </entry>
   <entry>
