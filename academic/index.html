@@ -12,36 +12,36 @@
   <style>
     :root {
       --primary-color: #2c3e50;
-      --accent-color: #667eea;
-      --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --link-color: #667eea;
-      --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --accent-color: #d47500;
+      --link-color: #0066cc;
+      --bg-color: #ffffff;
+      --sidebar-bg: #f8f8f8;
       --card-bg: #ffffff;
-      --text-color: #2c3e50;
-      --text-secondary: #555;
-      --sidebar-width: 320px;
-      --content-max-width: 920px;
+      --text-color: #333;
+      --text-secondary: #666;
+      --border-color: #e0e0e0;
+      --sidebar-width: 280px;
+      --content-max-width: 900px;
       --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      --shadow-sm: 0 2px 12px rgba(102, 126, 234, 0.08);
-      --shadow-md: 0 8px 24px rgba(102, 126, 234, 0.12);
-      --shadow-lg: 0 12px 40px rgba(102, 126, 234, 0.15);
-      --shadow-hover: 0 12px 32px rgba(102, 126, 234, 0.2);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     /* 暗黑模式 */
     body.dark-mode {
       --primary-color: #e4e4e4;
-      --accent-color: #8b9dff;
-      --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --link-color: #8b9dff;
-      --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      --card-bg: #252525;
-      --text-color: #e4e4e4;
-      --text-secondary: #b0b0b0;
-      --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
-      --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.6);
+      --accent-color: #ff9500;
+      --link-color: #4a9eff;
+      --bg-color: #1a1a1a;
+      --sidebar-bg: #252525;
+      --card-bg: #2a2a2a;
+      --text-color: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --border-color: #404040;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,13 +53,12 @@
     body {
       font-family: var(--font-main);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.8;
       color: var(--text-color);
-      background: var(--bg-gradient);
-      background-attachment: fixed;
+      background: var(--bg-color);
       display: flex;
       min-height: 100vh;
-      transition: all 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
     
     a { 
@@ -132,31 +131,32 @@
     /* Layout */
     .sidebar {
       width: var(--sidebar-width);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 50px 35px 80px; /* 增加底部 padding */
+      background: var(--sidebar-bg);
+      padding: 40px 30px 60px;
       position: fixed;
       height: 100vh;
       left: 0;
       top: 0;
       text-align: center;
-      box-shadow: var(--shadow-lg);
+      color: var(--text-color);
       overflow-y: auto;
-      overflow-x: hidden;
+      border-right: 1px solid var(--border-color);
+      /* 简化滚动条 */
+      scrollbar-width: thin;
+      scrollbar-color: #ccc transparent;
     }
-    
-    /* 修复滚动条样式 */
     .sidebar::-webkit-scrollbar {
-      width: 6px;
+      width: 5px;
     }
     .sidebar::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.1);
+      background: transparent;
     }
     .sidebar::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
-      border-radius: 3px;
+      background: #ccc;
+      border-radius: 2px;
     }
     .sidebar::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.5);
+      background: #999;
     }
     
     .main-content {
@@ -168,200 +168,155 @@
     
     /* Sidebar Elements */
     .avatar {
-      width: 180px;
-      height: 180px;
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 25px;
-      border: 5px solid rgba(255,255,255,0.3);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-    }
-    .avatar:hover {
-      transform: scale(1.05);
+      margin: 0 auto 20px;
+      border: 3px solid var(--border-color);
     }
     
     .author-name { 
-      font-size: 1.6rem; 
+      font-size: 1.5rem; 
       font-weight: 700; 
-      margin-bottom: 10px; 
-      color: white;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 8px; 
+      color: var(--primary-color);
     }
+    
     .author-title { 
-      font-size: 1rem; 
-      color: rgba(255,255,255,0.95); 
-      margin-bottom: 20px; 
-      line-height: 1.5; 
-    }
-    .author-desc { 
       font-size: 0.9rem; 
-      color: rgba(255,255,255,0.9); 
-      margin-bottom: 30px; 
-      line-height: 1.6; 
-      padding: 20px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
+      color: var(--text-secondary); 
+      margin-bottom: 15px; 
+      line-height: 1.6;
+      font-weight: 400;
+    }
+    
+    .author-desc { 
+      font-size: 0.85rem; 
+      color: var(--text-secondary); 
+      line-height: 1.7; 
+      padding: 15px;
+      background: transparent;
+      text-align: left;
     }
     
     .contact-list { 
       list-style: none; 
-      font-size: 0.95rem; 
-      margin-top: 25px;
-      padding-bottom: 20px; /* 确保底部有空间 */
+      font-size: 0.85rem; 
+      margin-top: 20px;
+      padding-bottom: 20px;
+      text-align: left;
     }
     .contact-list li { 
-      margin-bottom: 12px; 
+      margin-bottom: 10px; 
       display: flex; 
-      align-items: center; 
-      justify-content: center;
-      transition: transform 0.2s ease;
-    }
-    .contact-list li:hover {
-      transform: translateX(5px);
+      align-items: center;
     }
     .contact-list i { 
-      width: 24px; 
-      color: rgba(255,255,255,0.9); 
-      margin-right: 10px; 
+      width: 20px; 
+      color: var(--text-secondary); 
+      margin-right: 8px; 
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
     }
     .contact-list a { 
-      color: rgba(255,255,255,0.95); 
-      font-weight: 500;
+      color: var(--link-color); 
+      font-weight: 400;
     }
     .contact-list a:hover { 
-      color: white; 
+      text-decoration: underline; 
+    }
+    .contact-list span {
+      color: var(--text-secondary);
     }
     
     /* Content Elements */
     h2 { 
-      font-size: 1.8rem; 
-      margin: 50px 0 30px; 
-      font-weight: 700; 
+      font-size: 1.6rem; 
+      margin: 50px 0 25px; 
+      font-weight: 600; 
       display: flex; 
       align-items: center;
       color: var(--primary-color);
-      position: relative;
-      padding-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
     }
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-color), transparent);
-      border-radius: 2px;
+    h2 span { 
+      margin-right: 10px; 
+      font-size: 1.4rem; 
     }
-    h2 span { margin-right: 12px; font-size: 1.6rem; }
     
     p { 
-      margin-bottom: 18px; 
+      margin-bottom: 15px; 
       text-align: justify; 
-      line-height: 1.9;
+      line-height: 1.8;
       color: var(--text-secondary);
     }
     
     /* About Section Cards */
     #about-content p {
-      background: var(--card-bg);
-      padding: 20px 25px;
-      border-radius: 10px;
-      box-shadow: var(--shadow-sm);
-      border-left: 4px solid var(--accent-color);
-      transition: all 0.3s ease;
-    }
-    #about-content p:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateX(5px);
+      background: transparent;
+      padding: 0;
+      margin-bottom: 20px;
+      border: none;
     }
     
     /* News List */
     .news-list { list-style: none; }
     .news-list li { 
-      margin-bottom: 16px; 
+      margin-bottom: 12px; 
       display: flex; 
       align-items: baseline;
-      padding: 12px 20px;
-      background: var(--card-bg);
-      border-radius: 8px;
-      border-left: 3px solid var(--accent-color);
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-    }
-    .news-list li:hover {
-      transform: translateX(5px);
-      box-shadow: var(--shadow-md);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
     }
     .news-date { 
-      font-weight: bold; 
+      font-weight: 600; 
       min-width: 85px; 
       color: var(--accent-color); 
       font-family: 'Courier New', monospace;
       font-size: 0.9rem;
+      flex-shrink: 0;
     }
     
-    /* Publication Item (增大图片) */
+    /* Publication Item */
     .paper-item {
       display: flex;
-      margin-bottom: 35px;
-      padding: 25px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .paper-item:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-5px);
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
     }
     
     .paper-img-box {
-      width: 320px; /* 从 280px 增加到 320px */
+      width: 360px;
       flex-shrink: 0;
       margin-right: 30px;
       position: relative;
-      border-radius: 8px;
+      border: 1px solid var(--border-color);
       overflow: hidden;
-      box-shadow: var(--shadow-md);
-      transition: transform 0.3s ease;
-    }
-    .paper-item:hover .paper-img-box {
-      transform: scale(1.03);
     }
     .paper-img-box img { 
       width: 100%; 
       height: auto; 
       display: block;
-      transition: transform 0.3s ease;
-    }
-    .paper-item:hover .paper-img-box img {
-      transform: scale(1.05);
     }
     
     /* Conference Badge */
     .conf-badge {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      top: 8px;
+      left: 8px;
+      background: var(--accent-color);
       color: #fff;
-      font-size: 0.75rem;
-      font-weight: bold;
-      padding: 6px 12px;
-      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 10px;
       text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       letter-spacing: 0.5px;
     }
-    .conf-badge.tkde { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
-    .conf-badge.cvpr { background: linear-gradient(135deg, #e94057 0%, #f27121 100%); }
-    .conf-badge.iccv { background: linear-gradient(135deg, #f857a6 0%, #ff5858 100%); }
+    .conf-badge.tkde { background: #2a5298; }
+    .conf-badge.cvpr { background: #e94057; }
+    .conf-badge.iccv { background: #f857a6; }
     
     .paper-info { flex: 1; }
     .paper-title { 
@@ -387,26 +342,18 @@
       padding-bottom: 2px;
     }
     .paper-links { 
-      font-size: 0.9rem; 
-      margin-top: 15px;
+      font-size: 0.85rem; 
+      margin-top: 10px;
     }
     .paper-links a { 
       display: inline-block;
-      margin-right: 12px; 
-      margin-bottom: 8px;
-      padding: 8px 20px;
-      background: var(--accent-gradient);
-      color: white;
-      border-radius: 25px;
-      font-weight: 500;
-      font-size: 0.85rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+      margin-right: 15px; 
+      color: var(--link-color);
+      font-weight: 400;
+      text-decoration: underline;
     }
     .paper-links a:hover { 
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.45);
-      text-decoration: none;
+      color: var(--accent-color);
     }
     
     /* 隐藏英文内容（默认） */
@@ -448,8 +395,9 @@
         position: relative; 
         height: auto; 
         padding: 80px 20px 30px;
-        background: var(--accent-gradient);
+        background: var(--sidebar-bg);
         text-align: center;
+        border-bottom: 1px solid var(--border-color);
       }
       .avatar {
         width: 120px;
