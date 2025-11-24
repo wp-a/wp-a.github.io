@@ -397,37 +397,129 @@
     
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
+      body { 
+        flex-direction: column; 
+        font-size: 14px;
+      }
+      
+      /* 顶部导航 */
       .top-nav { 
         left: 0; 
-        padding: 0 20px; 
-        justify-content: center; 
-        font-size: 12px; 
+        width: 100%;
+        padding: 0 15px; 
+        height: 50px;
+        font-size: 11px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
       }
-      .lang-switch { display: none; }
-      body { flex-direction: column; }
+      .top-nav a {
+        margin-right: 15px;
+        font-size: 11px;
+      }
+      .lang-switch { 
+        display: block !important;
+        font-size: 11px;
+        margin-right: 15px;
+      }
+      
+      /* 侧边栏 */
       .sidebar { 
         width: 100%; 
         position: relative; 
         height: auto; 
-        padding: 40px 20px;
+        padding: 40px 20px 30px;
+        background: var(--accent-gradient);
+        text-align: center;
       }
+      .avatar {
+        width: 120px;
+        height: 120px;
+      }
+      .author-name {
+        font-size: 1.3rem;
+      }
+      .author-title {
+        font-size: 0.85rem;
+      }
+      .author-desc {
+        font-size: 0.85rem;
+        padding: 15px 20px;
+      }
+      .contact-list { 
+        justify-content: center; 
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+      }
+      .contact-list li {
+        width: 50%;
+        justify-content: flex-start;
+        padding: 0 10px;
+      }
+      
+      /* 主内容区 */
       .main-content { 
         margin-left: 0; 
-        padding: 90px 20px 80px; /* 移动端合理底部间距 */
+        padding: 70px 15px 60px;
+        max-width: 100%;
       }
+      
+      /* 标题 */
+      h2 {
+        font-size: 1.4rem;
+        margin: 35px 0 20px;
+      }
+      h2 span {
+        font-size: 1.3rem;
+      }
+      
+      /* About 卡片 */
+      #about-content p {
+        padding: 15px 18px;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+      }
+      
+      /* 新闻列表 */
+      .news-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 15px;
+        margin-bottom: 12px;
+      }
+      .news-date {
+        min-width: auto;
+        margin-bottom: 5px;
+      }
+      
+      /* 论文卡片 */
       .paper-item { 
         flex-direction: column; 
-        padding: 20px;
+        padding: 18px;
+        margin-bottom: 25px;
       }
       .paper-img-box { 
         width: 100%; 
         max-width: 100%; 
-        margin: 0 0 20px 0; 
+        margin: 0 0 15px 0; 
       }
-      .contact-list { 
-        justify-content: center; 
-        display: inline-block; 
-        text-align: left; 
+      .paper-title {
+        font-size: 1rem;
+      }
+      .paper-authors {
+        font-size: 0.85rem;
+      }
+      .paper-links a {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        margin-right: 8px;
+        margin-bottom: 6px;
+      }
+      
+      /* 荣誉列表 */
+      #honors-list li {
+        font-size: 0.9rem;
       }
     }
   </style>
