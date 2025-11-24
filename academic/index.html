@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wang Peng (王鹏) - Academic Homepage</title>
+  <title id="page-title">Academic Homepage</title>
   <link rel="icon" href="/img/favicon.png">
   
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Google Fonts (Roboto + Noto Sans SC) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
@@ -183,31 +183,26 @@
       .contact-list { justify-content: center; display: inline-block; text-align: left; }
     }
   </style>
+  
+  <!-- 引入数据文件 -->
+  <script src="/academic/academic-data.js"></script>
 </head>
 
 <body>
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <img src="/img/head.webp" alt="Wang Peng" class="avatar">
-    
-    <div class="author-name">Wang Peng (王鹏)</div>
-    <div class="author-title">
-      硕士研究生 / Researcher<br>
-      某某大学计算机学院
-    </div>
-    
-    <div class="author-desc">
-      专注于<strong>深度学习</strong>、<strong>计算机视觉</strong>以及<strong>AI for Science</strong>的研究。<br>
-      目前主要关注 Vision Transformer 和大模型高效微调。
-    </div>
+    <img id="avatar" src="" alt="Avatar" class="avatar">
+    <div id="author-name" class="author-name"></div>
+    <div id="author-title" class="author-title"></div>
+    <div id="author-desc" class="author-desc"></div>
     
     <ul class="contact-list">
-      <li><i class="fas fa-map-marker-alt"></i> Beijing, China</li>
-      <li><i class="fas fa-envelope"></i> <a href="mailto:your-email@example.com">Email</a></li>
-      <li><i class="fab fa-github"></i> <a href="https://github.com/wp-a">Github</a></li>
-      <li><i class="fas fa-graduation-cap"></i> <a href="#">Google Scholar</a></li>
-      <li><i class="fas fa-blog"></i> <a href="/">Blog</a></li>
+      <li><i class="fas fa-map-marker-alt"></i> <span id="location"></span></li>
+      <li><i class="fas fa-envelope"></i> <a id="email" href="">Email</a></li>
+      <li><i class="fab fa-github"></i> <a id="github" href="">Github</a></li>
+      <li><i class="fas fa-graduation-cap"></i> <a id="scholar" href="">Google Scholar</a></li>
+      <li><i class="fas fa-blog"></i> <a id="blog" href="">Blog</a></li>
     </ul>
   </div>
   
@@ -225,86 +220,104 @@
     
     <!-- Bio -->
     <section id="about">
-      <p>
-        我是某某大学软件学院的硕士研究生，于2023年入学。我的研究方向包括<strong>时空数据挖掘</strong>、<strong>计算机视觉</strong>以及<strong>LLM Agent</strong>。我由<a href="#">某某教授</a>指导。
-      </p>
-      <p>
-        我曾于2025年2月至8月在<strong>阿里巴巴达摩院（杭州）</strong>担任研究型实习生，主要从事多模态大模型方向的研究工作。
-      </p>
+      <div id="about-content"></div>
     </section>
 
     <!-- News -->
     <section id="news">
       <h2><span>🔥</span> 最新动态</h2>
-      <ul class="news-list">
-        <li>
-          <span class="news-date">2025.04:</span>
-          <span>🎉🎉 一篇论文被 <strong>CVPR 2025</strong> 接收！</span>
-        </li>
-        <li>
-          <span class="news-date">2025.04:</span>
-          <span>🎉🎉 一篇论文被 <strong>TKDE</strong> 接收！</span>
-        </li>
-        <li>
-          <span class="news-date">2025.02:</span>
-          <span>🚀 我加入阿里巴巴达摩院（杭州）担任研究实习生！</span>
-        </li>
-      </ul>
+      <ul id="news-list" class="news-list"></ul>
     </section>
 
     <!-- Publications -->
     <section id="publications">
-      <h2><span>��</span> 发表论文</h2>
-      
-      <!-- Paper 1 -->
-      <div class="paper-item">
-        <div class="paper-img-box">
-          <div class="conf-badge cvpr">CVPR 2025</div>
-          <img src="https://picsum.photos/500/200?random=1" alt="Paper Thumbnail">
-        </div>
-        <div class="paper-info">
-          <div class="paper-title">Deep Residual Learning for Image Recognition</div>
-          <div class="paper-authors">
-            <strong>Wang Peng</strong>, Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
-          </div>
-          <div class="paper-links">
-            <a href="#">[论文]</a>
-            <a href="#">[代码]</a>
-            <a href="#">[Project Page]</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Paper 2 -->
-      <div class="paper-item">
-        <div class="paper-img-box">
-          <div class="conf-badge tkde">TKDE</div>
-          <img src="https://picsum.photos/500/200?random=2" alt="Paper Thumbnail">
-        </div>
-        <div class="paper-info">
-          <div class="paper-title">STDA: Spatio-Temporal Deviation Alignment Learning for Cross-city Fine-grained Urban Flow Inference</div>
-          <div class="paper-authors">
-            <strong>Wang Peng</strong>, Xiaoyu Li, Bin Xu, Xiushan Nie
-          </div>
-          <div class="paper-links">
-            <a href="#">[论文]</a>
-            <a href="#">[代码]</a>
-          </div>
-        </div>
-      </div>
-
+      <h2><span>📝</span> 发表论文</h2>
+      <div id="publications-list"></div>
     </section>
     
     <!-- Honors -->
     <section id="honors">
       <h2><span>🎖</span> 荣誉奖项</h2>
-      <ul class="news-list">
-        <li><span class="news-date">2025</span> 国家奖学金 (Top 1%)</li>
-        <li><span class="news-date">2024</span> 全国大学生数学建模竞赛一等奖</li>
-      </ul>
+      <ul id="honors-list" class="news-list"></ul>
     </section>
 
   </div>
+
+  <!-- 渲染脚本 -->
+  <script>
+    // 等待数据加载完成后渲染页面
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof academicData === 'undefined') {
+        console.error('academic-data.js 未加载成功！');
+        return;
+      }
+
+      const data = academicData;
+
+      // 设置页面标题
+      document.getElementById('page-title').textContent = data.profile.name + ' - Academic Homepage';
+
+      // 渲染侧边栏
+      document.getElementById('avatar').src = data.profile.avatar;
+      document.getElementById('author-name').textContent = data.profile.name;
+      document.getElementById('author-title').innerHTML = data.profile.title + '<br>' + data.profile.affiliation;
+      document.getElementById('author-desc').innerHTML = data.profile.bio;
+      document.getElementById('location').textContent = data.profile.location;
+      document.getElementById('email').href = 'mailto:' + data.profile.email;
+      document.getElementById('github').href = data.profile.github;
+      document.getElementById('scholar').href = data.profile.scholar;
+      document.getElementById('blog').href = data.profile.blog;
+
+      // 渲染 About 部分
+      const aboutContent = document.getElementById('about-content');
+      data.about.forEach(para => {
+        const p = document.createElement('p');
+        p.innerHTML = para;
+        aboutContent.appendChild(p);
+      });
+
+      // 渲染 News
+      const newsList = document.getElementById('news-list');
+      data.news.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="news-date">${item.date}:</span><span>${item.content}</span>`;
+        newsList.appendChild(li);
+      });
+
+      // 渲染 Publications
+      const pubsList = document.getElementById('publications-list');
+      data.publications.forEach(paper => {
+        const div = document.createElement('div');
+        div.className = 'paper-item';
+        
+        let linksHtml = '';
+        if (paper.links.paper) linksHtml += `<a href="${paper.links.paper}">[论文]</a>`;
+        if (paper.links.code) linksHtml += `<a href="${paper.links.code}">[代码]</a>`;
+        if (paper.links.project) linksHtml += `<a href="${paper.links.project}">[Project Page]</a>`;
+        
+        div.innerHTML = `
+          <div class="paper-img-box">
+            <div class="conf-badge ${paper.venueClass}">${paper.venue}</div>
+            <img src="${paper.image}" alt="Paper Thumbnail">
+          </div>
+          <div class="paper-info">
+            <div class="paper-title">${paper.title}</div>
+            <div class="paper-authors">${paper.authors}</div>
+            <div class="paper-links">${linksHtml}</div>
+          </div>
+        `;
+        pubsList.appendChild(div);
+      });
+
+      // 渲染 Honors
+      const honorsList = document.getElementById('honors-list');
+      data.honors.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="news-date">${item.year}</span> ${item.title}`;
+        honorsList.appendChild(li);
+      });
+    });
+  </script>
 
 </body>
 </html>
