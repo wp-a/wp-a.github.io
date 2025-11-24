@@ -84,11 +84,11 @@
       position: fixed;
       top: 0;
       right: 0;
-      left: 0; /* 从最左边开始 */
+      left: var(--sidebar-width); /* 恢复为侧边栏右侧 */
       background: var(--bg-color);
       padding: 20px 60px;
       display: flex;
-      justify-content: flex-end; /* 恢复为右对齐 */
+      justify-content: flex-end;
       align-items: center;
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
@@ -145,7 +145,7 @@
     .sidebar {
       width: var(--sidebar-width);
       background: var(--sidebar-bg);
-      padding: 100px 30px 60px; /* 增加顶部间距，给导航栏让出空间 */
+      padding: 40px 30px 60px; /* 恢复为原始的padding */
       position: fixed;
       height: 100vh;
       left: 0;
