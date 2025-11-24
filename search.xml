@@ -468,6 +468,70 @@ class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;    
   </entry>
   <entry>
     <title>代码随想录--哈希表</title>
+    <url>/2025/02/5day/</url>
+    <content><![CDATA[哈希表
+​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
+有效的字母异位词
+题目链接：242. 有效的字母异位词
+题目描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的 字母异位词。
+题目思路：创建一个哈希表，表长为26，哈希函数采用直接定址法，都不用处理冲突，还是比较简单的。直接排序，看是否两个数组相等应该也可以吧。
+class Solution &#123;public:    bool isAnagram(string s, string t) &#123;        int n=s.size(),m=t.size(),q[26]=&#123;0&#125;;        if(m!=n) return false;        for(int i=0;i&lt;n;i++) q[s[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) q[t[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(q[i]!=0) return false;        return true;    &#125;&#125;;
+两个数组的交集
+题目链接：349. 两个数组的交集
+题目描述：给定两个数组 nums1 和 nums2 ，返回它们的交集。输出结果中的每个元素一定是 唯一 的。
+我的思路：感觉自己写的这个代码和屎一样，又臭又长，一点也不优雅。首先循环nums1数组，将出现的元素在s[]的位置变为1，然后再遍历第二个数组，如果出现和第一个数组相同的元素，则t[]对应位置变为1，再将这些位置存到一个新数组中，记录数组长度，然后构建一个正好长度的新数组，返回这个数组。
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        int n=nums1.size(),m=nums2.size();        int s[1001]=&#123;0&#125;,t[1001]=&#123;-1&#125;,num=0,u=1001;        for(int i=0;i&lt;n;i++) s[nums1[i]]=1;        for(int i=0;i&lt;m;i++) if(s[nums2[i]]==1) t[nums2[i]]=1;        vector&lt;int&gt; r(u);        for(int i=0;i&lt;1001;i++)        &#123;            if(t[i]&gt;0)&#123;r[num]=i;            num++;            &#125;        &#125;        vector&lt;int&gt; v(num);        for(int i=0;i&lt;num;i++) v[i]=r[i];        return v;    &#125;&#125;;
+代码随想录题解：太高级了，看都看不懂，特意搜了一下这几个函数的用法。
+​	使用 unordered_set&lt;int&gt; result 来存储交集，这样可以自动去重，只保留一个 nums2 中与 nums1 相同的元素。
+set1.find(num)：
+
+find 是 unordered_set 提供的一个成员函数，用于查找一个元素。如果元素存在，它会返回指向该元素的迭代器；如果元素不存在，它会返回指向 set1.end() 的迭代器。
+
+set1.end()：
+
+set1.end() 返回的是一个指向 set1 容器最后一个元素之后的位置的迭代器。它并不是容器中的一个有效元素，表示容器的末尾。
+
+set1.find(num) != set1.end()：
+
+如果 find(num) 返回的迭代器与 set1.end() 不同，说明 num 存在于 set1 中。
+如果 find(num) 返回的迭代器等于 set1.end()，说明 num 不存在于 set1 中。
+
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         unordered_set&lt;int&gt; nums_set(nums1.begin(), nums1.end());        for (int num : nums2) &#123;            if (nums_set.find(num) != nums_set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         int hash[1005] = &#123;0&#125;;         for (int num : nums1) &#123;             hash[num] = 1;        &#125;        for (int num : nums2) &#123;             if (hash[num] == 1) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
+快乐数
+题目链接：202. 快乐数
+我的思路：我就随便试一下，就直接过了，因为不知道停止条件，所以直接设了个100次，性能还很高。
+class Solution &#123;public:    bool isHappy(int n) &#123;        for(int j=0;j&lt;100;j++)        &#123;            int num=0,t;            while(n&gt;0)            &#123;t=n%10;            n=n/10;            num=num+t*t;            &#125;            n=num;            if(n==1) return true;        &#125;        return false;    &#125;&#125;;
+代码随想录：题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！
+class Solution &#123;public:    // 取数值各个位上的单数之和    int getSum(int n) &#123;        int sum = 0;        while (n) &#123;            sum += (n % 10) * (n % 10);            n /= 10;        &#125;        return sum;    &#125;    bool isHappy(int n) &#123;        unordered_set&lt;int&gt; set;        while(1) &#123;            int sum = getSum(n);            if (sum == 1) &#123;                return true;            &#125;            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false            if (set.find(sum) != set.end()) &#123;                return false;            &#125; else &#123;                set.insert(sum);            &#125;            n = sum;        &#125;    &#125;&#125;;
+两数之和
+题目链接：1. 两数之和
+暴力解法：我直接先用暴力解写了一下,比较简单。
+class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;         int n=nums.size();        for(int i=0;i&lt;n;i++)        &#123;            for(int j=i+1;j&lt;n;j++)            &#123;                if((nums[i]+nums[j])==target)                 &#123;                    return &#123;i,j&#125;;                &#125;            &#125;        &#125;        return &#123;&#125;;    &#125;&#125;;
+哈希解法：思路还是挺好想的，但是代码不太会实现，不太熟练，自己写了一半，发现很多操作不会表达。直接贴一份代码随想录的代码。
+
+数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
+set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
+
+​	此时就要选择另一种数据结构：map ，map是一种key value的存储结构，可以用key保存数值，用value再保存数值所在的下标。
+map中的存储结构为 {key：数据元素，value：数组元素对应的下标}。
+auto 是 C++11 引入的 类型自动推导（Type Inference） 关键字，编译器会根据变量的 初始化值 自动推导出其数据类型，而无需手动声明类型。
+class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        std::unordered_map &lt;int,int&gt; map;        for(int i = 0; i &lt; nums.size(); i++) &#123;            // 遍历当前元素，并在map中寻找是否有匹配的key            auto iter = map.find(target - nums[i]);             if(iter != map.end()) &#123;                return &#123;iter-&gt;second, i&#125;;            &#125;            // 如果没找到匹配对，就把访问过的元素和下标加入到map中            map.insert(pair&lt;int, int&gt;(nums[i], i));         &#125;        return &#123;&#125;;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>哈希表</tag>
+        <tag>查找</tag>
+        <tag>set</tag>
+        <tag>map</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--哈希表</title>
     <url>/2025/02/6day/</url>
     <content><![CDATA[哈希表
 ​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
@@ -573,56 +637,171 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--哈希表</title>
-    <url>/2025/02/5day/</url>
-    <content><![CDATA[哈希表
-​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
-有效的字母异位词
-题目链接：242. 有效的字母异位词
-题目描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的 字母异位词。
-题目思路：创建一个哈希表，表长为26，哈希函数采用直接定址法，都不用处理冲突，还是比较简单的。直接排序，看是否两个数组相等应该也可以吧。
-class Solution &#123;public:    bool isAnagram(string s, string t) &#123;        int n=s.size(),m=t.size(),q[26]=&#123;0&#125;;        if(m!=n) return false;        for(int i=0;i&lt;n;i++) q[s[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) q[t[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(q[i]!=0) return false;        return true;    &#125;&#125;;
-两个数组的交集
-题目链接：349. 两个数组的交集
-题目描述：给定两个数组 nums1 和 nums2 ，返回它们的交集。输出结果中的每个元素一定是 唯一 的。
-我的思路：感觉自己写的这个代码和屎一样，又臭又长，一点也不优雅。首先循环nums1数组，将出现的元素在s[]的位置变为1，然后再遍历第二个数组，如果出现和第一个数组相同的元素，则t[]对应位置变为1，再将这些位置存到一个新数组中，记录数组长度，然后构建一个正好长度的新数组，返回这个数组。
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        int n=nums1.size(),m=nums2.size();        int s[1001]=&#123;0&#125;,t[1001]=&#123;-1&#125;,num=0,u=1001;        for(int i=0;i&lt;n;i++) s[nums1[i]]=1;        for(int i=0;i&lt;m;i++) if(s[nums2[i]]==1) t[nums2[i]]=1;        vector&lt;int&gt; r(u);        for(int i=0;i&lt;1001;i++)        &#123;            if(t[i]&gt;0)&#123;r[num]=i;            num++;            &#125;        &#125;        vector&lt;int&gt; v(num);        for(int i=0;i&lt;num;i++) v[i]=r[i];        return v;    &#125;&#125;;
-代码随想录题解：太高级了，看都看不懂，特意搜了一下这几个函数的用法。
-​	使用 unordered_set&lt;int&gt; result 来存储交集，这样可以自动去重，只保留一个 nums2 中与 nums1 相同的元素。
-set1.find(num)：
+    <title>代码随想录--栈·队列</title>
+    <url>/2025/02/8day/</url>
+    <content><![CDATA[栈·队列
+​                                                                                    
+stack
+STL 中的 stack 容器提供了一众成员函数以供调用，其中较为常用的有：
 
-find 是 unordered_set 提供的一个成员函数，用于查找一个元素。如果元素存在，它会返回指向该元素的迭代器；如果元素不存在，它会返回指向 set1.end() 的迭代器。
+元素访问
 
-set1.end()：
+st.top() 返回栈顶
 
-set1.end() 返回的是一个指向 set1 容器最后一个元素之后的位置的迭代器。它并不是容器中的一个有效元素，表示容器的末尾。
 
-set1.find(num) != set1.end()：
+修改
 
-如果 find(num) 返回的迭代器与 set1.end() 不同，说明 num 存在于 set1 中。
-如果 find(num) 返回的迭代器等于 set1.end()，说明 num 不存在于 set1 中。
+st.push() 插入传入的参数到栈顶
+st.pop() 弹出栈顶
 
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         unordered_set&lt;int&gt; nums_set(nums1.begin(), nums1.end());        for (int num : nums2) &#123;            if (nums_set.find(num) != nums_set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         int hash[1005] = &#123;0&#125;;         for (int num : nums1) &#123;             hash[num] = 1;        &#125;        for (int num : nums2) &#123;             if (hash[num] == 1) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
-快乐数
-题目链接：202. 快乐数
-我的思路：我就随便试一下，就直接过了，因为不知道停止条件，所以直接设了个100次，性能还很高。
-class Solution &#123;public:    bool isHappy(int n) &#123;        for(int j=0;j&lt;100;j++)        &#123;            int num=0,t;            while(n&gt;0)            &#123;t=n%10;            n=n/10;            num=num+t*t;            &#125;            n=num;            if(n==1) return true;        &#125;        return false;    &#125;&#125;;
-代码随想录：题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！
-class Solution &#123;public:    // 取数值各个位上的单数之和    int getSum(int n) &#123;        int sum = 0;        while (n) &#123;            sum += (n % 10) * (n % 10);            n /= 10;        &#125;        return sum;    &#125;    bool isHappy(int n) &#123;        unordered_set&lt;int&gt; set;        while(1) &#123;            int sum = getSum(n);            if (sum == 1) &#123;                return true;            &#125;            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false            if (set.find(sum) != set.end()) &#123;                return false;            &#125; else &#123;                set.insert(sum);            &#125;            n = sum;        &#125;    &#125;&#125;;
-两数之和
-题目链接：1. 两数之和
-暴力解法：我直接先用暴力解写了一下,比较简单。
-class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;         int n=nums.size();        for(int i=0;i&lt;n;i++)        &#123;            for(int j=i+1;j&lt;n;j++)            &#123;                if((nums[i]+nums[j])==target)                 &#123;                    return &#123;i,j&#125;;                &#125;            &#125;        &#125;        return &#123;&#125;;    &#125;&#125;;
-哈希解法：思路还是挺好想的，但是代码不太会实现，不太熟练，自己写了一半，发现很多操作不会表达。直接贴一份代码随想录的代码。
 
-数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
-set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
+容量
 
-​	此时就要选择另一种数据结构：map ，map是一种key value的存储结构，可以用key保存数值，用value再保存数值所在的下标。
-map中的存储结构为 {key：数据元素，value：数组元素对应的下标}。
-auto 是 C++11 引入的 类型自动推导（Type Inference） 关键字，编译器会根据变量的 初始化值 自动推导出其数据类型，而无需手动声明类型。
-class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        std::unordered_map &lt;int,int&gt; map;        for(int i = 0; i &lt; nums.size(); i++) &#123;            // 遍历当前元素，并在map中寻找是否有匹配的key            auto iter = map.find(target - nums[i]);             if(iter != map.end()) &#123;                return &#123;iter-&gt;second, i&#125;;            &#125;            // 如果没找到匹配对，就把访问过的元素和下标加入到map中            map.insert(pair&lt;int, int&gt;(nums[i], i));         &#125;        return &#123;&#125;;    &#125;&#125;;
+st.empty() 返回是否为空
+st.size() 返回元素数量
+
+
+
+queue
+STL 中的 queue 容器提供了一众成员函数以供调用。其中较为常用的有：
+
+元素访问
+
+q.front() 返回队首元素
+q.back() 返回队尾元素
+
+
+修改
+
+q.push() 在队尾插入元素
+q.pop() 弹出队首元素
+
+
+容量
+
+q.empty() 队列是否为空
+q.size() 返回队列中元素的数量
+
+
+
+deque
+STL 中的 deque 容器提供了一众成员函数以供调用。其中较为常用的有：
+
+元素访问
+
+q.front() 返回队首元素
+q.back() 返回队尾元素
+
+
+修改
+
+q.push_back() 在队尾插入元素
+q.pop_back() 弹出队尾元素
+q.push_front() 在队首插入元素
+q.pop_front() 弹出队首元素
+q.insert() 在指定位置前插入元素（传入迭代器和元素）
+q.erase() 删除指定位置的元素（传入迭代器）
+
+
+容量
+
+q.empty() 队列是否为空
+q.size() 返回队列中元素的数量
+
+
+
+此外，deque 还提供了一些运算符。其中较为常用的有：
+
+
+使用赋值运算符 = 为 deque 赋值，类似 queue。
+
+
+使用 [] 访问元素，类似 vector。
+
+
+用栈实现队列
+题目链接：232. 用栈实现队列
+class MyQueue &#123;private:    // 如果 B 栈为空，将 A 栈中的元素倒入 B 栈    void moveToB() &#123;        if (B.empty()) &#123;            while (!A.empty()) &#123;                B.push(A.top());                A.pop();            &#125;        &#125;    &#125;public:    stack&lt;int&gt; A, B;    MyQueue() &#123;    &#125;    void push(int x) &#123;        A.push(x);    &#125;    int pop() &#123;        moveToB(); // 移动元素到 B 栈        int val = B.top();        B.pop();        return val;    &#125;    int peek() &#123;        moveToB(); // 移动元素到 B 栈        return B.top();    &#125;    bool empty() &#123;        return A.empty() &amp;&amp; B.empty();    &#125;&#125;;
+用队列实现栈
+题目链接：225. 用队列实现栈
+方法一：使用 一个队列
+
+push(x)：
+
+首先，将元素 x 入队到队列末尾。
+然后，将队列中前面已有的元素依次出队，再重新入队到队列末尾。
+这样，队列的前端就始终是最新压入的元素，相当于实现了栈的“后进先出（LIFO）”顺序。
+
+
+pop()：
+
+直接将队首元素出队即可。因为在上一步的处理里，队首元素就是栈顶。
+
+
+top()：
+
+返回队首元素（不弹出）。
+
+
+empty()：
+
+判断队列是否为空。
+
+
+
+class MyStack &#123;public:    queue&lt;int&gt; q;    MyStack() &#123;    &#125;        // 每次 push 后，把前面的 (size - 1) 个元素依次出队并重新入队，确保新元素在队首    void push(int x) &#123;        // 1. 新元素先入队        q.push(x);        // 2. 将前面的元素依次移到末尾        int n = q.size();        // 只需要将前面的 (n - 1) 个元素移动到末尾        for(int i = 0; i &lt; n - 1; i++) &#123;            q.push(q.front());            q.pop();        &#125;    &#125;        int pop() &#123;        int val = q.front();  // 由于 push 中的旋转操作，队首就是栈顶        q.pop();        return val;    &#125;        int top() &#123;        return q.front();     // 队首即为栈顶    &#125;        bool empty() &#123;        return q.empty();    &#125;&#125;;
+方法二：使用 两个队列
+
+队列 A 和 队列 B 协同工作，保证其中一个队列始终存放当前所有元素，另一个队列用来做辅助操作。
+push(x)：
+
+把新元素直接入队到空队列中（或者你可以总是把它放到 A，然后把 A 里旧的元素转移到 B，具体实现略有差异）。
+
+
+pop()：
+
+在 pop() 之前，我们需要把除最后一个元素外的所有元素，从一个队列（有数据的队列）依次出队并入队到另一个空队列，让最后一个元素留在原队列，然后弹出这个元素，这相当于栈顶元素。
+
+
+top()：
+
+类似 pop()，只是查看最后一个元素而不把它真正弹出。
+
+
+empty()：
+
+两个队列都为空即为真。
+
+
+
+#include &lt;queue&gt;using namespace std;class MyStack &#123;public:    queue&lt;int&gt; q1, q2;  // 两个队列    MyStack() &#123;    &#125;        void push(int x) &#123;        // 1. 新元素先入空的队列 q2        q2.push(x);        // 2. 把 q1 中所有元素依次移到 q2 中        while (!q1.empty()) &#123;            q2.push(q1.front());            q1.pop();        &#125;        // 3. 交换 q1 和 q2，保证所有元素又回到 q1，q2 变空        swap(q1, q2);    &#125;        int pop() &#123;        // 队首就是栈顶        int val = q1.front();        q1.pop();        return val;    &#125;        int top() &#123;        return q1.front();    &#125;        bool empty() &#123;        return q1.empty() &amp;&amp; q2.empty();    &#125;&#125;;
+有效的括号
+题目链接：20. 有效的括号
+题目思路：先判断一下s的长度是否为偶数，如果不是就返回false，再将全部的左符号压入栈中，然后开始判断剩余的符号是否可以匹配，如果不能就返回false，将s循环结束，如果全部匹配成功，最后应该栈是空的，如果不是返回false。
+class Solution &#123;public:    bool isValid(string s) &#123;        int n=s.size();        if(n%2!=0) return false;        stack&lt;char&gt; t;        for(int i=0;i&lt;n;i++)        &#123;            if(s[i]==&#x27;(&#x27;) t.push(&#x27;)&#x27;);            else if(s[i]==&#x27;&#123;&#x27;) t.push(&#x27;&#125;&#x27;);            else if(s[i]==&#x27;[&#x27;) t.push(&#x27;]&#x27;);            else if(t.empty() || t.top()!=s[i]) return false;            else t.pop();        &#125;        return t.empty();    &#125;&#125;;
+删除字符串中的所有相邻重复项
+题目链接：1047. 删除字符串中的所有相邻重复项
+建栈的写法，性能太差了。
+class Solution &#123;public:    string removeDuplicates(string s) &#123;        stack&lt;char&gt; t;        int n=s.size();        for(int i=0;i&lt;n;i++)        &#123;            if(!t.empty() &amp;&amp; s[i]==t.top()) t.pop();            else t.push(s[i]);         &#125;         string result;        while(!t.empty())        &#123;            result=t.top()+result;            t.pop();        &#125;        return result;    &#125;&#125;;
+string自己就可以做栈，string有pop和push接口，性能很高。
+class Solution &#123;public:    string removeDuplicates(string s) &#123;        string stk;        for (char ch : s) &#123;            if (!stk.empty() &amp;&amp; stk.back() == ch) &#123;                stk.pop_back();            &#125; else &#123;                stk.push_back(ch);            &#125;        &#125;        return stk;    &#125;&#125;;
+逆波兰表达式求值
+题目链接：150. 逆波兰表达式求值
+题目挺简单的，就是一个点需要注意：
+stoi()：
+
+stoi 是一个将 std::string 类型转换为 int 的函数。如果 tokens[i] 是一个有效的整数表示，stoi(tokens[i]) 将返回对应的整数值。
+
+class Solution &#123;public:    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        stack&lt;int&gt; t;        int n=tokens.size(),re;        for(int i=0;i&lt;n;i++)        &#123;            if(tokens[i]==&quot;+&quot;)             &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=a+b;                t.push(re);            &#125;            else if(tokens[i]==&quot;-&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b-a;                t.push(re);            &#125;            else if(tokens[i]==&quot;*&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b*a;                t.push(re);            &#125;            else if(tokens[i]==&quot;/&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b/a;                t.push(re);            &#125;            else t.push(stoi(tokens[i]));        &#125;        return t.top();    &#125;&#125;;
+滑动窗口最大值
+题目链接：239. 滑动窗口最大值
+双端队列：队列中元素个数大于k，就删除队首元素，若入队元素大于队列中的元素，则把队列中的元素弹出。
+class Solution &#123;public:    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;        vector&lt;int&gt; ans;        deque&lt;int&gt; q; // 双端队列        for (int i = 0; i &lt; nums.size(); i++) &#123;            // 1. 入            while (!q.empty() &amp;&amp; nums[q.back()] &lt;= nums[i]) &#123;                q.pop_back(); // 维护 q 的单调性            &#125;            q.push_back(i); // 入队            // 2. 出            if (i - q.front() &gt;= k) &#123; // 队首已经离开窗口了                q.pop_front();            &#125;            // 3. 记录答案            if (i &gt;= k - 1) &#123;                // 由于队首到队尾单调递减，所以窗口最大值就是队首                ans.push_back(nums[q.front()]);            &#125;        &#125;        return ans;    &#125;&#125;;
+前 K 个高频元素
+题目链接：347. 前 K 个高频元素
+堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。 如果父亲结点是大于等于左右孩子就是大顶堆，小于等于左右孩子就是小顶堆。小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大元素。
+
+class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    public:        bool operator()(const pair&lt;int, int&gt;&amp; lhs, const pair&lt;int, int&gt;&amp; rhs) &#123;            return lhs.second &gt; rhs.second;        &#125;    &#125;;    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        // 要统计元素出现频率        unordered_map&lt;int, int&gt; map; // map&lt;nums[i],对应出现的次数&gt;        for (int i = 0; i &lt; nums.size(); i++) &#123;            map[nums[i]]++;        &#125;        // 对频率排序        // 定义一个小顶堆，大小为k        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, mycomparison&gt; pri_que;        // 用固定大小为k的小顶堆，扫面所有频率的数值        for (unordered_map&lt;int, int&gt;::iterator it = map.begin(); it != map.end(); it++) &#123;            pri_que.push(*it);            if (pri_que.size() &gt; k) &#123; // 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k                pri_que.pop();            &#125;        &#125;        // 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组        vector&lt;int&gt; result(k);        for (int i = k - 1; i &gt;= 0; i--) &#123;            result[i] = pri_que.top().first;            pri_que.pop();        &#125;        return result;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -630,10 +809,13 @@ class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; 
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>哈希表</tag>
-        <tag>map</tag>
-        <tag>查找</tag>
-        <tag>set</tag>
+        <tag>栈</tag>
+        <tag>队列</tag>
+        <tag>双端队列</tag>
+        <tag>堆</tag>
+        <tag>queue</tag>
+        <tag>stack</tag>
+        <tag>deque</tag>
       </tags>
   </entry>
   <entry>
@@ -1244,188 +1426,6 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
         <tag>Transformer</tag>
         <tag>自然语言处理</tag>
         <tag>论文精读</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--栈·队列</title>
-    <url>/2025/02/8day/</url>
-    <content><![CDATA[栈·队列
-​                                                                                    
-stack
-STL 中的 stack 容器提供了一众成员函数以供调用，其中较为常用的有：
-
-元素访问
-
-st.top() 返回栈顶
-
-
-修改
-
-st.push() 插入传入的参数到栈顶
-st.pop() 弹出栈顶
-
-
-容量
-
-st.empty() 返回是否为空
-st.size() 返回元素数量
-
-
-
-queue
-STL 中的 queue 容器提供了一众成员函数以供调用。其中较为常用的有：
-
-元素访问
-
-q.front() 返回队首元素
-q.back() 返回队尾元素
-
-
-修改
-
-q.push() 在队尾插入元素
-q.pop() 弹出队首元素
-
-
-容量
-
-q.empty() 队列是否为空
-q.size() 返回队列中元素的数量
-
-
-
-deque
-STL 中的 deque 容器提供了一众成员函数以供调用。其中较为常用的有：
-
-元素访问
-
-q.front() 返回队首元素
-q.back() 返回队尾元素
-
-
-修改
-
-q.push_back() 在队尾插入元素
-q.pop_back() 弹出队尾元素
-q.push_front() 在队首插入元素
-q.pop_front() 弹出队首元素
-q.insert() 在指定位置前插入元素（传入迭代器和元素）
-q.erase() 删除指定位置的元素（传入迭代器）
-
-
-容量
-
-q.empty() 队列是否为空
-q.size() 返回队列中元素的数量
-
-
-
-此外，deque 还提供了一些运算符。其中较为常用的有：
-
-
-使用赋值运算符 = 为 deque 赋值，类似 queue。
-
-
-使用 [] 访问元素，类似 vector。
-
-
-用栈实现队列
-题目链接：232. 用栈实现队列
-class MyQueue &#123;private:    // 如果 B 栈为空，将 A 栈中的元素倒入 B 栈    void moveToB() &#123;        if (B.empty()) &#123;            while (!A.empty()) &#123;                B.push(A.top());                A.pop();            &#125;        &#125;    &#125;public:    stack&lt;int&gt; A, B;    MyQueue() &#123;    &#125;    void push(int x) &#123;        A.push(x);    &#125;    int pop() &#123;        moveToB(); // 移动元素到 B 栈        int val = B.top();        B.pop();        return val;    &#125;    int peek() &#123;        moveToB(); // 移动元素到 B 栈        return B.top();    &#125;    bool empty() &#123;        return A.empty() &amp;&amp; B.empty();    &#125;&#125;;
-用队列实现栈
-题目链接：225. 用队列实现栈
-方法一：使用 一个队列
-
-push(x)：
-
-首先，将元素 x 入队到队列末尾。
-然后，将队列中前面已有的元素依次出队，再重新入队到队列末尾。
-这样，队列的前端就始终是最新压入的元素，相当于实现了栈的“后进先出（LIFO）”顺序。
-
-
-pop()：
-
-直接将队首元素出队即可。因为在上一步的处理里，队首元素就是栈顶。
-
-
-top()：
-
-返回队首元素（不弹出）。
-
-
-empty()：
-
-判断队列是否为空。
-
-
-
-class MyStack &#123;public:    queue&lt;int&gt; q;    MyStack() &#123;    &#125;        // 每次 push 后，把前面的 (size - 1) 个元素依次出队并重新入队，确保新元素在队首    void push(int x) &#123;        // 1. 新元素先入队        q.push(x);        // 2. 将前面的元素依次移到末尾        int n = q.size();        // 只需要将前面的 (n - 1) 个元素移动到末尾        for(int i = 0; i &lt; n - 1; i++) &#123;            q.push(q.front());            q.pop();        &#125;    &#125;        int pop() &#123;        int val = q.front();  // 由于 push 中的旋转操作，队首就是栈顶        q.pop();        return val;    &#125;        int top() &#123;        return q.front();     // 队首即为栈顶    &#125;        bool empty() &#123;        return q.empty();    &#125;&#125;;
-方法二：使用 两个队列
-
-队列 A 和 队列 B 协同工作，保证其中一个队列始终存放当前所有元素，另一个队列用来做辅助操作。
-push(x)：
-
-把新元素直接入队到空队列中（或者你可以总是把它放到 A，然后把 A 里旧的元素转移到 B，具体实现略有差异）。
-
-
-pop()：
-
-在 pop() 之前，我们需要把除最后一个元素外的所有元素，从一个队列（有数据的队列）依次出队并入队到另一个空队列，让最后一个元素留在原队列，然后弹出这个元素，这相当于栈顶元素。
-
-
-top()：
-
-类似 pop()，只是查看最后一个元素而不把它真正弹出。
-
-
-empty()：
-
-两个队列都为空即为真。
-
-
-
-#include &lt;queue&gt;using namespace std;class MyStack &#123;public:    queue&lt;int&gt; q1, q2;  // 两个队列    MyStack() &#123;    &#125;        void push(int x) &#123;        // 1. 新元素先入空的队列 q2        q2.push(x);        // 2. 把 q1 中所有元素依次移到 q2 中        while (!q1.empty()) &#123;            q2.push(q1.front());            q1.pop();        &#125;        // 3. 交换 q1 和 q2，保证所有元素又回到 q1，q2 变空        swap(q1, q2);    &#125;        int pop() &#123;        // 队首就是栈顶        int val = q1.front();        q1.pop();        return val;    &#125;        int top() &#123;        return q1.front();    &#125;        bool empty() &#123;        return q1.empty() &amp;&amp; q2.empty();    &#125;&#125;;
-有效的括号
-题目链接：20. 有效的括号
-题目思路：先判断一下s的长度是否为偶数，如果不是就返回false，再将全部的左符号压入栈中，然后开始判断剩余的符号是否可以匹配，如果不能就返回false，将s循环结束，如果全部匹配成功，最后应该栈是空的，如果不是返回false。
-class Solution &#123;public:    bool isValid(string s) &#123;        int n=s.size();        if(n%2!=0) return false;        stack&lt;char&gt; t;        for(int i=0;i&lt;n;i++)        &#123;            if(s[i]==&#x27;(&#x27;) t.push(&#x27;)&#x27;);            else if(s[i]==&#x27;&#123;&#x27;) t.push(&#x27;&#125;&#x27;);            else if(s[i]==&#x27;[&#x27;) t.push(&#x27;]&#x27;);            else if(t.empty() || t.top()!=s[i]) return false;            else t.pop();        &#125;        return t.empty();    &#125;&#125;;
-删除字符串中的所有相邻重复项
-题目链接：1047. 删除字符串中的所有相邻重复项
-建栈的写法，性能太差了。
-class Solution &#123;public:    string removeDuplicates(string s) &#123;        stack&lt;char&gt; t;        int n=s.size();        for(int i=0;i&lt;n;i++)        &#123;            if(!t.empty() &amp;&amp; s[i]==t.top()) t.pop();            else t.push(s[i]);         &#125;         string result;        while(!t.empty())        &#123;            result=t.top()+result;            t.pop();        &#125;        return result;    &#125;&#125;;
-string自己就可以做栈，string有pop和push接口，性能很高。
-class Solution &#123;public:    string removeDuplicates(string s) &#123;        string stk;        for (char ch : s) &#123;            if (!stk.empty() &amp;&amp; stk.back() == ch) &#123;                stk.pop_back();            &#125; else &#123;                stk.push_back(ch);            &#125;        &#125;        return stk;    &#125;&#125;;
-逆波兰表达式求值
-题目链接：150. 逆波兰表达式求值
-题目挺简单的，就是一个点需要注意：
-stoi()：
-
-stoi 是一个将 std::string 类型转换为 int 的函数。如果 tokens[i] 是一个有效的整数表示，stoi(tokens[i]) 将返回对应的整数值。
-
-class Solution &#123;public:    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        stack&lt;int&gt; t;        int n=tokens.size(),re;        for(int i=0;i&lt;n;i++)        &#123;            if(tokens[i]==&quot;+&quot;)             &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=a+b;                t.push(re);            &#125;            else if(tokens[i]==&quot;-&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b-a;                t.push(re);            &#125;            else if(tokens[i]==&quot;*&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b*a;                t.push(re);            &#125;            else if(tokens[i]==&quot;/&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b/a;                t.push(re);            &#125;            else t.push(stoi(tokens[i]));        &#125;        return t.top();    &#125;&#125;;
-滑动窗口最大值
-题目链接：239. 滑动窗口最大值
-双端队列：队列中元素个数大于k，就删除队首元素，若入队元素大于队列中的元素，则把队列中的元素弹出。
-class Solution &#123;public:    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;        vector&lt;int&gt; ans;        deque&lt;int&gt; q; // 双端队列        for (int i = 0; i &lt; nums.size(); i++) &#123;            // 1. 入            while (!q.empty() &amp;&amp; nums[q.back()] &lt;= nums[i]) &#123;                q.pop_back(); // 维护 q 的单调性            &#125;            q.push_back(i); // 入队            // 2. 出            if (i - q.front() &gt;= k) &#123; // 队首已经离开窗口了                q.pop_front();            &#125;            // 3. 记录答案            if (i &gt;= k - 1) &#123;                // 由于队首到队尾单调递减，所以窗口最大值就是队首                ans.push_back(nums[q.front()]);            &#125;        &#125;        return ans;    &#125;&#125;;
-前 K 个高频元素
-题目链接：347. 前 K 个高频元素
-堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。 如果父亲结点是大于等于左右孩子就是大顶堆，小于等于左右孩子就是小顶堆。小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大元素。
-
-class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    public:        bool operator()(const pair&lt;int, int&gt;&amp; lhs, const pair&lt;int, int&gt;&amp; rhs) &#123;            return lhs.second &gt; rhs.second;        &#125;    &#125;;    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        // 要统计元素出现频率        unordered_map&lt;int, int&gt; map; // map&lt;nums[i],对应出现的次数&gt;        for (int i = 0; i &lt; nums.size(); i++) &#123;            map[nums[i]]++;        &#125;        // 对频率排序        // 定义一个小顶堆，大小为k        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, mycomparison&gt; pri_que;        // 用固定大小为k的小顶堆，扫面所有频率的数值        for (unordered_map&lt;int, int&gt;::iterator it = map.begin(); it != map.end(); it++) &#123;            pri_que.push(*it);            if (pri_que.size() &gt; k) &#123; // 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k                pri_que.pop();            &#125;        &#125;        // 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组        vector&lt;int&gt; result(k);        for (int i = k - 1; i &gt;= 0; i--) &#123;            result[i] = pri_que.top().first;            pri_que.pop();        &#125;        return result;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>栈</tag>
-        <tag>队列</tag>
-        <tag>双端队列</tag>
-        <tag>堆</tag>
-        <tag>queue</tag>
-        <tag>stack</tag>
-        <tag>deque</tag>
       </tags>
   </entry>
   <entry>
@@ -2237,6 +2237,212 @@ $$
       </tags>
   </entry>
   <entry>
+    <title>Mamba详解 - 选择性状态空间模型精读</title>
+    <url>/2025/11/Mamba/</url>
+    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
+论文地址：https://arxiv.org/pdf/2312.00752
+代码地址：https://github.com/state-spaces/mamba
+引言
+Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
+Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
+背景知识：状态空间模型（SSM）与S4
+连续与离散SSM
+连续时间SSM：
+$$
+\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+$$
+离散化后：
+$$
+x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+$$
+其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
+S4的关键思想
+
+通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
+使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
+优点：理论稳定、长依赖强；
+局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
+
+Mamba的核心创新
+
+
+选择性扫描（Selective Scan）：
+
+令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
+避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
+
+
+
+输入条件化的SSM参数化：
+
+将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
+结合高效实现，使其仍保持线性复杂度。
+
+
+
+GPU友好的实现与块并行：
+
+通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
+内存访问模式优化，显著提升吞吐。
+
+
+
+端到端可训练的稳定性：
+
+对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
+
+
+
+模型架构
+典型的 Mamba Block 包含：
+
+输入投影与门控（选择性）
+选择性SSM扫描（线性复杂度）
+前馈网络（MLP/GEGLU）
+残差连接与归一化
+
+流程示意：
+X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
+相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
+选择性扫描（Selective Scan）要点
+
+将序列划分为若干块（blocks），每块内部执行线性递推扫描；
+记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
+通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
+与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
+
+复杂度与性能
+
+时间复杂度：$O(N)$ 随序列长度线性；
+空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
+对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
+在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
+
+训练与实践
+
+优化器：AdamW；学习率余弦退火；warmup数千步；
+正则：Dropout/Stochastic Depth 按深度线性增长；
+初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
+长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
+
+与Transformer/Conv的比较
+
+
+
+方向
+Transformer
+ConvNet
+Mamba（SSM）
+
+
+
+
+复杂度
+O(N^2)
+O(N)
+O(N)
+
+
+长距离依赖
+强（显式全连接）
+弱-中
+强（稳定递推核）
+
+
+并行性
+训练强/推理弱（自回归）
+强
+强（块并行扫描）
+
+
+归纳偏置
+弱
+强（局部）
+中（递推+选择性）
+
+
+适用场景
+通用
+局部模式
+超长序列/低时延
+
+
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
+
+注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
+
+实验要点与经验
+
+序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
+批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
+任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
+可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
+
+优缺点
+优点
+
+线性复杂度，适合超长序列与端侧低时延应用；
+选择性门控使得对稀疏/非稳态事件更敏感；
+GPU友好实现，训练/推理吞吐高；
+理论上可与注意力/卷积并行或互补，形成混合结构。
+
+缺点
+
+对全局两两交互的显式建模不如注意力直观；
+超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
+在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
+
+相关与后续工作
+
+S4/S5：结构化SSM与其后续改进；
+MambaOut：面向视觉分类的实用化改造；
+Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
+混合架构：SSM + Attention/Conv的多路并行。
+
+参考文献
+
+
+Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
+
+
+Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
+
+
+Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
+
+
+Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
+
+
+思考题
+
+为什么选择性扫描能在保持线性复杂度的同时提升表达力？
+如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
+在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
+针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
+
+思考题答案
+
+选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
+采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
+可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
+提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>序列建模</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+        <tag>SSM</tag>
+        <tag>序列建模</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MambaOut</title>
     <url>/2025/09/MambaOut/</url>
     <content><![CDATA[MambaOut
@@ -2590,212 +2796,6 @@ ViT: An Image is Worth 16x16 Words (ICLR 2021)
       <tags>
         <tag>论文精读</tag>
         <tag>Mamba</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mamba详解 - 选择性状态空间模型精读</title>
-    <url>/2025/11/Mamba/</url>
-    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
-论文地址：https://arxiv.org/pdf/2312.00752
-代码地址：https://github.com/state-spaces/mamba
-引言
-Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
-Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
-背景知识：状态空间模型（SSM）与S4
-连续与离散SSM
-连续时间SSM：
-$$
-\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
-$$
-离散化后：
-$$
-x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
-$$
-其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
-S4的关键思想
-
-通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
-使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
-优点：理论稳定、长依赖强；
-局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
-
-Mamba的核心创新
-
-
-选择性扫描（Selective Scan）：
-
-令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
-避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
-
-
-
-输入条件化的SSM参数化：
-
-将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
-结合高效实现，使其仍保持线性复杂度。
-
-
-
-GPU友好的实现与块并行：
-
-通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
-内存访问模式优化，显著提升吞吐。
-
-
-
-端到端可训练的稳定性：
-
-对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
-
-
-
-模型架构
-典型的 Mamba Block 包含：
-
-输入投影与门控（选择性）
-选择性SSM扫描（线性复杂度）
-前馈网络（MLP/GEGLU）
-残差连接与归一化
-
-流程示意：
-X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
-相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
-选择性扫描（Selective Scan）要点
-
-将序列划分为若干块（blocks），每块内部执行线性递推扫描；
-记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
-通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
-与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
-
-复杂度与性能
-
-时间复杂度：$O(N)$ 随序列长度线性；
-空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
-对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
-在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
-
-训练与实践
-
-优化器：AdamW；学习率余弦退火；warmup数千步；
-正则：Dropout/Stochastic Depth 按深度线性增长；
-初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
-长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
-
-与Transformer/Conv的比较
-
-
-
-方向
-Transformer
-ConvNet
-Mamba（SSM）
-
-
-
-
-复杂度
-O(N^2)
-O(N)
-O(N)
-
-
-长距离依赖
-强（显式全连接）
-弱-中
-强（稳定递推核）
-
-
-并行性
-训练强/推理弱（自回归）
-强
-强（块并行扫描）
-
-
-归纳偏置
-弱
-强（局部）
-中（递推+选择性）
-
-
-适用场景
-通用
-局部模式
-超长序列/低时延
-
-
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
-
-注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
-
-实验要点与经验
-
-序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
-批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
-任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
-可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
-
-优缺点
-优点
-
-线性复杂度，适合超长序列与端侧低时延应用；
-选择性门控使得对稀疏/非稳态事件更敏感；
-GPU友好实现，训练/推理吞吐高；
-理论上可与注意力/卷积并行或互补，形成混合结构。
-
-缺点
-
-对全局两两交互的显式建模不如注意力直观；
-超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
-在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
-
-相关与后续工作
-
-S4/S5：结构化SSM与其后续改进；
-MambaOut：面向视觉分类的实用化改造；
-Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
-混合架构：SSM + Attention/Conv的多路并行。
-
-参考文献
-
-
-Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
-
-
-Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
-
-
-Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
-
-
-Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
-
-
-思考题
-
-为什么选择性扫描能在保持线性复杂度的同时提升表达力？
-如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
-在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
-针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
-
-思考题答案
-
-选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
-采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
-可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
-提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>序列建模</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>Mamba</tag>
-        <tag>SSM</tag>
-        <tag>序列建模</tag>
       </tags>
   </entry>
   <entry>
@@ -3409,8 +3409,8 @@ reserve(n)
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>map</tag>
         <tag>set</tag>
+        <tag>map</tag>
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
@@ -6333,6 +6333,24 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       </tags>
   </entry>
   <entry>
+    <title>手撕 Vision Transformer</title>
+    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
+    <content><![CDATA[手撕 Vision Transformer
+
+​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
+​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
+import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
+]]></content>
+      <categories>
+        <category>手撕代码</category>
+        <category>图像分类</category>
+      </categories>
+      <tags>
+        <tag>Vit</tag>
+        <tag>手撕代码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基础知识--排序算法</title>
     <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[排序算法详解
@@ -6482,90 +6500,6 @@ O(1)
         <tag>快速排序</tag>
         <tag>归并排序</tag>
         <tag>堆排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--线性表</title>
-    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
-    <content><![CDATA[线性表
-线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
-顺序存储（顺序表）
-存取
-顺序表随机存取，存取某个元素的时间复杂度为O(1)。
-查找
-平均时间复杂度O(n)
-插入删除
-平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
-链式存储（链表）
-链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
-单链表
-单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
-
-数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
-指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
-
-创建链表
-**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
-**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
-查找
-查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
-插入删除
-在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
-单链表的缺点
-
-访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
-存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
-不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
-
-双链表
-双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
-
-前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
-数据域 (Data):  与单链表相同，用于存储数据元素。
-后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
-
-创建链表
-创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
-查找
-与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
-双链表的优点
-
-双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
-删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
-某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
-
-双链表的缺点
-
-存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
-插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
-访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>链表</tag>
-        <tag>线性表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手撕 Vision Transformer</title>
-    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
-    <content><![CDATA[手撕 Vision Transformer
-
-​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
-​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
-import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>Vit</tag>
-        <tag>手撕代码</tag>
       </tags>
   </entry>
   <entry>
@@ -7164,6 +7098,72 @@ SupCon学习到的特征更具判别性和泛化能力
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--线性表</title>
+    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[线性表
+线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
+顺序存储（顺序表）
+存取
+顺序表随机存取，存取某个元素的时间复杂度为O(1)。
+查找
+平均时间复杂度O(n)
+插入删除
+平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
+链式存储（链表）
+链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
+单链表
+单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
+
+数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
+指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
+
+创建链表
+**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
+**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
+查找
+查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
+插入删除
+在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
+单链表的缺点
+
+访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
+存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
+不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
+
+双链表
+双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
+
+前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
+数据域 (Data):  与单链表相同，用于存储数据元素。
+后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
+
+创建链表
+创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
+查找
+与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
+双链表的优点
+
+双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
+删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
+某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
+
+双链表的缺点
+
+存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
+插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
+访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+        <tag>线性表</tag>
       </tags>
   </entry>
   <entry>

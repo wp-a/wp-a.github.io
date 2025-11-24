@@ -414,15 +414,95 @@
     }
   </style>
   
-  <!-- 引入数据文件 -->
-  <script src="./academic-data.js"></script>
+  <!-- 数据配置（内联）-->
+  <script>
+    const academicData = {
+      profile: {
+        name: "Wang Peng (王鹏)",
+        title: {
+          zh: "硕士研究生 / Researcher",
+          en: "Master's Student / Researcher"
+        },
+        affiliation: {
+          zh: "某某大学计算机学院",
+          en: "School of Computer Science, XXX University"
+        },
+        bio: {
+          zh: "专注于<strong>深度学习</strong>、<strong>计算机视觉</strong>以及<strong>AI for Science</strong>的研究。<br>目前主要关注 Vision Transformer 和大模型高效微调。",
+          en: "Focusing on research in <strong>Deep Learning</strong>, <strong>Computer Vision</strong>, and <strong>AI for Science</strong>.<br>Currently interested in Vision Transformers and efficient fine-tuning of large models."
+        },
+        avatar: "https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png",
+        location: "Beijing, China",
+        email: "your-email@example.com",
+        github: "https://github.com/wp-a",
+        scholar: "#",
+        blog: "/"
+      },
+      about: {
+        zh: [
+          "我是某某大学软件学院的硕士研究生，于2023年入学。我的研究方向包括<strong>时空数据挖掘</strong>、<strong>计算机视觉</strong>以及<strong>LLM Agent</strong>。我由<a href=\"#\">某某教授</a>指导。",
+          "我曾于2025年2月至8月在<strong>阿里巴巴达摩院（杭州）</strong>担任研究型实习生，主要从事多模态大模型方向的研究工作。"
+        ],
+        en: [
+          "I am a Master's student at the School of Software, XXX University, enrolled in 2023. My research interests include <strong>Spatio-Temporal Data Mining</strong>, <strong>Computer Vision</strong>, and <strong>LLM Agents</strong>. I am supervised by <a href=\"#\">Prof. XXX</a>.",
+          "From February to August 2025, I worked as a research intern at <strong>Alibaba DAMO Academy (Hangzhou)</strong>, focusing on multimodal large language models."
+        ]
+      },
+      news: {
+        zh: [
+          { date: "2025.04", content: "🎉🎉 一篇论文被 <strong>CVPR 2025</strong> 接收！" },
+          { date: "2025.04", content: "🎉🎉 一篇论文被 <strong>TKDE</strong> 接收！" },
+          { date: "2025.02", content: "🚀 我加入阿里巴巴达摩院（杭州）担任研究实习生！" }
+        ],
+        en: [
+          { date: "2025.04", content: "🎉🎉 One paper accepted by <strong>CVPR 2025</strong>!" },
+          { date: "2025.04", content: "🎉🎉 One paper accepted by <strong>TKDE</strong>!" },
+          { date: "2025.02", content: "🚀 Joined Alibaba DAMO Academy (Hangzhou) as a research intern!" }
+        ]
+      },
+      publications: [
+        {
+          title: "Deep Residual Learning for Image Recognition",
+          authors: "<strong>Wang Peng</strong>, Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun",
+          venue: "CVPR 2025",
+          venueClass: "cvpr",
+          image: "https://picsum.photos/500/200?random=1",
+          links: {
+            zh: { paper: "#", code: "#", project: "#" },
+            en: { paper: "#", code: "#", project: "#" }
+          }
+        },
+        {
+          title: "STDA: Spatio-Temporal Deviation Alignment Learning for Cross-city Fine-grained Urban Flow Inference",
+          authors: "<strong>Wang Peng</strong>, Xiaoyu Li, Bin Xu, Xiushan Nie",
+          venue: "TKDE",
+          venueClass: "tkde",
+          image: "https://picsum.photos/500/200?random=2",
+          links: {
+            zh: { paper: "#", code: "#" },
+            en: { paper: "#", code: "#" }
+          }
+        }
+      ],
+      honors: {
+        zh: [
+          { year: "2025", title: "国家奖学金 (Top 1%)" },
+          { year: "2024", title: "全国大学生数学建模竞赛一等奖" }
+        ],
+        en: [
+          { year: "2025", title: "National Scholarship (Top 1%)" },
+          { year: "2024", title: "First Prize, National Mathematical Modeling Contest" }
+        ]
+      }
+    };
+  </script>
 </head>
 
 <body>
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <img id="avatar" src="/img/head.webp" alt="Avatar" class="avatar">
+    <img id="avatar" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png" alt="Avatar" class="avatar">
     <div id="author-name" class="author-name"></div>
     <div id="author-title" class="author-title"></div>
     <div id="author-desc" class="author-desc"></div>
