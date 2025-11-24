@@ -1,0 +1,158 @@
+/* Valine 评论区美化 */
+
+/* 1. 主容器卡片化 */
+#vcomment {
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+/* 2. 输入框美化 */
+.v .vwrap {
+    border: 2px dashed #dedede !important;
+    border-radius: 12px !important;
+    padding: 10px !important;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.v .vwrap:hover {
+    border-color: #49b1f5 !important;
+    box-shadow: 0 0 10px rgba(73, 177, 245, 0.2);
+}
+
+/* 输入信息栏（昵称、邮箱等） */
+.v .vheader .vinput {
+    border: none !important;
+    border-bottom: 1px dashed #dedede !important;
+    background: transparent !important;
+    color: #666 !important;
+    padding: 10px 5px !important;
+    transition: all 0.3s;
+}
+
+.v .vheader .vinput:focus {
+    border-bottom-color: #49b1f5 !important;
+}
+
+/* 文本输入域 - 添加背景图 */
+.v .veditor {
+    min-height: 120px !important;
+    background: url("https://cdn.jsdelivr.net/gh/drew233/cdn/20200409110727.webp") 100% 100% no-repeat !important;
+    background-size: 200px !important;
+    resize: vertical;
+    padding: 10px !important;
+    transition: all 0.25s ease;
+}
+
+/* 输入时背景图下移 */
+.v .veditor:focus {
+    background-position-y: 250px !important;
+    transition: all 0.25s ease;
+}
+
+/* 3. 按钮美化 */
+.v .vbtn {
+    border: none !important;
+    border-radius: 8px !important;
+    background: linear-gradient(to right, #49b1f5, #00c4b6) !important;
+    color: #fff !important;
+    padding: 8px 24px !important;
+    font-weight: bold;
+    transition: all 0.3s !important;
+}
+
+.v .vbtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(73, 177, 245, 0.4);
+}
+
+.v .vbtn:active {
+    transform: scale(0.95);
+}
+
+/* 4. 头像动效 */
+.v .vimg {
+    border: 2px solid #fff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s !important;
+}
+
+.v .vimg:hover {
+    transform: rotate(360deg);
+}
+
+/* 5. 评论列表美化 */
+.v .vlist .vcard {
+    padding: 15px !important;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-bottom: 1px dashed #eee !important;
+    transition: all 0.3s;
+}
+
+.v .vlist .vcard:hover {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 昵称样式 */
+.v .vlist .vcard .vhead .vnick {
+    color: #49b1f5 !important;
+    font-weight: bold;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #ff7242 !important;
+}
+
+/* 系统标签（如 Mac, Chrome） */
+.v .vlist .vcard .vhead .vsys {
+    background: #f0f0f0 !important;
+    color: #999 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* 6. 夜间模式适配 (Butterfly 主题使用 data-theme="dark") */
+[data-theme="dark"] #vcomment {
+    background: rgba(30, 30, 30, 0.6);
+}
+
+[data-theme="dark"] .v .vwrap {
+    border-color: #444 !important;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .v .vheader .vinput {
+    color: #eee !important;
+    border-bottom-color: #444 !important;
+}
+
+[data-theme="dark"] .v .veditor {
+    color: #eee !important;
+}
+
+[data-theme="dark"] .v .vlist .vcard {
+    border-bottom-color: #444 !important;
+}
+
+[data-theme="dark"] .v .vlist .vcard:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .v .vlist .vcard .vcontent {
+    color: #ddd !important;
+}
+
+[data-theme="dark"] .v .vlist .vcard .vhead .vsys {
+    background: #333 !important;
+    color: #aaa !important;
+}
+
+/* 隐藏 Valine 底部 Power by 信息 (可选，如果你想完全隐藏) */
+/* .v .power { display: none !important; } */

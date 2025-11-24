@@ -1,0 +1,33 @@
+/* 移动端性能专项优化 - 极速版 */
+@media screen and (max-width: 768px) {
+  /* 1. 彻底隐藏背景图，使用渐变色代替 */
+  #web_bg {
+    display: none !important;
+  }
+
+  body {
+    background: linear-gradient(to bottom, #f6f8fa, #ffffff) !important;
+    background-attachment: scroll !important;
+  }
+
+  /* 夜间模式适配 */
+  [data-theme="dark"] body {
+    background: #0d0d0d !important;
+  }
+
+  /* 2. 隐藏 GitHub 日历 */
+  #github_container, 
+  .recent-post-item > #github_loading,
+  .recent-post-item:has(#github_container) {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 3. 减少动画 */
+  * {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}

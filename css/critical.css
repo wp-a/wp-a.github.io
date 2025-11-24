@@ -1,0 +1,22 @@
+/* Hide global error notifications banner to avoid red overlay on pages */
+.notification.notification-error{
+  display:none!important;
+  pointer-events:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+}
+
+/* Hide all notification toasts/banners (success/info/warning/error) site-wide */
+.notification{
+  display:none!important;
+  pointer-events:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+}
+
+/* Hide generic error message blocks injected by scripts */
+.error-message{
+  display:none!important;
+}
+
+
