@@ -1,33 +1,35 @@
 <link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><!doctype html>
-<html lang="-">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wang Peng  - AcademicHomepage</title>
+  <title>Wang Peng (王鹏) - Academic Homepage</title>
   <link rel="icon" href="/img/favicon.png">
   
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!--  -->
-  <stle/Reset  se
+  <!-- Google Fonts (Roboto + Noto Sans SC) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
     :root {
-      --primary-color: #;
-      --link-color: #066;
+      --primary-color: #333;
+      --link-color: #0066cc;
       --bg-color: #fff;
-      --sidebar-: 8;
-      --oe-: ;
-      --font-an: Roboto, t a, sans-serif;
+      --sidebar-width: 280px;
+      --content-max-width: 900px;
+      --font-main: 'Roboto', 'Noto Sans SC', sans-serif;
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      font-family: var(--font-ain);
-      font-sze: 1px;
+      font-family: var(--font-main);
+      font-size: 15px;
       line-height: 1.6;
-      color: ;
-      background: ;
+      color: #333;
+      background: #fff;
       display: flex;
       min-height: 100vh;
     }
@@ -35,95 +37,150 @@
     a { color: var(--link-color); text-decoration: none; }
     a:hover { text-decoration: underline; }
     
-    /* ot */
-    .sidebar
-      ith: 0px;
-      backround: rgba);
-      adi: px;
-      rder-bot: 1px solid e;
-      flex-srin: 0;
-      dipla: x;
-      fe-iecti: ol;
-      aign-its: nter;
-      tet-aign: n;
+    /* Top Navigation */
+    .top-nav {
       position: fixed;
-      height: 100vh;
-      ef: to;
-      left: ;
-      o: o;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      height: 60px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      z-index: 100;
+      font-size: 14px;
+      color: #666;
     }
     
-    .main-cntent {
+    .top-nav a {
+      color: #555;
+      margin-right: 25px;
+      font-weight: 500;
+    }
+    .top-nav a.active { color: #000; font-weight: bold; }
+    .lang-switch { margin-right: auto; font-weight: bold; color: #333; cursor: pointer; }
+    
+    /* Layout */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: #f9f9f9;
+      padding: 60px 30px;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      text-align: left;
+      border-right: 1px solid #eaeaea;
+      overflow-y: auto;
+    }
+    
+    .main-content {
       flex: 1;
-      padding:0px 6 0px;     a 
-      mait: 00px;
+      margin-left: var(--sidebar-width);
+      padding: 100px 60px 60px;
+      max-width: 1100px;
     }
     
     /* Sidebar Elements */
     .avatar {
-      width: 0px;
-      height: 0px;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 20px;
-      box-shadow: 0 px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     
-    .author-name { font-size: 1.rem; font-weight: ; margin-bottom: px; }
-    .auhor-it { font-size: 0.9rem; color: #5; margin-bottom: px;   
-    .o-s { t-se: e; margin-to: 2px; ih: 1; }
-    .ca-lis { i-to: 0; }
-    .ca-lis  { oo: 8px; dislay: fle; align-items: center; contt: cr; at: 8px; aiton color ; }
-    .ctact-lis a:hover { color: var(--link-olor); }
+    .author-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; color: #000; }
+    .author-title { font-size: 0.95rem; color: #555; margin-bottom: 15px; line-height: 1.4; }
+    .author-desc { font-size: 0.9rem; color: #666; margin-bottom: 25px; line-height: 1.5; }
     
-    /* Conten Elemens */
-    h1     margin:;  font-weight:00;       pa: e; 
-      n-iem: ne;}
-    h2  { n-i: 1mmargin   
-    p { margin-bottom: 1; text-align: justify; }
+    .contact-list { list-style: none; font-size: 0.9rem; }
+    .contact-list li { margin-bottom: 8px; display: flex; align-items: center; }
+    .contact-list i { width: 20px; color: #444; margin-right: 8px; text-align: center; }
+    .contact-list a { color: #444; }
+    .contact-list a:hover { color: var(--link-color); }
+    
+    /* Content Elements */
+    h2 { 
+      font-size: 1.4rem; 
+      margin: 40px 0 20px; 
+      font-weight: 700; 
+      display: flex; 
+      align-items: center; 
+    }
+    h2 span { margin-right: 10px; }
+    
+    p { margin-bottom: 15px; text-align: justify; }
     
     /* News List */
     .news-list { list-style: none; }
-    .news-list li { margin-bottom: 1px; display: flexne; }
-    .news-date { fot-wight: bold; min-width: 0px; color: #444; f-i: ; }
+    .news-list li { margin-bottom: 12px; display: flex; align-items: baseline; }
+    .news-date { font-weight: bold; min-width: 80px; color: #444; font-family: monospace; }
     
-    /* Publication */
+    /* Publication Item */
     .paper-item {
       display: flex;
       margin-bottom: 30px;
       padding-bottom: 20px;
-      bordr-bottom: 1px solid #e;
+      border-bottom: 1px solid #eee;
     }
-    .paperimg- {
-      width: 20pxflex-shrink: 0;
-      ;
+    .paper-item:last-child { border-bottom: none; }
+    
+    .paper-img-box {
+      width: 260px;
+      flex-shrink: 0;
+      margin-right: 25px;
+      position: relative;
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 2px px rgba(0,0,0,0.0);
-      ranositin: asfor 0.;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .paper-img-box img { width: 100%; height: auto; display: block; }
     
-    paper-mghr  transform: cae;
-    } .-g { d: 00;  adp bck; }
+    /* Conference Badge */
+    .conf-badge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #0066cc;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-bottom-right-radius: 4px;
+      text-transform: uppercase;
+    }
+    .conf-badge.tkde { background: #003366; }
+    .conf-badge.cvpr { background: #d05; }
     
-    .paper-info { flex: 1; }    .paper-title {font-size:1.1rem;font-weight:; margin-bottom: pxcoor: #000; l; }
-    .paper-authors { color: #; margin-bottom: px; font-size: 0.95rem; }
-    .pper-au on  color: #0; r-bottom:1px ; font-e: 0; }
-    .paper-links a { margin-right: 1px; font-weight: 00; }
+    .paper-info { flex: 1; }
+    .paper-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #000; line-height: 1.4; }
+    .paper-authors { color: #444; margin-bottom: 8px; font-size: 0.95rem; }
+    .paper-authors strong { color: #000; border-bottom: 1px solid #333; }
+    .paper-links { font-size: 0.9rem; }
+    .paper-links a { margin-right: 15px; font-weight: 500; }
     
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
+      .top-nav { left: 0; padding: 0 20px; justify-content: center; font-size: 12px; }
+      .lang-switch { display: none; }
       body { flex-direction: column; }
       .sidebar { 
         width: 100%; 
-        osition: relative; 
-        height: uto; 
-        borer-rght: one; 
-        paddin: px ;
-        aig: ;
+        position: relative; 
+        height: auto; 
+        border-right: none; 
+        padding: 40px 20px;
+        text-align: center;
       }
-      .main-content { margin-left: 0; padding: 20pxpx; }
-      .paer-item { fle-direction: column; }
-      .paperimg- { width: 00; max-width10%;margin: 0 otto: pxt; }
+      .main-content { margin-left: 0; padding: 80px 20px 40px; }
+      .paper-item { flex-direction: column; }
+      .paper-img-box { width: 100%; max-width: 100%; margin: 0 0 15px 0; }
+      .contact-list { justify-content: center; display: inline-block; text-align: left; }
     }
   </style>
 </head>
@@ -132,89 +189,106 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <img src="/img/head.webp" alt="Wang Peng" class="avaar">
-    <div class="auhor-name">Wang Peng (王鹏)</div>
-    <div class="auhor-tit">
-       / Researcher<br>
-      iverst for ice<br>
-       in omer 
+    <img src="/img/head.webp" alt="Wang Peng" class="avatar">
+    
+    <div class="author-name">Wang Peng (王鹏)</div>
+    <div class="author-title">
+      硕士研究生 / Researcher<br>
+      某某大学计算机学院
     </div>
     
-    <ul lass="coc-lis">
-      <li><a fmar-aiea  <li><iclass="fasfa-envelope">/> >Email</a></li
-      <li> <ahref="https://github.com/wp-a">Gitub</a></li>
-      <li><i class="fas fa-graduation-cap"></i> ">Google Scholar</a></li>
-      <li><i class=fas fa-blog"/i> <Blog</a></li>
-  </ul>
+    <div class="author-desc">
+      专注于<strong>深度学习</strong>、<strong>计算机视觉</strong>以及<strong>AI for Science</strong>的研究。<br>
+      目前主要关注 Vision Transformer 和大模型高效微调。
+    </div>
+    
+    <ul class="contact-list">
+      <li><i class="fas fa-map-marker-alt"></i> Beijing, China</li>
+      <li><i class="fas fa-envelope"></i> <a href="mailto:your-email@example.com">Email</a></li>
+      <li><i class="fab fa-github"></i> <a href="https://github.com/wp-a">Github</a></li>
+      <li><i class="fas fa-graduation-cap"></i> <a href="#">Google Scholar</a></li>
+      <li><i class="fas fa-blog"></i> <a href="/">Blog</a></li>
+    </ul>
   </div>
   
-  <!-- aio -->
-  <nv class="on">
-       <i>
-    < ="about" >About Me</>
-    < rn>e</>    a refcions>ain</> <ronorsno</>  <n>  < Mai ontent   casannten
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <div class="lang-switch">English / 中文</div>
+    <a href="#about" class="active">About Me</a>
+    <a href="#news">News</a>
+    <a href="#publications">Publications</a>
+    <a href="#honors">Honors</a>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
     
-      >
-    secin id
-      <>
-        <strong></strong><strong>srng<strong> ntstrng </>
-          <><strong></strong>
+    <!-- Bio -->
+    <section id="about">
+      <p>
+        我是某某大学软件学院的硕士研究生，于2023年入学。我的研究方向包括<strong>时空数据挖掘</strong>、<strong>计算机视觉</strong>以及<strong>LLM Agent</strong>。我由<a href="#">某某教授</a>指导。
+      </p>
+      <p>
+        我曾于2025年2月至8月在<strong>阿里巴巴达摩院（杭州）</strong>担任研究型实习生，主要从事多模态大模型方向的研究工作。
       </p>
     </section>
 
     <!-- News -->
-    ection id="news">
-      <h2><s🔥s</h2>
+    <section id="news">
+      <h2><span>🔥</span> 最新动态</h2>
       <ul class="news-list">
         <li>
-          <span class="news-date">225.0</span>
-          <span>  og son </span>
+          <span class="news-date">2025.04:</span>
+          <span>🎉🎉 一篇论文被 <strong>CVPR 2025</strong> 接收！</span>
         </li>
         <li>
-          <span class="news-date">2025.0</span>
-          <span>  <strong></strong></span>
+          <span class="news-date">2025.04:</span>
+          <span>🎉🎉 一篇论文被 <strong>TKDE</strong> 接收！</span>
         </li>
         <li>
-          <span class="news-date">2025.0</span>
-          <span> </span>
-        /li>
+          <span class="news-date">2025.02:</span>
+          <span>🚀 我加入阿里巴巴达摩院（杭州）担任研究实习生！</span>
+        </li>
       </ul>
-    </ection>
+    </section>
 
     <!-- Publications -->
-    <section id="ublictios">
-      <h2span>📝<an</h2>
+    <section id="publications">
+      <h2><span>��</span> 发表论文</h2>
       
       <!-- Paper 1 -->
       <div class="paper-item">
-        <div class="paperimg-">
-          < acadec/i -->
-          <img src="https://picsum.photos/00/200?random=1" alt="Paper Thumbnail">
+        <div class="paper-img-box">
+          <div class="conf-badge cvpr">CVPR 2025</div>
+          <img src="https://picsum.photos/500/200?random=1" alt="Paper Thumbnail">
         </div>
         <div class="paper-info">
           <div class="paper-title">Deep Residual Learning for Image Recognition</div>
           <div class="paper-authors">
             <strong>Wang Peng</strong>, Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
-          </div><divclass="paper-links">
-           <a href="#">[]</a>
-            <a href="#">[]</a>
+          </div>
+          <div class="paper-links">
+            <a href="#">[论文]</a>
+            <a href="#">[代码]</a>
             <a href="#">[Project Page]</a>
           </div>
         </div>
       </div>
 
       <!-- Paper 2 -->
-      <div class="paperitem">
-        <div class="paper-img-">
-          <img src="https://picsum.photos/00/00?random=2" alt="Paper Thumbnail">
+      <div class="paper-item">
+        <div class="paper-img-box">
+          <div class="conf-badge tkde">TKDE</div>
+          <img src="https://picsum.photos/500/200?random=2" alt="Paper Thumbnail">
         </div>
         <div class="paper-info">
-          <div class="paper-title">ama Do e eay eed ba o n</div><divclass="paper-authors">
-           <strong>Wang Peng</strong>, iaou i inuXishan ie
-          </>
+          <div class="paper-title">STDA: Spatio-Temporal Deviation Alignment Learning for Cross-city Fine-grained Urban Flow Inference</div>
+          <div class="paper-authors">
+            <strong>Wang Peng</strong>, Xiaoyu Li, Bin Xu, Xiushan Nie
+          </div>
           <div class="paper-links">
-            <a href="#">[]</a>
-            <a href="#">[]</a>
+            <a href="#">[论文]</a>
+            <a href="#">[代码]</a>
           </div>
         </div>
       </div>
@@ -223,10 +297,10 @@
     
     <!-- Honors -->
     <section id="honors">
-      <h2>🎖n </h2>
+      <h2><span>🎖</span> 荣誉奖项</h2>
       <ul class="news-list">
-        <li><span class="news-date">2025</span>  (Top 1%)</li>
-        <li><span class="news-date">2024</span> </li>
+        <li><span class="news-date">2025</span> 国家奖学金 (Top 1%)</li>
+        <li><span class="news-date">2024</span> 全国大学生数学建模竞赛一等奖</li>
       </ul>
     </section>
 
