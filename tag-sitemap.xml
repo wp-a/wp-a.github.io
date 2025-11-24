@@ -3,21 +3,28 @@
 
 
     <url>
-        <loc>https://wp-a.github.io/tags/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
-        <lastmod>2025-11-24T14:50:38.545Z</lastmod>
+        <loc>https://wp-a.github.io/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2025-11-24T14:57:56.660Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
-        <lastmod>2025-11-24T14:50:38.545Z</lastmod>
+        <lastmod>2025-11-24T14:57:56.660Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2025-11-24T14:57:56.660Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2025-11-24T14:50:38.545Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -26,13 +33,6 @@
     <url>
         <loc>https://wp-a.github.io/tags/%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2025-11-24T14:50:38.545Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
-        <lastmod>2025-11-24T14:49:57.239Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
