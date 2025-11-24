@@ -286,12 +286,12 @@
     .news-list { list-style: none; }
     /* News List - 增加交互感 */
     .news-list li { 
-      margin-bottom: 12px; 
+      margin-bottom: 0; /* 去掉底部间距 */
       display: flex; 
       align-items: baseline;
-      padding: 12px 15px; /* 增加内边距，为了 hover 效果 */
+      padding: 10px 15px; /* 减少内边距，更紧凑 */
       border-bottom: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 6px;
       transition: all 0.3s ease;
     }
     .news-list li:hover {
@@ -304,15 +304,20 @@
     
     .news-date { 
       font-weight: 600; 
-      min-width: 90px; 
+      min-width: 85px; /* 稍微缩小日期宽度 */
       color: var(--accent-color); 
       font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
+      font-size: 0.88rem; /* 稍微缩小字号 */
       flex-shrink: 0;
       transition: transform 0.3s ease;
     }
     .news-list li:hover .news-date {
       transform: scale(1.05); /* 日期轻微放大 */
+    }
+    
+    .news-list li .news-content {
+      font-size: 0.95rem; /* 稍微缩小正文字号 */
+      line-height: 1.5;
     }
     
     /* Publication Item - 增强动态交互 */
