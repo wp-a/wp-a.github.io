@@ -84,19 +84,19 @@
       position: fixed;
       top: 0;
       right: 0;
-      left: 0; /* 从最左边开始，横跨整个屏幕 */
+      left: 0;
       background: var(--bg-color);
       padding: 20px 60px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center; /* 居中对齐 */
       align-items: center;
+      gap: 15px; /* 所有元素之间的间距 */
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
       transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     
     .top-nav a {
-      margin-left: 30px;
       color: var(--text-secondary);
       font-weight: 600;
       font-size: 0.95rem;
@@ -118,12 +118,11 @@
     }
     
     .lang-switch { 
-      margin-right: auto; 
       font-weight: 600; 
       color: var(--text-secondary); 
       cursor: pointer;
       padding: 8px 16px;
-      border-radius: 20px;
+      border-radius: 6px;
       transition: all 0.3s ease;
       background: rgba(0, 0, 0, 0.05);
     }
@@ -731,7 +730,7 @@
     <div class="lang-switch" onclick="toggleLanguage()">
       <span id="lang-text">English</span>
     </div>
-    <div class="lang-switch" onclick="toggleDarkMode()" style="margin-left: 10px;">
+    <div class="lang-switch" onclick="toggleDarkMode()">
       <i id="theme-icon" class="fas fa-moon"></i>
     </div>
     <a href="#about" class="active">
