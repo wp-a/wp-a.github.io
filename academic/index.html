@@ -6,42 +6,46 @@
   <title id="page-title">Academic Homepage</title>
   <link rel="icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png">
   
-  <!-- FontAwesome - 使用国内 CDN -->
+  <!-- FontAwesome & Google Fonts (Inter + Noto Sans SC) -->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --primary-color: #2c3e50;
-      --accent-color: #d47500;
+      /* 亮色模式 - 更柔和的白和深灰 */
+      --primary-color: #1d1d1f;
+      --accent-color: #cc7a00; /* 调暗一点的橙金色，更有质感 */
       --link-color: #0066cc;
-      --bg-color: #ffffff;
-      --sidebar-bg: #f8f8f8;
+      --bg-color: #fbfbfd; /* 苹果风的极淡灰背景，不刺眼 */
+      --sidebar-bg: #f5f5f7;
       --card-bg: #ffffff;
-      --text-color: #333;
-      --text-secondary: #666;
-      --border-color: #e0e0e0;
+      --text-color: #1d1d1f;
+      --text-secondary: #86868b;
+      --border-color: #d2d2d7;
       --sidebar-width: 280px;
-      --content-max-width: 900px;
-      --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --content-max-width: 920px;
+      --font-main: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      
+      /* 极简阴影 */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
     }
     
-    /* 暗黑模式 - 仿照用户图片风格 */
+    /* 暗黑模式 - 高级黑 */
     body.dark-mode {
-      --primary-color: #e0e0e0;  /* 标题颜色更亮 */
-      --accent-color: #ff9f1c;   /* 橙色更鲜艳一点 */
-      --link-color: #58a6ff;     /* 典型的淡蓝色链接 */
-      --bg-color: #0d1117;       /* GitHub 风格极深背景 */
-      --sidebar-bg: #010409;     /* 侧边栏更深 */
-      --card-bg: #161b22;        /* 卡片背景 */
-      --text-color: #c9d1d9;     /* 柔和的灰白色文字 */
-      --text-secondary: #8b949e; /* 辅助文字颜色 */
-      --border-color: #30363d;   /* 深色边框 */
+      --primary-color: #f5f5f7;
+      --accent-color: #ff9f0a; /* 更有活力的橙色 */
+      --link-color: #2997ff;
+      --bg-color: #000000; /* 纯黑背景，更深邃 */
+      --sidebar-bg: #1c1c1e;
+      --card-bg: #1c1c1e;
+      --text-color: #f5f5f7;
+      --text-secondary: #86868b;
+      --border-color: #424245;
       --shadow-sm: none;
       --shadow-md: none;
-      --shadow-lg: none;
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -173,66 +177,78 @@
     
     /* Sidebar Elements */
     .avatar {
-      width: 150px;
-      height: 150px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 20px;
-      border: 3px solid var(--border-color);
+      margin: 0 auto 24px;
+      /* 去掉粗边框，改用内发光/微阴影 */
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      border: none;
+    }
+    body.dark-mode .avatar {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      opacity: 0.9; /* 暗黑模式下稍微压暗一点图片，护眼 */
     }
     
     .author-name { 
-      font-size: 1.5rem; 
+      font-size: 1.6rem; 
       font-weight: 700; 
-      margin-bottom: 8px; 
+      margin-bottom: 6px; 
       color: var(--primary-color);
+      letter-spacing: -0.5px; /* 紧凑一点更现代 */
     }
     
     .author-title { 
       font-size: 0.9rem; 
       color: var(--text-secondary); 
-      margin-bottom: 15px; 
-      line-height: 1.6;
-      font-weight: 400;
+      margin-bottom: 20px; 
+      line-height: 1.5;
+      font-weight: 500;
     }
     
     .author-desc { 
-      font-size: 0.85rem; 
+      font-size: 0.9rem; 
       color: var(--text-secondary); 
       line-height: 1.7; 
-      padding: 15px;
-      background: transparent;
-      text-align: left;
+      margin-bottom: 24px;
+      padding: 0 10px;
+      text-align: center; /* 简介居中看起来更平衡 */
     }
     
     .contact-list { 
       list-style: none; 
-      font-size: 0.85rem; 
-      margin-top: 20px;
-      padding-bottom: 20px;
+      font-size: 0.9rem; 
+      margin-top: 30px;
+      padding: 0 20px;
       text-align: left;
+      display: inline-block; /* 让列表整体居中 */
     }
     .contact-list li { 
-      margin-bottom: 10px; 
+      margin-bottom: 14px; 
       display: flex; 
       align-items: center;
+      color: var(--text-secondary);
     }
     .contact-list i { 
-      width: 20px; 
+      width: 24px; 
       color: var(--text-secondary); 
-      margin-right: 8px; 
+      margin-right: 12px; 
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    .contact-list li:hover i {
+      color: var(--accent-color);
     }
     .contact-list a { 
-      color: var(--link-color); 
-      font-weight: 400;
+      color: var(--text-secondary); 
+      font-weight: 500;
+      transition: color 0.3s ease;
     }
     .contact-list a:hover { 
-      text-decoration: underline; 
-    }
-    .contact-list span {
-      color: var(--text-secondary);
+      color: var(--accent-color);
+      text-decoration: none;
     }
     
     /* Content Elements */
@@ -287,41 +303,57 @@
     /* Publication Item */
     .paper-item {
       display: flex;
-      margin-bottom: 40px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 50px; /* 增加间距 */
+      padding-bottom: 0;
+      /* 去掉底边框，减少分割感，更流畅 */
+      border-bottom: none;
     }
     
     .paper-img-box {
-      width: 360px;
+      width: 340px; /* 稍微调整大小 */
       flex-shrink: 0;
-      margin-right: 30px;
+      margin-right: 35px;
       position: relative;
-      border: 1px solid var(--border-color);
+      border-radius: 6px; /* 细微圆角 */
+      border: 1px solid rgba(0,0,0,0.08); /* 极淡边框 */
       overflow: hidden;
+      background: #f0f0f0;
     }
+    body.dark-mode .paper-img-box {
+      border-color: rgba(255,255,255,0.1);
+      background: #222;
+    }
+    
     .paper-img-box img { 
       width: 100%; 
       height: auto; 
       display: block;
+      transition: transform 0.5s ease;
+    }
+    .paper-item:hover .paper-img-box img {
+      transform: scale(1.02); /* 极微小的缩放效果 */
     }
     
     /* Conference Badge */
     .conf-badge {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      background: var(--accent-color);
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
       color: #fff;
       font-size: 0.7rem;
       font-weight: 600;
       padding: 4px 10px;
+      border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    .conf-badge.tkde { background: #2a5298; }
-    .conf-badge.cvpr { background: #e94057; }
-    .conf-badge.iccv { background: #f857a6; }
+    /* 不同会议使用不同颜色的小点缀，或者统一风格 */
+    .conf-badge.tkde { border-left: 3px solid #2a5298; }
+    .conf-badge.cvpr { border-left: 3px solid #e94057; }
+    .conf-badge.iccv { border-left: 3px solid #f857a6; }
     
     .paper-info { flex: 1; }
     .paper-title { 
