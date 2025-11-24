@@ -84,7 +84,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      left: var(--sidebar-width); /* 恢复为侧边栏右侧 */
+      left: 0; /* 从最左边开始，横跨整个屏幕 */
       background: var(--bg-color);
       padding: 20px 60px;
       display: flex;
@@ -145,7 +145,7 @@
     .sidebar {
       width: var(--sidebar-width);
       background: var(--sidebar-bg);
-      padding: 80px 30px 60px; /* 增加顶部间距，让内容整体下移 */
+      padding: 100px 30px 60px; /* 增加顶部间距，给导航栏让出空间 */
       position: fixed;
       height: 100vh;
       left: 0;
