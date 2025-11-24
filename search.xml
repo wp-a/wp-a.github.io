@@ -577,66 +577,6 @@ class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&l
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--字符串</title>
-    <url>/2025/02/7day/</url>
-    <content><![CDATA[字符串
-​	字符串，就是由字符连接而成的序列。常见的字符串问题包括字符串匹配问题、子串相关问题、前缀/后缀相关问题、回文串相关问题、子序列相关问题等。
-反转字符串
-题目链接：344. 反转字符串
-class Solution &#123;public:    void reverseString(vector&lt;char&gt;&amp; s) &#123;        for(int i=0,j=s.size()-1;i&lt;j;i++,j--)        &#123;            char a=s[i];            s[i]=s[j];            s[j]=a;        &#125;    &#125;&#125;;
-反转字符串
-题目链接：541. 反转字符串 II
-注意一下reverse函数的用法。
-class Solution &#123;public:    string reverseStr(string s, int k) &#123;        for (int i = 0; i &lt; s.size(); i += (2 * k)) &#123;            if (i + k &lt;= s.size()) &#123;                reverse(s.begin()  i, s.begin() + i + k );            &#125; else &#123;                reverse(s.begin() + i, s.end());            &#125;        &#125;        return s;    &#125;&#125;;
-替换数字
-题目链接：替换数字（第八期模拟笔试）
-题目思路：看似简单，实则不好操作，gpt给的这个思路很好啊，重新弄一个新字符串然后拼接。代码随想录的那个太麻烦了，直接pass掉了。
-#include &lt;iostream&gt;#include &lt;cctype&gt;  // 需要 isdigit()using namespace std;string replaceDigitsWithNumber(const string&amp; s) &#123;    string result;    for (char c : s) &#123;        if (isdigit(c)) &#123;            result += &quot;number&quot;;  // 仅替换数字        &#125; else &#123;            result += c;  // 直接添加非数字字符        &#125;    &#125;    return result;&#125;int main() &#123;    string s;    cin &gt;&gt; s;  // 读取输入    cout &lt;&lt; replaceDigitsWithNumber(s) &lt;&lt; endl;      return 0;&#125;
-主要难点在于如何去掉空格，使用快慢指针。
-class Solution &#123;public:    void reverse(string&amp; s, int start, int end)&#123; //翻转，区间写法：左闭右闭 []        for (int i = start, j = end; i &lt; j; i++, j--) &#123;            swap(s[i], s[j]);        &#125;    &#125;    void removeExtraSpaces(string&amp; s) &#123;//去除所有空格并在相邻单词之间添加空格, 快慢指针。        int slow = 0;   //整体思想参考https://programmercarl.com/0027.移除元素.html        for (int i = 0; i &lt; s.size(); ++i) &#123; //            if (s[i] != &#x27; &#x27;) &#123; //遇到非空格就处理，即删除所有空格。                if (slow != 0) s[slow++] = &#x27; &#x27;; //手动控制空格，给单词之间添加空格。slow != 0说明不是第一个单词，需要在单词前添加空格。                while (i &lt; s.size() &amp;&amp; s[i] != &#x27; &#x27;) &#123; //补上该单词，遇到空格说明单词结束。                    s[slow++] = s[i++];                &#125;            &#125;        &#125;        s.resize(slow); //slow的大小即为去除多余空格后的大小。    &#125;    string reverseWords(string s) &#123;        removeExtraSpaces(s); //去除多余空格，保证单词之间之只有一个空格，且字符串首尾没空格。        reverse(s, 0, s.size() - 1);        int start = 0; //removeExtraSpaces后保证第一个单词的开始下标一定是0。        for (int i = 0; i &lt;= s.size(); ++i) &#123;            if (i == s.size() || s[i] == &#x27; &#x27;) &#123; //到达空格或者串尾，说明一个单词结束。进行翻转。                reverse(s, start, i - 1); //翻转，注意是左闭右闭 []的翻转。                start = i + 1; //更新下一个单词的开始下标start            &#125;        &#125;        return s;    &#125;&#125;;
-右旋字符串
-题目链接：右旋字符串
-题目思路：和前边有一题很类似，都是申请了一个额外的空间往上加，这题是先把后n个加上，再把前m-n个加上。
-#include&lt;iostream&gt;using namespace std;int main()&#123;    int n;    string s,ans;    cin&gt;&gt;n&gt;&gt;s;    int m=s.size();    for(int i=(m-n);i&lt;m;i++) ans+=s[i];    for(int i=0;i&lt;(m-n);i++) ans+=s[i];    cout&lt;&lt;ans;    return 0;&#125;
-代码随想录：它要求不申请额外的空间，这个就直接reverse两次，和上一题差不多，先全局再局部。
-#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std;int main() &#123;    int n;    string s;    cin &gt;&gt; n;    cin &gt;&gt; s;    int len = s.size(); //获取长度    reverse(s.begin(), s.end()); // 整体反转    reverse(s.begin(), s.begin() + n); // 先反转前一段，长度n    reverse(s.begin() + n, s.end()); // 再反转后一段    cout &lt;&lt; s &lt;&lt; endl;&#125; 
-找出字符串中第一个匹配项的下标
-题目链接：28. 找出字符串中第一个匹配项的下标
-暴力解法：思路正确，但是我写的代码写的太麻烦了，下边贴一份优雅的代码。时间复杂度O(m*n)。
-class Solution &#123;public:    int strStr(string haystack, string needle) &#123;        int s[26]=&#123;0&#125;;        if(needle.size()&gt;haystack.size()) return -1;        for(int i:needle) s[i-&#x27;a&#x27;]++;        for(int i=0;i&lt;haystack.size();i++)        &#123;            int t;            if(s[haystack[i]-&#x27;a&#x27;]==0) continue;            else&#123;                t=i;                int a=t;                for(int j=0;j&lt;needle.size();j++) if(haystack.size()-a&gt;=needle.size() &amp;&amp; haystack[a+j]==needle[j]) t++;            &#125;            if((t-i)==needle.size()) return i;        &#125;        return -1;    &#125;&#125;;
-class Solution &#123;public:    int strStr(string s, string p) &#123;        int n = s.size(), m = p.size();        for(int i = 0; i &lt;= n - m; i++)&#123;            int j = i, k = 0;             while(k &lt; m and s[j] == p[k])&#123;                j++;                k++;            &#125;            if(k == m) return i;        &#125;        return -1;    &#125;&#125;;
-**KMP解法：**当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。
-前缀表是用来回退的，它记录了模式串与主串(文本串)不匹配的时候，模式串应该从哪里开始重新匹配。代码随想录写的这个就很通俗易懂。
-Nex数组构造：
-
-初始化
-处理前后缀不相同的情况
-处理前后缀相同的情况
-
-
-class Solution &#123;public:    void getNext(int* next, const string&amp; s) &#123;        int j = -1;        next[0] = j;        for(int i = 1; i &lt; s.size(); i++) &#123; // 注意i从1开始            while (j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123; // 前后缀不相同了                j = next[j]; // 向前回退            &#125;            if (s[i] == s[j + 1]) &#123; // 找到相同的前后缀                j++;            &#125;            next[i] = j; // 将j（前缀的长度）赋给next[i]        &#125;    &#125;    int strStr(string haystack, string needle) &#123;        if (needle.size() == 0) &#123;            return 0;        &#125;		vector&lt;int&gt; next(needle.size());		getNext(&amp;next[0], needle);        int j = -1; // // 因为next数组里记录的起始位置为-1        for (int i = 0; i &lt; haystack.size(); i++) &#123; // 注意i就从0开始            while(j &gt;= 0 &amp;&amp; haystack[i] != needle[j + 1]) &#123; // 不匹配                j = next[j]; // j 寻找之前匹配的位置            &#125;            if (haystack[i] == needle[j + 1]) &#123; // 匹配，j和i同时向后移动                j++; // i的增加在for循环里            &#125;            if (j == (needle.size() - 1) ) &#123; // 文本串s里出现了模式串t                return (i - needle.size() + 1);            &#125;        &#125;        return -1;    &#125;&#125;;
-重复的子字符串
-题目链接：459. 重复的子字符串
-暴力解法：想用暴力法写一下，结果写了两个小时，还是看了题解写出来的，钻牛角尖了。我写的代码性能不如官方代码高，贴一下官方代码。
-class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        int n = s.size();        for (int i = 1; i * 2 &lt;= n; ++i) &#123;            if (n % i == 0) &#123;                bool match = true;                for (int j = i; j &lt; n; ++j) &#123;                    if (s[j] != s[j - i]) &#123;                        match = false;                        break;                    &#125;                &#125;                if (match) &#123;                    return true;                &#125;            &#125;        &#125;        return false;    &#125;&#125;;
-移动匹配：将两个 s 连在一起，并移除第一个和最后一个字符。如果 s 是该字符串的子串，那么 s 就满足题目要求。
-class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        string t = s + s;        t.erase(t.begin()); t.erase(t.end() - 1); // 掐头去尾        if (t.find(s) != std::string::npos) return true; // r        return false;    &#125;&#125;;
-KMP实现：
-class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#123;        next[0] = -1;        int j = -1;        for(int i = 1;i &lt; s.size(); i++)&#123;            while(j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123;                j = next[j];            &#125;            if(s[i] == s[j + 1]) &#123;                j++;            &#125;            next[i] = j;        &#125;    &#125;    bool repeatedSubstringPattern (string s) &#123;        if (s.size() == 0) &#123;            return false;        &#125;        int next[s.size()];        getNext(next, s);        int len = s.size();        if (next[len - 1] != -1 &amp;&amp; len % (len - (next[len - 1] + 1)) == 0) &#123;            return true;        &#125;        return false;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>双指针</tag>
-        <tag>字符串</tag>
-        <tag>KMP</tag>
-        <tag>reverse</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--栈·队列</title>
     <url>/2025/02/8day/</url>
     <content><![CDATA[栈·队列
@@ -816,6 +756,66 @@ class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    pub
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--字符串</title>
+    <url>/2025/02/7day/</url>
+    <content><![CDATA[字符串
+​	字符串，就是由字符连接而成的序列。常见的字符串问题包括字符串匹配问题、子串相关问题、前缀/后缀相关问题、回文串相关问题、子序列相关问题等。
+反转字符串
+题目链接：344. 反转字符串
+class Solution &#123;public:    void reverseString(vector&lt;char&gt;&amp; s) &#123;        for(int i=0,j=s.size()-1;i&lt;j;i++,j--)        &#123;            char a=s[i];            s[i]=s[j];            s[j]=a;        &#125;    &#125;&#125;;
+反转字符串
+题目链接：541. 反转字符串 II
+注意一下reverse函数的用法。
+class Solution &#123;public:    string reverseStr(string s, int k) &#123;        for (int i = 0; i &lt; s.size(); i += (2 * k)) &#123;            if (i + k &lt;= s.size()) &#123;                reverse(s.begin()  i, s.begin() + i + k );            &#125; else &#123;                reverse(s.begin() + i, s.end());            &#125;        &#125;        return s;    &#125;&#125;;
+替换数字
+题目链接：替换数字（第八期模拟笔试）
+题目思路：看似简单，实则不好操作，gpt给的这个思路很好啊，重新弄一个新字符串然后拼接。代码随想录的那个太麻烦了，直接pass掉了。
+#include &lt;iostream&gt;#include &lt;cctype&gt;  // 需要 isdigit()using namespace std;string replaceDigitsWithNumber(const string&amp; s) &#123;    string result;    for (char c : s) &#123;        if (isdigit(c)) &#123;            result += &quot;number&quot;;  // 仅替换数字        &#125; else &#123;            result += c;  // 直接添加非数字字符        &#125;    &#125;    return result;&#125;int main() &#123;    string s;    cin &gt;&gt; s;  // 读取输入    cout &lt;&lt; replaceDigitsWithNumber(s) &lt;&lt; endl;      return 0;&#125;
+主要难点在于如何去掉空格，使用快慢指针。
+class Solution &#123;public:    void reverse(string&amp; s, int start, int end)&#123; //翻转，区间写法：左闭右闭 []        for (int i = start, j = end; i &lt; j; i++, j--) &#123;            swap(s[i], s[j]);        &#125;    &#125;    void removeExtraSpaces(string&amp; s) &#123;//去除所有空格并在相邻单词之间添加空格, 快慢指针。        int slow = 0;   //整体思想参考https://programmercarl.com/0027.移除元素.html        for (int i = 0; i &lt; s.size(); ++i) &#123; //            if (s[i] != &#x27; &#x27;) &#123; //遇到非空格就处理，即删除所有空格。                if (slow != 0) s[slow++] = &#x27; &#x27;; //手动控制空格，给单词之间添加空格。slow != 0说明不是第一个单词，需要在单词前添加空格。                while (i &lt; s.size() &amp;&amp; s[i] != &#x27; &#x27;) &#123; //补上该单词，遇到空格说明单词结束。                    s[slow++] = s[i++];                &#125;            &#125;        &#125;        s.resize(slow); //slow的大小即为去除多余空格后的大小。    &#125;    string reverseWords(string s) &#123;        removeExtraSpaces(s); //去除多余空格，保证单词之间之只有一个空格，且字符串首尾没空格。        reverse(s, 0, s.size() - 1);        int start = 0; //removeExtraSpaces后保证第一个单词的开始下标一定是0。        for (int i = 0; i &lt;= s.size(); ++i) &#123;            if (i == s.size() || s[i] == &#x27; &#x27;) &#123; //到达空格或者串尾，说明一个单词结束。进行翻转。                reverse(s, start, i - 1); //翻转，注意是左闭右闭 []的翻转。                start = i + 1; //更新下一个单词的开始下标start            &#125;        &#125;        return s;    &#125;&#125;;
+右旋字符串
+题目链接：右旋字符串
+题目思路：和前边有一题很类似，都是申请了一个额外的空间往上加，这题是先把后n个加上，再把前m-n个加上。
+#include&lt;iostream&gt;using namespace std;int main()&#123;    int n;    string s,ans;    cin&gt;&gt;n&gt;&gt;s;    int m=s.size();    for(int i=(m-n);i&lt;m;i++) ans+=s[i];    for(int i=0;i&lt;(m-n);i++) ans+=s[i];    cout&lt;&lt;ans;    return 0;&#125;
+代码随想录：它要求不申请额外的空间，这个就直接reverse两次，和上一题差不多，先全局再局部。
+#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std;int main() &#123;    int n;    string s;    cin &gt;&gt; n;    cin &gt;&gt; s;    int len = s.size(); //获取长度    reverse(s.begin(), s.end()); // 整体反转    reverse(s.begin(), s.begin() + n); // 先反转前一段，长度n    reverse(s.begin() + n, s.end()); // 再反转后一段    cout &lt;&lt; s &lt;&lt; endl;&#125; 
+找出字符串中第一个匹配项的下标
+题目链接：28. 找出字符串中第一个匹配项的下标
+暴力解法：思路正确，但是我写的代码写的太麻烦了，下边贴一份优雅的代码。时间复杂度O(m*n)。
+class Solution &#123;public:    int strStr(string haystack, string needle) &#123;        int s[26]=&#123;0&#125;;        if(needle.size()&gt;haystack.size()) return -1;        for(int i:needle) s[i-&#x27;a&#x27;]++;        for(int i=0;i&lt;haystack.size();i++)        &#123;            int t;            if(s[haystack[i]-&#x27;a&#x27;]==0) continue;            else&#123;                t=i;                int a=t;                for(int j=0;j&lt;needle.size();j++) if(haystack.size()-a&gt;=needle.size() &amp;&amp; haystack[a+j]==needle[j]) t++;            &#125;            if((t-i)==needle.size()) return i;        &#125;        return -1;    &#125;&#125;;
+class Solution &#123;public:    int strStr(string s, string p) &#123;        int n = s.size(), m = p.size();        for(int i = 0; i &lt;= n - m; i++)&#123;            int j = i, k = 0;             while(k &lt; m and s[j] == p[k])&#123;                j++;                k++;            &#125;            if(k == m) return i;        &#125;        return -1;    &#125;&#125;;
+**KMP解法：**当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。
+前缀表是用来回退的，它记录了模式串与主串(文本串)不匹配的时候，模式串应该从哪里开始重新匹配。代码随想录写的这个就很通俗易懂。
+Nex数组构造：
+
+初始化
+处理前后缀不相同的情况
+处理前后缀相同的情况
+
+
+class Solution &#123;public:    void getNext(int* next, const string&amp; s) &#123;        int j = -1;        next[0] = j;        for(int i = 1; i &lt; s.size(); i++) &#123; // 注意i从1开始            while (j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123; // 前后缀不相同了                j = next[j]; // 向前回退            &#125;            if (s[i] == s[j + 1]) &#123; // 找到相同的前后缀                j++;            &#125;            next[i] = j; // 将j（前缀的长度）赋给next[i]        &#125;    &#125;    int strStr(string haystack, string needle) &#123;        if (needle.size() == 0) &#123;            return 0;        &#125;		vector&lt;int&gt; next(needle.size());		getNext(&amp;next[0], needle);        int j = -1; // // 因为next数组里记录的起始位置为-1        for (int i = 0; i &lt; haystack.size(); i++) &#123; // 注意i就从0开始            while(j &gt;= 0 &amp;&amp; haystack[i] != needle[j + 1]) &#123; // 不匹配                j = next[j]; // j 寻找之前匹配的位置            &#125;            if (haystack[i] == needle[j + 1]) &#123; // 匹配，j和i同时向后移动                j++; // i的增加在for循环里            &#125;            if (j == (needle.size() - 1) ) &#123; // 文本串s里出现了模式串t                return (i - needle.size() + 1);            &#125;        &#125;        return -1;    &#125;&#125;;
+重复的子字符串
+题目链接：459. 重复的子字符串
+暴力解法：想用暴力法写一下，结果写了两个小时，还是看了题解写出来的，钻牛角尖了。我写的代码性能不如官方代码高，贴一下官方代码。
+class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        int n = s.size();        for (int i = 1; i * 2 &lt;= n; ++i) &#123;            if (n % i == 0) &#123;                bool match = true;                for (int j = i; j &lt; n; ++j) &#123;                    if (s[j] != s[j - i]) &#123;                        match = false;                        break;                    &#125;                &#125;                if (match) &#123;                    return true;                &#125;            &#125;        &#125;        return false;    &#125;&#125;;
+移动匹配：将两个 s 连在一起，并移除第一个和最后一个字符。如果 s 是该字符串的子串，那么 s 就满足题目要求。
+class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        string t = s + s;        t.erase(t.begin()); t.erase(t.end() - 1); // 掐头去尾        if (t.find(s) != std::string::npos) return true; // r        return false;    &#125;&#125;;
+KMP实现：
+class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#123;        next[0] = -1;        int j = -1;        for(int i = 1;i &lt; s.size(); i++)&#123;            while(j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123;                j = next[j];            &#125;            if(s[i] == s[j + 1]) &#123;                j++;            &#125;            next[i] = j;        &#125;    &#125;    bool repeatedSubstringPattern (string s) &#123;        if (s.size() == 0) &#123;            return false;        &#125;        int next[s.size()];        getNext(next, s);        int len = s.size();        if (next[len - 1] != -1 &amp;&amp; len % (len - (next[len - 1] + 1)) == 0) &#123;            return true;        &#125;        return false;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>双指针</tag>
+        <tag>字符串</tag>
+        <tag>KMP</tag>
+        <tag>reverse</tag>
       </tags>
   </entry>
   <entry>
@@ -1429,6 +1429,106 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
       </tags>
   </entry>
   <entry>
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
+
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+
+
+题目列表与详解
+1. Two Sum
+
+
+题号 / 链接：#1 / 题目链接
+
+
+难度：简单
+
+
+题型标签：哈希表，数组
+
+
+题目描述（简要）：
+
+就是查找一下哪两个数相加等于target，返回下标。
+
+
+
+思路分析
+
+两个方法，不同的时间复杂度
+
+方法一：暴力写法。
+复杂度
+
+时间：O(*n*2)
+空间：O(1)
+
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
+
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+
+
+2. 好数对的数目
+
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSRMS</title>
     <url>/2025/04/CSRMS/</url>
     <content><![CDATA[CSRMS
@@ -1547,106 +1647,6 @@ $$
       <tags>
         <tag>论文精读</tag>
         <tag>视觉表征</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
-
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
-
-
-题目列表与详解
-1. Two Sum
-
-
-题号 / 链接：#1 / 题目链接
-
-
-难度：简单
-
-
-题型标签：哈希表，数组
-
-
-题目描述（简要）：
-
-就是查找一下哪两个数相加等于target，返回下标。
-
-
-
-思路分析
-
-两个方法，不同的时间复杂度
-
-方法一：暴力写法。
-复杂度
-
-时间：O(*n*2)
-空间：O(1)
-
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
-
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
-
-
-2. 好数对的数目
-
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
