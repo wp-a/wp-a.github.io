@@ -88,14 +88,18 @@
       background: var(--bg-color);
       padding: 20px 60px;
       display: flex;
-      justify-content: center; /* 居中对齐 */
+      justify-content: space-between; /* 左右分布 */
       align-items: center;
-      gap: 15px; /* 所有元素之间的间距 */
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
       transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     
+    /* 导航链接容器 */
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
     .top-nav a {
       color: var(--text-secondary);
       font-weight: 600;
@@ -117,7 +121,21 @@
       border-radius: 2px;
     }
     
-    .lang-switch { 
+    /* 左侧语言切换 */
+    .lang-switch-left {
+      font-weight: 600; 
+      color: var(--text-secondary); 
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.05);
+    }
+    /* 中间暗黑模式按钮 */
+    .theme-switch {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       font-weight: 600; 
       color: var(--text-secondary); 
       cursor: pointer;
@@ -127,16 +145,19 @@
       background: rgba(0, 0, 0, 0.05);
     }
     /* 暗黑模式下的背景调整 */
-    body.dark-mode .lang-switch {
+    body.dark-mode .lang-switch-left,
+    body.dark-mode .theme-switch {
       background: rgba(255, 255, 255, 0.1);
     }
     
-    .lang-switch:hover {
+    .lang-switch-left:hover,
+    .theme-switch:hover {
       background: rgba(0, 0, 0, 0.1);
       transform: translateY(-1px);
       color: var(--text-color);
     }
-    body.dark-mode .lang-switch:hover {
+    body.dark-mode .lang-switch-left:hover,
+    body.dark-mode .theme-switch:hover {
       background: rgba(255, 255, 255, 0.2);
     }
     
@@ -727,28 +748,33 @@
   
   <!-- Top Navigation -->
   <nav class="top-nav">
-    <div class="lang-switch" onclick="toggleLanguage()">
+    <!-- 左侧语言切换 -->
+    <div class="lang-switch-left" onclick="toggleLanguage()">
       <span id="lang-text">English</span>
     </div>
-    <div class="lang-switch" onclick="toggleDarkMode()">
+    <!-- 中间暗黑模式按钮 -->
+    <div class="theme-switch" onclick="toggleDarkMode()">
       <i id="theme-icon" class="fas fa-moon"></i>
     </div>
-    <a href="#about" class="active">
-      <span class="lang-zh">关于我</span>
-      <span class="lang-en">About Me</span>
-    </a>
-    <a href="#news">
-      <span class="lang-zh">动态</span>
-      <span class="lang-en">News</span>
-    </a>
-    <a href="#publications">
-      <span class="lang-zh">论文</span>
-      <span class="lang-en">Publications</span>
-    </a>
-    <a href="#honors">
-      <span class="lang-zh">荣誉</span>
-      <span class="lang-en">Honors</span>
-    </a>
+    <!-- 右侧导航链接 -->
+    <div class="nav-links">
+      <a href="#about" class="active">
+        <span class="lang-zh">关于我</span>
+        <span class="lang-en">About Me</span>
+      </a>
+      <a href="#news">
+        <span class="lang-zh">动态</span>
+        <span class="lang-en">News</span>
+      </a>
+      <a href="#publications">
+        <span class="lang-zh">论文</span>
+        <span class="lang-en">Publications</span>
+      </a>
+      <a href="#honors">
+        <span class="lang-zh">荣誉</span>
+        <span class="lang-en">Honors</span>
+      </a>
+    </div>
   </nav>
 
   <!-- Main Content -->
