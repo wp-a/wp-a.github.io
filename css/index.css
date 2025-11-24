@@ -6868,7 +6868,8 @@ blockquote.pullquote.right {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    width: 970px;
+    width: 100%;
+    max-width: 1400px;
     height: -webkit-fill-available;
     height: 40%;
   }
