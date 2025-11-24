@@ -6887,20 +6887,19 @@ blockquote.pullquote.right {
     line-height: 1;
     margin-bottom: 8px;
   }
-  .author-content-item.selfInfo .selfInfo-content {
+  #about-page .author-content-item.selfInfo .selfInfo-content {
     font-weight: 700;
     font-size: 34px;
     line-height: 1;
   }
-  .author-content-item-group.column.mapAndInfo {
-    width: 100% !important;
-  }
-
   .author-content-item-group.column {
     display: flex;
     flex-direction: column;
     width: 34%;
     justify-content: space-between;
+  }
+  #about-page .author-content-item-group.column.mapAndInfo {
+    width: 100% !important;
   }
   
   .post-tips a:hover {
