@@ -284,40 +284,66 @@
     
     /* News List */
     .news-list { list-style: none; }
+    /* News List - 增加交互感 */
     .news-list li { 
       margin-bottom: 12px; 
       display: flex; 
       align-items: baseline;
-      padding: 10px 0;
+      padding: 12px 15px; /* 增加内边距，为了 hover 效果 */
       border-bottom: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
+    .news-list li:hover {
+      background: rgba(0,0,0,0.02);
+      transform: translateX(5px); /* 悬停时轻微右移 */
+    }
+    body.dark-mode .news-list li:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    
     .news-date { 
       font-weight: 600; 
-      min-width: 85px; 
+      min-width: 90px; 
       color: var(--accent-color); 
       font-family: 'Courier New', monospace;
       font-size: 0.9rem;
       flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+    .news-list li:hover .news-date {
+      transform: scale(1.05); /* 日期轻微放大 */
     }
     
-    /* Publication Item */
+    /* Publication Item - 增强动态交互 */
     .paper-item {
       display: flex;
-      margin-bottom: 50px; /* 增加间距 */
-      padding-bottom: 0;
-      /* 去掉底边框，减少分割感，更流畅 */
-      border-bottom: none;
+      margin-bottom: 40px;
+      padding: 20px;
+      border-radius: 12px;
+      border-bottom: 1px solid var(--border-color); /* 恢复分割线 */
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    /* 鼠标悬停在整个卡片上时 */
+    .paper-item:hover {
+      background: var(--card-bg);
+      box-shadow: var(--shadow-md); /* 浮起效果 */
+      transform: translateY(-2px);
+      border-color: transparent; /* 悬停时隐藏底边框，用阴影代替 */
     }
     
     .paper-img-box {
-      width: 340px; /* 稍微调整大小 */
+      width: 300px; /* 调整回合适大小 */
       flex-shrink: 0;
-      margin-right: 35px;
+      margin-right: 30px;
       position: relative;
-      border-radius: 6px; /* 细微圆角 */
-      border: 1px solid rgba(0,0,0,0.08); /* 极淡边框 */
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
       overflow: hidden;
       background: #f0f0f0;
+      box-shadow: var(--shadow-sm);
     }
     body.dark-mode .paper-img-box {
       border-color: rgba(255,255,255,0.1);
@@ -328,10 +354,12 @@
       width: 100%; 
       height: auto; 
       display: block;
-      transition: transform 0.5s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 更流畅的动画 */
     }
+    
+    /* 图片放大效果增强 */
     .paper-item:hover .paper-img-box img {
-      transform: scale(1.02); /* 极微小的缩放效果 */
+      transform: scale(1.08); 
     }
     
     /* Conference Badge */
@@ -339,16 +367,17 @@
       position: absolute;
       top: 10px;
       left: 10px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.75);
       backdrop-filter: blur(4px);
       color: #fff;
-      font-size: 0.7rem;
-      font-weight: 600;
+      font-size: 0.75rem;
+      font-weight: 700;
       padding: 4px 10px;
       border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 2;
     }
     /* 不同会议使用不同颜色的小点缀，或者统一风格 */
     .conf-badge.tkde { border-left: 3px solid #2a5298; }
@@ -357,12 +386,15 @@
     
     .paper-info { flex: 1; }
     .paper-title { 
-      font-size: 1.15rem; 
+      font-size: 1.2rem; 
       font-weight: 700; 
-      margin-bottom: 12px; 
+      margin-bottom: 10px; 
       color: var(--primary-color); 
-      line-height: 1.5;
+      line-height: 1.4;
       transition: color 0.3s ease;
+    }
+    .paper-item:hover .paper-title {
+      color: var(--link-color); /* 悬停时标题变色 */
     }
     .paper-item:hover .paper-title {
       color: var(--accent-color);
