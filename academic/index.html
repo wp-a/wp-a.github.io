@@ -505,75 +505,54 @@
   <!-- 渲染脚本 -->
   <script>
     let currentLang = 'zh'; // 默认中文
+    let data = null;
     
-    // 语言切换函数
-    function toggleLanguage() {
-      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+    // 渲染内容函数（根据当前语言）
+    function renderContent() {
+      if (!data) return;
       
-      // 更新切换按钮文字
-      document.getElementById('lang-text').textContent = currentLang === 'zh' ? 'English' : '中文';
+      const lang = currentLang;
       
-      // 显示/隐藏对应语言的内容
-      const zhElements = document.querySelectorAll('.lang-zh');
-      const enElements = document.querySelectorAll('.lang-en');
+      // 渲染侧边栏
+      document.getElementById('author-title').innerHTML = data.profile.title[lang] + '<br>' + data.profile.affiliation[lang];
+      document.getElementById('author-desc').innerHTML = data.profile.bio[lang];
       
-      if (currentLang === 'zh') {
-        zhElements.forEach(el => el.style.display = '');
-        enElements.forEach(el => el.style.display = 'none');
-      } else {
-        zhElements.forEach(el => el.style.display = 'none');
-        enElements.forEach(el => el.style.display = '');
-      }
-    }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof academicData === 'undefined') {
-        console.error('academic-data.js 未加载成功！');
-        return;
-      }
-
-      const data = academicData;
-
-      // 设置页面标题
-      document.getElementById('page-title').textContent = data.profile.name + ' - Academic Homepage';
-
-      // 渲染侧边栏（确保使用正确的头像路径）
-      document.getElementById('avatar').src = data.profile.avatar || '/img/head.webp';
-      document.getElementById('author-name').textContent = data.profile.name;
-      document.getElementById('author-title').innerHTML = data.profile.title + '<br>' + data.profile.affiliation;
-      document.getElementById('author-desc').innerHTML = data.profile.bio;
-      document.getElementById('location').textContent = data.profile.location;
-      document.getElementById('email').href = 'mailto:' + data.profile.email;
-      document.getElementById('github').href = data.profile.github;
-      document.getElementById('scholar').href = data.profile.scholar;
-      document.getElementById('blog').href = data.profile.blog;
-
       // 渲染 About 部分
       const aboutContent = document.getElementById('about-content');
-      data.about.forEach(para => {
+      aboutContent.innerHTML = ''; // 清空
+      data.about[lang].forEach(para => {
         const p = document.createElement('p');
         p.innerHTML = para;
         aboutContent.appendChild(p);
       });
-
+      
       // 渲染 News
       const newsList = document.getElementById('news-list');
-      data.news.forEach(item => {
+      newsList.innerHTML = ''; // 清空
+      data.news[lang].forEach(item => {
         const li = document.createElement('li');
         li.innerHTML = `<span class="news-date">${item.date}:</span><span>${item.content}</span>`;
         newsList.appendChild(li);
       });
-
+      
       // 渲染 Publications
       const pubsList = document.getElementById('publications-list');
+      pubsList.innerHTML = ''; // 清空
       data.publications.forEach(paper => {
         const div = document.createElement('div');
         div.className = 'paper-item';
         
+        const paperLinks = paper.links[lang];
         let linksHtml = '';
-        if (paper.links.paper) linksHtml += `<a href="${paper.links.paper}">[论文]</a>`;
-        if (paper.links.code) linksHtml += `<a href="${paper.links.code}">[代码]</a>`;
-        if (paper.links.project) linksHtml += `<a href="${paper.links.project}">[Project Page]</a>`;
+        if (lang === 'zh') {
+          if (paperLinks.paper) linksHtml += `<a href="${paperLinks.paper}">[论文]</a>`;
+          if (paperLinks.code) linksHtml += `<a href="${paperLinks.code}">[代码]</a>`;
+          if (paperLinks.project) linksHtml += `<a href="${paperLinks.project}">[项目主页]</a>`;
+        } else {
+          if (paperLinks.paper) linksHtml += `<a href="${paperLinks.paper}">[Paper]</a>`;
+          if (paperLinks.code) linksHtml += `<a href="${paperLinks.code}">[Code]</a>`;
+          if (paperLinks.project) linksHtml += `<a href="${paperLinks.project}">[Project]</a>`;
+        }
         
         div.innerHTML = `
           <div class="paper-img-box">
@@ -588,14 +567,63 @@
         `;
         pubsList.appendChild(div);
       });
-
+      
       // 渲染 Honors
       const honorsList = document.getElementById('honors-list');
-      data.honors.forEach(item => {
+      honorsList.innerHTML = ''; // 清空
+      data.honors[lang].forEach(item => {
         const li = document.createElement('li');
         li.innerHTML = `<span class="news-date">${item.year}</span> ${item.title}`;
         honorsList.appendChild(li);
       });
+    }
+    
+    // 语言切换函数
+    function toggleLanguage() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      
+      // 更新切换按钮文字
+      document.getElementById('lang-text').textContent = currentLang === 'zh' ? 'English' : '中文';
+      
+      // 显示/隐藏对应语言的UI文本
+      const zhElements = document.querySelectorAll('.lang-zh');
+      const enElements = document.querySelectorAll('.lang-en');
+      
+      if (currentLang === 'zh') {
+        zhElements.forEach(el => el.style.display = '');
+        enElements.forEach(el => el.style.display = 'none');
+      } else {
+        zhElements.forEach(el => el.style.display = 'none');
+        enElements.forEach(el => el.style.display = '');
+      }
+      
+      // 重新渲染内容
+      renderContent();
+    }
+    
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof academicData === 'undefined') {
+        console.error('academic-data.js 未加载成功！');
+        return;
+      }
+
+      data = academicData;
+
+      // 设置页面标题
+      document.getElementById('page-title').textContent = data.profile.name + ' - Academic Homepage';
+
+      // 渲染侧边栏（固定不变的部分）
+      document.getElementById('avatar').src = data.profile.avatar || '/img/head.webp';
+      document.getElementById('author-name').textContent = data.profile.name;
+      document.getElementById('location').textContent = data.profile.location;
+      document.getElementById('email').href = 'mailto:' + data.profile.email;
+      document.getElementById('github').href = data.profile.github;
+      document.getElementById('scholar').href = data.profile.scholar;
+      document.getElementById('blog').href = data.profile.blog;
+
+      // 初次渲染内容（默认中文）
+      renderContent();
     });
   </script>
 
