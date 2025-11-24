@@ -85,23 +85,31 @@
       top: 0;
       right: 0;
       left: var(--sidebar-width);
-      background: var(--bg-color); /* 跟随背景色 */
+      background: var(--bg-color);
       padding: 20px 60px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between; /* 改为左右分布 */
       align-items: center;
       z-index: 100;
-      border-bottom: 1px solid var(--border-color); /* 添加底边框 */
+      border-bottom: 1px solid var(--border-color);
       transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     
+    /* 导航项容器 */
+    .nav-links {
+      display: flex;
+      gap: 40px; /* 导航项之间的间距 */
+      flex: 1;
+      justify-content: center; /* 居中分布 */
+      margin-left: 100px; /* 给左侧语言切换留出空间 */
+    }
     .top-nav a {
-      margin-left: 30px;
       color: var(--text-secondary);
       font-weight: 600;
       font-size: 0.95rem;
       position: relative;
       transition: color 0.3s ease;
+      white-space: nowrap;
     }
     .top-nav a:hover, .top-nav a.active {
       color: var(--accent-color);
@@ -145,7 +153,7 @@
     .sidebar {
       width: var(--sidebar-width);
       background: var(--sidebar-bg);
-      padding: 40px 30px 60px;
+      padding: 80px 30px 60px; /* 增加顶部间距，让头像下移 */
       position: fixed;
       height: 100vh;
       left: 0;
@@ -608,8 +616,8 @@
           en: "Shandong University"
         },
         bio: {
-          zh: "研究方向：<strong>图像表征</strong>（Image Representation）。<br>关注<strong>计算机视觉</strong>、<strong>深度学习</strong>与<strong>多模态学习</strong>前沿技术。<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>",
-          en: "Research Focus: <strong>Image Representation</strong>.<br>Interested in <strong>Computer Vision</strong>, <strong>Deep Learning</strong>, and <strong>Multimodal Learning</strong>.<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>"
+          zh: "研究方向：<strong>视觉表征</strong>。<br>关注<strong>计算机视觉</strong>、<strong>深度学习</strong>与<strong>多模态学习</strong>前沿技术。<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>",
+          en: "Research Focus: <strong>Visual Representation</strong>.<br>Interested in <strong>Computer Vision</strong>, <strong>Deep Learning</strong>, and <strong>Multimodal Learning</strong>.<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>"
         },
         avatar: "https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png",
         location: "Shandong, China",
@@ -728,28 +736,32 @@
   
   <!-- Top Navigation -->
   <nav class="top-nav">
-    <div class="lang-switch" onclick="toggleLanguage()">
-      <span id="lang-text">English</span>
+    <div style="display: flex; gap: 10px;">
+      <div class="lang-switch" onclick="toggleLanguage()">
+        <span id="lang-text">English</span>
+      </div>
+      <div class="lang-switch" onclick="toggleDarkMode()">
+        <i id="theme-icon" class="fas fa-moon"></i>
+      </div>
     </div>
-    <div class="lang-switch" onclick="toggleDarkMode()" style="margin-left: 10px;">
-      <i id="theme-icon" class="fas fa-moon"></i>
+    <div class="nav-links">
+      <a href="#about" class="active">
+        <span class="lang-zh">关于我</span>
+        <span class="lang-en">About Me</span>
+      </a>
+      <a href="#news">
+        <span class="lang-zh">动态</span>
+        <span class="lang-en">News</span>
+      </a>
+      <a href="#publications">
+        <span class="lang-zh">论文</span>
+        <span class="lang-en">Publications</span>
+      </a>
+      <a href="#honors">
+        <span class="lang-zh">荣誉</span>
+        <span class="lang-en">Honors</span>
+      </a>
     </div>
-    <a href="#about" class="active">
-      <span class="lang-zh">关于我</span>
-      <span class="lang-en">About Me</span>
-    </a>
-    <a href="#news">
-      <span class="lang-zh">动态</span>
-      <span class="lang-en">News</span>
-    </a>
-    <a href="#publications">
-      <span class="lang-zh">论文</span>
-      <span class="lang-en">Publications</span>
-    </a>
-    <a href="#honors">
-      <span class="lang-zh">荣誉</span>
-      <span class="lang-en">Honors</span>
-    </a>
   </nav>
 
   <!-- Main Content -->
