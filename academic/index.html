@@ -84,30 +84,24 @@
       position: fixed;
       top: 0;
       right: 0;
-      left: var(--sidebar-width);
+      left: 0; /* 从最左边开始 */
       background: var(--bg-color);
       padding: 20px 60px;
       display: flex;
-      justify-content: space-between; /* 改为左右分布 */
+      justify-content: flex-end; /* 恢复为右对齐 */
       align-items: center;
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
       transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     
-    /* 导航项容器 */
-    .nav-links {
-      display: flex;
-      gap: 32px; /* 减小间距，更紧凑 */
-      justify-content: center; /* 居中分布 */
-    }
     .top-nav a {
+      margin-left: 30px;
       color: var(--text-secondary);
       font-weight: 600;
       font-size: 0.95rem;
       position: relative;
       transition: color 0.3s ease;
-      white-space: nowrap;
     }
     .top-nav a:hover, .top-nav a.active {
       color: var(--accent-color);
@@ -151,7 +145,7 @@
     .sidebar {
       width: var(--sidebar-width);
       background: var(--sidebar-bg);
-      padding: 80px 30px 60px; /* 增加顶部间距，让头像下移 */
+      padding: 100px 30px 60px; /* 增加顶部间距，给导航栏让出空间 */
       position: fixed;
       height: 100vh;
       left: 0;
@@ -180,10 +174,10 @@
     }
     
     .main-content {
-      flex: 1;
       margin-left: var(--sidebar-width);
-      padding: 110px 60px 100px; /* 合理的底部间距 */
-      max-width: calc(100% - var(--sidebar-width));
+      padding: 100px 60px 60px; /* 顶部留出导航栏空间 */
+      max-width: calc(var(--content-max-width) + var(--sidebar-width));
+      flex: 1;
     }
     
     /* Sidebar Elements */
@@ -734,32 +728,28 @@
   
   <!-- Top Navigation -->
   <nav class="top-nav">
-    <div style="display: flex; gap: 10px;">
-      <div class="lang-switch" onclick="toggleLanguage()">
-        <span id="lang-text">English</span>
-      </div>
-      <div class="lang-switch" onclick="toggleDarkMode()">
-        <i id="theme-icon" class="fas fa-moon"></i>
-      </div>
+    <div class="lang-switch" onclick="toggleLanguage()">
+      <span id="lang-text">English</span>
     </div>
-    <div class="nav-links">
-      <a href="#about" class="active">
-        <span class="lang-zh">关于我</span>
-        <span class="lang-en">About Me</span>
-      </a>
-      <a href="#news">
-        <span class="lang-zh">动态</span>
-        <span class="lang-en">News</span>
-      </a>
-      <a href="#publications">
-        <span class="lang-zh">论文</span>
-        <span class="lang-en">Publications</span>
-      </a>
-      <a href="#honors">
-        <span class="lang-zh">荣誉</span>
-        <span class="lang-en">Honors</span>
-      </a>
+    <div class="lang-switch" onclick="toggleDarkMode()" style="margin-left: 10px;">
+      <i id="theme-icon" class="fas fa-moon"></i>
     </div>
+    <a href="#about" class="active">
+      <span class="lang-zh">关于我</span>
+      <span class="lang-en">About Me</span>
+    </a>
+    <a href="#news">
+      <span class="lang-zh">动态</span>
+      <span class="lang-en">News</span>
+    </a>
+    <a href="#publications">
+      <span class="lang-zh">论文</span>
+      <span class="lang-en">Publications</span>
+    </a>
+    <a href="#honors">
+      <span class="lang-zh">荣誉</span>
+      <span class="lang-en">Honors</span>
+    </a>
   </nav>
 
   <!-- Main Content -->
