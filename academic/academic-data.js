@@ -8,7 +8,7 @@ const academicData = {
     title: "硕士研究生 / Researcher",
     affiliation: "某某大学计算机学院",
     bio: "专注于<strong>深度学习</strong>、<strong>计算机视觉</strong>以及<strong>AI for Science</strong>的研究。<br>目前主要关注 Vision Transformer 和大模型高效微调。",
-    avatar: "/img/head.webp",
+    avatar: "https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png",
     location: "Beijing, China",
     email: "your-email@example.com",
     github: "https://github.com/wp-a",
