@@ -468,70 +468,6 @@ class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;    
   </entry>
   <entry>
     <title>代码随想录--哈希表</title>
-    <url>/2025/02/5day/</url>
-    <content><![CDATA[哈希表
-​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
-有效的字母异位词
-题目链接：242. 有效的字母异位词
-题目描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的 字母异位词。
-题目思路：创建一个哈希表，表长为26，哈希函数采用直接定址法，都不用处理冲突，还是比较简单的。直接排序，看是否两个数组相等应该也可以吧。
-class Solution &#123;public:    bool isAnagram(string s, string t) &#123;        int n=s.size(),m=t.size(),q[26]=&#123;0&#125;;        if(m!=n) return false;        for(int i=0;i&lt;n;i++) q[s[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) q[t[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(q[i]!=0) return false;        return true;    &#125;&#125;;
-两个数组的交集
-题目链接：349. 两个数组的交集
-题目描述：给定两个数组 nums1 和 nums2 ，返回它们的交集。输出结果中的每个元素一定是 唯一 的。
-我的思路：感觉自己写的这个代码和屎一样，又臭又长，一点也不优雅。首先循环nums1数组，将出现的元素在s[]的位置变为1，然后再遍历第二个数组，如果出现和第一个数组相同的元素，则t[]对应位置变为1，再将这些位置存到一个新数组中，记录数组长度，然后构建一个正好长度的新数组，返回这个数组。
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        int n=nums1.size(),m=nums2.size();        int s[1001]=&#123;0&#125;,t[1001]=&#123;-1&#125;,num=0,u=1001;        for(int i=0;i&lt;n;i++) s[nums1[i]]=1;        for(int i=0;i&lt;m;i++) if(s[nums2[i]]==1) t[nums2[i]]=1;        vector&lt;int&gt; r(u);        for(int i=0;i&lt;1001;i++)        &#123;            if(t[i]&gt;0)&#123;r[num]=i;            num++;            &#125;        &#125;        vector&lt;int&gt; v(num);        for(int i=0;i&lt;num;i++) v[i]=r[i];        return v;    &#125;&#125;;
-代码随想录题解：太高级了，看都看不懂，特意搜了一下这几个函数的用法。
-​	使用 unordered_set&lt;int&gt; result 来存储交集，这样可以自动去重，只保留一个 nums2 中与 nums1 相同的元素。
-set1.find(num)：
-
-find 是 unordered_set 提供的一个成员函数，用于查找一个元素。如果元素存在，它会返回指向该元素的迭代器；如果元素不存在，它会返回指向 set1.end() 的迭代器。
-
-set1.end()：
-
-set1.end() 返回的是一个指向 set1 容器最后一个元素之后的位置的迭代器。它并不是容器中的一个有效元素，表示容器的末尾。
-
-set1.find(num) != set1.end()：
-
-如果 find(num) 返回的迭代器与 set1.end() 不同，说明 num 存在于 set1 中。
-如果 find(num) 返回的迭代器等于 set1.end()，说明 num 不存在于 set1 中。
-
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         unordered_set&lt;int&gt; nums_set(nums1.begin(), nums1.end());        for (int num : nums2) &#123;            if (nums_set.find(num) != nums_set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         int hash[1005] = &#123;0&#125;;         for (int num : nums1) &#123;             hash[num] = 1;        &#125;        for (int num : nums2) &#123;             if (hash[num] == 1) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
-快乐数
-题目链接：202. 快乐数
-我的思路：我就随便试一下，就直接过了，因为不知道停止条件，所以直接设了个100次，性能还很高。
-class Solution &#123;public:    bool isHappy(int n) &#123;        for(int j=0;j&lt;100;j++)        &#123;            int num=0,t;            while(n&gt;0)            &#123;t=n%10;            n=n/10;            num=num+t*t;            &#125;            n=num;            if(n==1) return true;        &#125;        return false;    &#125;&#125;;
-代码随想录：题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！
-class Solution &#123;public:    // 取数值各个位上的单数之和    int getSum(int n) &#123;        int sum = 0;        while (n) &#123;            sum += (n % 10) * (n % 10);            n /= 10;        &#125;        return sum;    &#125;    bool isHappy(int n) &#123;        unordered_set&lt;int&gt; set;        while(1) &#123;            int sum = getSum(n);            if (sum == 1) &#123;                return true;            &#125;            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false            if (set.find(sum) != set.end()) &#123;                return false;            &#125; else &#123;                set.insert(sum);            &#125;            n = sum;        &#125;    &#125;&#125;;
-两数之和
-题目链接：1. 两数之和
-暴力解法：我直接先用暴力解写了一下,比较简单。
-class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;         int n=nums.size();        for(int i=0;i&lt;n;i++)        &#123;            for(int j=i+1;j&lt;n;j++)            &#123;                if((nums[i]+nums[j])==target)                 &#123;                    return &#123;i,j&#125;;                &#125;            &#125;        &#125;        return &#123;&#125;;    &#125;&#125;;
-哈希解法：思路还是挺好想的，但是代码不太会实现，不太熟练，自己写了一半，发现很多操作不会表达。直接贴一份代码随想录的代码。
-
-数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
-set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
-
-​	此时就要选择另一种数据结构：map ，map是一种key value的存储结构，可以用key保存数值，用value再保存数值所在的下标。
-map中的存储结构为 {key：数据元素，value：数组元素对应的下标}。
-auto 是 C++11 引入的 类型自动推导（Type Inference） 关键字，编译器会根据变量的 初始化值 自动推导出其数据类型，而无需手动声明类型。
-class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        std::unordered_map &lt;int,int&gt; map;        for(int i = 0; i &lt; nums.size(); i++) &#123;            // 遍历当前元素，并在map中寻找是否有匹配的key            auto iter = map.find(target - nums[i]);             if(iter != map.end()) &#123;                return &#123;iter-&gt;second, i&#125;;            &#125;            // 如果没找到匹配对，就把访问过的元素和下标加入到map中            map.insert(pair&lt;int, int&gt;(nums[i], i));         &#125;        return &#123;&#125;;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>哈希表</tag>
-        <tag>查找</tag>
-        <tag>set</tag>
-        <tag>map</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--哈希表</title>
     <url>/2025/02/6day/</url>
     <content><![CDATA[哈希表
 ​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
@@ -637,171 +573,56 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--栈·队列</title>
-    <url>/2025/02/8day/</url>
-    <content><![CDATA[栈·队列
-​                                                                                    
-stack
-STL 中的 stack 容器提供了一众成员函数以供调用，其中较为常用的有：
-
-元素访问
-
-st.top() 返回栈顶
-
-
-修改
-
-st.push() 插入传入的参数到栈顶
-st.pop() 弹出栈顶
-
-
-容量
-
-st.empty() 返回是否为空
-st.size() 返回元素数量
-
-
-
-queue
-STL 中的 queue 容器提供了一众成员函数以供调用。其中较为常用的有：
-
-元素访问
-
-q.front() 返回队首元素
-q.back() 返回队尾元素
-
-
-修改
-
-q.push() 在队尾插入元素
-q.pop() 弹出队首元素
-
-
-容量
-
-q.empty() 队列是否为空
-q.size() 返回队列中元素的数量
-
-
-
-deque
-STL 中的 deque 容器提供了一众成员函数以供调用。其中较为常用的有：
-
-元素访问
-
-q.front() 返回队首元素
-q.back() 返回队尾元素
-
-
-修改
-
-q.push_back() 在队尾插入元素
-q.pop_back() 弹出队尾元素
-q.push_front() 在队首插入元素
-q.pop_front() 弹出队首元素
-q.insert() 在指定位置前插入元素（传入迭代器和元素）
-q.erase() 删除指定位置的元素（传入迭代器）
-
-
-容量
-
-q.empty() 队列是否为空
-q.size() 返回队列中元素的数量
-
-
-
-此外，deque 还提供了一些运算符。其中较为常用的有：
-
-
-使用赋值运算符 = 为 deque 赋值，类似 queue。
-
-
-使用 [] 访问元素，类似 vector。
-
-
-用栈实现队列
-题目链接：232. 用栈实现队列
-class MyQueue &#123;private:    // 如果 B 栈为空，将 A 栈中的元素倒入 B 栈    void moveToB() &#123;        if (B.empty()) &#123;            while (!A.empty()) &#123;                B.push(A.top());                A.pop();            &#125;        &#125;    &#125;public:    stack&lt;int&gt; A, B;    MyQueue() &#123;    &#125;    void push(int x) &#123;        A.push(x);    &#125;    int pop() &#123;        moveToB(); // 移动元素到 B 栈        int val = B.top();        B.pop();        return val;    &#125;    int peek() &#123;        moveToB(); // 移动元素到 B 栈        return B.top();    &#125;    bool empty() &#123;        return A.empty() &amp;&amp; B.empty();    &#125;&#125;;
-用队列实现栈
-题目链接：225. 用队列实现栈
-方法一：使用 一个队列
-
-push(x)：
-
-首先，将元素 x 入队到队列末尾。
-然后，将队列中前面已有的元素依次出队，再重新入队到队列末尾。
-这样，队列的前端就始终是最新压入的元素，相当于实现了栈的“后进先出（LIFO）”顺序。
-
-
-pop()：
-
-直接将队首元素出队即可。因为在上一步的处理里，队首元素就是栈顶。
-
-
-top()：
-
-返回队首元素（不弹出）。
-
-
-empty()：
-
-判断队列是否为空。
-
-
-
-class MyStack &#123;public:    queue&lt;int&gt; q;    MyStack() &#123;    &#125;        // 每次 push 后，把前面的 (size - 1) 个元素依次出队并重新入队，确保新元素在队首    void push(int x) &#123;        // 1. 新元素先入队        q.push(x);        // 2. 将前面的元素依次移到末尾        int n = q.size();        // 只需要将前面的 (n - 1) 个元素移动到末尾        for(int i = 0; i &lt; n - 1; i++) &#123;            q.push(q.front());            q.pop();        &#125;    &#125;        int pop() &#123;        int val = q.front();  // 由于 push 中的旋转操作，队首就是栈顶        q.pop();        return val;    &#125;        int top() &#123;        return q.front();     // 队首即为栈顶    &#125;        bool empty() &#123;        return q.empty();    &#125;&#125;;
-方法二：使用 两个队列
-
-队列 A 和 队列 B 协同工作，保证其中一个队列始终存放当前所有元素，另一个队列用来做辅助操作。
-push(x)：
-
-把新元素直接入队到空队列中（或者你可以总是把它放到 A，然后把 A 里旧的元素转移到 B，具体实现略有差异）。
-
-
-pop()：
-
-在 pop() 之前，我们需要把除最后一个元素外的所有元素，从一个队列（有数据的队列）依次出队并入队到另一个空队列，让最后一个元素留在原队列，然后弹出这个元素，这相当于栈顶元素。
-
-
-top()：
-
-类似 pop()，只是查看最后一个元素而不把它真正弹出。
-
-
-empty()：
-
-两个队列都为空即为真。
-
-
-
-#include &lt;queue&gt;using namespace std;class MyStack &#123;public:    queue&lt;int&gt; q1, q2;  // 两个队列    MyStack() &#123;    &#125;        void push(int x) &#123;        // 1. 新元素先入空的队列 q2        q2.push(x);        // 2. 把 q1 中所有元素依次移到 q2 中        while (!q1.empty()) &#123;            q2.push(q1.front());            q1.pop();        &#125;        // 3. 交换 q1 和 q2，保证所有元素又回到 q1，q2 变空        swap(q1, q2);    &#125;        int pop() &#123;        // 队首就是栈顶        int val = q1.front();        q1.pop();        return val;    &#125;        int top() &#123;        return q1.front();    &#125;        bool empty() &#123;        return q1.empty() &amp;&amp; q2.empty();    &#125;&#125;;
-有效的括号
-题目链接：20. 有效的括号
-题目思路：先判断一下s的长度是否为偶数，如果不是就返回false，再将全部的左符号压入栈中，然后开始判断剩余的符号是否可以匹配，如果不能就返回false，将s循环结束，如果全部匹配成功，最后应该栈是空的，如果不是返回false。
-class Solution &#123;public:    bool isValid(string s) &#123;        int n=s.size();        if(n%2!=0) return false;        stack&lt;char&gt; t;        for(int i=0;i&lt;n;i++)        &#123;            if(s[i]==&#x27;(&#x27;) t.push(&#x27;)&#x27;);            else if(s[i]==&#x27;&#123;&#x27;) t.push(&#x27;&#125;&#x27;);            else if(s[i]==&#x27;[&#x27;) t.push(&#x27;]&#x27;);            else if(t.empty() || t.top()!=s[i]) return false;            else t.pop();        &#125;        return t.empty();    &#125;&#125;;
-删除字符串中的所有相邻重复项
-题目链接：1047. 删除字符串中的所有相邻重复项
-建栈的写法，性能太差了。
-class Solution &#123;public:    string removeDuplicates(string s) &#123;        stack&lt;char&gt; t;        int n=s.size();        for(int i=0;i&lt;n;i++)        &#123;            if(!t.empty() &amp;&amp; s[i]==t.top()) t.pop();            else t.push(s[i]);         &#125;         string result;        while(!t.empty())        &#123;            result=t.top()+result;            t.pop();        &#125;        return result;    &#125;&#125;;
-string自己就可以做栈，string有pop和push接口，性能很高。
-class Solution &#123;public:    string removeDuplicates(string s) &#123;        string stk;        for (char ch : s) &#123;            if (!stk.empty() &amp;&amp; stk.back() == ch) &#123;                stk.pop_back();            &#125; else &#123;                stk.push_back(ch);            &#125;        &#125;        return stk;    &#125;&#125;;
-逆波兰表达式求值
-题目链接：150. 逆波兰表达式求值
-题目挺简单的，就是一个点需要注意：
-stoi()：
-
-stoi 是一个将 std::string 类型转换为 int 的函数。如果 tokens[i] 是一个有效的整数表示，stoi(tokens[i]) 将返回对应的整数值。
-
-class Solution &#123;public:    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        stack&lt;int&gt; t;        int n=tokens.size(),re;        for(int i=0;i&lt;n;i++)        &#123;            if(tokens[i]==&quot;+&quot;)             &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=a+b;                t.push(re);            &#125;            else if(tokens[i]==&quot;-&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b-a;                t.push(re);            &#125;            else if(tokens[i]==&quot;*&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b*a;                t.push(re);            &#125;            else if(tokens[i]==&quot;/&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b/a;                t.push(re);            &#125;            else t.push(stoi(tokens[i]));        &#125;        return t.top();    &#125;&#125;;
-滑动窗口最大值
-题目链接：239. 滑动窗口最大值
-双端队列：队列中元素个数大于k，就删除队首元素，若入队元素大于队列中的元素，则把队列中的元素弹出。
-class Solution &#123;public:    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;        vector&lt;int&gt; ans;        deque&lt;int&gt; q; // 双端队列        for (int i = 0; i &lt; nums.size(); i++) &#123;            // 1. 入            while (!q.empty() &amp;&amp; nums[q.back()] &lt;= nums[i]) &#123;                q.pop_back(); // 维护 q 的单调性            &#125;            q.push_back(i); // 入队            // 2. 出            if (i - q.front() &gt;= k) &#123; // 队首已经离开窗口了                q.pop_front();            &#125;            // 3. 记录答案            if (i &gt;= k - 1) &#123;                // 由于队首到队尾单调递减，所以窗口最大值就是队首                ans.push_back(nums[q.front()]);            &#125;        &#125;        return ans;    &#125;&#125;;
-前 K 个高频元素
-题目链接：347. 前 K 个高频元素
-堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。 如果父亲结点是大于等于左右孩子就是大顶堆，小于等于左右孩子就是小顶堆。小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大元素。
-
-class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    public:        bool operator()(const pair&lt;int, int&gt;&amp; lhs, const pair&lt;int, int&gt;&amp; rhs) &#123;            return lhs.second &gt; rhs.second;        &#125;    &#125;;    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        // 要统计元素出现频率        unordered_map&lt;int, int&gt; map; // map&lt;nums[i],对应出现的次数&gt;        for (int i = 0; i &lt; nums.size(); i++) &#123;            map[nums[i]]++;        &#125;        // 对频率排序        // 定义一个小顶堆，大小为k        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, mycomparison&gt; pri_que;        // 用固定大小为k的小顶堆，扫面所有频率的数值        for (unordered_map&lt;int, int&gt;::iterator it = map.begin(); it != map.end(); it++) &#123;            pri_que.push(*it);            if (pri_que.size() &gt; k) &#123; // 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k                pri_que.pop();            &#125;        &#125;        // 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组        vector&lt;int&gt; result(k);        for (int i = k - 1; i &gt;= 0; i--) &#123;            result[i] = pri_que.top().first;            pri_que.pop();        &#125;        return result;    &#125;&#125;;
+    <title>代码随想录--哈希表</title>
+    <url>/2025/02/5day/</url>
+    <content><![CDATA[哈希表
+​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
+有效的字母异位词
+题目链接：242. 有效的字母异位词
+题目描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的 字母异位词。
+题目思路：创建一个哈希表，表长为26，哈希函数采用直接定址法，都不用处理冲突，还是比较简单的。直接排序，看是否两个数组相等应该也可以吧。
+class Solution &#123;public:    bool isAnagram(string s, string t) &#123;        int n=s.size(),m=t.size(),q[26]=&#123;0&#125;;        if(m!=n) return false;        for(int i=0;i&lt;n;i++) q[s[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) q[t[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(q[i]!=0) return false;        return true;    &#125;&#125;;
+两个数组的交集
+题目链接：349. 两个数组的交集
+题目描述：给定两个数组 nums1 和 nums2 ，返回它们的交集。输出结果中的每个元素一定是 唯一 的。
+我的思路：感觉自己写的这个代码和屎一样，又臭又长，一点也不优雅。首先循环nums1数组，将出现的元素在s[]的位置变为1，然后再遍历第二个数组，如果出现和第一个数组相同的元素，则t[]对应位置变为1，再将这些位置存到一个新数组中，记录数组长度，然后构建一个正好长度的新数组，返回这个数组。
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        int n=nums1.size(),m=nums2.size();        int s[1001]=&#123;0&#125;,t[1001]=&#123;-1&#125;,num=0,u=1001;        for(int i=0;i&lt;n;i++) s[nums1[i]]=1;        for(int i=0;i&lt;m;i++) if(s[nums2[i]]==1) t[nums2[i]]=1;        vector&lt;int&gt; r(u);        for(int i=0;i&lt;1001;i++)        &#123;            if(t[i]&gt;0)&#123;r[num]=i;            num++;            &#125;        &#125;        vector&lt;int&gt; v(num);        for(int i=0;i&lt;num;i++) v[i]=r[i];        return v;    &#125;&#125;;
+代码随想录题解：太高级了，看都看不懂，特意搜了一下这几个函数的用法。
+​	使用 unordered_set&lt;int&gt; result 来存储交集，这样可以自动去重，只保留一个 nums2 中与 nums1 相同的元素。
+set1.find(num)：
+
+find 是 unordered_set 提供的一个成员函数，用于查找一个元素。如果元素存在，它会返回指向该元素的迭代器；如果元素不存在，它会返回指向 set1.end() 的迭代器。
+
+set1.end()：
+
+set1.end() 返回的是一个指向 set1 容器最后一个元素之后的位置的迭代器。它并不是容器中的一个有效元素，表示容器的末尾。
+
+set1.find(num) != set1.end()：
+
+如果 find(num) 返回的迭代器与 set1.end() 不同，说明 num 存在于 set1 中。
+如果 find(num) 返回的迭代器等于 set1.end()，说明 num 不存在于 set1 中。
+
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         unordered_set&lt;int&gt; nums_set(nums1.begin(), nums1.end());        for (int num : nums2) &#123;            if (nums_set.find(num) != nums_set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         int hash[1005] = &#123;0&#125;;         for (int num : nums1) &#123;             hash[num] = 1;        &#125;        for (int num : nums2) &#123;             if (hash[num] == 1) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
+快乐数
+题目链接：202. 快乐数
+我的思路：我就随便试一下，就直接过了，因为不知道停止条件，所以直接设了个100次，性能还很高。
+class Solution &#123;public:    bool isHappy(int n) &#123;        for(int j=0;j&lt;100;j++)        &#123;            int num=0,t;            while(n&gt;0)            &#123;t=n%10;            n=n/10;            num=num+t*t;            &#125;            n=num;            if(n==1) return true;        &#125;        return false;    &#125;&#125;;
+代码随想录：题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！
+class Solution &#123;public:    // 取数值各个位上的单数之和    int getSum(int n) &#123;        int sum = 0;        while (n) &#123;            sum += (n % 10) * (n % 10);            n /= 10;        &#125;        return sum;    &#125;    bool isHappy(int n) &#123;        unordered_set&lt;int&gt; set;        while(1) &#123;            int sum = getSum(n);            if (sum == 1) &#123;                return true;            &#125;            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false            if (set.find(sum) != set.end()) &#123;                return false;            &#125; else &#123;                set.insert(sum);            &#125;            n = sum;        &#125;    &#125;&#125;;
+两数之和
+题目链接：1. 两数之和
+暴力解法：我直接先用暴力解写了一下,比较简单。
+class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;         int n=nums.size();        for(int i=0;i&lt;n;i++)        &#123;            for(int j=i+1;j&lt;n;j++)            &#123;                if((nums[i]+nums[j])==target)                 &#123;                    return &#123;i,j&#125;;                &#125;            &#125;        &#125;        return &#123;&#125;;    &#125;&#125;;
+哈希解法：思路还是挺好想的，但是代码不太会实现，不太熟练，自己写了一半，发现很多操作不会表达。直接贴一份代码随想录的代码。
+
+数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
+set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
+
+​	此时就要选择另一种数据结构：map ，map是一种key value的存储结构，可以用key保存数值，用value再保存数值所在的下标。
+map中的存储结构为 {key：数据元素，value：数组元素对应的下标}。
+auto 是 C++11 引入的 类型自动推导（Type Inference） 关键字，编译器会根据变量的 初始化值 自动推导出其数据类型，而无需手动声明类型。
+class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        std::unordered_map &lt;int,int&gt; map;        for(int i = 0; i &lt; nums.size(); i++) &#123;            // 遍历当前元素，并在map中寻找是否有匹配的key            auto iter = map.find(target - nums[i]);             if(iter != map.end()) &#123;                return &#123;iter-&gt;second, i&#125;;            &#125;            // 如果没找到匹配对，就把访问过的元素和下标加入到map中            map.insert(pair&lt;int, int&gt;(nums[i], i));         &#125;        return &#123;&#125;;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -809,13 +630,10 @@ class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    pub
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>栈</tag>
-        <tag>队列</tag>
-        <tag>双端队列</tag>
-        <tag>堆</tag>
-        <tag>queue</tag>
-        <tag>stack</tag>
-        <tag>deque</tag>
+        <tag>哈希表</tag>
+        <tag>map</tag>
+        <tag>查找</tag>
+        <tag>set</tag>
       </tags>
   </entry>
   <entry>
@@ -1429,6 +1247,188 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--栈·队列</title>
+    <url>/2025/02/8day/</url>
+    <content><![CDATA[栈·队列
+​                                                                                    
+stack
+STL 中的 stack 容器提供了一众成员函数以供调用，其中较为常用的有：
+
+元素访问
+
+st.top() 返回栈顶
+
+
+修改
+
+st.push() 插入传入的参数到栈顶
+st.pop() 弹出栈顶
+
+
+容量
+
+st.empty() 返回是否为空
+st.size() 返回元素数量
+
+
+
+queue
+STL 中的 queue 容器提供了一众成员函数以供调用。其中较为常用的有：
+
+元素访问
+
+q.front() 返回队首元素
+q.back() 返回队尾元素
+
+
+修改
+
+q.push() 在队尾插入元素
+q.pop() 弹出队首元素
+
+
+容量
+
+q.empty() 队列是否为空
+q.size() 返回队列中元素的数量
+
+
+
+deque
+STL 中的 deque 容器提供了一众成员函数以供调用。其中较为常用的有：
+
+元素访问
+
+q.front() 返回队首元素
+q.back() 返回队尾元素
+
+
+修改
+
+q.push_back() 在队尾插入元素
+q.pop_back() 弹出队尾元素
+q.push_front() 在队首插入元素
+q.pop_front() 弹出队首元素
+q.insert() 在指定位置前插入元素（传入迭代器和元素）
+q.erase() 删除指定位置的元素（传入迭代器）
+
+
+容量
+
+q.empty() 队列是否为空
+q.size() 返回队列中元素的数量
+
+
+
+此外，deque 还提供了一些运算符。其中较为常用的有：
+
+
+使用赋值运算符 = 为 deque 赋值，类似 queue。
+
+
+使用 [] 访问元素，类似 vector。
+
+
+用栈实现队列
+题目链接：232. 用栈实现队列
+class MyQueue &#123;private:    // 如果 B 栈为空，将 A 栈中的元素倒入 B 栈    void moveToB() &#123;        if (B.empty()) &#123;            while (!A.empty()) &#123;                B.push(A.top());                A.pop();            &#125;        &#125;    &#125;public:    stack&lt;int&gt; A, B;    MyQueue() &#123;    &#125;    void push(int x) &#123;        A.push(x);    &#125;    int pop() &#123;        moveToB(); // 移动元素到 B 栈        int val = B.top();        B.pop();        return val;    &#125;    int peek() &#123;        moveToB(); // 移动元素到 B 栈        return B.top();    &#125;    bool empty() &#123;        return A.empty() &amp;&amp; B.empty();    &#125;&#125;;
+用队列实现栈
+题目链接：225. 用队列实现栈
+方法一：使用 一个队列
+
+push(x)：
+
+首先，将元素 x 入队到队列末尾。
+然后，将队列中前面已有的元素依次出队，再重新入队到队列末尾。
+这样，队列的前端就始终是最新压入的元素，相当于实现了栈的“后进先出（LIFO）”顺序。
+
+
+pop()：
+
+直接将队首元素出队即可。因为在上一步的处理里，队首元素就是栈顶。
+
+
+top()：
+
+返回队首元素（不弹出）。
+
+
+empty()：
+
+判断队列是否为空。
+
+
+
+class MyStack &#123;public:    queue&lt;int&gt; q;    MyStack() &#123;    &#125;        // 每次 push 后，把前面的 (size - 1) 个元素依次出队并重新入队，确保新元素在队首    void push(int x) &#123;        // 1. 新元素先入队        q.push(x);        // 2. 将前面的元素依次移到末尾        int n = q.size();        // 只需要将前面的 (n - 1) 个元素移动到末尾        for(int i = 0; i &lt; n - 1; i++) &#123;            q.push(q.front());            q.pop();        &#125;    &#125;        int pop() &#123;        int val = q.front();  // 由于 push 中的旋转操作，队首就是栈顶        q.pop();        return val;    &#125;        int top() &#123;        return q.front();     // 队首即为栈顶    &#125;        bool empty() &#123;        return q.empty();    &#125;&#125;;
+方法二：使用 两个队列
+
+队列 A 和 队列 B 协同工作，保证其中一个队列始终存放当前所有元素，另一个队列用来做辅助操作。
+push(x)：
+
+把新元素直接入队到空队列中（或者你可以总是把它放到 A，然后把 A 里旧的元素转移到 B，具体实现略有差异）。
+
+
+pop()：
+
+在 pop() 之前，我们需要把除最后一个元素外的所有元素，从一个队列（有数据的队列）依次出队并入队到另一个空队列，让最后一个元素留在原队列，然后弹出这个元素，这相当于栈顶元素。
+
+
+top()：
+
+类似 pop()，只是查看最后一个元素而不把它真正弹出。
+
+
+empty()：
+
+两个队列都为空即为真。
+
+
+
+#include &lt;queue&gt;using namespace std;class MyStack &#123;public:    queue&lt;int&gt; q1, q2;  // 两个队列    MyStack() &#123;    &#125;        void push(int x) &#123;        // 1. 新元素先入空的队列 q2        q2.push(x);        // 2. 把 q1 中所有元素依次移到 q2 中        while (!q1.empty()) &#123;            q2.push(q1.front());            q1.pop();        &#125;        // 3. 交换 q1 和 q2，保证所有元素又回到 q1，q2 变空        swap(q1, q2);    &#125;        int pop() &#123;        // 队首就是栈顶        int val = q1.front();        q1.pop();        return val;    &#125;        int top() &#123;        return q1.front();    &#125;        bool empty() &#123;        return q1.empty() &amp;&amp; q2.empty();    &#125;&#125;;
+有效的括号
+题目链接：20. 有效的括号
+题目思路：先判断一下s的长度是否为偶数，如果不是就返回false，再将全部的左符号压入栈中，然后开始判断剩余的符号是否可以匹配，如果不能就返回false，将s循环结束，如果全部匹配成功，最后应该栈是空的，如果不是返回false。
+class Solution &#123;public:    bool isValid(string s) &#123;        int n=s.size();        if(n%2!=0) return false;        stack&lt;char&gt; t;        for(int i=0;i&lt;n;i++)        &#123;            if(s[i]==&#x27;(&#x27;) t.push(&#x27;)&#x27;);            else if(s[i]==&#x27;&#123;&#x27;) t.push(&#x27;&#125;&#x27;);            else if(s[i]==&#x27;[&#x27;) t.push(&#x27;]&#x27;);            else if(t.empty() || t.top()!=s[i]) return false;            else t.pop();        &#125;        return t.empty();    &#125;&#125;;
+删除字符串中的所有相邻重复项
+题目链接：1047. 删除字符串中的所有相邻重复项
+建栈的写法，性能太差了。
+class Solution &#123;public:    string removeDuplicates(string s) &#123;        stack&lt;char&gt; t;        int n=s.size();        for(int i=0;i&lt;n;i++)        &#123;            if(!t.empty() &amp;&amp; s[i]==t.top()) t.pop();            else t.push(s[i]);         &#125;         string result;        while(!t.empty())        &#123;            result=t.top()+result;            t.pop();        &#125;        return result;    &#125;&#125;;
+string自己就可以做栈，string有pop和push接口，性能很高。
+class Solution &#123;public:    string removeDuplicates(string s) &#123;        string stk;        for (char ch : s) &#123;            if (!stk.empty() &amp;&amp; stk.back() == ch) &#123;                stk.pop_back();            &#125; else &#123;                stk.push_back(ch);            &#125;        &#125;        return stk;    &#125;&#125;;
+逆波兰表达式求值
+题目链接：150. 逆波兰表达式求值
+题目挺简单的，就是一个点需要注意：
+stoi()：
+
+stoi 是一个将 std::string 类型转换为 int 的函数。如果 tokens[i] 是一个有效的整数表示，stoi(tokens[i]) 将返回对应的整数值。
+
+class Solution &#123;public:    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        stack&lt;int&gt; t;        int n=tokens.size(),re;        for(int i=0;i&lt;n;i++)        &#123;            if(tokens[i]==&quot;+&quot;)             &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=a+b;                t.push(re);            &#125;            else if(tokens[i]==&quot;-&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b-a;                t.push(re);            &#125;            else if(tokens[i]==&quot;*&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b*a;                t.push(re);            &#125;            else if(tokens[i]==&quot;/&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b/a;                t.push(re);            &#125;            else t.push(stoi(tokens[i]));        &#125;        return t.top();    &#125;&#125;;
+滑动窗口最大值
+题目链接：239. 滑动窗口最大值
+双端队列：队列中元素个数大于k，就删除队首元素，若入队元素大于队列中的元素，则把队列中的元素弹出。
+class Solution &#123;public:    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;        vector&lt;int&gt; ans;        deque&lt;int&gt; q; // 双端队列        for (int i = 0; i &lt; nums.size(); i++) &#123;            // 1. 入            while (!q.empty() &amp;&amp; nums[q.back()] &lt;= nums[i]) &#123;                q.pop_back(); // 维护 q 的单调性            &#125;            q.push_back(i); // 入队            // 2. 出            if (i - q.front() &gt;= k) &#123; // 队首已经离开窗口了                q.pop_front();            &#125;            // 3. 记录答案            if (i &gt;= k - 1) &#123;                // 由于队首到队尾单调递减，所以窗口最大值就是队首                ans.push_back(nums[q.front()]);            &#125;        &#125;        return ans;    &#125;&#125;;
+前 K 个高频元素
+题目链接：347. 前 K 个高频元素
+堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。 如果父亲结点是大于等于左右孩子就是大顶堆，小于等于左右孩子就是小顶堆。小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大元素。
+
+class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    public:        bool operator()(const pair&lt;int, int&gt;&amp; lhs, const pair&lt;int, int&gt;&amp; rhs) &#123;            return lhs.second &gt; rhs.second;        &#125;    &#125;;    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        // 要统计元素出现频率        unordered_map&lt;int, int&gt; map; // map&lt;nums[i],对应出现的次数&gt;        for (int i = 0; i &lt; nums.size(); i++) &#123;            map[nums[i]]++;        &#125;        // 对频率排序        // 定义一个小顶堆，大小为k        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, mycomparison&gt; pri_que;        // 用固定大小为k的小顶堆，扫面所有频率的数值        for (unordered_map&lt;int, int&gt;::iterator it = map.begin(); it != map.end(); it++) &#123;            pri_que.push(*it);            if (pri_que.size() &gt; k) &#123; // 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k                pri_que.pop();            &#125;        &#125;        // 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组        vector&lt;int&gt; result(k);        for (int i = k - 1; i &gt;= 0; i--) &#123;            result[i] = pri_que.top().first;            pri_que.pop();        &#125;        return result;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>栈</tag>
+        <tag>队列</tag>
+        <tag>双端队列</tag>
+        <tag>堆</tag>
+        <tag>queue</tag>
+        <tag>stack</tag>
+        <tag>deque</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSRMS</title>
     <url>/2025/04/CSRMS/</url>
     <content><![CDATA[CSRMS
@@ -1990,209 +1990,250 @@ Transformer具备全局建模能力，即便仅看到25%的patch也能捕捉结�
       </tags>
   </entry>
   <entry>
-    <title>Mamba详解 - 选择性状态空间模型精读</title>
-    <url>/2025/11/Mamba/</url>
-    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
-论文地址：https://arxiv.org/pdf/2312.00752
-代码地址：https://github.com/state-spaces/mamba
-引言
-Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
-Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
-背景知识：状态空间模型（SSM）与S4
-连续与离散SSM
-连续时间SSM：
+    <title>MoE</title>
+    <url>/2025/04/MOE/</url>
+    <content><![CDATA[Mixtures of Experts
+《Adaptive Mixture of Local Experts》
+
+论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
+1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
+核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
+基础架构
+如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
+系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
+
+通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
+性能比较
+元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
+数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
+
+模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
+混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
+总结
+这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
+论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
+《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
+超大型神经网络：稀疏门控混合专家层
+论文链接：https://arxiv.org/abs/1701.06538
+2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
+上一篇强调的是减小时间成本，这一篇是减小计算成本。
+
+基础架构
+稀疏门控专家混合层（MoE）
+MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
+
+设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
 $$
-\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+y = \sum_{i=1}^{n} G(x)_i E_i(x)
 $$
-离散化后：
+
+均衡负载
+门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
+Keep Top-K
+Noisy Top-K Gating
+添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
+
+Noise
+使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
+
 $$
-x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
 $$
-其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
-S4的关键思想
-
-通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
-使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
-优点：理论稳定、长依赖强；
-局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
-
-Mamba的核心创新
-
-
-选择性扫描（Selective Scan）：
-
-令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
-避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
-
-
-
-输入条件化的SSM参数化：
-
-将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
-结合高效实现，使其仍保持线性复杂度。
-
-
-
-GPU友好的实现与块并行：
-
-通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
-内存访问模式优化，显著提升吞吐。
-
-
-
-端到端可训练的稳定性：
-
-对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
-
-
-
-模型架构
-典型的 Mamba Block 包含：
-
-输入投影与门控（选择性）
-选择性SSM扫描（线性复杂度）
-前馈网络（MLP/GEGLU）
-残差连接与归一化
-
-流程示意：
-X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
-相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
-选择性扫描（Selective Scan）要点
-
-将序列划分为若干块（blocks），每块内部执行线性递推扫描；
-记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
-通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
-与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
-
-复杂度与性能
-
-时间复杂度：$O(N)$ 随序列长度线性；
-空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
-对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
-在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
-
-训练与实践
-
-优化器：AdamW；学习率余弦退火；warmup数千步；
-正则：Dropout/Stochastic Depth 按深度线性增长；
-初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
-长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
-
-与Transformer/Conv的比较
-
-
-
-方向
-Transformer
-ConvNet
-Mamba（SSM）
-
-
-
-
-复杂度
-O(N^2)
-O(N)
-O(N)
-
-
-长距离依赖
-强（显式全连接）
-弱-中
-强（稳定递推核）
-
-
-并行性
-训练强/推理弱（自回归）
-强
-强（块并行扫描）
-
-
-归纳偏置
-弱
-强（局部）
-中（递推+选择性）
-
-
-适用场景
-通用
-局部模式
-超长序列/低时延
-
-
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
-
-注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
-
-实验要点与经验
-
-序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
-批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
-任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
-可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
-
-优缺点
-优点
-
-线性复杂度，适合超长序列与端侧低时延应用；
-选择性门控使得对稀疏/非稳态事件更敏感；
-GPU友好实现，训练/推理吞吐高；
-理论上可与注意力/卷积并行或互补，形成混合结构。
-
-缺点
-
-对全局两两交互的显式建模不如注意力直观；
-超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
-在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
-
-相关与后续工作
-
-S4/S5：结构化SSM与其后续改进；
-MambaOut：面向视觉分类的实用化改造；
-Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
-混合架构：SSM + Attention/Conv的多路并行。
-
-参考文献
-
-
-Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
-
-
-Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
-
-
-Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
-
-
-Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
-
-
-思考题
-
-为什么选择性扫描能在保持线性复杂度的同时提升表达力？
-如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
-在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
-针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
-
-思考题答案
-
-选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
-采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
-可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
-提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
-
+Sparse
+除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
+
+$$
+\text{KeepTopK}(v, k)_i =
+\begin{cases}
+v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
+-\infty & \text{otherwise}.
+\end{cases}
+$$
+通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
+
+$$
+G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
+$$
+KeepTopK 策略将每个 token 路由给几个选定的专家。
+
+Auxiliary Loss
+为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
+该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
+
+$$
+\text{Importance}(X) = \sum_{x \in X} G(x) 
+$$
+这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
+
+如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
+
+$$
+L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
+$$
+最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
+虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
+Load-Balancing Loss
+专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
+对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
+$$ 
+{Load}(X)_i = \sum_{x \in X} P(x, i)
+$$ 
+其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
+$$ 
+P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
+$$ 
+$ (x \cdot W_g)_i $：
+
+$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
+$ W_g $ 是门控网络的可训练权重矩阵。
+$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
+
+$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
+
+$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
+$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
+$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
+这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
+
+$$ 
+H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
+$$ 
+$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
+$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
+$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
+$$ 
+P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
+$$ 
+Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
+$$ 
+L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
+$$ 
+初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
+Hierarchical Mixture-of-Experts
+层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
+第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
+第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
+专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
+$$ 
+y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
+$$ 
+$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
+$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
+$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
+对专家利用率的衡量指标将更改为以下内容：
+$$ 
+\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
+$$ 
+$$ 
+\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
+$$ 
+$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
+《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
+基于条件计算和自动分片的巨型模型扩展。
+论文链接：https://arxiv.org/abs/2006.16668
+
+创新点
+Expert Capacity
+专家容量
+不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
+
+解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
+
+如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
+
+Auxiliary loss
+门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
+Random routing
+随机路由机制
+在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
+《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
+论文链接：https://arxiv.org/abs/2101.03961
+
+简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
+Switch Routing
+（1）仅将token路由到单个专家，因此减少了路由器计算。
+（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
+（3）路由实现得到简化，并且通信成本降低。
+《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
+现有MoE架构问题
+（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
+（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
+这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
+我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
+解决问题的主要策略
+（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
+（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
+DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
+
+DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
+
+DeepSeekMoE 架构
+细粒度专家分割
+通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
+$$
+其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
+组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
+共享专家隔离
+采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
+隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
+$$
+最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
+负载均衡问题
+自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
+Expert-Level Balance Loss
+专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
+$$ 
+\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
+$$ 
+$$
+f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
+$$
+$$
+p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
+$$
+其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
+Device-Level Balance Loss
+将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
+$$ 
+\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
+$$ 
+$$ 
+f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
+$$ 
+$$ 
+p'_i = \sum_{j \in \mathcal{E}_i} p_j
+$$ 
+其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
 ]]></content>
       <categories>
         <category>论文精读</category>
-        <category>序列建模</category>
+        <category>大模型</category>
       </categories>
       <tags>
         <tag>论文精读</tag>
-        <tag>Mamba</tag>
-        <tag>SSM</tag>
-        <tag>序列建模</tag>
+        <tag>混合专家系统</tag>
       </tags>
   </entry>
   <entry>
@@ -2552,6 +2593,212 @@ ViT: An Image is Worth 16x16 Words (ICLR 2021)
       </tags>
   </entry>
   <entry>
+    <title>Mamba详解 - 选择性状态空间模型精读</title>
+    <url>/2025/11/Mamba/</url>
+    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
+论文地址：https://arxiv.org/pdf/2312.00752
+代码地址：https://github.com/state-spaces/mamba
+引言
+Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
+Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
+背景知识：状态空间模型（SSM）与S4
+连续与离散SSM
+连续时间SSM：
+$$
+\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+$$
+离散化后：
+$$
+x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+$$
+其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
+S4的关键思想
+
+通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
+使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
+优点：理论稳定、长依赖强；
+局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
+
+Mamba的核心创新
+
+
+选择性扫描（Selective Scan）：
+
+令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
+避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
+
+
+
+输入条件化的SSM参数化：
+
+将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
+结合高效实现，使其仍保持线性复杂度。
+
+
+
+GPU友好的实现与块并行：
+
+通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
+内存访问模式优化，显著提升吞吐。
+
+
+
+端到端可训练的稳定性：
+
+对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
+
+
+
+模型架构
+典型的 Mamba Block 包含：
+
+输入投影与门控（选择性）
+选择性SSM扫描（线性复杂度）
+前馈网络（MLP/GEGLU）
+残差连接与归一化
+
+流程示意：
+X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
+相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
+选择性扫描（Selective Scan）要点
+
+将序列划分为若干块（blocks），每块内部执行线性递推扫描；
+记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
+通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
+与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
+
+复杂度与性能
+
+时间复杂度：$O(N)$ 随序列长度线性；
+空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
+对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
+在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
+
+训练与实践
+
+优化器：AdamW；学习率余弦退火；warmup数千步；
+正则：Dropout/Stochastic Depth 按深度线性增长；
+初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
+长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
+
+与Transformer/Conv的比较
+
+
+
+方向
+Transformer
+ConvNet
+Mamba（SSM）
+
+
+
+
+复杂度
+O(N^2)
+O(N)
+O(N)
+
+
+长距离依赖
+强（显式全连接）
+弱-中
+强（稳定递推核）
+
+
+并行性
+训练强/推理弱（自回归）
+强
+强（块并行扫描）
+
+
+归纳偏置
+弱
+强（局部）
+中（递推+选择性）
+
+
+适用场景
+通用
+局部模式
+超长序列/低时延
+
+
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
+
+注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
+
+实验要点与经验
+
+序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
+批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
+任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
+可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
+
+优缺点
+优点
+
+线性复杂度，适合超长序列与端侧低时延应用；
+选择性门控使得对稀疏/非稳态事件更敏感；
+GPU友好实现，训练/推理吞吐高；
+理论上可与注意力/卷积并行或互补，形成混合结构。
+
+缺点
+
+对全局两两交互的显式建模不如注意力直观；
+超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
+在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
+
+相关与后续工作
+
+S4/S5：结构化SSM与其后续改进；
+MambaOut：面向视觉分类的实用化改造；
+Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
+混合架构：SSM + Attention/Conv的多路并行。
+
+参考文献
+
+
+Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
+
+
+Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
+
+
+Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
+
+
+Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
+
+
+思考题
+
+为什么选择性扫描能在保持线性复杂度的同时提升表达力？
+如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
+在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
+针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
+
+思考题答案
+
+选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
+采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
+可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
+提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>序列建模</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+        <tag>SSM</tag>
+        <tag>序列建模</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MoCo</title>
     <url>/2025/04/MoCo/</url>
     <content><![CDATA[MoCo
@@ -2599,253 +2846,6 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       <tags>
         <tag>论文精读</tag>
         <tag>对比学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MoE</title>
-    <url>/2025/04/MOE/</url>
-    <content><![CDATA[Mixtures of Experts
-《Adaptive Mixture of Local Experts》
-
-论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
-1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
-核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
-基础架构
-如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
-系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
-
-通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
-性能比较
-元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
-数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
-
-模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
-混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
-总结
-这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
-论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
-《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
-超大型神经网络：稀疏门控混合专家层
-论文链接：https://arxiv.org/abs/1701.06538
-2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
-上一篇强调的是减小时间成本，这一篇是减小计算成本。
-
-基础架构
-稀疏门控专家混合层（MoE）
-MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
-
-设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
-$$
-y = \sum_{i=1}^{n} G(x)_i E_i(x)
-$$
-
-均衡负载
-门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
-Keep Top-K
-Noisy Top-K Gating
-添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
-
-Noise
-使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
-
-$$
-H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
-$$
-Sparse
-除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
-
-$$
-\text{KeepTopK}(v, k)_i =
-\begin{cases}
-v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
--\infty & \text{otherwise}.
-\end{cases}
-$$
-通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
-
-$$
-G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
-$$
-KeepTopK 策略将每个 token 路由给几个选定的专家。
-
-Auxiliary Loss
-为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
-该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
-
-$$
-\text{Importance}(X) = \sum_{x \in X} G(x) 
-$$
-这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
-
-如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
-
-$$
-L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
-$$
-最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
-虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
-Load-Balancing Loss
-专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
-对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
-$$ 
-{Load}(X)_i = \sum_{x \in X} P(x, i)
-$$ 
-其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
-$$ 
-P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
-$$ 
-$ (x \cdot W_g)_i $：
-
-$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
-$ W_g $ 是门控网络的可训练权重矩阵。
-$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
-
-$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
-
-$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
-$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
-$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
-这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
-
-$$ 
-H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
-$$ 
-$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
-$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
-$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
-$$ 
-P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
-$$ 
-Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
-$$ 
-L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
-$$ 
-初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
-Hierarchical Mixture-of-Experts
-层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
-第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
-第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
-专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
-$$ 
-y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
-$$ 
-$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
-$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
-$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
-对专家利用率的衡量指标将更改为以下内容：
-$$ 
-\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
-$$ 
-$$ 
-\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
-$$ 
-$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
-《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
-基于条件计算和自动分片的巨型模型扩展。
-论文链接：https://arxiv.org/abs/2006.16668
-
-创新点
-Expert Capacity
-专家容量
-不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
-
-解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
-
-如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
-
-Auxiliary loss
-门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
-Random routing
-随机路由机制
-在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
-《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
-论文链接：https://arxiv.org/abs/2101.03961
-
-简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
-Switch Routing
-（1）仅将token路由到单个专家，因此减少了路由器计算。
-（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
-（3）路由实现得到简化，并且通信成本降低。
-《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
-现有MoE架构问题
-（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
-（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
-这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
-我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
-解决问题的主要策略
-（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
-（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
-DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
-
-DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
-
-DeepSeekMoE 架构
-细粒度专家分割
-通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
-$$
-其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
-组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
-共享专家隔离
-采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
-隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
-$$
-最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
-负载均衡问题
-自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
-Expert-Level Balance Loss
-专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
-$$ 
-\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
-$$ 
-$$
-f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
-$$
-$$
-p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
-$$
-其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
-Device-Level Balance Loss
-将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
-$$ 
-\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
-$$ 
-$$ 
-f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
-$$ 
-$$ 
-p'_i = \sum_{j \in \mathcal{E}_i} p_j
-$$ 
-其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>大模型</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>混合专家系统</tag>
       </tags>
   </entry>
   <entry>
@@ -3409,8 +3409,8 @@ reserve(n)
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>set</tag>
         <tag>map</tag>
+        <tag>set</tag>
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
@@ -3441,6 +3441,66 @@ Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局
       <tags>
         <tag>论文精读</tag>
         <tag>transformer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--哈希表</title>
+    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
+    <content><![CDATA[哈希表
+哈希表概述
+​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
+​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
+​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
+​	**同义词：**具有相同函数值的多个关键字。
+​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
+​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
+哈希函数构造方法
+​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
+直接定址法
+**概述：**直接取关键字的某个线性函数值为哈希函数。
+**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
+**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
+除留余数法
+**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
+**哈希函数：**H(key) = key % mod
+**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
+平方取中法
+**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
+**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
+处理冲突的方法
+开放定址法（开地址法）
+**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
+线性探查法
+​	di = 0, 1, 2, … , Tsize-1
+​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
+平方探查法
+​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
+​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
+伪随机探测法
+​	di = 伪随机数序列
+链地址法（拉链法）
+**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
+**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
+​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
+
+哈希的查找及性能分析
+查找过程
+​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
+性能分析
+​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
+**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
+
+​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>数组</tag>
+        <tag>链表</tag>
+        <tag>哈希表</tag>
+        <tag>查找</tag>
       </tags>
   </entry>
   <entry>
@@ -3524,66 +3584,6 @@ void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果
       <tags>
         <tag>数据结构与算法</tag>
         <tag>回溯</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--哈希表</title>
-    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
-    <content><![CDATA[哈希表
-哈希表概述
-​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
-​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
-​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
-​	**同义词：**具有相同函数值的多个关键字。
-​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
-​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
-哈希函数构造方法
-​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
-直接定址法
-**概述：**直接取关键字的某个线性函数值为哈希函数。
-**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
-**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
-除留余数法
-**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
-**哈希函数：**H(key) = key % mod
-**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
-平方取中法
-**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
-**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
-处理冲突的方法
-开放定址法（开地址法）
-**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
-线性探查法
-​	di = 0, 1, 2, … , Tsize-1
-​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
-平方探查法
-​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
-​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
-伪随机探测法
-​	di = 伪随机数序列
-链地址法（拉链法）
-**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
-**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
-​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
-
-哈希的查找及性能分析
-查找过程
-​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
-性能分析
-​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
-**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
-
-​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>链表</tag>
-        <tag>哈希表</tag>
-        <tag>查找</tag>
       </tags>
   </entry>
   <entry>
@@ -5445,158 +5445,6 @@ Memory更新策略：能否利用动量更新与自适应权重结合，既保�
       </tags>
   </entry>
   <entry>
-    <title>基础知识--排序算法</title>
-    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[排序算法详解
-排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
-#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
-1. 冒泡排序 (Bubble Sort)
-冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
-2. 选择排序 (Selection Sort)
-选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
-3. 插入排序 (Insertion Sort)
-插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
-4. 快速排序 (Quick Sort)
-快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
-实现原理
-
-时间复杂度：平均 O(nlogn)，最坏 O(n²)
-空间复杂度：O(logn)
-稳定性：不稳定
-
-实现代码
-int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
-5. 归并排序 (Merge Sort)
-归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(n)
-稳定性：稳定
-
-实现代码
-void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
-6. 堆排序 (Heap Sort)
-堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
-排序算法的比较
-
-
-
-排序算法
-平均时间复杂度
-最坏时间复杂度
-空间复杂度
-稳定性
-
-
-
-
-冒泡排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-选择排序
-O(n²)
-O(n²)
-O(1)
-不稳定
-
-
-插入排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-快速排序
-O(nlogn)
-O(n²)
-O(logn)
-不稳定
-
-
-归并排序
-O(nlogn)
-O(nlogn)
-O(n)
-稳定
-
-
-堆排序
-O(nlogn)
-O(nlogn)
-O(1)
-不稳定
-
-
-
-如何选择排序算法？
-
-数据量小（n &lt; 50）：插入排序
-数据量大：
-
-要求稳定：归并排序
-不要求稳定：快速排序
-
-
-内存空间有限：堆排序
-数据基本有序：插入排序
-数据量特别大且有重复：计数排序/基数排序
-
-总结
-每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>排序</tag>
-        <tag>冒泡排序</tag>
-        <tag>选择排序</tag>
-        <tag>插入排序</tag>
-        <tag>快速排序</tag>
-        <tag>归并排序</tag>
-        <tag>堆排序</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>对比学习综述</title>
     <url>/2025/11/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</url>
     <content><![CDATA[对比学习综述：从理论到实践全面解析
@@ -6485,6 +6333,224 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       </tags>
   </entry>
   <entry>
+    <title>基础知识--排序算法</title>
+    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[排序算法详解
+排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
+#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
+1. 冒泡排序 (Bubble Sort)
+冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
+2. 选择排序 (Selection Sort)
+选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
+3. 插入排序 (Insertion Sort)
+插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
+4. 快速排序 (Quick Sort)
+快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
+实现原理
+
+时间复杂度：平均 O(nlogn)，最坏 O(n²)
+空间复杂度：O(logn)
+稳定性：不稳定
+
+实现代码
+int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
+5. 归并排序 (Merge Sort)
+归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
+稳定性：稳定
+
+实现代码
+void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
+6. 堆排序 (Heap Sort)
+堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
+排序算法的比较
+
+
+
+排序算法
+平均时间复杂度
+最坏时间复杂度
+空间复杂度
+稳定性
+
+
+
+
+冒泡排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+选择排序
+O(n²)
+O(n²)
+O(1)
+不稳定
+
+
+插入排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+快速排序
+O(nlogn)
+O(n²)
+O(logn)
+不稳定
+
+
+归并排序
+O(nlogn)
+O(nlogn)
+O(n)
+稳定
+
+
+堆排序
+O(nlogn)
+O(nlogn)
+O(1)
+不稳定
+
+
+
+如何选择排序算法？
+
+数据量小（n &lt; 50）：插入排序
+数据量大：
+
+要求稳定：归并排序
+不要求稳定：快速排序
+
+
+内存空间有限：堆排序
+数据基本有序：插入排序
+数据量特别大且有重复：计数排序/基数排序
+
+总结
+每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>排序</tag>
+        <tag>冒泡排序</tag>
+        <tag>选择排序</tag>
+        <tag>插入排序</tag>
+        <tag>快速排序</tag>
+        <tag>归并排序</tag>
+        <tag>堆排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--线性表</title>
+    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[线性表
+线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
+顺序存储（顺序表）
+存取
+顺序表随机存取，存取某个元素的时间复杂度为O(1)。
+查找
+平均时间复杂度O(n)
+插入删除
+平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
+链式存储（链表）
+链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
+单链表
+单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
+
+数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
+指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
+
+创建链表
+**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
+**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
+查找
+查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
+插入删除
+在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
+单链表的缺点
+
+访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
+存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
+不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
+
+双链表
+双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
+
+前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
+数据域 (Data):  与单链表相同，用于存储数据元素。
+后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
+
+创建链表
+创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
+查找
+与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
+双链表的优点
+
+双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
+删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
+某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
+
+双链表的缺点
+
+存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
+插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
+访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+        <tag>线性表</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>手撕 Vision Transformer</title>
     <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
     <content><![CDATA[手撕 Vision Transformer
@@ -7098,72 +7164,6 @@ SupCon学习到的特征更具判别性和泛化能力
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>监督学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--线性表</title>
-    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
-    <content><![CDATA[线性表
-线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
-顺序存储（顺序表）
-存取
-顺序表随机存取，存取某个元素的时间复杂度为O(1)。
-查找
-平均时间复杂度O(n)
-插入删除
-平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
-链式存储（链表）
-链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
-单链表
-单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
-
-数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
-指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
-
-创建链表
-**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
-**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
-查找
-查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
-插入删除
-在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
-单链表的缺点
-
-访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
-存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
-不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
-
-双链表
-双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
-
-前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
-数据域 (Data):  与单链表相同，用于存储数据元素。
-后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
-
-创建链表
-创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
-查找
-与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
-双链表的优点
-
-双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
-删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
-某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
-
-双链表的缺点
-
-存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
-插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
-访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>链表</tag>
-        <tag>线性表</tag>
       </tags>
   </entry>
   <entry>
