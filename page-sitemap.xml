@@ -10,6 +10,15 @@
     
     
     <url>
+        <loc>https://wp-a.github.io/academic/</loc>
+        <lastmod>2025-11-24T06:05:08.033Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
         <loc>https://wp-a.github.io/about/</loc>
         <lastmod>2025-11-24T03:29:35.716Z</lastmod>
         <changefreq>weekly</changefreq>
