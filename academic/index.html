@@ -29,6 +29,10 @@
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body {
       font-family: var(--font-main);
       font-size: 15px;
@@ -93,15 +97,17 @@
     }
     .lang-switch { 
       margin-right: auto; 
-      font-weight: bold; 
+      font-weight: 600; 
       color: #333; 
       cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 6px;
-      transition: background 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: rgba(52, 152, 219, 0.08);
     }
     .lang-switch:hover {
-      background: rgba(52, 152, 219, 0.1);
+      background: rgba(52, 152, 219, 0.15);
+      transform: translateY(-1px);
     }
     
     /* Layout */
@@ -109,7 +115,7 @@
       width: var(--sidebar-width);
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 60px 35px;
+      padding: 60px 35px 40px;
       position: fixed;
       height: 100vh;
       left: 0;
@@ -119,10 +125,25 @@
       box-shadow: var(--shadow-lg);
     }
     
+    /* 修复滚动条样式 */
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+    }
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.5);
+    }
+    
     .main-content {
       flex: 1;
       margin-left: var(--sidebar-width);
-      padding: 110px 60px 60px;
+      padding: 110px 60px 80px; /* 增加底部 padding */
       max-width: 1100px;
     }
     
@@ -169,6 +190,7 @@
       list-style: none; 
       font-size: 0.95rem; 
       margin-top: 25px;
+      padding-bottom: 20px; /* 确保底部有空间 */
     }
     .contact-list li { 
       margin-bottom: 12px; 
@@ -250,7 +272,7 @@
       font-size: 0.9rem;
     }
     
-    /* Publication Item (重点美化) */
+    /* Publication Item (增大图片) */
     .paper-item {
       display: flex;
       margin-bottom: 35px;
@@ -267,7 +289,7 @@
     }
     
     .paper-img-box {
-      width: 280px;
+      width: 320px; /* 从 280px 增加到 320px */
       flex-shrink: 0;
       margin-right: 30px;
       position: relative;
@@ -353,6 +375,11 @@
       box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
     }
     
+    /* 隐藏英文内容（默认） */
+    .lang-en {
+      display: none;
+    }
+    
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .top-nav { 
@@ -371,7 +398,7 @@
       }
       .main-content { 
         margin-left: 0; 
-        padding: 90px 20px 40px; 
+        padding: 90px 20px 60px; 
       }
       .paper-item { 
         flex-direction: column; 
@@ -398,7 +425,7 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <img id="avatar" src="" alt="Avatar" class="avatar">
+    <img id="avatar" src="/img/head.webp" alt="Avatar" class="avatar">
     <div id="author-name" class="author-name"></div>
     <div id="author-title" class="author-title"></div>
     <div id="author-desc" class="author-desc"></div>
@@ -414,11 +441,25 @@
   
   <!-- Top Navigation -->
   <nav class="top-nav">
-    <div class="lang-switch">English / 中文</div>
-    <a href="#about" class="active">About Me</a>
-    <a href="#news">News</a>
-    <a href="#publications">Publications</a>
-    <a href="#honors">Honors</a>
+    <div class="lang-switch" onclick="toggleLanguage()">
+      <span id="lang-text">English</span>
+    </div>
+    <a href="#about" class="active">
+      <span class="lang-zh">关于我</span>
+      <span class="lang-en">About Me</span>
+    </a>
+    <a href="#news">
+      <span class="lang-zh">动态</span>
+      <span class="lang-en">News</span>
+    </a>
+    <a href="#publications">
+      <span class="lang-zh">论文</span>
+      <span class="lang-en">Publications</span>
+    </a>
+    <a href="#honors">
+      <span class="lang-zh">荣誉</span>
+      <span class="lang-en">Honors</span>
+    </a>
   </nav>
 
   <!-- Main Content -->
@@ -431,19 +472,31 @@
 
     <!-- News -->
     <section id="news">
-      <h2><span>🔥</span> 最新动态</h2>
+      <h2>
+        <span>🔥</span> 
+        <span class="lang-zh">最新动态</span>
+        <span class="lang-en">Latest News</span>
+      </h2>
       <ul id="news-list" class="news-list"></ul>
     </section>
 
     <!-- Publications -->
     <section id="publications">
-      <h2><span>📝</span> 发表论文</h2>
+      <h2>
+        <span>📝</span> 
+        <span class="lang-zh">发表论文</span>
+        <span class="lang-en">Publications</span>
+      </h2>
       <div id="publications-list"></div>
     </section>
     
     <!-- Honors -->
     <section id="honors">
-      <h2><span>🎖</span> 荣誉奖项</h2>
+      <h2>
+        <span>🎖</span> 
+        <span class="lang-zh">荣誉奖项</span>
+        <span class="lang-en">Honors & Awards</span>
+      </h2>
       <ul id="honors-list" class="news-list"></ul>
     </section>
 
@@ -451,6 +504,28 @@
 
   <!-- 渲染脚本 -->
   <script>
+    let currentLang = 'zh'; // 默认中文
+    
+    // 语言切换函数
+    function toggleLanguage() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      
+      // 更新切换按钮文字
+      document.getElementById('lang-text').textContent = currentLang === 'zh' ? 'English' : '中文';
+      
+      // 显示/隐藏对应语言的内容
+      const zhElements = document.querySelectorAll('.lang-zh');
+      const enElements = document.querySelectorAll('.lang-en');
+      
+      if (currentLang === 'zh') {
+        zhElements.forEach(el => el.style.display = '');
+        enElements.forEach(el => el.style.display = 'none');
+      } else {
+        zhElements.forEach(el => el.style.display = 'none');
+        enElements.forEach(el => el.style.display = '');
+      }
+    }
+    
     document.addEventListener('DOMContentLoaded', function() {
       if (typeof academicData === 'undefined') {
         console.error('academic-data.js 未加载成功！');
@@ -462,8 +537,8 @@
       // 设置页面标题
       document.getElementById('page-title').textContent = data.profile.name + ' - Academic Homepage';
 
-      // 渲染侧边栏
-      document.getElementById('avatar').src = data.profile.avatar;
+      // 渲染侧边栏（确保使用正确的头像路径）
+      document.getElementById('avatar').src = data.profile.avatar || '/img/head.webp';
       document.getElementById('author-name').textContent = data.profile.name;
       document.getElementById('author-title').innerHTML = data.profile.title + '<br>' + data.profile.affiliation;
       document.getElementById('author-desc').innerHTML = data.profile.bio;
