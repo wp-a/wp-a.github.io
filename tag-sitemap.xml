@@ -3,6 +3,27 @@
 
 
     <url>
+        <loc>https://wp-a.github.io/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+        <lastmod>2025-11-24T14:09:57.378Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/GNN/</loc>
+        <lastmod>2025-11-24T14:09:57.378Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/</loc>
+        <lastmod>2025-11-24T14:09:57.378Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://wp-a.github.io/tags/%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2025-11-24T13:55:07.588Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -18,13 +39,6 @@
 
     <url>
         <loc>https://wp-a.github.io/tags/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/</loc>
-        <lastmod>2025-11-24T13:55:07.588Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/</loc>
         <lastmod>2025-11-24T13:55:07.588Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -383,20 +397,6 @@
     <url>
         <loc>https://wp-a.github.io/tags/STL/</loc>
         <lastmod>2025-11-23T14:26:35.644Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
-        <lastmod>2025-11-23T14:26:24.349Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/GNN/</loc>
-        <lastmod>2025-11-23T14:26:24.349Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
