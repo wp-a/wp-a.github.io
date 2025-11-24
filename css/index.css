@@ -7433,7 +7433,8 @@ blockquote.pullquote.right {
 
   #about-page {
       width: 100% !important;
-      padding: 0 !important;
+      max-width: 1400px !important; /* 增加最大宽度 */
+      padding: 0 20px !important; /* 增加左右内边距 */
       margin: 0 auto;
     }
 
