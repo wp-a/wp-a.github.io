@@ -2,56 +2,6 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
-class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
-版本二
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
     <url>/2025/02/10day/</url>
     <content><![CDATA[二叉树层序遍历
 二叉树层序遍历的模板
@@ -120,6 +70,56 @@ class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        i
 class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        stack&lt;TreeNode*&gt; st; // 这里改成了栈        st.push(root-&gt;left);        st.push(root-&gt;right);        while (!st.empty()) &#123;            TreeNode* rightNode = st.top(); st.pop();            TreeNode* leftNode = st.top(); st.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;                continue;            &#125;            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            st.push(leftNode-&gt;left);            st.push(rightNode-&gt;right);            st.push(leftNode-&gt;right);            st.push(rightNode-&gt;left);        &#125;        return true;    &#125;&#125;;
 递归法：
 class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#123;        // 首先排除空节点的情况        if (left == NULL &amp;&amp; right != NULL) return false;        else if (left != NULL &amp;&amp; right == NULL) return false;        else if (left == NULL &amp;&amp; right == NULL) return true;        // 排除了空节点，再排除数值不相同的情况        else if (left-&gt;val != right-&gt;val) return false;        // 此时就是：左右节点都不为空，且数值相同的情况        // 此时才做递归，做下一层的判断        bool outside = compare(left-&gt;left, right-&gt;right);   // 左子树：左、 右子树：右        bool inside = compare(left-&gt;right, right-&gt;left);    // 左子树：右、 右子树：左        bool isSame = outside &amp;&amp; inside;                    // 左子树：中、 右子树：中 （逻辑处理）        return isSame;    &#125;    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        return compare(root-&gt;left, root-&gt;right);    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
+class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
+版本二
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -634,6 +634,188 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
         <tag>字符串</tag>
         <tag>KMP</tag>
         <tag>reverse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--栈·队列</title>
+    <url>/2025/02/8day/</url>
+    <content><![CDATA[栈·队列
+​                                                                                    
+stack
+STL 中的 stack 容器提供了一众成员函数以供调用，其中较为常用的有：
+
+元素访问
+
+st.top() 返回栈顶
+
+
+修改
+
+st.push() 插入传入的参数到栈顶
+st.pop() 弹出栈顶
+
+
+容量
+
+st.empty() 返回是否为空
+st.size() 返回元素数量
+
+
+
+queue
+STL 中的 queue 容器提供了一众成员函数以供调用。其中较为常用的有：
+
+元素访问
+
+q.front() 返回队首元素
+q.back() 返回队尾元素
+
+
+修改
+
+q.push() 在队尾插入元素
+q.pop() 弹出队首元素
+
+
+容量
+
+q.empty() 队列是否为空
+q.size() 返回队列中元素的数量
+
+
+
+deque
+STL 中的 deque 容器提供了一众成员函数以供调用。其中较为常用的有：
+
+元素访问
+
+q.front() 返回队首元素
+q.back() 返回队尾元素
+
+
+修改
+
+q.push_back() 在队尾插入元素
+q.pop_back() 弹出队尾元素
+q.push_front() 在队首插入元素
+q.pop_front() 弹出队首元素
+q.insert() 在指定位置前插入元素（传入迭代器和元素）
+q.erase() 删除指定位置的元素（传入迭代器）
+
+
+容量
+
+q.empty() 队列是否为空
+q.size() 返回队列中元素的数量
+
+
+
+此外，deque 还提供了一些运算符。其中较为常用的有：
+
+
+使用赋值运算符 = 为 deque 赋值，类似 queue。
+
+
+使用 [] 访问元素，类似 vector。
+
+
+用栈实现队列
+题目链接：232. 用栈实现队列
+class MyQueue &#123;private:    // 如果 B 栈为空，将 A 栈中的元素倒入 B 栈    void moveToB() &#123;        if (B.empty()) &#123;            while (!A.empty()) &#123;                B.push(A.top());                A.pop();            &#125;        &#125;    &#125;public:    stack&lt;int&gt; A, B;    MyQueue() &#123;    &#125;    void push(int x) &#123;        A.push(x);    &#125;    int pop() &#123;        moveToB(); // 移动元素到 B 栈        int val = B.top();        B.pop();        return val;    &#125;    int peek() &#123;        moveToB(); // 移动元素到 B 栈        return B.top();    &#125;    bool empty() &#123;        return A.empty() &amp;&amp; B.empty();    &#125;&#125;;
+用队列实现栈
+题目链接：225. 用队列实现栈
+方法一：使用 一个队列
+
+push(x)：
+
+首先，将元素 x 入队到队列末尾。
+然后，将队列中前面已有的元素依次出队，再重新入队到队列末尾。
+这样，队列的前端就始终是最新压入的元素，相当于实现了栈的“后进先出（LIFO）”顺序。
+
+
+pop()：
+
+直接将队首元素出队即可。因为在上一步的处理里，队首元素就是栈顶。
+
+
+top()：
+
+返回队首元素（不弹出）。
+
+
+empty()：
+
+判断队列是否为空。
+
+
+
+class MyStack &#123;public:    queue&lt;int&gt; q;    MyStack() &#123;    &#125;        // 每次 push 后，把前面的 (size - 1) 个元素依次出队并重新入队，确保新元素在队首    void push(int x) &#123;        // 1. 新元素先入队        q.push(x);        // 2. 将前面的元素依次移到末尾        int n = q.size();        // 只需要将前面的 (n - 1) 个元素移动到末尾        for(int i = 0; i &lt; n - 1; i++) &#123;            q.push(q.front());            q.pop();        &#125;    &#125;        int pop() &#123;        int val = q.front();  // 由于 push 中的旋转操作，队首就是栈顶        q.pop();        return val;    &#125;        int top() &#123;        return q.front();     // 队首即为栈顶    &#125;        bool empty() &#123;        return q.empty();    &#125;&#125;;
+方法二：使用 两个队列
+
+队列 A 和 队列 B 协同工作，保证其中一个队列始终存放当前所有元素，另一个队列用来做辅助操作。
+push(x)：
+
+把新元素直接入队到空队列中（或者你可以总是把它放到 A，然后把 A 里旧的元素转移到 B，具体实现略有差异）。
+
+
+pop()：
+
+在 pop() 之前，我们需要把除最后一个元素外的所有元素，从一个队列（有数据的队列）依次出队并入队到另一个空队列，让最后一个元素留在原队列，然后弹出这个元素，这相当于栈顶元素。
+
+
+top()：
+
+类似 pop()，只是查看最后一个元素而不把它真正弹出。
+
+
+empty()：
+
+两个队列都为空即为真。
+
+
+
+#include &lt;queue&gt;using namespace std;class MyStack &#123;public:    queue&lt;int&gt; q1, q2;  // 两个队列    MyStack() &#123;    &#125;        void push(int x) &#123;        // 1. 新元素先入空的队列 q2        q2.push(x);        // 2. 把 q1 中所有元素依次移到 q2 中        while (!q1.empty()) &#123;            q2.push(q1.front());            q1.pop();        &#125;        // 3. 交换 q1 和 q2，保证所有元素又回到 q1，q2 变空        swap(q1, q2);    &#125;        int pop() &#123;        // 队首就是栈顶        int val = q1.front();        q1.pop();        return val;    &#125;        int top() &#123;        return q1.front();    &#125;        bool empty() &#123;        return q1.empty() &amp;&amp; q2.empty();    &#125;&#125;;
+有效的括号
+题目链接：20. 有效的括号
+题目思路：先判断一下s的长度是否为偶数，如果不是就返回false，再将全部的左符号压入栈中，然后开始判断剩余的符号是否可以匹配，如果不能就返回false，将s循环结束，如果全部匹配成功，最后应该栈是空的，如果不是返回false。
+class Solution &#123;public:    bool isValid(string s) &#123;        int n=s.size();        if(n%2!=0) return false;        stack&lt;char&gt; t;        for(int i=0;i&lt;n;i++)        &#123;            if(s[i]==&#x27;(&#x27;) t.push(&#x27;)&#x27;);            else if(s[i]==&#x27;&#123;&#x27;) t.push(&#x27;&#125;&#x27;);            else if(s[i]==&#x27;[&#x27;) t.push(&#x27;]&#x27;);            else if(t.empty() || t.top()!=s[i]) return false;            else t.pop();        &#125;        return t.empty();    &#125;&#125;;
+删除字符串中的所有相邻重复项
+题目链接：1047. 删除字符串中的所有相邻重复项
+建栈的写法，性能太差了。
+class Solution &#123;public:    string removeDuplicates(string s) &#123;        stack&lt;char&gt; t;        int n=s.size();        for(int i=0;i&lt;n;i++)        &#123;            if(!t.empty() &amp;&amp; s[i]==t.top()) t.pop();            else t.push(s[i]);         &#125;         string result;        while(!t.empty())        &#123;            result=t.top()+result;            t.pop();        &#125;        return result;    &#125;&#125;;
+string自己就可以做栈，string有pop和push接口，性能很高。
+class Solution &#123;public:    string removeDuplicates(string s) &#123;        string stk;        for (char ch : s) &#123;            if (!stk.empty() &amp;&amp; stk.back() == ch) &#123;                stk.pop_back();            &#125; else &#123;                stk.push_back(ch);            &#125;        &#125;        return stk;    &#125;&#125;;
+逆波兰表达式求值
+题目链接：150. 逆波兰表达式求值
+题目挺简单的，就是一个点需要注意：
+stoi()：
+
+stoi 是一个将 std::string 类型转换为 int 的函数。如果 tokens[i] 是一个有效的整数表示，stoi(tokens[i]) 将返回对应的整数值。
+
+class Solution &#123;public:    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        stack&lt;int&gt; t;        int n=tokens.size(),re;        for(int i=0;i&lt;n;i++)        &#123;            if(tokens[i]==&quot;+&quot;)             &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=a+b;                t.push(re);            &#125;            else if(tokens[i]==&quot;-&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b-a;                t.push(re);            &#125;            else if(tokens[i]==&quot;*&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b*a;                t.push(re);            &#125;            else if(tokens[i]==&quot;/&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b/a;                t.push(re);            &#125;            else t.push(stoi(tokens[i]));        &#125;        return t.top();    &#125;&#125;;
+滑动窗口最大值
+题目链接：239. 滑动窗口最大值
+双端队列：队列中元素个数大于k，就删除队首元素，若入队元素大于队列中的元素，则把队列中的元素弹出。
+class Solution &#123;public:    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;        vector&lt;int&gt; ans;        deque&lt;int&gt; q; // 双端队列        for (int i = 0; i &lt; nums.size(); i++) &#123;            // 1. 入            while (!q.empty() &amp;&amp; nums[q.back()] &lt;= nums[i]) &#123;                q.pop_back(); // 维护 q 的单调性            &#125;            q.push_back(i); // 入队            // 2. 出            if (i - q.front() &gt;= k) &#123; // 队首已经离开窗口了                q.pop_front();            &#125;            // 3. 记录答案            if (i &gt;= k - 1) &#123;                // 由于队首到队尾单调递减，所以窗口最大值就是队首                ans.push_back(nums[q.front()]);            &#125;        &#125;        return ans;    &#125;&#125;;
+前 K 个高频元素
+题目链接：347. 前 K 个高频元素
+堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。 如果父亲结点是大于等于左右孩子就是大顶堆，小于等于左右孩子就是小顶堆。小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大元素。
+
+class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    public:        bool operator()(const pair&lt;int, int&gt;&amp; lhs, const pair&lt;int, int&gt;&amp; rhs) &#123;            return lhs.second &gt; rhs.second;        &#125;    &#125;;    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        // 要统计元素出现频率        unordered_map&lt;int, int&gt; map; // map&lt;nums[i],对应出现的次数&gt;        for (int i = 0; i &lt; nums.size(); i++) &#123;            map[nums[i]]++;        &#125;        // 对频率排序        // 定义一个小顶堆，大小为k        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, mycomparison&gt; pri_que;        // 用固定大小为k的小顶堆，扫面所有频率的数值        for (unordered_map&lt;int, int&gt;::iterator it = map.begin(); it != map.end(); it++) &#123;            pri_que.push(*it);            if (pri_que.size() &gt; k) &#123; // 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k                pri_que.pop();            &#125;        &#125;        // 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组        vector&lt;int&gt; result(k);        for (int i = k - 1; i &gt;= 0; i--) &#123;            result[i] = pri_que.top().first;            pri_que.pop();        &#125;        return result;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>栈</tag>
+        <tag>队列</tag>
+        <tag>双端队列</tag>
+        <tag>堆</tag>
+        <tag>queue</tag>
+        <tag>stack</tag>
+        <tag>deque</tag>
       </tags>
   </entry>
   <entry>
@@ -1365,188 +1547,6 @@ $$
       <tags>
         <tag>论文精读</tag>
         <tag>视觉表征</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--栈·队列</title>
-    <url>/2025/02/8day/</url>
-    <content><![CDATA[栈·队列
-​                                                                                    
-stack
-STL 中的 stack 容器提供了一众成员函数以供调用，其中较为常用的有：
-
-元素访问
-
-st.top() 返回栈顶
-
-
-修改
-
-st.push() 插入传入的参数到栈顶
-st.pop() 弹出栈顶
-
-
-容量
-
-st.empty() 返回是否为空
-st.size() 返回元素数量
-
-
-
-queue
-STL 中的 queue 容器提供了一众成员函数以供调用。其中较为常用的有：
-
-元素访问
-
-q.front() 返回队首元素
-q.back() 返回队尾元素
-
-
-修改
-
-q.push() 在队尾插入元素
-q.pop() 弹出队首元素
-
-
-容量
-
-q.empty() 队列是否为空
-q.size() 返回队列中元素的数量
-
-
-
-deque
-STL 中的 deque 容器提供了一众成员函数以供调用。其中较为常用的有：
-
-元素访问
-
-q.front() 返回队首元素
-q.back() 返回队尾元素
-
-
-修改
-
-q.push_back() 在队尾插入元素
-q.pop_back() 弹出队尾元素
-q.push_front() 在队首插入元素
-q.pop_front() 弹出队首元素
-q.insert() 在指定位置前插入元素（传入迭代器和元素）
-q.erase() 删除指定位置的元素（传入迭代器）
-
-
-容量
-
-q.empty() 队列是否为空
-q.size() 返回队列中元素的数量
-
-
-
-此外，deque 还提供了一些运算符。其中较为常用的有：
-
-
-使用赋值运算符 = 为 deque 赋值，类似 queue。
-
-
-使用 [] 访问元素，类似 vector。
-
-
-用栈实现队列
-题目链接：232. 用栈实现队列
-class MyQueue &#123;private:    // 如果 B 栈为空，将 A 栈中的元素倒入 B 栈    void moveToB() &#123;        if (B.empty()) &#123;            while (!A.empty()) &#123;                B.push(A.top());                A.pop();            &#125;        &#125;    &#125;public:    stack&lt;int&gt; A, B;    MyQueue() &#123;    &#125;    void push(int x) &#123;        A.push(x);    &#125;    int pop() &#123;        moveToB(); // 移动元素到 B 栈        int val = B.top();        B.pop();        return val;    &#125;    int peek() &#123;        moveToB(); // 移动元素到 B 栈        return B.top();    &#125;    bool empty() &#123;        return A.empty() &amp;&amp; B.empty();    &#125;&#125;;
-用队列实现栈
-题目链接：225. 用队列实现栈
-方法一：使用 一个队列
-
-push(x)：
-
-首先，将元素 x 入队到队列末尾。
-然后，将队列中前面已有的元素依次出队，再重新入队到队列末尾。
-这样，队列的前端就始终是最新压入的元素，相当于实现了栈的“后进先出（LIFO）”顺序。
-
-
-pop()：
-
-直接将队首元素出队即可。因为在上一步的处理里，队首元素就是栈顶。
-
-
-top()：
-
-返回队首元素（不弹出）。
-
-
-empty()：
-
-判断队列是否为空。
-
-
-
-class MyStack &#123;public:    queue&lt;int&gt; q;    MyStack() &#123;    &#125;        // 每次 push 后，把前面的 (size - 1) 个元素依次出队并重新入队，确保新元素在队首    void push(int x) &#123;        // 1. 新元素先入队        q.push(x);        // 2. 将前面的元素依次移到末尾        int n = q.size();        // 只需要将前面的 (n - 1) 个元素移动到末尾        for(int i = 0; i &lt; n - 1; i++) &#123;            q.push(q.front());            q.pop();        &#125;    &#125;        int pop() &#123;        int val = q.front();  // 由于 push 中的旋转操作，队首就是栈顶        q.pop();        return val;    &#125;        int top() &#123;        return q.front();     // 队首即为栈顶    &#125;        bool empty() &#123;        return q.empty();    &#125;&#125;;
-方法二：使用 两个队列
-
-队列 A 和 队列 B 协同工作，保证其中一个队列始终存放当前所有元素，另一个队列用来做辅助操作。
-push(x)：
-
-把新元素直接入队到空队列中（或者你可以总是把它放到 A，然后把 A 里旧的元素转移到 B，具体实现略有差异）。
-
-
-pop()：
-
-在 pop() 之前，我们需要把除最后一个元素外的所有元素，从一个队列（有数据的队列）依次出队并入队到另一个空队列，让最后一个元素留在原队列，然后弹出这个元素，这相当于栈顶元素。
-
-
-top()：
-
-类似 pop()，只是查看最后一个元素而不把它真正弹出。
-
-
-empty()：
-
-两个队列都为空即为真。
-
-
-
-#include &lt;queue&gt;using namespace std;class MyStack &#123;public:    queue&lt;int&gt; q1, q2;  // 两个队列    MyStack() &#123;    &#125;        void push(int x) &#123;        // 1. 新元素先入空的队列 q2        q2.push(x);        // 2. 把 q1 中所有元素依次移到 q2 中        while (!q1.empty()) &#123;            q2.push(q1.front());            q1.pop();        &#125;        // 3. 交换 q1 和 q2，保证所有元素又回到 q1，q2 变空        swap(q1, q2);    &#125;        int pop() &#123;        // 队首就是栈顶        int val = q1.front();        q1.pop();        return val;    &#125;        int top() &#123;        return q1.front();    &#125;        bool empty() &#123;        return q1.empty() &amp;&amp; q2.empty();    &#125;&#125;;
-有效的括号
-题目链接：20. 有效的括号
-题目思路：先判断一下s的长度是否为偶数，如果不是就返回false，再将全部的左符号压入栈中，然后开始判断剩余的符号是否可以匹配，如果不能就返回false，将s循环结束，如果全部匹配成功，最后应该栈是空的，如果不是返回false。
-class Solution &#123;public:    bool isValid(string s) &#123;        int n=s.size();        if(n%2!=0) return false;        stack&lt;char&gt; t;        for(int i=0;i&lt;n;i++)        &#123;            if(s[i]==&#x27;(&#x27;) t.push(&#x27;)&#x27;);            else if(s[i]==&#x27;&#123;&#x27;) t.push(&#x27;&#125;&#x27;);            else if(s[i]==&#x27;[&#x27;) t.push(&#x27;]&#x27;);            else if(t.empty() || t.top()!=s[i]) return false;            else t.pop();        &#125;        return t.empty();    &#125;&#125;;
-删除字符串中的所有相邻重复项
-题目链接：1047. 删除字符串中的所有相邻重复项
-建栈的写法，性能太差了。
-class Solution &#123;public:    string removeDuplicates(string s) &#123;        stack&lt;char&gt; t;        int n=s.size();        for(int i=0;i&lt;n;i++)        &#123;            if(!t.empty() &amp;&amp; s[i]==t.top()) t.pop();            else t.push(s[i]);         &#125;         string result;        while(!t.empty())        &#123;            result=t.top()+result;            t.pop();        &#125;        return result;    &#125;&#125;;
-string自己就可以做栈，string有pop和push接口，性能很高。
-class Solution &#123;public:    string removeDuplicates(string s) &#123;        string stk;        for (char ch : s) &#123;            if (!stk.empty() &amp;&amp; stk.back() == ch) &#123;                stk.pop_back();            &#125; else &#123;                stk.push_back(ch);            &#125;        &#125;        return stk;    &#125;&#125;;
-逆波兰表达式求值
-题目链接：150. 逆波兰表达式求值
-题目挺简单的，就是一个点需要注意：
-stoi()：
-
-stoi 是一个将 std::string 类型转换为 int 的函数。如果 tokens[i] 是一个有效的整数表示，stoi(tokens[i]) 将返回对应的整数值。
-
-class Solution &#123;public:    int evalRPN(vector&lt;string&gt;&amp; tokens) &#123;        stack&lt;int&gt; t;        int n=tokens.size(),re;        for(int i=0;i&lt;n;i++)        &#123;            if(tokens[i]==&quot;+&quot;)             &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=a+b;                t.push(re);            &#125;            else if(tokens[i]==&quot;-&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b-a;                t.push(re);            &#125;            else if(tokens[i]==&quot;*&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b*a;                t.push(re);            &#125;            else if(tokens[i]==&quot;/&quot;)            &#123;                int a=t.top();t.pop();                int b=t.top();t.pop();                re=b/a;                t.push(re);            &#125;            else t.push(stoi(tokens[i]));        &#125;        return t.top();    &#125;&#125;;
-滑动窗口最大值
-题目链接：239. 滑动窗口最大值
-双端队列：队列中元素个数大于k，就删除队首元素，若入队元素大于队列中的元素，则把队列中的元素弹出。
-class Solution &#123;public:    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) &#123;        vector&lt;int&gt; ans;        deque&lt;int&gt; q; // 双端队列        for (int i = 0; i &lt; nums.size(); i++) &#123;            // 1. 入            while (!q.empty() &amp;&amp; nums[q.back()] &lt;= nums[i]) &#123;                q.pop_back(); // 维护 q 的单调性            &#125;            q.push_back(i); // 入队            // 2. 出            if (i - q.front() &gt;= k) &#123; // 队首已经离开窗口了                q.pop_front();            &#125;            // 3. 记录答案            if (i &gt;= k - 1) &#123;                // 由于队首到队尾单调递减，所以窗口最大值就是队首                ans.push_back(nums[q.front()]);            &#125;        &#125;        return ans;    &#125;&#125;;
-前 K 个高频元素
-题目链接：347. 前 K 个高频元素
-堆是一棵完全二叉树，树中每个结点的值都不小于（或不大于）其左右孩子的值。 如果父亲结点是大于等于左右孩子就是大顶堆，小于等于左右孩子就是小顶堆。小顶堆每次将最小的元素弹出，最后小顶堆里积累的才是前k个最大元素。
-
-class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    public:        bool operator()(const pair&lt;int, int&gt;&amp; lhs, const pair&lt;int, int&gt;&amp; rhs) &#123;            return lhs.second &gt; rhs.second;        &#125;    &#125;;    vector&lt;int&gt; topKFrequent(vector&lt;int&gt;&amp; nums, int k) &#123;        // 要统计元素出现频率        unordered_map&lt;int, int&gt; map; // map&lt;nums[i],对应出现的次数&gt;        for (int i = 0; i &lt; nums.size(); i++) &#123;            map[nums[i]]++;        &#125;        // 对频率排序        // 定义一个小顶堆，大小为k        priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, mycomparison&gt; pri_que;        // 用固定大小为k的小顶堆，扫面所有频率的数值        for (unordered_map&lt;int, int&gt;::iterator it = map.begin(); it != map.end(); it++) &#123;            pri_que.push(*it);            if (pri_que.size() &gt; k) &#123; // 如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k                pri_que.pop();            &#125;        &#125;        // 找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组        vector&lt;int&gt; result(k);        for (int i = k - 1; i &gt;= 0; i--) &#123;            result[i] = pri_que.top().first;            pri_que.pop();        &#125;        return result;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>栈</tag>
-        <tag>队列</tag>
-        <tag>双端队列</tag>
-        <tag>堆</tag>
-        <tag>queue</tag>
-        <tag>stack</tag>
-        <tag>deque</tag>
       </tags>
   </entry>
   <entry>
@@ -5445,176 +5445,6 @@ Memory更新策略：能否利用动量更新与自适应权重结合，既保�
       </tags>
   </entry>
   <entry>
-    <title>手撕 Vision Transformer</title>
-    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
-    <content><![CDATA[手撕 Vision Transformer
-
-​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
-​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
-import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>Vit</tag>
-        <tag>手撕代码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--排序算法</title>
-    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[排序算法详解
-排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
-#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
-1. 冒泡排序 (Bubble Sort)
-冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
-2. 选择排序 (Selection Sort)
-选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
-3. 插入排序 (Insertion Sort)
-插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
-4. 快速排序 (Quick Sort)
-快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
-实现原理
-
-时间复杂度：平均 O(nlogn)，最坏 O(n²)
-空间复杂度：O(logn)
-稳定性：不稳定
-
-实现代码
-int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
-5. 归并排序 (Merge Sort)
-归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(n)
-稳定性：稳定
-
-实现代码
-void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
-6. 堆排序 (Heap Sort)
-堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
-排序算法的比较
-
-
-
-排序算法
-平均时间复杂度
-最坏时间复杂度
-空间复杂度
-稳定性
-
-
-
-
-冒泡排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-选择排序
-O(n²)
-O(n²)
-O(1)
-不稳定
-
-
-插入排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-快速排序
-O(nlogn)
-O(n²)
-O(logn)
-不稳定
-
-
-归并排序
-O(nlogn)
-O(nlogn)
-O(n)
-稳定
-
-
-堆排序
-O(nlogn)
-O(nlogn)
-O(1)
-不稳定
-
-
-
-如何选择排序算法？
-
-数据量小（n &lt; 50）：插入排序
-数据量大：
-
-要求稳定：归并排序
-不要求稳定：快速排序
-
-
-内存空间有限：堆排序
-数据基本有序：插入排序
-数据量特别大且有重复：计数排序/基数排序
-
-总结
-每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>排序</tag>
-        <tag>冒泡排序</tag>
-        <tag>选择排序</tag>
-        <tag>插入排序</tag>
-        <tag>快速排序</tag>
-        <tag>归并排序</tag>
-        <tag>堆排序</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>对比学习综述</title>
     <url>/2025/11/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</url>
     <content><![CDATA[对比学习综述：从理论到实践全面解析
@@ -6500,6 +6330,176 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>无监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手撕 Vision Transformer</title>
+    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
+    <content><![CDATA[手撕 Vision Transformer
+
+​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
+​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
+import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
+]]></content>
+      <categories>
+        <category>手撕代码</category>
+        <category>图像分类</category>
+      </categories>
+      <tags>
+        <tag>Vit</tag>
+        <tag>手撕代码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--排序算法</title>
+    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[排序算法详解
+排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
+#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
+1. 冒泡排序 (Bubble Sort)
+冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
+2. 选择排序 (Selection Sort)
+选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
+3. 插入排序 (Insertion Sort)
+插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
+4. 快速排序 (Quick Sort)
+快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
+实现原理
+
+时间复杂度：平均 O(nlogn)，最坏 O(n²)
+空间复杂度：O(logn)
+稳定性：不稳定
+
+实现代码
+int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
+5. 归并排序 (Merge Sort)
+归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
+稳定性：稳定
+
+实现代码
+void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
+6. 堆排序 (Heap Sort)
+堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
+排序算法的比较
+
+
+
+排序算法
+平均时间复杂度
+最坏时间复杂度
+空间复杂度
+稳定性
+
+
+
+
+冒泡排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+选择排序
+O(n²)
+O(n²)
+O(1)
+不稳定
+
+
+插入排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+快速排序
+O(nlogn)
+O(n²)
+O(logn)
+不稳定
+
+
+归并排序
+O(nlogn)
+O(nlogn)
+O(n)
+稳定
+
+
+堆排序
+O(nlogn)
+O(nlogn)
+O(1)
+不稳定
+
+
+
+如何选择排序算法？
+
+数据量小（n &lt; 50）：插入排序
+数据量大：
+
+要求稳定：归并排序
+不要求稳定：快速排序
+
+
+内存空间有限：堆排序
+数据基本有序：插入排序
+数据量特别大且有重复：计数排序/基数排序
+
+总结
+每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>排序</tag>
+        <tag>冒泡排序</tag>
+        <tag>选择排序</tag>
+        <tag>插入排序</tag>
+        <tag>快速排序</tag>
+        <tag>归并排序</tag>
+        <tag>堆排序</tag>
       </tags>
   </entry>
   <entry>
