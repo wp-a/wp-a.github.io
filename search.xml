@@ -2,89 +2,6 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
-    <url>/2025/02/10day/</url>
-    <content><![CDATA[二叉树层序遍历
-二叉树层序遍历的模板
-
-第一种方法看了一遍代码+写 花了16分钟，挺简单的，递归法就先不看了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node = q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        return res;    &#125;&#125;;
-# 递归法class Solution &#123;public:    void order(TreeNode* cur, vector&lt;vector&lt;int&gt;&gt;&amp; result, int depth)    &#123;        if (cur == nullptr) return;        if (result.size() == depth) result.push_back(vector&lt;int&gt;());        result[depth].push_back(cur-&gt;val);        order(cur-&gt;left, result, depth + 1);        order(cur-&gt;right, result, depth + 1);    &#125;    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        int depth = 0;        order(root, result, depth);        return result;    &#125;&#125;;
-二叉树的层序遍历 II
-题目链接：107. 二叉树的层序遍历 II
-五分钟结束战斗，就是上一个代码翻一下。但是性能有点慢，又交了一次时间也是超100%了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)&#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
-二叉树的右视图
-题目链接：199. 二叉树的右视图
-四分钟解决战斗，思考了不到一分钟。
-class Solution &#123;public:    vector&lt;int&gt; rightSideView(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                 //代码随想录 if (i == (size - 1)) result.push_back(node-&gt;val);                 if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re[size-1]);        &#125;        return res;    &#125;&#125;;
-二叉树的层平均值
-题目链接：637. 二叉树的层平均值
-出了一点小插曲，花了五分钟，前边写的q后边写成p了，double第一次用的int忘了改。
-class Solution &#123;public:    vector&lt;double&gt; averageOfLevels(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;double&gt; res;        while(!q.empty())&#123;            int s=q.size();            double sum=0;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(sum/s);        &#125;        return res;    &#125;&#125;;
-N 叉树的层序遍历
-题目链接：429. N 叉树的层序遍历
-乍一看以为是第一题，看了一下不太明白孩子是啥意思，就直接看的题解，其实也没多大区别。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(Node* root) &#123;        queue&lt;Node*&gt; que;        if (root != NULL) que.push(root);        vector&lt;vector&lt;int&gt;&gt; result;        while (!que.empty()) &#123;            int size = que.size();            vector&lt;int&gt; vec;            for (int i = 0; i &lt; size; i++) &#123;                Node* node = que.front();                que.pop();                vec.push_back(node-&gt;val);                for (int i = 0; i &lt; node-&gt;children.size(); i++) &#123; // 将节点孩子加入队列                    if (node-&gt;children[i]) que.push(node-&gt;children[i]);                &#125;            &#125;            result.push_back(vec);        &#125;        return result;    &#125;&#125;;
-在每个树行中找最大值
-题目链接：515. 在每个树行中找最大值
-花了8分钟，因为INT_MIN不知道如何操作，本来用的int，然后改成long long一点一点试的。
-class Solution &#123;public:    vector&lt;int&gt; largestValues(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int s=q.size();            long long m=-1e14;   //int maxValue = INT_MIN; // 取每一层的最大值            for(int i=0;i&lt;s;i++)            &#123;            TreeNode* node=q.front();            q.pop();            if(node-&gt;val&gt;m) m=node-&gt;val;            if(node-&gt;left) q.push(node-&gt;left);            if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(m);        &#125;        return res;    &#125;&#125;;
-填充每个节点的下一个右侧节点指针
-题目链接：116. 填充每个节点的下一个右侧节点指针
-这题没想明白怎么处理，我是应该新建一个什么类型的vector，用int,char,Node类型都不行，然后就直接看题解了。
-class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
-利用next指针逐层处理（优化）
-class Solution &#123;public:    Node* connect(Node* root) &#123;        if (!root) return nullptr;        Node* leftmost = root; // 当前层的最左节点        while (leftmost-&gt;left) &#123; // 直到叶子层            Node* curr = leftmost;            while (curr) &#123;                // 连接左子节点和右子节点                curr-&gt;left-&gt;next = curr-&gt;right;                // 连接右子节点和相邻节点的左子节点                if (curr-&gt;next) &#123;                    curr-&gt;right-&gt;next = curr-&gt;next-&gt;left;                &#125;                curr = curr-&gt;next; // 移动到同层下一节点            &#125;            leftmost = leftmost-&gt;left; // 移到下一层最左        &#125;        return root;    &#125;&#125;;
-填充每个节点的下一个右侧节点指针 II
-题目链接：117. 填充每个节点的下一个右侧节点指针 II
-class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
-二叉树的最大深度
-题目链接：104. 二叉树的最大深度
-虽然简单，但是用这个方法有种高射炮打蚊子的感觉，感觉应该有更简单的方法。
-class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            sum=sum+1;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;                &#125;        return sum;    &#125;&#125;;
-递归方法：后序遍历（DFS）
-class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        if (root == nullptr) return 0;        return max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;    &#125;&#125;;
-二叉树的最小深度
-题目链接：111. 二叉树的最小深度
-找第一个没有左右子树的节点的深度。
-class Solution &#123;public:    int minDepth(TreeNode* root) &#123;        if (root == NULL) return 0;        int depth = 0;        queue&lt;TreeNode*&gt; que;        que.push(root);        while(!que.empty()) &#123;            int size = que.size();            depth++; // 记录最小深度            for (int i = 0; i &lt; size; i++) &#123;                TreeNode* node = que.front();                que.pop();                if (node-&gt;left) que.push(node-&gt;left);                if (node-&gt;right) que.push(node-&gt;right);                if (!node-&gt;left &amp;&amp; !node-&gt;right) &#123; // 当左右孩子都为空的时候，说明是最低点的一层了，退出                    return depth;                &#125;            &#125;        &#125;        return depth;    &#125;&#125;;
-递归
-如果 node 是空节点，由于没有节点，返回 0。
-如果 node 没有右儿子，那么深度就是左子树的深度加一，即 dfs(node)=dfs(node.left)+1。
-如果 node 没有左儿子，那么深度就是右子树的深度加一，即 dfs(node)=dfs(node.right)+1。
-如果 node 左右儿子都有，那么分别递归计算左子树的深度，以及右子树的深度，二者取最小值再加一，即 dfs(node)=min(dfs(node.left),dfs(node.right))+1
-
-class Solution &#123;public:    int minDepth(TreeNode *root) &#123;        if (root == nullptr) return 0;        if (root-&gt;right == nullptr) return minDepth(root-&gt;left) + 1;        if (root-&gt;left == nullptr) return minDepth(root-&gt;right) + 1;        return min(minDepth(root-&gt;left), minDepth(root-&gt;right)) + 1;    &#125;&#125;;
-翻转二叉树
-题目链接：226. 翻转二叉树
-迭代法：深度优先遍历
-class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == nullptr) return nullptr;        queue&lt;TreeNode*&gt; q;        q.push(root);        while (!q.empty()) &#123;            TreeNode* node = q.front();            q.pop();            // 使用临时变量交换左右子节点            TreeNode* temp = node-&gt;left;            node-&gt;left = node-&gt;right;            node-&gt;right = temp;            // 如果左右子节点不为空，则加入队列            if (node-&gt;left) q.push(node-&gt;left);            if (node-&gt;right) q.push(node-&gt;right);        &#125;        return root;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == NULL) return root;        swap(root-&gt;left, root-&gt;right);  // 中        invertTree(root-&gt;left);         // 左        invertTree(root-&gt;right);        // 右        return root;    &#125;&#125;;
-对称二叉树
-题目链接：101. 对称二叉树
-
-迭代队列法：
-class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        queue&lt;TreeNode*&gt; que;        que.push(root-&gt;left);   // 将左子树头结点加入队列        que.push(root-&gt;right);  // 将右子树头结点加入队列                while (!que.empty()) &#123;  // 接下来就要判断这两个树是否相互翻转            TreeNode* leftNode = que.front(); que.pop();            TreeNode* rightNode = que.front(); que.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;  // 左节点为空、右节点为空，此时说明是对称的                continue;            &#125;            // 左右一个节点不为空，或者都不为空但数值不相同，返回false            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            que.push(leftNode-&gt;left);   // 加入左节点左孩子            que.push(rightNode-&gt;right); // 加入右节点右孩子            que.push(leftNode-&gt;right);  // 加入左节点右孩子            que.push(rightNode-&gt;left);  // 加入右节点左孩子        &#125;        return true;    &#125;&#125;;
-迭代栈法：
-class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        stack&lt;TreeNode*&gt; st; // 这里改成了栈        st.push(root-&gt;left);        st.push(root-&gt;right);        while (!st.empty()) &#123;            TreeNode* rightNode = st.top(); st.pop();            TreeNode* leftNode = st.top(); st.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;                continue;            &#125;            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            st.push(leftNode-&gt;left);            st.push(rightNode-&gt;right);            st.push(leftNode-&gt;right);            st.push(rightNode-&gt;left);        &#125;        return true;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#123;        // 首先排除空节点的情况        if (left == NULL &amp;&amp; right != NULL) return false;        else if (left != NULL &amp;&amp; right == NULL) return false;        else if (left == NULL &amp;&amp; right == NULL) return true;        // 排除了空节点，再排除数值不相同的情况        else if (left-&gt;val != right-&gt;val) return false;        // 此时就是：左右节点都不为空，且数值相同的情况        // 此时才做递归，做下一层的判断        bool outside = compare(left-&gt;left, right-&gt;right);   // 左子树：左、 右子树：右        bool inside = compare(left-&gt;right, right-&gt;left);    // 左子树：右、 右子树：左        bool isSame = outside &amp;&amp; inside;                    // 左子树：中、 右子树：中 （逻辑处理）        return isSame;    &#125;    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        return compare(root-&gt;left, root-&gt;right);    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
     <url>/2025/02/11day/</url>
     <content><![CDATA[二叉树
 完全二叉树的节点个数
@@ -317,43 +234,75 @@ class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--链表</title>
-    <url>/2025/01/3day/</url>
-    <content><![CDATA[链表基础
-​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
-移除链表元素
-题目链接：203. 移除链表元素
-题目描述：一个链表的头节点 head 和一个整数 val ，删除链表中所有满足 Node.val == val 的节点，并返回新的头节点 。
-虚拟头节点
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：如果直接处理链表的话，需要考虑头节点，但是加入虚拟头节点就可以按照统一的方式去处理。
-class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        pre-&gt;next=head;        while(head)        &#123;            if(head-&gt;val==val)            &#123;                pre-&gt;next=head-&gt;next;                ListNode* tem=head;                head=head-&gt;next;                delete tem;            &#125;            else            &#123;                pre=head;                head=head-&gt;next;            &#125;        &#125;        return dummy-&gt;next;    &#125;&#125;;
-直接操作
-时间复杂度：O(n)     空间复杂度：O(1)
-class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 删除头结点        while (head != NULL &amp;&amp; head-&gt;val == val) &#123; // 注意这里不是if            ListNode* tmp = head;            head = head-&gt;next;            delete tmp;        &#125;        // 删除非头结点        ListNode* cur = head;        while (cur != NULL &amp;&amp; cur-&gt;next!= NULL) &#123;            if (cur-&gt;next-&gt;val == val) &#123;                ListNode* tmp = cur-&gt;next;                cur-&gt;next = cur-&gt;next-&gt;next;                delete tmp;            &#125; else &#123;                cur = cur-&gt;next;            &#125;        &#125;        return head;    &#125;&#125;;
-递归解法
-时间复杂度：O(n)     空间复杂度：O(n)
-题目思路：首先检查头节点的值是否为 val，如果是则移除头节点，答案即为在头节点的后续节点上递归的结果；如果头节点的值不为 val，则答案为头节点与在头节点的后续节点上递归得到的新链表拼接的结果。
-class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 基础情况：空链表        if (head == nullptr) &#123;            return nullptr;        &#125;        // 递归处理        if (head-&gt;val == val) &#123;            ListNode* newHead = removeElements(head-&gt;next, val);            delete head;            return newHead;        &#125; else &#123;            head-&gt;next = removeElements(head-&gt;next, val);            return head;        &#125;    &#125;&#125;;
-反转链表
-题目链接：206. 反转链表
-题目描述：反转单链表，并返回反转后的链表。
-双指针法
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：定义cur和pre指针，pre初始化为NULL，cur指向head，然后反转链表，cur-&gt;next指向pre，按逻辑移动。
-class Solution &#123;public:    ListNode* reverseList(ListNode* head) &#123;        ListNode* tem;        ListNode* cur=head;        ListNode* pre=NULL;        while(cur)        &#123;            tem=cur-&gt;next;            cur-&gt;next=pre;            pre=cur;            cur=tem;        &#125;        return pre;    &#125;&#125;;
-递归法
-思路和双指针差不多，明天研究一下。
-时间复杂度：O(n)     空间复杂度：O(n)
-class Solution &#123;public:    ListNode* reverse(ListNode* pre,ListNode* cur)&#123;        if(cur == NULL) return pre;        ListNode* temp = cur-&gt;next;        cur-&gt;next = pre;        // 可以和双指针法的代码进行对比，如下递归的写法，其实就是做了这两步        // pre = cur;        // cur = temp;        return reverse(cur,temp);    &#125;    ListNode* reverseList(ListNode* head) &#123;        // 和双指针法初始化是一样的逻辑        // ListNode* cur = head;        // ListNode* pre = NULL;        return reverse(NULL, head);    &#125;&#125;;
-设计链表
-题目链接：707. 设计链表
-题目描述：获取第index个节点的值，添加头节点，添加尾节点，在第 index 个节点之前添加值为 val 的节点，删除链表中的第 index 个节点。
-虚拟头节点
-class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定义 LinkedNode 结构体        int val;        LinkedNode* next;        LinkedNode(int val) : val(val), next(nullptr) &#123;&#125;    &#125;;    LinkedNode* dummyhead;       // 现在可以使用 LinkedNode 类型    int size;    public:    MyLinkedList() &#123;        dummyhead=new LinkedNode(0);        size=0;    &#125;       int get(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return -1;        &#125;        LinkedNode* cur=dummyhead-&gt;next;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        return cur-&gt;val;    &#125;      void addAtHead(int val) &#123;        LinkedNode* newNode = new LinkedNode(val);        newNode-&gt;next=dummyhead-&gt;next;        dummyhead-&gt;next=newNode;        size++;    &#125;     void addAtTail(int val) &#123;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(cur-&gt;next != NULL)        &#123;            cur=cur-&gt;next;        &#125;        cur-&gt;next=newNode;        size++;    &#125;       void addAtIndex(int index, int val) &#123;        if(index&gt;size) return;        if(index&lt;0) index=0;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        newNode-&gt;next=cur-&gt;next;        cur-&gt;next=newNode;        size++;    &#125;    void deleteAtIndex(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return;        &#125;        LinkedNode* cur=dummyhead;        while(index--)        &#123;            cur=cur-&gt;next;        &#125;        LinkedNode* tem=cur-&gt;next;        cur-&gt;next=cur-&gt;next-&gt;next;        delete tem;        size--;    &#125;&#125;;
-虚拟头节点（双链表）
-还未看，直接copy的
-//采用循环虚拟结点的双链表实现class MyLinkedList &#123;public:    // 定义双向链表节点结构体    struct DList &#123;        int elem; // 节点存储的元素        DList *next; // 指向下一个节点的指针        DList *prev; // 指向上一个节点的指针        // 构造函数，创建一个值为elem的新节点        DList(int elem) : elem(elem), next(nullptr), prev(nullptr) &#123;&#125;;    &#125;;    // 构造函数，初始化链表    MyLinkedList() &#123;        sentinelNode = new DList(0); // 创建哨兵节点，不存储有效数据        sentinelNode-&gt;next = sentinelNode; // 哨兵节点的下一个节点指向自身，形成循环        sentinelNode-&gt;prev = sentinelNode; // 哨兵节点的上一个节点指向自身，形成循环        size = 0; // 初始化链表大小为0    &#125;    // 获取链表中第index个节点的值    int get(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return -1; // 如果超出范围，返回-1        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index + 1; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标节点            &#125;        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标节点            &#125;        &#125;        num = curNode-&gt;elem; // 获取目标节点的值        return num; // 返回节点的值    &#125;    // 在链表头部添加节点    void addAtHead(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *next = sentinelNode-&gt;next; // 获取当前头节点的下一个节点        newNode-&gt;prev = sentinelNode; // 新节点的上一个节点指向哨兵节点        newNode-&gt;next = next; // 新节点的下一个节点指向原来的头节点        size++; // 链表大小加1        sentinelNode-&gt;next = newNode; // 哨兵节点的下一个节点指向新节点        next-&gt;prev = newNode; // 原来的头节点的上一个节点指向新节点    &#125;    // 在链表尾部添加节点    void addAtTail(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *prev = sentinelNode-&gt;prev; // 获取当前尾节点的上一个节点        newNode-&gt;next = sentinelNode; // 新节点的下一个节点指向哨兵节点        newNode-&gt;prev = prev; // 新节点的上一个节点指向原来的尾节点        size++; // 链表大小加1        sentinelNode-&gt;prev = newNode; // 哨兵节点的上一个节点指向新节点        prev-&gt;next = newNode; // 原来的尾节点的下一个节点指向新节点    &#125;    // 在链表中的第index个节点之前添加值为val的节点    void addAtIndex(int index, int val) &#123;        if (index &gt; size) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        if (index &lt;= 0) &#123; // 如果索引为0或负数，在头部添加节点            addAtHead(val);            return;        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *temp = curNode-&gt;next; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;next = newNode; // 在目标位置前添加新节点            temp-&gt;prev = newNode; // 目标位置的节点的前一个节点指向新节点            newNode-&gt;next = temp; // 新节点的下一个节点指向目标位置的结点            newNode-&gt;prev = curNode; // 新节点的上一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *temp = curNode-&gt;prev; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;prev = newNode; // 在目标位置后添加新节点            temp-&gt;next = newNode; // 目标位置的节点的下一个节点指向新节点            newNode-&gt;prev = temp; // 新节点的上一个节点指向目标位置的节点            newNode-&gt;next = curNode; // 新节点的下一个节点指向当前节点        &#125;        size++; // 链表大小加1    &#125;    // 删除链表中的第index个节点    void deleteAtIndex(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *next = curNode-&gt;next-&gt;next; // 获取目标位置的下一个节点            curNode-&gt;next = next; // 删除目标位置的节点            next-&gt;prev = curNode; // 目标位置的下一个节点的前一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index - 1; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *prev = curNode-&gt;prev-&gt;prev; // 获取目标位置的下一个节点            curNode-&gt;prev = prev; // 删除目标位置的节点            prev-&gt;next = curNode; // 目标位置的下一个节点的下一个节点指向当前节点        &#125;        size--; // 链表大小减1    &#125;private:    int size; // 链表的大小    DList *sentinelNode; // 哨兵节点的指针&#125;;
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/10day/</url>
+    <content><![CDATA[二叉树层序遍历
+二叉树层序遍历的模板
+
+第一种方法看了一遍代码+写 花了16分钟，挺简单的，递归法就先不看了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node = q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        return res;    &#125;&#125;;
+# 递归法class Solution &#123;public:    void order(TreeNode* cur, vector&lt;vector&lt;int&gt;&gt;&amp; result, int depth)    &#123;        if (cur == nullptr) return;        if (result.size() == depth) result.push_back(vector&lt;int&gt;());        result[depth].push_back(cur-&gt;val);        order(cur-&gt;left, result, depth + 1);        order(cur-&gt;right, result, depth + 1);    &#125;    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        int depth = 0;        order(root, result, depth);        return result;    &#125;&#125;;
+二叉树的层序遍历 II
+题目链接：107. 二叉树的层序遍历 II
+五分钟结束战斗，就是上一个代码翻一下。但是性能有点慢，又交了一次时间也是超100%了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)&#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
+二叉树的右视图
+题目链接：199. 二叉树的右视图
+四分钟解决战斗，思考了不到一分钟。
+class Solution &#123;public:    vector&lt;int&gt; rightSideView(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                 //代码随想录 if (i == (size - 1)) result.push_back(node-&gt;val);                 if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re[size-1]);        &#125;        return res;    &#125;&#125;;
+二叉树的层平均值
+题目链接：637. 二叉树的层平均值
+出了一点小插曲，花了五分钟，前边写的q后边写成p了，double第一次用的int忘了改。
+class Solution &#123;public:    vector&lt;double&gt; averageOfLevels(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;double&gt; res;        while(!q.empty())&#123;            int s=q.size();            double sum=0;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(sum/s);        &#125;        return res;    &#125;&#125;;
+N 叉树的层序遍历
+题目链接：429. N 叉树的层序遍历
+乍一看以为是第一题，看了一下不太明白孩子是啥意思，就直接看的题解，其实也没多大区别。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(Node* root) &#123;        queue&lt;Node*&gt; que;        if (root != NULL) que.push(root);        vector&lt;vector&lt;int&gt;&gt; result;        while (!que.empty()) &#123;            int size = que.size();            vector&lt;int&gt; vec;            for (int i = 0; i &lt; size; i++) &#123;                Node* node = que.front();                que.pop();                vec.push_back(node-&gt;val);                for (int i = 0; i &lt; node-&gt;children.size(); i++) &#123; // 将节点孩子加入队列                    if (node-&gt;children[i]) que.push(node-&gt;children[i]);                &#125;            &#125;            result.push_back(vec);        &#125;        return result;    &#125;&#125;;
+在每个树行中找最大值
+题目链接：515. 在每个树行中找最大值
+花了8分钟，因为INT_MIN不知道如何操作，本来用的int，然后改成long long一点一点试的。
+class Solution &#123;public:    vector&lt;int&gt; largestValues(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int s=q.size();            long long m=-1e14;   //int maxValue = INT_MIN; // 取每一层的最大值            for(int i=0;i&lt;s;i++)            &#123;            TreeNode* node=q.front();            q.pop();            if(node-&gt;val&gt;m) m=node-&gt;val;            if(node-&gt;left) q.push(node-&gt;left);            if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(m);        &#125;        return res;    &#125;&#125;;
+填充每个节点的下一个右侧节点指针
+题目链接：116. 填充每个节点的下一个右侧节点指针
+这题没想明白怎么处理，我是应该新建一个什么类型的vector，用int,char,Node类型都不行，然后就直接看题解了。
+class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
+利用next指针逐层处理（优化）
+class Solution &#123;public:    Node* connect(Node* root) &#123;        if (!root) return nullptr;        Node* leftmost = root; // 当前层的最左节点        while (leftmost-&gt;left) &#123; // 直到叶子层            Node* curr = leftmost;            while (curr) &#123;                // 连接左子节点和右子节点                curr-&gt;left-&gt;next = curr-&gt;right;                // 连接右子节点和相邻节点的左子节点                if (curr-&gt;next) &#123;                    curr-&gt;right-&gt;next = curr-&gt;next-&gt;left;                &#125;                curr = curr-&gt;next; // 移动到同层下一节点            &#125;            leftmost = leftmost-&gt;left; // 移到下一层最左        &#125;        return root;    &#125;&#125;;
+填充每个节点的下一个右侧节点指针 II
+题目链接：117. 填充每个节点的下一个右侧节点指针 II
+class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
+二叉树的最大深度
+题目链接：104. 二叉树的最大深度
+虽然简单，但是用这个方法有种高射炮打蚊子的感觉，感觉应该有更简单的方法。
+class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            sum=sum+1;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;                &#125;        return sum;    &#125;&#125;;
+递归方法：后序遍历（DFS）
+class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        if (root == nullptr) return 0;        return max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;    &#125;&#125;;
+二叉树的最小深度
+题目链接：111. 二叉树的最小深度
+找第一个没有左右子树的节点的深度。
+class Solution &#123;public:    int minDepth(TreeNode* root) &#123;        if (root == NULL) return 0;        int depth = 0;        queue&lt;TreeNode*&gt; que;        que.push(root);        while(!que.empty()) &#123;            int size = que.size();            depth++; // 记录最小深度            for (int i = 0; i &lt; size; i++) &#123;                TreeNode* node = que.front();                que.pop();                if (node-&gt;left) que.push(node-&gt;left);                if (node-&gt;right) que.push(node-&gt;right);                if (!node-&gt;left &amp;&amp; !node-&gt;right) &#123; // 当左右孩子都为空的时候，说明是最低点的一层了，退出                    return depth;                &#125;            &#125;        &#125;        return depth;    &#125;&#125;;
+递归
+如果 node 是空节点，由于没有节点，返回 0。
+如果 node 没有右儿子，那么深度就是左子树的深度加一，即 dfs(node)=dfs(node.left)+1。
+如果 node 没有左儿子，那么深度就是右子树的深度加一，即 dfs(node)=dfs(node.right)+1。
+如果 node 左右儿子都有，那么分别递归计算左子树的深度，以及右子树的深度，二者取最小值再加一，即 dfs(node)=min(dfs(node.left),dfs(node.right))+1
+
+class Solution &#123;public:    int minDepth(TreeNode *root) &#123;        if (root == nullptr) return 0;        if (root-&gt;right == nullptr) return minDepth(root-&gt;left) + 1;        if (root-&gt;left == nullptr) return minDepth(root-&gt;right) + 1;        return min(minDepth(root-&gt;left), minDepth(root-&gt;right)) + 1;    &#125;&#125;;
+翻转二叉树
+题目链接：226. 翻转二叉树
+迭代法：深度优先遍历
+class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == nullptr) return nullptr;        queue&lt;TreeNode*&gt; q;        q.push(root);        while (!q.empty()) &#123;            TreeNode* node = q.front();            q.pop();            // 使用临时变量交换左右子节点            TreeNode* temp = node-&gt;left;            node-&gt;left = node-&gt;right;            node-&gt;right = temp;            // 如果左右子节点不为空，则加入队列            if (node-&gt;left) q.push(node-&gt;left);            if (node-&gt;right) q.push(node-&gt;right);        &#125;        return root;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == NULL) return root;        swap(root-&gt;left, root-&gt;right);  // 中        invertTree(root-&gt;left);         // 左        invertTree(root-&gt;right);        // 右        return root;    &#125;&#125;;
+对称二叉树
+题目链接：101. 对称二叉树
+
+迭代队列法：
+class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        queue&lt;TreeNode*&gt; que;        que.push(root-&gt;left);   // 将左子树头结点加入队列        que.push(root-&gt;right);  // 将右子树头结点加入队列                while (!que.empty()) &#123;  // 接下来就要判断这两个树是否相互翻转            TreeNode* leftNode = que.front(); que.pop();            TreeNode* rightNode = que.front(); que.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;  // 左节点为空、右节点为空，此时说明是对称的                continue;            &#125;            // 左右一个节点不为空，或者都不为空但数值不相同，返回false            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            que.push(leftNode-&gt;left);   // 加入左节点左孩子            que.push(rightNode-&gt;right); // 加入右节点右孩子            que.push(leftNode-&gt;right);  // 加入左节点右孩子            que.push(rightNode-&gt;left);  // 加入右节点左孩子        &#125;        return true;    &#125;&#125;;
+迭代栈法：
+class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        stack&lt;TreeNode*&gt; st; // 这里改成了栈        st.push(root-&gt;left);        st.push(root-&gt;right);        while (!st.empty()) &#123;            TreeNode* rightNode = st.top(); st.pop();            TreeNode* leftNode = st.top(); st.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;                continue;            &#125;            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            st.push(leftNode-&gt;left);            st.push(rightNode-&gt;right);            st.push(leftNode-&gt;right);            st.push(rightNode-&gt;left);        &#125;        return true;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#123;        // 首先排除空节点的情况        if (left == NULL &amp;&amp; right != NULL) return false;        else if (left != NULL &amp;&amp; right == NULL) return false;        else if (left == NULL &amp;&amp; right == NULL) return true;        // 排除了空节点，再排除数值不相同的情况        else if (left-&gt;val != right-&gt;val) return false;        // 此时就是：左右节点都不为空，且数值相同的情况        // 此时才做递归，做下一层的判断        bool outside = compare(left-&gt;left, right-&gt;right);   // 左子树：左、 右子树：右        bool inside = compare(left-&gt;right, right-&gt;left);    // 左子树：右、 右子树：左        bool isSame = outside &amp;&amp; inside;                    // 左子树：中、 右子树：中 （逻辑处理）        return isSame;    &#125;    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        return compare(root-&gt;left, root-&gt;right);    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -361,9 +310,10 @@ class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
         <tag>递归</tag>
-        <tag>双指针</tag>
-        <tag>链表</tag>
+        <tag>迭代</tag>
       </tags>
   </entry>
   <entry>
@@ -418,6 +368,56 @@ class Solution &#123;public:    vector&lt;int&gt; spiralArray(vector&lt;vector&l
         <tag>滑动窗口</tag>
         <tag>矩阵规律</tag>
         <tag>前缀和</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--链表</title>
+    <url>/2025/01/3day/</url>
+    <content><![CDATA[链表基础
+​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
+移除链表元素
+题目链接：203. 移除链表元素
+题目描述：一个链表的头节点 head 和一个整数 val ，删除链表中所有满足 Node.val == val 的节点，并返回新的头节点 。
+虚拟头节点
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：如果直接处理链表的话，需要考虑头节点，但是加入虚拟头节点就可以按照统一的方式去处理。
+class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        pre-&gt;next=head;        while(head)        &#123;            if(head-&gt;val==val)            &#123;                pre-&gt;next=head-&gt;next;                ListNode* tem=head;                head=head-&gt;next;                delete tem;            &#125;            else            &#123;                pre=head;                head=head-&gt;next;            &#125;        &#125;        return dummy-&gt;next;    &#125;&#125;;
+直接操作
+时间复杂度：O(n)     空间复杂度：O(1)
+class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 删除头结点        while (head != NULL &amp;&amp; head-&gt;val == val) &#123; // 注意这里不是if            ListNode* tmp = head;            head = head-&gt;next;            delete tmp;        &#125;        // 删除非头结点        ListNode* cur = head;        while (cur != NULL &amp;&amp; cur-&gt;next!= NULL) &#123;            if (cur-&gt;next-&gt;val == val) &#123;                ListNode* tmp = cur-&gt;next;                cur-&gt;next = cur-&gt;next-&gt;next;                delete tmp;            &#125; else &#123;                cur = cur-&gt;next;            &#125;        &#125;        return head;    &#125;&#125;;
+递归解法
+时间复杂度：O(n)     空间复杂度：O(n)
+题目思路：首先检查头节点的值是否为 val，如果是则移除头节点，答案即为在头节点的后续节点上递归的结果；如果头节点的值不为 val，则答案为头节点与在头节点的后续节点上递归得到的新链表拼接的结果。
+class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 基础情况：空链表        if (head == nullptr) &#123;            return nullptr;        &#125;        // 递归处理        if (head-&gt;val == val) &#123;            ListNode* newHead = removeElements(head-&gt;next, val);            delete head;            return newHead;        &#125; else &#123;            head-&gt;next = removeElements(head-&gt;next, val);            return head;        &#125;    &#125;&#125;;
+反转链表
+题目链接：206. 反转链表
+题目描述：反转单链表，并返回反转后的链表。
+双指针法
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：定义cur和pre指针，pre初始化为NULL，cur指向head，然后反转链表，cur-&gt;next指向pre，按逻辑移动。
+class Solution &#123;public:    ListNode* reverseList(ListNode* head) &#123;        ListNode* tem;        ListNode* cur=head;        ListNode* pre=NULL;        while(cur)        &#123;            tem=cur-&gt;next;            cur-&gt;next=pre;            pre=cur;            cur=tem;        &#125;        return pre;    &#125;&#125;;
+递归法
+思路和双指针差不多，明天研究一下。
+时间复杂度：O(n)     空间复杂度：O(n)
+class Solution &#123;public:    ListNode* reverse(ListNode* pre,ListNode* cur)&#123;        if(cur == NULL) return pre;        ListNode* temp = cur-&gt;next;        cur-&gt;next = pre;        // 可以和双指针法的代码进行对比，如下递归的写法，其实就是做了这两步        // pre = cur;        // cur = temp;        return reverse(cur,temp);    &#125;    ListNode* reverseList(ListNode* head) &#123;        // 和双指针法初始化是一样的逻辑        // ListNode* cur = head;        // ListNode* pre = NULL;        return reverse(NULL, head);    &#125;&#125;;
+设计链表
+题目链接：707. 设计链表
+题目描述：获取第index个节点的值，添加头节点，添加尾节点，在第 index 个节点之前添加值为 val 的节点，删除链表中的第 index 个节点。
+虚拟头节点
+class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定义 LinkedNode 结构体        int val;        LinkedNode* next;        LinkedNode(int val) : val(val), next(nullptr) &#123;&#125;    &#125;;    LinkedNode* dummyhead;       // 现在可以使用 LinkedNode 类型    int size;    public:    MyLinkedList() &#123;        dummyhead=new LinkedNode(0);        size=0;    &#125;       int get(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return -1;        &#125;        LinkedNode* cur=dummyhead-&gt;next;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        return cur-&gt;val;    &#125;      void addAtHead(int val) &#123;        LinkedNode* newNode = new LinkedNode(val);        newNode-&gt;next=dummyhead-&gt;next;        dummyhead-&gt;next=newNode;        size++;    &#125;     void addAtTail(int val) &#123;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(cur-&gt;next != NULL)        &#123;            cur=cur-&gt;next;        &#125;        cur-&gt;next=newNode;        size++;    &#125;       void addAtIndex(int index, int val) &#123;        if(index&gt;size) return;        if(index&lt;0) index=0;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        newNode-&gt;next=cur-&gt;next;        cur-&gt;next=newNode;        size++;    &#125;    void deleteAtIndex(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return;        &#125;        LinkedNode* cur=dummyhead;        while(index--)        &#123;            cur=cur-&gt;next;        &#125;        LinkedNode* tem=cur-&gt;next;        cur-&gt;next=cur-&gt;next-&gt;next;        delete tem;        size--;    &#125;&#125;;
+虚拟头节点（双链表）
+还未看，直接copy的
+//采用循环虚拟结点的双链表实现class MyLinkedList &#123;public:    // 定义双向链表节点结构体    struct DList &#123;        int elem; // 节点存储的元素        DList *next; // 指向下一个节点的指针        DList *prev; // 指向上一个节点的指针        // 构造函数，创建一个值为elem的新节点        DList(int elem) : elem(elem), next(nullptr), prev(nullptr) &#123;&#125;;    &#125;;    // 构造函数，初始化链表    MyLinkedList() &#123;        sentinelNode = new DList(0); // 创建哨兵节点，不存储有效数据        sentinelNode-&gt;next = sentinelNode; // 哨兵节点的下一个节点指向自身，形成循环        sentinelNode-&gt;prev = sentinelNode; // 哨兵节点的上一个节点指向自身，形成循环        size = 0; // 初始化链表大小为0    &#125;    // 获取链表中第index个节点的值    int get(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return -1; // 如果超出范围，返回-1        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index + 1; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标节点            &#125;        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标节点            &#125;        &#125;        num = curNode-&gt;elem; // 获取目标节点的值        return num; // 返回节点的值    &#125;    // 在链表头部添加节点    void addAtHead(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *next = sentinelNode-&gt;next; // 获取当前头节点的下一个节点        newNode-&gt;prev = sentinelNode; // 新节点的上一个节点指向哨兵节点        newNode-&gt;next = next; // 新节点的下一个节点指向原来的头节点        size++; // 链表大小加1        sentinelNode-&gt;next = newNode; // 哨兵节点的下一个节点指向新节点        next-&gt;prev = newNode; // 原来的头节点的上一个节点指向新节点    &#125;    // 在链表尾部添加节点    void addAtTail(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *prev = sentinelNode-&gt;prev; // 获取当前尾节点的上一个节点        newNode-&gt;next = sentinelNode; // 新节点的下一个节点指向哨兵节点        newNode-&gt;prev = prev; // 新节点的上一个节点指向原来的尾节点        size++; // 链表大小加1        sentinelNode-&gt;prev = newNode; // 哨兵节点的上一个节点指向新节点        prev-&gt;next = newNode; // 原来的尾节点的下一个节点指向新节点    &#125;    // 在链表中的第index个节点之前添加值为val的节点    void addAtIndex(int index, int val) &#123;        if (index &gt; size) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        if (index &lt;= 0) &#123; // 如果索引为0或负数，在头部添加节点            addAtHead(val);            return;        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *temp = curNode-&gt;next; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;next = newNode; // 在目标位置前添加新节点            temp-&gt;prev = newNode; // 目标位置的节点的前一个节点指向新节点            newNode-&gt;next = temp; // 新节点的下一个节点指向目标位置的结点            newNode-&gt;prev = curNode; // 新节点的上一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *temp = curNode-&gt;prev; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;prev = newNode; // 在目标位置后添加新节点            temp-&gt;next = newNode; // 目标位置的节点的下一个节点指向新节点            newNode-&gt;prev = temp; // 新节点的上一个节点指向目标位置的节点            newNode-&gt;next = curNode; // 新节点的下一个节点指向当前节点        &#125;        size++; // 链表大小加1    &#125;    // 删除链表中的第index个节点    void deleteAtIndex(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *next = curNode-&gt;next-&gt;next; // 获取目标位置的下一个节点            curNode-&gt;next = next; // 删除目标位置的节点            next-&gt;prev = curNode; // 目标位置的下一个节点的前一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index - 1; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *prev = curNode-&gt;prev-&gt;prev; // 获取目标位置的下一个节点            curNode-&gt;prev = prev; // 删除目标位置的节点            prev-&gt;next = curNode; // 目标位置的下一个节点的下一个节点指向当前节点        &#125;        size--; // 链表大小减1    &#125;private:    int size; // 链表的大小    DList *sentinelNode; // 哨兵节点的指针&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>递归</tag>
+        <tag>双指针</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -863,127 +863,6 @@ class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* r
         <tag>二叉树遍历</tag>
         <tag>递归</tag>
         <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSRMS</title>
-    <url>/2025/04/CSRMS/</url>
-    <content><![CDATA[CSRMS
-用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
-论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
-代码地址：https://github.com/czt117/CSRMS
-个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
-名词解释：
-课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
-实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
-对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
-研究目的
-缓解类内多样性和类间相似性问题
-
-整体架构
-CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
-在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
-
-离线学习阶段
-类级关系建模
-类级关系定义
-(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
-$$
-R_{ID} = \{ (I_a, I_b) \mid y_a = y_b, P_{C_a} \neq P_{C_b} \}
-$$
-(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
-$$
-R_{IS} = \{(I_a, I_b) \mid y_a \neq y_b, P_{C_a} = P_{C_b} \}
-$$
-© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
-$$
-R_{MC} = \{(I_a, I_b) \mid y_a \neq y_b, M_{C_a} = M_{C_b} \}
-$$
-主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
-混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
-ART聚类
-自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。$ C={c1,…,cJ}$
-$$
-C = ART(M_v(I))
-$$
-得到三个级别：类级别、模式级别、实例级别。然后构建关系图 $G_t$ 。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
-训练阶段
-类感知图采样
-正样本采样
-使用主导模式采样器$ S_{dp} $，从类别 $ y_i $ 主导的最大簇 $c_j $ 中选择与 $ I_i $ 距离最大的前 $ n $个正样本。为每个批次样本选择正样本集合 $ \Omega_{posi} $，以解决类内多样性。
-选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
-$$
-\Omega_{posi} = S_{dp}(I_i, \varphi(I_i, I_{i_j}), n)
-$$
-负样本采样
-视觉相似模式采样器 $ S_{ap} $，从类别 $ y_i $ 主导的最大簇 $c_i $ 中选择与 $ I_i $ 距离最大的前 $m$个正样本。为每个批次样本选择负样本集合$\Omega_{nega} $，以解决类间相似性和混类簇。
-选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
-$$
-\Omega_{nega} = S_{ap}(I_i, \varphi(I_i, I_{i_j}), m)
-$$
-课程学习
-基于易难估计，为批次样本分配难度级别。
-$$
-f(I_i) = \begin{cases}
-\Omega_{\text{easy}} &amp; \text{if } \frac{N_k^j}{N_k} &gt; \rho_1 \\
-\Omega_{\text{medium}} &amp; \text{if } \frac{N_k^j}{N_k} &lt; \rho_1 \\
-\Omega_{\text{hard}} &amp; \text{if } \frac{N_k^h}{N_k} &gt; \rho_1 \text{ and } j \neq h
-\end{cases}
-$$
-调整学习权重
-使用“衰减方法”，设置惩罚系数，并通过参数调节。
-$$
-α_i⋅λ_e+(1−α_i)⋅(α_f⋅λ_m+(1−α_f)⋅λ_h)=1
-$$
-初期：$\alpha_i $、$ \alpha_f $接近 1，优先学习简单样本。
-后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 $ \alpha_i $、$ \alpha_f $，引入更多困难样本。
-构建批次子图
-$G_b$ 是 $ G_t $的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 $ G_t $中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
-关系图引导的表示学习
-簇感知表征平滑
-图形平滑
-使用图卷积网络（GCN）$ \mathcal{G}(\cdot) $，基于子图 $ G_b $ 和正样本 $ \Omega_{posi} $，聚合同一类别图像的信息。
-$$
-F_g=\mathcal{G}(\hat{A},I_i,Ω_{posi})=softmax(\hat{A}⋅ReLU(\hat{A}⋅X⋅W^{(1)})⋅W^{(0)})
-$$
-簇级特征平滑
-将表征 $ F_g $ 与簇原型  $ w_{cu} $ 对齐，其中$w_{cu} $是类别 $ y_i $主导的最大簇 $c_j $的原型。
-$$
-F_u=α_u⊙F_g+β_u⊙w_{cu}
-$$
-类级分布正则化
-类级表征对齐
-表征 $ F_u$ 与类原型 $ p_{cu} $ 对齐，其中 $ p_{cu} $ 是类别 $ y_i $ 在所有主导簇中的表征聚合。
-$$
-F_a=α_a⊙F_u+β_a⊙p_{cu}
-$$
-负样本约束
-构建负样本损失$\mathcal L_{neg}$，推远不同类别表征：
-$$
-\mathcal L_{neg} = \sum_{i=1}^{N} -\log \left( \mu_{i} \frac{\theta}{\sum_{q=1}^{m}|M_v(I_i) - M_v(\Omega_{nega}^q)|_2 + \theta} \right)
-$$
-类间约束
-构建类间分散损失$\mathcal L_{inter}$，进一步推远不同类别表征：
-$$
-\mathcal L_{inter} = \sum_{i,j} { i = j } |0| + { i \ne j } -\log \left( \mu\frac{\theta}{|F_v^i - F_v^j|_2 + \theta} \right)
-$$
-分类器训练
-使用分类器 $ C(\cdot) $预测类别：
-$$
-F_a →P
-$$
-使用交叉熵损失 $\mathcal L_{ce}$优化：
-$$
-\mathcal L_{ce} = \frac{1}{N} \sum_{i} \mathcal L_i = -\frac{1}{N} \sum_{i}\sum_{c=1}^{C} y_{ic} \log(P_{ic})
-$$
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
-      </categories>
-      <tags>
-        <tag>视觉表征</tag>
-        <tag>论文精读</tag>
       </tags>
   </entry>
   <entry>
@@ -1543,10 +1422,131 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
         <category>自然语言处理</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
         <tag>BERT</tag>
         <tag>Transformer</tag>
         <tag>自然语言处理</tag>
+        <tag>论文精读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSRMS</title>
+    <url>/2025/04/CSRMS/</url>
+    <content><![CDATA[CSRMS
+用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
+论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
+代码地址：https://github.com/czt117/CSRMS
+个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
+名词解释：
+课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
+实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
+对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
+研究目的
+缓解类内多样性和类间相似性问题
+
+整体架构
+CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
+在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
+
+离线学习阶段
+类级关系建模
+类级关系定义
+(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
+$$
+R_{ID} = \{ (I_a, I_b) \mid y_a = y_b, P_{C_a} \neq P_{C_b} \}
+$$
+(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
+$$
+R_{IS} = \{(I_a, I_b) \mid y_a \neq y_b, P_{C_a} = P_{C_b} \}
+$$
+© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
+$$
+R_{MC} = \{(I_a, I_b) \mid y_a \neq y_b, M_{C_a} = M_{C_b} \}
+$$
+主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
+混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
+ART聚类
+自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。$ C={c1,…,cJ}$
+$$
+C = ART(M_v(I))
+$$
+得到三个级别：类级别、模式级别、实例级别。然后构建关系图 $G_t$ 。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
+训练阶段
+类感知图采样
+正样本采样
+使用主导模式采样器$ S_{dp} $，从类别 $ y_i $ 主导的最大簇 $c_j $ 中选择与 $ I_i $ 距离最大的前 $ n $个正样本。为每个批次样本选择正样本集合 $ \Omega_{posi} $，以解决类内多样性。
+选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
+$$
+\Omega_{posi} = S_{dp}(I_i, \varphi(I_i, I_{i_j}), n)
+$$
+负样本采样
+视觉相似模式采样器 $ S_{ap} $，从类别 $ y_i $ 主导的最大簇 $c_i $ 中选择与 $ I_i $ 距离最大的前 $m$个正样本。为每个批次样本选择负样本集合$\Omega_{nega} $，以解决类间相似性和混类簇。
+选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
+$$
+\Omega_{nega} = S_{ap}(I_i, \varphi(I_i, I_{i_j}), m)
+$$
+课程学习
+基于易难估计，为批次样本分配难度级别。
+$$
+f(I_i) = \begin{cases}
+\Omega_{\text{easy}} &amp; \text{if } \frac{N_k^j}{N_k} &gt; \rho_1 \\
+\Omega_{\text{medium}} &amp; \text{if } \frac{N_k^j}{N_k} &lt; \rho_1 \\
+\Omega_{\text{hard}} &amp; \text{if } \frac{N_k^h}{N_k} &gt; \rho_1 \text{ and } j \neq h
+\end{cases}
+$$
+调整学习权重
+使用“衰减方法”，设置惩罚系数，并通过参数调节。
+$$
+α_i⋅λ_e+(1−α_i)⋅(α_f⋅λ_m+(1−α_f)⋅λ_h)=1
+$$
+初期：$\alpha_i $、$ \alpha_f $接近 1，优先学习简单样本。
+后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 $ \alpha_i $、$ \alpha_f $，引入更多困难样本。
+构建批次子图
+$G_b$ 是 $ G_t $的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 $ G_t $中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
+关系图引导的表示学习
+簇感知表征平滑
+图形平滑
+使用图卷积网络（GCN）$ \mathcal{G}(\cdot) $，基于子图 $ G_b $ 和正样本 $ \Omega_{posi} $，聚合同一类别图像的信息。
+$$
+F_g=\mathcal{G}(\hat{A},I_i,Ω_{posi})=softmax(\hat{A}⋅ReLU(\hat{A}⋅X⋅W^{(1)})⋅W^{(0)})
+$$
+簇级特征平滑
+将表征 $ F_g $ 与簇原型  $ w_{cu} $ 对齐，其中$w_{cu} $是类别 $ y_i $主导的最大簇 $c_j $的原型。
+$$
+F_u=α_u⊙F_g+β_u⊙w_{cu}
+$$
+类级分布正则化
+类级表征对齐
+表征 $ F_u$ 与类原型 $ p_{cu} $ 对齐，其中 $ p_{cu} $ 是类别 $ y_i $ 在所有主导簇中的表征聚合。
+$$
+F_a=α_a⊙F_u+β_a⊙p_{cu}
+$$
+负样本约束
+构建负样本损失$\mathcal L_{neg}$，推远不同类别表征：
+$$
+\mathcal L_{neg} = \sum_{i=1}^{N} -\log \left( \mu_{i} \frac{\theta}{\sum_{q=1}^{m}|M_v(I_i) - M_v(\Omega_{nega}^q)|_2 + \theta} \right)
+$$
+类间约束
+构建类间分散损失$\mathcal L_{inter}$，进一步推远不同类别表征：
+$$
+\mathcal L_{inter} = \sum_{i,j} { i = j } |0| + { i \ne j } -\log \left( \mu\frac{\theta}{|F_v^i - F_v^j|_2 + \theta} \right)
+$$
+分类器训练
+使用分类器 $ C(\cdot) $预测类别：
+$$
+F_a →P
+$$
+使用交叉熵损失 $\mathcal L_{ce}$优化：
+$$
+\mathcal L_{ce} = \frac{1}{N} \sum_{i} \mathcal L_i = -\frac{1}{N} \sum_{i}\sum_{c=1}^{C} y_{ic} \log(P_{ic})
+$$
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>视觉表征</tag>
       </tags>
   </entry>
   <entry>
@@ -3422,28 +3422,6 @@ reserve(n)
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--哈希表</title>
     <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
     <content><![CDATA[哈希表
@@ -3501,6 +3479,28 @@ Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局
         <tag>链表</tag>
         <tag>哈希表</tag>
         <tag>查找</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -7101,6 +7101,71 @@ SupCon学习到的特征更具判别性和泛化能力
       </tags>
   </entry>
   <entry>
+    <title>基础知识--绪论</title>
+    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
+    <content><![CDATA[绪论
+数据结构
+数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
+逻辑结构
+线性结构
+一般线性表：线性表
+特殊线性表：栈、队列、字符串
+线性表的推广：数组、广义表
+非线性结构
+树结构：树、二叉树
+图结构：有向图、无向图
+集合结构
+存储结构
+顺序存储
+逻辑上连续，物理上连续
+优点：
+
+随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
+内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
+空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
+
+缺点：
+
+插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
+固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
+内存浪费：若预分配空间过大，可能造成内存冗余。
+
+链式存储
+逻辑上不要求连续，物理上⼀定连续
+优点：
+
+动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
+插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
+灵活性强：支持多种衍生结构（如双向链表、循环链表）。
+
+缺点：
+
+
+无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
+
+
+额外空间开销：每个节点需存储指针字段，占用更多内存。
+
+
+内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
+
+
+算法的效率
+算法是为了解决某类问题而规定的一个有限长的操作序列。
+算法时间复杂度
+一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
+算法空间复杂度
+所⽤到的临时空间⼤⼩
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>绪论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基础知识--线性表</title>
     <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
     <content><![CDATA[线性表
@@ -7164,71 +7229,6 @@ SupCon学习到的特征更具判别性和泛化能力
         <tag>数据结构与算法</tag>
         <tag>链表</tag>
         <tag>线性表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--绪论</title>
-    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
-    <content><![CDATA[绪论
-数据结构
-数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
-逻辑结构
-线性结构
-一般线性表：线性表
-特殊线性表：栈、队列、字符串
-线性表的推广：数组、广义表
-非线性结构
-树结构：树、二叉树
-图结构：有向图、无向图
-集合结构
-存储结构
-顺序存储
-逻辑上连续，物理上连续
-优点：
-
-随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
-内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
-空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
-
-缺点：
-
-插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
-固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
-内存浪费：若预分配空间过大，可能造成内存冗余。
-
-链式存储
-逻辑上不要求连续，物理上⼀定连续
-优点：
-
-动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
-插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
-灵活性强：支持多种衍生结构（如双向链表、循环链表）。
-
-缺点：
-
-
-无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
-
-
-额外空间开销：每个节点需存储指针字段，占用更多内存。
-
-
-内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
-
-
-算法的效率
-算法是为了解决某类问题而规定的一个有限长的操作序列。
-算法时间复杂度
-一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
-算法空间复杂度
-所⽤到的临时空间⼤⼩
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>绪论</tag>
       </tags>
   </entry>
 </search>

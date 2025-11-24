@@ -6604,11 +6604,11 @@ blockquote.pullquote.right {
     background: linear-gradient(120deg, #5b27ff 0, #00d4ff 100%);
     background-size: 200%;
     animation: gradient 15s ease infinite;
-    width: 59%;
+    width: 64%;
   }
   
   .author-content-item {
-    width: 49%;
+    width: 48%;
     border-radius: 24px;
     background: var(--anzhiyu-card-bg);
     border: var(--style-border-always);
@@ -6644,7 +6644,7 @@ blockquote.pullquote.right {
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
-    width: 39%;
+    width: 34%;
   }
   
   .aboutsiteTips h2 {
@@ -6698,7 +6698,7 @@ blockquote.pullquote.right {
 
   #about-page .about-statistic {
     min-height: 380px;
-    width: 39%;
+    width: 34%;
     background: url(https://img02.anheyu.com/adminuploads/1/2022/09/23/632d634f8376d.jpg) no-repeat top;
     background-size: cover;
     color: var(--anzhiyu-white);
@@ -6808,7 +6808,7 @@ blockquote.pullquote.right {
   }
   .author-content-item.personalities {
     position: relative;
-    width: 59%;
+    width: 64%;
   }
   
   .author-content-item.personalities .image {
@@ -6832,7 +6832,7 @@ blockquote.pullquote.right {
     min-height: 240px;
     position: relative;
     overflow: hidden;
-    width: 39%;
+    width: 34%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6890,13 +6890,13 @@ blockquote.pullquote.right {
     line-height: 1;
   }
   .author-content-item-group.column.mapAndInfo {
-    width: 59%;
+    width: 64%;
   }
 
   .author-content-item-group.column {
     display: flex;
     flex-direction: column;
-    width: 49%;
+    width: 34%;
     justify-content: space-between;
   }
   
@@ -7085,7 +7085,7 @@ blockquote.pullquote.right {
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
-    width: 39%;
+    width: 34%;
   }
   .author-content-item .author-content-item-tips {
     opacity: 0.8;
@@ -7111,7 +7111,7 @@ blockquote.pullquote.right {
     animation: gradient 15s ease infinite;
     min-height: 200px;
     height: fit-content;
-    width: 59%;
+    width: 64%;
   }
   .author-content-item.buff .card-content {
     display: flex;
@@ -7137,7 +7137,7 @@ blockquote.pullquote.right {
     min-height: 300px;
     overflow: hidden;
     color: var(--anzhiyu-white);
-    width: 59%;
+    width: 64%;
   }
   
   .author-content-item .content-bottom {
@@ -7170,7 +7170,7 @@ blockquote.pullquote.right {
   }
   
   .author-content-item.comic-content {
-    width: 39%;
+    width: 34%;
     background: url(https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/violet.jpg) no-repeat top;
     background-size: cover;
     min-height: 300px;
