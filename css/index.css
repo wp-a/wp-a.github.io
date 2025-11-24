@@ -6893,7 +6893,7 @@ blockquote.pullquote.right {
     line-height: 1;
   }
   .author-content-item-group.column.mapAndInfo {
-    width: 64%;
+    width: 100% !important;
   }
 
   .author-content-item-group.column {
