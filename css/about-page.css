@@ -1,0 +1,20 @@
+/* 关于页面宽度调整 */
+#about-page .layout {
+  max-width: 1200px !important;
+}
+
+#about-page #article-container {
+  max-width: 100% !important;
+}
+
+/* 如果是卡片布局 */
+.layout > div:first-child:not(.recent-posts) {
+  max-width: 1200px !important;
+  margin: 0 auto;
+}
+
+/* 调整内容区域宽度 */
+#article-container {
+  max-width: 1200px !important;
+  margin: 0 auto;
+}
