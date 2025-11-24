@@ -25,7 +25,7 @@
       --text-secondary: #71717a; /* 中灰辅助文字 */
       --border-color: #e4e4e7; /* 极淡边框 */
       --sidebar-width: 280px;
-      --content-max-width: 920px;
+      --content-max-width: 1100px; /* 增加内容区域宽度 */
       --font-main: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
       
       /* 精致阴影 - 多层次 */
@@ -195,7 +195,7 @@
     
     .main-content {
       margin-left: var(--sidebar-width);
-      padding: 100px 60px 60px; /* 顶部留出导航栏空间 */
+      padding: 100px 80px 60px; /* 增加左右padding，让内容更宽 */
       max-width: calc(var(--content-max-width) + var(--sidebar-width));
       flex: 1;
     }
