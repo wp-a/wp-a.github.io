@@ -71,3 +71,9 @@ pre > code { /* 更精确地控制代码块内的文本 */
     /* font-family: monospace;  可选：使用等宽字体 */
 }
 
+/* 关于页面宽度调整 */
+.layout_page > div:first-child:not(.recent-posts) {
+    max-width: 1200px !important;
+    margin: 0 auto;
+}
+
