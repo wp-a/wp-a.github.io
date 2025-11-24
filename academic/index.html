@@ -804,11 +804,11 @@
       const enElements = document.querySelectorAll('.lang-en');
       
       if (currentLang === 'zh') {
-        zhElements.forEach(el => el.style.display = '');
+        zhElements.forEach(el => el.style.display = 'inline');
         enElements.forEach(el => el.style.display = 'none');
       } else {
         zhElements.forEach(el => el.style.display = 'none');
-        enElements.forEach(el => el.style.display = '');
+        enElements.forEach(el => el.style.display = 'inline');
       }
       
       // 重新渲染内容
