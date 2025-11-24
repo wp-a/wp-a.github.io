@@ -6872,6 +6872,10 @@ blockquote.pullquote.right {
     height: -webkit-fill-available;
     height: 40%;
   }
+  #about-page .author-content-item.selfInfo {
+    width: 100% !important;
+    max-width: none !important;
+  }
   .author-content-item.selfInfo div {
     display: flex;
     flex-direction: column;
