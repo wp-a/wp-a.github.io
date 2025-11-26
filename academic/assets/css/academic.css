@@ -406,6 +406,12 @@ h2 span:first-child {
     color: var(--text-color);
     margin-bottom: 24px;
     line-height: 1.8;
+    text-align: left;
+    /* 左对齐，不使用两端对齐 */
+    word-wrap: break-word;
+    /* 允许长单词换行 */
+    overflow-wrap: break-word;
+    /* 现代浏览器的换行 */
 }
 
 /* News List - Glass Cards */
