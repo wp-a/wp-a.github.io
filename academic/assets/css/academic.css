@@ -149,6 +149,16 @@ a:hover {
     color: var(--accent-color);
 }
 
+/* Language Display Control */
+.lang-en {
+    display: none;
+}
+
+.lang-zh {
+    display: inline;
+}
+
+
 /* Glassmorphism Utilities */
 .glass {
     background: var(--glass-bg);
