@@ -263,6 +263,61 @@ class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;       
   </entry>
   <entry>
     <title>代码随想录--数组</title>
+    <url>/2025/01/1day/</url>
+    <content><![CDATA[二分查找
+每次去除当前区间一半的元素，时间复杂度O(logn)，注意处理好区间。
+例题
+题目链接：704. 二分查找
+题目描述：在严格递增的序列中找到给定的数，并返回其下标。
+左闭右闭 [left,right]
+class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid-1;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
+左闭右开 [left,right)
+class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;r) //当l=r时没有意义，所以改为l&lt;r.        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
+相关题目
+35. 搜索插入位置
+比较简单，处理一下返回值就可以。
+34. 在排序数组中查找元素的第一个和最后一个位置
+需要进行两次操作，找到左右边界，较复杂，还需要多做做。
+69. x 的平方根 
+我的思路是当(l-r)&lt;=1,找到的l便是整数部分。
+367. 有效的完全平方数
+题目还未做
+双指针
+一种重要的编程思想，非常高效。
+例题
+题目链接：https://leetcode.cn/problems/remove-element/
+题目描述：给定一个数组 nums 和一个值 val，原地移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+左右指针法
+思路：从两头向中间移动指针，当左边==val，右边！=val时，交换两个元素，边界问题不太好处理，较麻烦。
+class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            while(l&lt;=r &amp;&amp; nums[l]!=val) l++;            while(l&lt;=r &amp;&amp; nums[r]==val) r--;            if(l&lt;r)&#123; swap(nums[l],nums[r]);            l++;            r--;&#125;        &#125;        return r+1;    &#125;&#125;;
+快慢指针法
+思路：定义一个快指针，用于一直向前循环，定义一个慢指针，当快指针指到的元素！=val时，将这个元素加入到慢指针指向的位置。快指针不会慢于慢指针，所以慢指针元素的更改就是它最后输出的数组。
+class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int fast=0,slow=0,n=nums.size();        while(fast&lt;n)        &#123;            if(nums[fast]==val) fast++;            else nums[slow++]=nums[fast++];        &#125;        return slow;    &#125;&#125;;
+相关题目
+26.删除有序数组中的重复项：https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description/
+思路：快慢指针，题解中i为快指针，n为慢指针，当快慢指针指向的元素不相等时，更新慢指针，思路和例题中的差不多。
+class Solution &#123;public:    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;        int n=0;        for(int i=0;i&lt;nums.size();i++) if(nums[i]!=nums[n]) nums[++n]=nums[i];        return n+1;    &#125;&#125;;
+283.移动零：https://leetcode.cn/problems/move-zeroes/solutions/2821184/san-chong-jie-fa-duo-yu-yan-you-pei-tu-b-1d3s/
+思路：这题不太好想，前几天做过，这次看还是没思路。
+class Solution &#123;public:    void moveZeroes(vector&lt;int&gt;&amp; nums) &#123;        int n=0,tem;        for(int i=0;i&lt;nums.size();i++)        &#123;            if(nums[i]!=0)            &#123;                tem=nums[i];                nums[i]=0;                nums[n++]=tem;                 &#125;        &#125;    &#125;&#125;;
+977.有序数组的平方：https://leetcode.cn/problems/squares-of-a-sorted-array/
+这题印象比较深刻，前几天做的时候一直想不明白我的做法的问题，后来问了学长，才知道，我因为没有定义一个新数组，导致在原数组上操作导致的问题。直接定义int数组也不行，得用vector定义一个动态数组，没接触过vector也是不太会用，一直想着看看呢，也总是不想看。当时一直以为是超出int范围了。
+思路：左右指针法，两边的数的平方向中间是递减的，所以比较两端，大的那一个就是剩下元素中最大的那个。
+class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        int l = 0, r = nums.size() - 1, pos = nums.size() - 1;        vector&lt;int&gt; result(nums.size());  // 创建 int 类型的结果数组        while (l &lt;= r) &#123;            int ll = nums[l] * nums[l];              int rr = nums[r] * nums[r];              if (ll &gt;= rr) &#123;                result[pos] = ll;                l++;            &#125; else &#123;                result[pos] = rr;                r--;            &#125;            pos--;        &#125;        return result;  // 返回结果数组    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二分查找</tag>
+        <tag>双指针</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--数组</title>
     <url>/2025/01/2day/</url>
     <content><![CDATA[滑动窗口
 ​	刚开始不太好想到滑动窗口这种方法，即使想到了也并没有办法证明滑动窗口方法的正确性，现在我也不会证明。只是会用，前几天做过一次，这是第二次做，记住了这个方法之后也是没有什么障碍。
@@ -316,107 +371,6 @@ class Solution &#123;public:    vector&lt;int&gt; spiralArray(vector&lt;vector&l
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--数组</title>
-    <url>/2025/01/1day/</url>
-    <content><![CDATA[二分查找
-每次去除当前区间一半的元素，时间复杂度O(logn)，注意处理好区间。
-例题
-题目链接：704. 二分查找
-题目描述：在严格递增的序列中找到给定的数，并返回其下标。
-左闭右闭 [left,right]
-class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid-1;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
-左闭右开 [left,right)
-class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;r) //当l=r时没有意义，所以改为l&lt;r.        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
-相关题目
-35. 搜索插入位置
-比较简单，处理一下返回值就可以。
-34. 在排序数组中查找元素的第一个和最后一个位置
-需要进行两次操作，找到左右边界，较复杂，还需要多做做。
-69. x 的平方根 
-我的思路是当(l-r)&lt;=1,找到的l便是整数部分。
-367. 有效的完全平方数
-题目还未做
-双指针
-一种重要的编程思想，非常高效。
-例题
-题目链接：https://leetcode.cn/problems/remove-element/
-题目描述：给定一个数组 nums 和一个值 val，原地移除所有数值等于 val 的元素，并返回移除后数组的新长度。
-左右指针法
-思路：从两头向中间移动指针，当左边==val，右边！=val时，交换两个元素，边界问题不太好处理，较麻烦。
-class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            while(l&lt;=r &amp;&amp; nums[l]!=val) l++;            while(l&lt;=r &amp;&amp; nums[r]==val) r--;            if(l&lt;r)&#123; swap(nums[l],nums[r]);            l++;            r--;&#125;        &#125;        return r+1;    &#125;&#125;;
-快慢指针法
-思路：定义一个快指针，用于一直向前循环，定义一个慢指针，当快指针指到的元素！=val时，将这个元素加入到慢指针指向的位置。快指针不会慢于慢指针，所以慢指针元素的更改就是它最后输出的数组。
-class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int fast=0,slow=0,n=nums.size();        while(fast&lt;n)        &#123;            if(nums[fast]==val) fast++;            else nums[slow++]=nums[fast++];        &#125;        return slow;    &#125;&#125;;
-相关题目
-26.删除有序数组中的重复项：https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description/
-思路：快慢指针，题解中i为快指针，n为慢指针，当快慢指针指向的元素不相等时，更新慢指针，思路和例题中的差不多。
-class Solution &#123;public:    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;        int n=0;        for(int i=0;i&lt;nums.size();i++) if(nums[i]!=nums[n]) nums[++n]=nums[i];        return n+1;    &#125;&#125;;
-283.移动零：https://leetcode.cn/problems/move-zeroes/solutions/2821184/san-chong-jie-fa-duo-yu-yan-you-pei-tu-b-1d3s/
-思路：这题不太好想，前几天做过，这次看还是没思路。
-class Solution &#123;public:    void moveZeroes(vector&lt;int&gt;&amp; nums) &#123;        int n=0,tem;        for(int i=0;i&lt;nums.size();i++)        &#123;            if(nums[i]!=0)            &#123;                tem=nums[i];                nums[i]=0;                nums[n++]=tem;                 &#125;        &#125;    &#125;&#125;;
-977.有序数组的平方：https://leetcode.cn/problems/squares-of-a-sorted-array/
-这题印象比较深刻，前几天做的时候一直想不明白我的做法的问题，后来问了学长，才知道，我因为没有定义一个新数组，导致在原数组上操作导致的问题。直接定义int数组也不行，得用vector定义一个动态数组，没接触过vector也是不太会用，一直想着看看呢，也总是不想看。当时一直以为是超出int范围了。
-思路：左右指针法，两边的数的平方向中间是递减的，所以比较两端，大的那一个就是剩下元素中最大的那个。
-class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        int l = 0, r = nums.size() - 1, pos = nums.size() - 1;        vector&lt;int&gt; result(nums.size());  // 创建 int 类型的结果数组        while (l &lt;= r) &#123;            int ll = nums[l] * nums[l];              int rr = nums[r] * nums[r];              if (ll &gt;= rr) &#123;                result[pos] = ll;                l++;            &#125; else &#123;                result[pos] = rr;                r--;            &#125;            pos--;        &#125;        return result;  // 返回结果数组    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
-        <tag>双指针</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--链表</title>
-    <url>/2025/01/4day/</url>
-    <content><![CDATA[链表操作
-​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
-两两交换链表中的节点
-题目链接：24. 两两交换链表中的节点
-题目描述：两两交换链表中相邻的节点，并返回交换后链表的头节点
-虚拟头节点
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：直接对指针进行处理就行了。刚才随手写了一下，想着交一下看看哪里有bug呢，结果直接过了，也是挺顺的。
-class Solution &#123;public:    ListNode* swapPairs(ListNode* head) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        dummy-&gt;next=head;        while(head &amp;&amp; head-&gt;next)        &#123;            ListNode* tmp=pre-&gt;next;            ListNode* tmp1=pre-&gt;next-&gt;next-&gt;next;            pre-&gt;next=head-&gt;next;            pre-&gt;next-&gt;next=tmp;            pre-&gt;next-&gt;next-&gt;next=tmp1;            pre=tmp;            head=tmp1;        &#125;        return dummy-&gt;next;    &#125;&#125;;
-删除链表的倒数第 N 个结点
-题目链接：9. 删除链表的倒数第 N 个结点
-题目描述：删除链表的倒数第 n 个结点，并且返回链表的头结点。
-快慢双指针法
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：又给秒了，定义一个快指针，一个慢指针，快指针先移动到第n个位置，然后开始快慢指针开始同时移动，当快指针指向尾节点的时候，慢指针正好指向导数第n个位置的前一个结点，略过倒数第n个结点，就结束了。
-class Solution &#123;public:    ListNode* removeNthFromEnd(ListNode* head, int n) &#123;        ListNode* dummy=new ListNode(0);        ListNode* fast=dummy;        ListNode* slow=dummy;        dummy-&gt;next=head;        for(int i=0;i&lt;=n;i++) fast=fast-&gt;next;        while(fast)        &#123;            fast=fast-&gt;next;            slow=slow-&gt;next;        &#125;        ListNode* tmp=slow-&gt;next;        slow-&gt;next=slow-&gt;next-&gt;next;        delete tmp;        return dummy-&gt;next;    &#125;&#125;;
-链表相交
-题目链接：面试题 02.07. 链表相交
-题目描述：给定单链表的头节点 headA 和 headB ，找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
-思路1
-题目思路：求两个链表交点节点的指针。题目我都看不懂！看题解秒了。
-求出两个链表的长度，并求出两个链表长度的差值，然后让curA移动到，和curB 末尾对齐的位置。比较curA和curB是否相同，如果不相同，同时向后移动curA和curB，如果遇到curA == curB，则找到交点。否则循环退出返回空指针。
-class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode* curA = headA;        ListNode* curB = headB;        int lenA = 0, lenB = 0;        while (curA != NULL) &#123; // 求链表A的长度            lenA++;            curA = curA-&gt;next;        &#125;        while (curB != NULL) &#123; // 求链表B的长度            lenB++;            curB = curB-&gt;next;        &#125;        curA = headA;        curB = headB;        // 让curA为最长链表的头，lenA为其长度        if (lenB &gt; lenA) &#123;            swap (lenA, lenB);            swap (curA, curB);        &#125;        // 求长度差        int gap = lenA - lenB;        // 让curA和curB在同一起点上（末尾位置对齐）        while (gap--) &#123;            curA = curA-&gt;next;        &#125;        // 遍历curA 和 curB，遇到相同则直接返回        while (curA != NULL) &#123;            if (curA == curB) &#123;                return curA;            &#125;            curA = curA-&gt;next;            curB = curB-&gt;next;        &#125;        return NULL;    &#125;&#125;;
-思路二
-再贴个牛逼代码。
-class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode *A = headA, *B = headB;        while (A != B) &#123;            A = A != nullptr ? A-&gt;next : headB;            B = B != nullptr ? B-&gt;next : headA;        &#125;        return A;    &#125;&#125;;
-环形链表
-题目链接：142. 环形链表 II
-题目描述：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
-题目思路：很有生活的题，不太好想，看题解才明白怎么才能找到环的入口，也是挺有思维量的。想明白了就好了，记下来就行了。
-class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;        ListNode* fast=head;        ListNode* slow=head;        while(fast &amp;&amp; fast-&gt;next)&#123;            fast=fast-&gt;next-&gt;next;            slow=slow-&gt;next;            if(fast==slow)&#123;                ListNode* f=fast;                ListNode* s=head;                while(f!=s)&#123;                    f=f-&gt;next;                    s=s-&gt;next;                &#125;                return s;            &#125;        &#125;        return 0;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>递归</tag>
-        <tag>双指针</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--链表</title>
     <url>/2025/01/3day/</url>
     <content><![CDATA[链表基础
@@ -454,6 +408,52 @@ class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定
 虚拟头节点（双链表）
 还未看，直接copy的
 //采用循环虚拟结点的双链表实现class MyLinkedList &#123;public:    // 定义双向链表节点结构体    struct DList &#123;        int elem; // 节点存储的元素        DList *next; // 指向下一个节点的指针        DList *prev; // 指向上一个节点的指针        // 构造函数，创建一个值为elem的新节点        DList(int elem) : elem(elem), next(nullptr), prev(nullptr) &#123;&#125;;    &#125;;    // 构造函数，初始化链表    MyLinkedList() &#123;        sentinelNode = new DList(0); // 创建哨兵节点，不存储有效数据        sentinelNode-&gt;next = sentinelNode; // 哨兵节点的下一个节点指向自身，形成循环        sentinelNode-&gt;prev = sentinelNode; // 哨兵节点的上一个节点指向自身，形成循环        size = 0; // 初始化链表大小为0    &#125;    // 获取链表中第index个节点的值    int get(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return -1; // 如果超出范围，返回-1        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index + 1; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标节点            &#125;        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标节点            &#125;        &#125;        num = curNode-&gt;elem; // 获取目标节点的值        return num; // 返回节点的值    &#125;    // 在链表头部添加节点    void addAtHead(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *next = sentinelNode-&gt;next; // 获取当前头节点的下一个节点        newNode-&gt;prev = sentinelNode; // 新节点的上一个节点指向哨兵节点        newNode-&gt;next = next; // 新节点的下一个节点指向原来的头节点        size++; // 链表大小加1        sentinelNode-&gt;next = newNode; // 哨兵节点的下一个节点指向新节点        next-&gt;prev = newNode; // 原来的头节点的上一个节点指向新节点    &#125;    // 在链表尾部添加节点    void addAtTail(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *prev = sentinelNode-&gt;prev; // 获取当前尾节点的上一个节点        newNode-&gt;next = sentinelNode; // 新节点的下一个节点指向哨兵节点        newNode-&gt;prev = prev; // 新节点的上一个节点指向原来的尾节点        size++; // 链表大小加1        sentinelNode-&gt;prev = newNode; // 哨兵节点的上一个节点指向新节点        prev-&gt;next = newNode; // 原来的尾节点的下一个节点指向新节点    &#125;    // 在链表中的第index个节点之前添加值为val的节点    void addAtIndex(int index, int val) &#123;        if (index &gt; size) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        if (index &lt;= 0) &#123; // 如果索引为0或负数，在头部添加节点            addAtHead(val);            return;        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *temp = curNode-&gt;next; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;next = newNode; // 在目标位置前添加新节点            temp-&gt;prev = newNode; // 目标位置的节点的前一个节点指向新节点            newNode-&gt;next = temp; // 新节点的下一个节点指向目标位置的结点            newNode-&gt;prev = curNode; // 新节点的上一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *temp = curNode-&gt;prev; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;prev = newNode; // 在目标位置后添加新节点            temp-&gt;next = newNode; // 目标位置的节点的下一个节点指向新节点            newNode-&gt;prev = temp; // 新节点的上一个节点指向目标位置的节点            newNode-&gt;next = curNode; // 新节点的下一个节点指向当前节点        &#125;        size++; // 链表大小加1    &#125;    // 删除链表中的第index个节点    void deleteAtIndex(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *next = curNode-&gt;next-&gt;next; // 获取目标位置的下一个节点            curNode-&gt;next = next; // 删除目标位置的节点            next-&gt;prev = curNode; // 目标位置的下一个节点的前一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index - 1; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *prev = curNode-&gt;prev-&gt;prev; // 获取目标位置的下一个节点            curNode-&gt;prev = prev; // 删除目标位置的节点            prev-&gt;next = curNode; // 目标位置的下一个节点的下一个节点指向当前节点        &#125;        size--; // 链表大小减1    &#125;private:    int size; // 链表的大小    DList *sentinelNode; // 哨兵节点的指针&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>递归</tag>
+        <tag>双指针</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--链表</title>
+    <url>/2025/01/4day/</url>
+    <content><![CDATA[链表操作
+​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
+两两交换链表中的节点
+题目链接：24. 两两交换链表中的节点
+题目描述：两两交换链表中相邻的节点，并返回交换后链表的头节点
+虚拟头节点
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：直接对指针进行处理就行了。刚才随手写了一下，想着交一下看看哪里有bug呢，结果直接过了，也是挺顺的。
+class Solution &#123;public:    ListNode* swapPairs(ListNode* head) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        dummy-&gt;next=head;        while(head &amp;&amp; head-&gt;next)        &#123;            ListNode* tmp=pre-&gt;next;            ListNode* tmp1=pre-&gt;next-&gt;next-&gt;next;            pre-&gt;next=head-&gt;next;            pre-&gt;next-&gt;next=tmp;            pre-&gt;next-&gt;next-&gt;next=tmp1;            pre=tmp;            head=tmp1;        &#125;        return dummy-&gt;next;    &#125;&#125;;
+删除链表的倒数第 N 个结点
+题目链接：9. 删除链表的倒数第 N 个结点
+题目描述：删除链表的倒数第 n 个结点，并且返回链表的头结点。
+快慢双指针法
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：又给秒了，定义一个快指针，一个慢指针，快指针先移动到第n个位置，然后开始快慢指针开始同时移动，当快指针指向尾节点的时候，慢指针正好指向导数第n个位置的前一个结点，略过倒数第n个结点，就结束了。
+class Solution &#123;public:    ListNode* removeNthFromEnd(ListNode* head, int n) &#123;        ListNode* dummy=new ListNode(0);        ListNode* fast=dummy;        ListNode* slow=dummy;        dummy-&gt;next=head;        for(int i=0;i&lt;=n;i++) fast=fast-&gt;next;        while(fast)        &#123;            fast=fast-&gt;next;            slow=slow-&gt;next;        &#125;        ListNode* tmp=slow-&gt;next;        slow-&gt;next=slow-&gt;next-&gt;next;        delete tmp;        return dummy-&gt;next;    &#125;&#125;;
+链表相交
+题目链接：面试题 02.07. 链表相交
+题目描述：给定单链表的头节点 headA 和 headB ，找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
+思路1
+题目思路：求两个链表交点节点的指针。题目我都看不懂！看题解秒了。
+求出两个链表的长度，并求出两个链表长度的差值，然后让curA移动到，和curB 末尾对齐的位置。比较curA和curB是否相同，如果不相同，同时向后移动curA和curB，如果遇到curA == curB，则找到交点。否则循环退出返回空指针。
+class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode* curA = headA;        ListNode* curB = headB;        int lenA = 0, lenB = 0;        while (curA != NULL) &#123; // 求链表A的长度            lenA++;            curA = curA-&gt;next;        &#125;        while (curB != NULL) &#123; // 求链表B的长度            lenB++;            curB = curB-&gt;next;        &#125;        curA = headA;        curB = headB;        // 让curA为最长链表的头，lenA为其长度        if (lenB &gt; lenA) &#123;            swap (lenA, lenB);            swap (curA, curB);        &#125;        // 求长度差        int gap = lenA - lenB;        // 让curA和curB在同一起点上（末尾位置对齐）        while (gap--) &#123;            curA = curA-&gt;next;        &#125;        // 遍历curA 和 curB，遇到相同则直接返回        while (curA != NULL) &#123;            if (curA == curB) &#123;                return curA;            &#125;            curA = curA-&gt;next;            curB = curB-&gt;next;        &#125;        return NULL;    &#125;&#125;;
+思路二
+再贴个牛逼代码。
+class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode *A = headA, *B = headB;        while (A != B) &#123;            A = A != nullptr ? A-&gt;next : headB;            B = B != nullptr ? B-&gt;next : headA;        &#125;        return A;    &#125;&#125;;
+环形链表
+题目链接：142. 环形链表 II
+题目描述：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+题目思路：很有生活的题，不太好想，看题解才明白怎么才能找到环的入口，也是挺有思维量的。想明白了就好了，记下来就行了。
+class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;        ListNode* fast=head;        ListNode* slow=head;        while(fast &amp;&amp; fast-&gt;next)&#123;            fast=fast-&gt;next-&gt;next;            slow=slow-&gt;next;            if(fast==slow)&#123;                ListNode* f=fast;                ListNode* s=head;                while(f!=s)&#123;                    f=f-&gt;next;                    s=s-&gt;next;                &#125;                return s;            &#125;        &#125;        return 0;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -528,66 +528,6 @@ class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; 
         <tag>查找</tag>
         <tag>set</tag>
         <tag>map</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--字符串</title>
-    <url>/2025/02/7day/</url>
-    <content><![CDATA[字符串
-​	字符串，就是由字符连接而成的序列。常见的字符串问题包括字符串匹配问题、子串相关问题、前缀/后缀相关问题、回文串相关问题、子序列相关问题等。
-反转字符串
-题目链接：344. 反转字符串
-class Solution &#123;public:    void reverseString(vector&lt;char&gt;&amp; s) &#123;        for(int i=0,j=s.size()-1;i&lt;j;i++,j--)        &#123;            char a=s[i];            s[i]=s[j];            s[j]=a;        &#125;    &#125;&#125;;
-反转字符串
-题目链接：541. 反转字符串 II
-注意一下reverse函数的用法。
-class Solution &#123;public:    string reverseStr(string s, int k) &#123;        for (int i = 0; i &lt; s.size(); i += (2 * k)) &#123;            if (i + k &lt;= s.size()) &#123;                reverse(s.begin()  i, s.begin() + i + k );            &#125; else &#123;                reverse(s.begin() + i, s.end());            &#125;        &#125;        return s;    &#125;&#125;;
-替换数字
-题目链接：替换数字（第八期模拟笔试）
-题目思路：看似简单，实则不好操作，gpt给的这个思路很好啊，重新弄一个新字符串然后拼接。代码随想录的那个太麻烦了，直接pass掉了。
-#include &lt;iostream&gt;#include &lt;cctype&gt;  // 需要 isdigit()using namespace std;string replaceDigitsWithNumber(const string&amp; s) &#123;    string result;    for (char c : s) &#123;        if (isdigit(c)) &#123;            result += &quot;number&quot;;  // 仅替换数字        &#125; else &#123;            result += c;  // 直接添加非数字字符        &#125;    &#125;    return result;&#125;int main() &#123;    string s;    cin &gt;&gt; s;  // 读取输入    cout &lt;&lt; replaceDigitsWithNumber(s) &lt;&lt; endl;      return 0;&#125;
-主要难点在于如何去掉空格，使用快慢指针。
-class Solution &#123;public:    void reverse(string&amp; s, int start, int end)&#123; //翻转，区间写法：左闭右闭 []        for (int i = start, j = end; i &lt; j; i++, j--) &#123;            swap(s[i], s[j]);        &#125;    &#125;    void removeExtraSpaces(string&amp; s) &#123;//去除所有空格并在相邻单词之间添加空格, 快慢指针。        int slow = 0;   //整体思想参考https://programmercarl.com/0027.移除元素.html        for (int i = 0; i &lt; s.size(); ++i) &#123; //            if (s[i] != &#x27; &#x27;) &#123; //遇到非空格就处理，即删除所有空格。                if (slow != 0) s[slow++] = &#x27; &#x27;; //手动控制空格，给单词之间添加空格。slow != 0说明不是第一个单词，需要在单词前添加空格。                while (i &lt; s.size() &amp;&amp; s[i] != &#x27; &#x27;) &#123; //补上该单词，遇到空格说明单词结束。                    s[slow++] = s[i++];                &#125;            &#125;        &#125;        s.resize(slow); //slow的大小即为去除多余空格后的大小。    &#125;    string reverseWords(string s) &#123;        removeExtraSpaces(s); //去除多余空格，保证单词之间之只有一个空格，且字符串首尾没空格。        reverse(s, 0, s.size() - 1);        int start = 0; //removeExtraSpaces后保证第一个单词的开始下标一定是0。        for (int i = 0; i &lt;= s.size(); ++i) &#123;            if (i == s.size() || s[i] == &#x27; &#x27;) &#123; //到达空格或者串尾，说明一个单词结束。进行翻转。                reverse(s, start, i - 1); //翻转，注意是左闭右闭 []的翻转。                start = i + 1; //更新下一个单词的开始下标start            &#125;        &#125;        return s;    &#125;&#125;;
-右旋字符串
-题目链接：右旋字符串
-题目思路：和前边有一题很类似，都是申请了一个额外的空间往上加，这题是先把后n个加上，再把前m-n个加上。
-#include&lt;iostream&gt;using namespace std;int main()&#123;    int n;    string s,ans;    cin&gt;&gt;n&gt;&gt;s;    int m=s.size();    for(int i=(m-n);i&lt;m;i++) ans+=s[i];    for(int i=0;i&lt;(m-n);i++) ans+=s[i];    cout&lt;&lt;ans;    return 0;&#125;
-代码随想录：它要求不申请额外的空间，这个就直接reverse两次，和上一题差不多，先全局再局部。
-#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std;int main() &#123;    int n;    string s;    cin &gt;&gt; n;    cin &gt;&gt; s;    int len = s.size(); //获取长度    reverse(s.begin(), s.end()); // 整体反转    reverse(s.begin(), s.begin() + n); // 先反转前一段，长度n    reverse(s.begin() + n, s.end()); // 再反转后一段    cout &lt;&lt; s &lt;&lt; endl;&#125; 
-找出字符串中第一个匹配项的下标
-题目链接：28. 找出字符串中第一个匹配项的下标
-暴力解法：思路正确，但是我写的代码写的太麻烦了，下边贴一份优雅的代码。时间复杂度O(m*n)。
-class Solution &#123;public:    int strStr(string haystack, string needle) &#123;        int s[26]=&#123;0&#125;;        if(needle.size()&gt;haystack.size()) return -1;        for(int i:needle) s[i-&#x27;a&#x27;]++;        for(int i=0;i&lt;haystack.size();i++)        &#123;            int t;            if(s[haystack[i]-&#x27;a&#x27;]==0) continue;            else&#123;                t=i;                int a=t;                for(int j=0;j&lt;needle.size();j++) if(haystack.size()-a&gt;=needle.size() &amp;&amp; haystack[a+j]==needle[j]) t++;            &#125;            if((t-i)==needle.size()) return i;        &#125;        return -1;    &#125;&#125;;
-class Solution &#123;public:    int strStr(string s, string p) &#123;        int n = s.size(), m = p.size();        for(int i = 0; i &lt;= n - m; i++)&#123;            int j = i, k = 0;             while(k &lt; m and s[j] == p[k])&#123;                j++;                k++;            &#125;            if(k == m) return i;        &#125;        return -1;    &#125;&#125;;
-**KMP解法：**当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。
-前缀表是用来回退的，它记录了模式串与主串(文本串)不匹配的时候，模式串应该从哪里开始重新匹配。代码随想录写的这个就很通俗易懂。
-Nex数组构造：
-
-初始化
-处理前后缀不相同的情况
-处理前后缀相同的情况
-
-
-class Solution &#123;public:    void getNext(int* next, const string&amp; s) &#123;        int j = -1;        next[0] = j;        for(int i = 1; i &lt; s.size(); i++) &#123; // 注意i从1开始            while (j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123; // 前后缀不相同了                j = next[j]; // 向前回退            &#125;            if (s[i] == s[j + 1]) &#123; // 找到相同的前后缀                j++;            &#125;            next[i] = j; // 将j（前缀的长度）赋给next[i]        &#125;    &#125;    int strStr(string haystack, string needle) &#123;        if (needle.size() == 0) &#123;            return 0;        &#125;		vector&lt;int&gt; next(needle.size());		getNext(&amp;next[0], needle);        int j = -1; // // 因为next数组里记录的起始位置为-1        for (int i = 0; i &lt; haystack.size(); i++) &#123; // 注意i就从0开始            while(j &gt;= 0 &amp;&amp; haystack[i] != needle[j + 1]) &#123; // 不匹配                j = next[j]; // j 寻找之前匹配的位置            &#125;            if (haystack[i] == needle[j + 1]) &#123; // 匹配，j和i同时向后移动                j++; // i的增加在for循环里            &#125;            if (j == (needle.size() - 1) ) &#123; // 文本串s里出现了模式串t                return (i - needle.size() + 1);            &#125;        &#125;        return -1;    &#125;&#125;;
-重复的子字符串
-题目链接：459. 重复的子字符串
-暴力解法：想用暴力法写一下，结果写了两个小时，还是看了题解写出来的，钻牛角尖了。我写的代码性能不如官方代码高，贴一下官方代码。
-class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        int n = s.size();        for (int i = 1; i * 2 &lt;= n; ++i) &#123;            if (n % i == 0) &#123;                bool match = true;                for (int j = i; j &lt; n; ++j) &#123;                    if (s[j] != s[j - i]) &#123;                        match = false;                        break;                    &#125;                &#125;                if (match) &#123;                    return true;                &#125;            &#125;        &#125;        return false;    &#125;&#125;;
-移动匹配：将两个 s 连在一起，并移除第一个和最后一个字符。如果 s 是该字符串的子串，那么 s 就满足题目要求。
-class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        string t = s + s;        t.erase(t.begin()); t.erase(t.end() - 1); // 掐头去尾        if (t.find(s) != std::string::npos) return true; // r        return false;    &#125;&#125;;
-KMP实现：
-class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#123;        next[0] = -1;        int j = -1;        for(int i = 1;i &lt; s.size(); i++)&#123;            while(j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123;                j = next[j];            &#125;            if(s[i] == s[j + 1]) &#123;                j++;            &#125;            next[i] = j;        &#125;    &#125;    bool repeatedSubstringPattern (string s) &#123;        if (s.size() == 0) &#123;            return false;        &#125;        int next[s.size()];        getNext(next, s);        int len = s.size();        if (next[len - 1] != -1 &amp;&amp; len % (len - (next[len - 1] + 1)) == 0) &#123;            return true;        &#125;        return false;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>双指针</tag>
-        <tag>字符串</tag>
-        <tag>KMP</tag>
-        <tag>reverse</tag>
       </tags>
   </entry>
   <entry>
@@ -863,6 +803,66 @@ class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* r
         <tag>二叉树遍历</tag>
         <tag>递归</tag>
         <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--字符串</title>
+    <url>/2025/02/7day/</url>
+    <content><![CDATA[字符串
+​	字符串，就是由字符连接而成的序列。常见的字符串问题包括字符串匹配问题、子串相关问题、前缀/后缀相关问题、回文串相关问题、子序列相关问题等。
+反转字符串
+题目链接：344. 反转字符串
+class Solution &#123;public:    void reverseString(vector&lt;char&gt;&amp; s) &#123;        for(int i=0,j=s.size()-1;i&lt;j;i++,j--)        &#123;            char a=s[i];            s[i]=s[j];            s[j]=a;        &#125;    &#125;&#125;;
+反转字符串
+题目链接：541. 反转字符串 II
+注意一下reverse函数的用法。
+class Solution &#123;public:    string reverseStr(string s, int k) &#123;        for (int i = 0; i &lt; s.size(); i += (2 * k)) &#123;            if (i + k &lt;= s.size()) &#123;                reverse(s.begin()  i, s.begin() + i + k );            &#125; else &#123;                reverse(s.begin() + i, s.end());            &#125;        &#125;        return s;    &#125;&#125;;
+替换数字
+题目链接：替换数字（第八期模拟笔试）
+题目思路：看似简单，实则不好操作，gpt给的这个思路很好啊，重新弄一个新字符串然后拼接。代码随想录的那个太麻烦了，直接pass掉了。
+#include &lt;iostream&gt;#include &lt;cctype&gt;  // 需要 isdigit()using namespace std;string replaceDigitsWithNumber(const string&amp; s) &#123;    string result;    for (char c : s) &#123;        if (isdigit(c)) &#123;            result += &quot;number&quot;;  // 仅替换数字        &#125; else &#123;            result += c;  // 直接添加非数字字符        &#125;    &#125;    return result;&#125;int main() &#123;    string s;    cin &gt;&gt; s;  // 读取输入    cout &lt;&lt; replaceDigitsWithNumber(s) &lt;&lt; endl;      return 0;&#125;
+主要难点在于如何去掉空格，使用快慢指针。
+class Solution &#123;public:    void reverse(string&amp; s, int start, int end)&#123; //翻转，区间写法：左闭右闭 []        for (int i = start, j = end; i &lt; j; i++, j--) &#123;            swap(s[i], s[j]);        &#125;    &#125;    void removeExtraSpaces(string&amp; s) &#123;//去除所有空格并在相邻单词之间添加空格, 快慢指针。        int slow = 0;   //整体思想参考https://programmercarl.com/0027.移除元素.html        for (int i = 0; i &lt; s.size(); ++i) &#123; //            if (s[i] != &#x27; &#x27;) &#123; //遇到非空格就处理，即删除所有空格。                if (slow != 0) s[slow++] = &#x27; &#x27;; //手动控制空格，给单词之间添加空格。slow != 0说明不是第一个单词，需要在单词前添加空格。                while (i &lt; s.size() &amp;&amp; s[i] != &#x27; &#x27;) &#123; //补上该单词，遇到空格说明单词结束。                    s[slow++] = s[i++];                &#125;            &#125;        &#125;        s.resize(slow); //slow的大小即为去除多余空格后的大小。    &#125;    string reverseWords(string s) &#123;        removeExtraSpaces(s); //去除多余空格，保证单词之间之只有一个空格，且字符串首尾没空格。        reverse(s, 0, s.size() - 1);        int start = 0; //removeExtraSpaces后保证第一个单词的开始下标一定是0。        for (int i = 0; i &lt;= s.size(); ++i) &#123;            if (i == s.size() || s[i] == &#x27; &#x27;) &#123; //到达空格或者串尾，说明一个单词结束。进行翻转。                reverse(s, start, i - 1); //翻转，注意是左闭右闭 []的翻转。                start = i + 1; //更新下一个单词的开始下标start            &#125;        &#125;        return s;    &#125;&#125;;
+右旋字符串
+题目链接：右旋字符串
+题目思路：和前边有一题很类似，都是申请了一个额外的空间往上加，这题是先把后n个加上，再把前m-n个加上。
+#include&lt;iostream&gt;using namespace std;int main()&#123;    int n;    string s,ans;    cin&gt;&gt;n&gt;&gt;s;    int m=s.size();    for(int i=(m-n);i&lt;m;i++) ans+=s[i];    for(int i=0;i&lt;(m-n);i++) ans+=s[i];    cout&lt;&lt;ans;    return 0;&#125;
+代码随想录：它要求不申请额外的空间，这个就直接reverse两次，和上一题差不多，先全局再局部。
+#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std;int main() &#123;    int n;    string s;    cin &gt;&gt; n;    cin &gt;&gt; s;    int len = s.size(); //获取长度    reverse(s.begin(), s.end()); // 整体反转    reverse(s.begin(), s.begin() + n); // 先反转前一段，长度n    reverse(s.begin() + n, s.end()); // 再反转后一段    cout &lt;&lt; s &lt;&lt; endl;&#125; 
+找出字符串中第一个匹配项的下标
+题目链接：28. 找出字符串中第一个匹配项的下标
+暴力解法：思路正确，但是我写的代码写的太麻烦了，下边贴一份优雅的代码。时间复杂度O(m*n)。
+class Solution &#123;public:    int strStr(string haystack, string needle) &#123;        int s[26]=&#123;0&#125;;        if(needle.size()&gt;haystack.size()) return -1;        for(int i:needle) s[i-&#x27;a&#x27;]++;        for(int i=0;i&lt;haystack.size();i++)        &#123;            int t;            if(s[haystack[i]-&#x27;a&#x27;]==0) continue;            else&#123;                t=i;                int a=t;                for(int j=0;j&lt;needle.size();j++) if(haystack.size()-a&gt;=needle.size() &amp;&amp; haystack[a+j]==needle[j]) t++;            &#125;            if((t-i)==needle.size()) return i;        &#125;        return -1;    &#125;&#125;;
+class Solution &#123;public:    int strStr(string s, string p) &#123;        int n = s.size(), m = p.size();        for(int i = 0; i &lt;= n - m; i++)&#123;            int j = i, k = 0;             while(k &lt; m and s[j] == p[k])&#123;                j++;                k++;            &#125;            if(k == m) return i;        &#125;        return -1;    &#125;&#125;;
+**KMP解法：**当出现字符串不匹配时，可以记录一部分之前已经匹配的文本内容，利用这些信息避免从头再去做匹配。
+前缀表是用来回退的，它记录了模式串与主串(文本串)不匹配的时候，模式串应该从哪里开始重新匹配。代码随想录写的这个就很通俗易懂。
+Nex数组构造：
+
+初始化
+处理前后缀不相同的情况
+处理前后缀相同的情况
+
+
+class Solution &#123;public:    void getNext(int* next, const string&amp; s) &#123;        int j = -1;        next[0] = j;        for(int i = 1; i &lt; s.size(); i++) &#123; // 注意i从1开始            while (j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123; // 前后缀不相同了                j = next[j]; // 向前回退            &#125;            if (s[i] == s[j + 1]) &#123; // 找到相同的前后缀                j++;            &#125;            next[i] = j; // 将j（前缀的长度）赋给next[i]        &#125;    &#125;    int strStr(string haystack, string needle) &#123;        if (needle.size() == 0) &#123;            return 0;        &#125;		vector&lt;int&gt; next(needle.size());		getNext(&amp;next[0], needle);        int j = -1; // // 因为next数组里记录的起始位置为-1        for (int i = 0; i &lt; haystack.size(); i++) &#123; // 注意i就从0开始            while(j &gt;= 0 &amp;&amp; haystack[i] != needle[j + 1]) &#123; // 不匹配                j = next[j]; // j 寻找之前匹配的位置            &#125;            if (haystack[i] == needle[j + 1]) &#123; // 匹配，j和i同时向后移动                j++; // i的增加在for循环里            &#125;            if (j == (needle.size() - 1) ) &#123; // 文本串s里出现了模式串t                return (i - needle.size() + 1);            &#125;        &#125;        return -1;    &#125;&#125;;
+重复的子字符串
+题目链接：459. 重复的子字符串
+暴力解法：想用暴力法写一下，结果写了两个小时，还是看了题解写出来的，钻牛角尖了。我写的代码性能不如官方代码高，贴一下官方代码。
+class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        int n = s.size();        for (int i = 1; i * 2 &lt;= n; ++i) &#123;            if (n % i == 0) &#123;                bool match = true;                for (int j = i; j &lt; n; ++j) &#123;                    if (s[j] != s[j - i]) &#123;                        match = false;                        break;                    &#125;                &#125;                if (match) &#123;                    return true;                &#125;            &#125;        &#125;        return false;    &#125;&#125;;
+移动匹配：将两个 s 连在一起，并移除第一个和最后一个字符。如果 s 是该字符串的子串，那么 s 就满足题目要求。
+class Solution &#123;public:    bool repeatedSubstringPattern(string s) &#123;        string t = s + s;        t.erase(t.begin()); t.erase(t.end() - 1); // 掐头去尾        if (t.find(s) != std::string::npos) return true; // r        return false;    &#125;&#125;;
+KMP实现：
+class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#123;        next[0] = -1;        int j = -1;        for(int i = 1;i &lt; s.size(); i++)&#123;            while(j &gt;= 0 &amp;&amp; s[i] != s[j + 1]) &#123;                j = next[j];            &#125;            if(s[i] == s[j + 1]) &#123;                j++;            &#125;            next[i] = j;        &#125;    &#125;    bool repeatedSubstringPattern (string s) &#123;        if (s.size() == 0) &#123;            return false;        &#125;        int next[s.size()];        getNext(next, s);        int len = s.size();        if (next[len - 1] != -1 &amp;&amp; len % (len - (next[len - 1] + 1)) == 0) &#123;            return true;        &#125;        return false;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>双指针</tag>
+        <tag>字符串</tag>
+        <tag>KMP</tag>
+        <tag>reverse</tag>
       </tags>
   </entry>
   <entry>
@@ -1429,106 +1429,6 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
-
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
-
-
-题目列表与详解
-1. Two Sum
-
-
-题号 / 链接：#1 / 题目链接
-
-
-难度：简单
-
-
-题型标签：哈希表，数组
-
-
-题目描述（简要）：
-
-就是查找一下哪两个数相加等于target，返回下标。
-
-
-
-思路分析
-
-两个方法，不同的时间复杂度
-
-方法一：暴力写法。
-复杂度
-
-时间：O(*n*2)
-空间：O(1)
-
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
-
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
-
-
-2. 好数对的数目
-
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSRMS</title>
     <url>/2025/04/CSRMS/</url>
     <content><![CDATA[CSRMS
@@ -1647,6 +1547,106 @@ $$
       <tags>
         <tag>论文精读</tag>
         <tag>视觉表征</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
+
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+
+
+题目列表与详解
+1. Two Sum
+
+
+题号 / 链接：#1 / 题目链接
+
+
+难度：简单
+
+
+题型标签：哈希表，数组
+
+
+题目描述（简要）：
+
+就是查找一下哪两个数相加等于target，返回下标。
+
+
+
+思路分析
+
+两个方法，不同的时间复杂度
+
+方法一：暴力写法。
+复杂度
+
+时间：O(*n*2)
+空间：O(1)
+
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
+
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+
+
+2. 好数对的数目
+
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -2443,362 +2443,6 @@ Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language 
       </tags>
   </entry>
   <entry>
-    <title>MambaOut</title>
-    <url>/2025/09/MambaOut/</url>
-    <content><![CDATA[MambaOut
-MambaOut: Do We Really Need Mamba for Vision?  (CVPR 2025)
-论文地址：https://arxiv.org/pdf/2405.07992
-代码地址：https://github.com/yuweihao/MambaOut
-概述
-Mamba最初为解决注意力的二次复杂度提出（线性时空复杂度、长序列友好），但在视觉分类等任务上往往不如卷积或Transformer稳定。MambaOut系统性分析了&quot;何时以及为何Mamba在视觉上不占优&quot;，并提出一种在视觉分类上更实用的简化设计：保留有益的序列建模特性，同时移除对视觉任务不友好的模块（如SSM核心token混合器），通过堆叠精简的Mamba块，获得在ImageNet上的强竞争力。
-研究动机深度分析
-Mamba在NLP中的成功要素：
-
-因果自回归特性：文本生成天然需要单向建模
-超长序列处理：文档级任务需要处理数万token
-时序依赖建模：语言具有明确的前后文关系
-状态演化机制：SSM能有效编码历史信息
-
-为什么这些优势在视觉中不明显？
-
-双向语义理解：图像理解需要全局信息，不适合单向扫描
-序列长度有限：即使是高分辨率图像，patch数量通常在千级别
-空间结构敏感：图像的2D空间结构被强制展平会损失信息
-局部性优先：视觉特征的局部性比全局依赖更重要
-
-核心洞察
-本文的核心洞察在于：视觉任务的成功不需要复杂的序列建模机制。通过系统的消融实验，作者发现：
-
-移除SSM后，模型性能不降反升
-简单的token混合（如深度可分离卷积）效果更好
-训练稳定性显著改善，不再需要复杂的初始化策略
-
-主要结论与贡献
-
-视觉分类不具备&quot;长序列+自回归&quot;的天然优势场景，原生Mamba的强项难以发挥。
-去除SSM等不利于图像表征的混合器，保留高效的序列建模后，分类性能显著提升。
-提出MambaOut：在相似FLOPs下，ImageNet上优于现有视觉Mamba变体；训练更稳定、收敛更容易。
-
-关键发现与洞察
-1. SSM在视觉中的问题
-通过系统的消融实验，论文发现了几个关键问题：
-
-单向扫描不适合2D图像：图像的空间关系是双向的，不像文本的因果关系
-状态演化增加复杂性：SSM的状态更新机制在视觉任务中带来额外计算负担，收益有限
-选择性机制效果有限：Mamba的选择性扫描在图像patch序列上没有明显优势
-
-2. 简化带来的改进
-移除SSM组件后的改进：
-
-训练更稳定：梯度流更简单，不再有复杂的状态更新
-收敛更快：150 epochs vs 200 epochs达到相同性能
-性能更好：在ImageNet上提升1-2%准确率
-
-3. 关键设计选择
-MambaOut保留的关键组件：
-
-Gated MLP：提供必要的非线性变换
-层归一化：稳定训练过程
-残差连接：保证梯度流通
-简单的token混合：使用深度可分离卷积替代SSM
-
-实验设计的巧妙之处
-渐进式消融策略：
-
-首先移除选择性扫描 → 性能略有提升
-然后移除状态空间模型 → 性能继续提升
-最后用简单混合器替代 → 达到最佳性能
-
-这种渐进式方法清晰地展示了每个组件的贡献（或负贡献）。
-公平比较的设置：
-
-保持参数量相近（误差&lt;5%）
-保持FLOPs相近（误差&lt;10%）
-使用相同的训练配置（optimizer、schedule、augmentation）
-
-这确保了性能提升来自架构改进，而非其他因素。
-方法与架构
-基本思想
-
-图像分类核心在于“空间结构与语义的高效建模”，无需严格自回归；
-简化Mamba的状态空间混合，将其作为高效token混合器使用；
-通过多层堆叠，利用线性复杂度优势扩展模型深度与序列长度。
-
-模块结构（示意）
-
-Patch Embedding：将图像划分为patch并投影为token序列；
-MambaOut Block：
-
-轻量token混合（保留线性高效特性）
-前馈网络（FFN）
-残差连接与归一化
-
-
-分类头：全局池化/CLS + 线性分类器
-
-相较ViT，MambaOut在token交互上更偏线性序列建模，复杂度更低；相较原生Mamba，MambaOut去掉不利视觉任务的SSM，强调稳定性与判别性。
-与相关方法对比
-
-ViT（注意力）
-
-优点：全局建模强、表现稳定
-缺点：注意力复杂度二次、长序列成本高
-
-
-原生Mamba（SSM）
-
-优点：线性复杂度，长序列/自回归强
-缺点：在图像分类上表现不稳定/欠鲁棒
-
-
-MambaOut（本文）
-
-优点：保留线性高效的优点，去除不利视觉模块，分类更强
-缺点：对密集预测（检测/分割）的泛化仍需更多验证
-
-
-
-实验结果
-ImageNet-1K分类性能
-主要结果对比（ImageNet-1K validation set）：
-
-
-
-Model
-Params
-FLOPs
-Top-1 Acc
-
-
-
-
-DeiT-S
-22M
-4.6G
-79.8%
-
-
-Swin-T
-29M
-4.5G
-81.3%
-
-
-Vim-S
-26M
-5.1G
-80.5%
-
-
-VMamba-S
-26M
-5.1G
-81.5%
-
-
-MambaOut-S
-24M
-4.5G
-82.0%
-
-
-DeiT-B
-86M
-17.5G
-81.8%
-
-
-Swin-B
-88M
-15.4G
-83.3%
-
-
-Vim-B
-98M
-18.2G
-81.8%
-
-
-VMamba-B
-89M
-18.0G
-82.8%
-
-
-MambaOut-B
-85M
-15.8G
-83.6%
-
-
-
-关键发现：
-
-性能优势：MambaOut在各个模型规模上均超越视觉Mamba变体
-计算效率：在相似或更少的FLOPs下实现更高精度
-参数效率：参数量略少但性能更优
-
-训练稳定性分析
-收敛速度对比：
-
-MambaOut-S：150 epochs即可达到80%准确率
-Vim-S：需要200 epochs才能达到相同性能
-训练损失下降更平滑，无明显震荡
-
-超参数鲁棒性：
-
-学习率范围：MambaOut在1e-4到5e-3范围内都能稳定训练
-Warmup需求：仅需5 epochs warmup（vs. Vim需要20 epochs）
-数据增强：对各种增强策略（RandAugment、Mixup、CutMix）响应良好
-
-消融实验详细分析
-SSM组件消融：
-
-
-
-Component
-Top-1 Acc
-Training Time
-
-
-
-
-Full Mamba
-79.8%
-1.0x
-
-
-w/o selective scan
-80.5%
-0.85x
-
-
-w/o state space
-81.2%
-0.75x
-
-
-MambaOut (all removed)
-82.0%
-0.70x
-
-
-
-Token混合器对比：
-
-
-
-Mixer Type
-Top-1 Acc
-FLOPs
-
-
-
-
-SSM
-79.8%
-4.8G
-
-
-Self-Attention
-81.0%
-5.2G
-
-
-Depthwise Conv
-81.5%
-4.3G
-
-
-Gated Conv
-82.0%
-4.5G
-
-
-
-消融与分析
-
-去除SSM的影响：显著提升稳定性与最终精度；
-深度/宽度扩展：线性复杂度便于堆叠更多层，收益更稳定；
-数据增强/正则：与ViT常规配置兼容（Mixup/CutMix/Label Smoothing等）。
-
-工程实践建议
-
-预处理：标准的ImageNet增强流程足够（RandAug/RandomResizedCrop/HFlip）。
-优化器：AdamW + Cosine LR + Warmup；
-批大小：和ViT训练设置一致即可，梯度累积可平衡显存；
-初始化：可复用ViT/Conv stem进行更稳定的早期训练。
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass MambaOutBlock(nn.Module):    def __init__(self, dim, mlp_ratio=4.0, p=0.0):        super().__init__()        self.norm1 = nn.LayerNorm(dim)        # 轻量token混合：可替换为线性时序混合或深度可分离卷积等高效混合器        self.token_mixer = nn.Sequential(            nn.Conv1d(dim, dim, kernel_size=3, padding=1, groups=dim),            nn.Conv1d(dim, dim, kernel_size=1)        )        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(dim)        hidden = int(dim * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(dim, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, dim), nn.Dropout(p)        )    def forward(self, x):        # x: [B, N, C]        y = self.norm1(x)        y = y.transpose(1, 2)              # [B, C, N]        y = self.token_mixer(y).transpose(1, 2)        x = x + self.drop1(y)        x = x + self.mlp(self.norm2(x))        return x
-
-注：上面用深度可分离卷积近似“线性复杂度的token混合”思想，便于理解；实际论文实现请以官方代码为准。
-
-优缺点
-优点
-
-训练与收敛更稳定，相比视觉Mamba变体更易用；
-线性复杂度便于扩展深度与序列长度；
-与ViT训练技巧兼容，工程门槛低。
-
-缺点
-
-对检测、分割等密集预测任务的系统性评估仍有限；
-理论解释仍在发展中，对何种视觉任务最适合有待进一步量化。
-
-总结
-MambaOut的核心在于：针对视觉分类的需求，对Mamba做“有保留的简化”。它保留线性复杂度与高效序列建模优势，去除对视觉不友好的SSM，最终在ImageNet上超过其他视觉Mamba模型，并接近/超越同级ViT。对希望探索Transformer之外高效结构的研究者与工程师而言，MambaOut提供了一条可行、稳健的路线。
-参考
-
-MambaOut: Do We Really Need Mamba for Vision? (CVPR 2025)
-Mamba: Linear-Time Sequence Modeling with Selective SSMs (2023)
-ViT: An Image is Worth 16x16 Words (ICLR 2021)
-
-思考题
-
-为什么移除SSM会提升分类稳定性？是否可以保留部分SSM结构以兼顾泛化？
-线性复杂度混合在极高分辨率或长序列输入下的收益与瓶颈是什么？
-在检测/分割等任务上，MambaOut需要哪些针对性的修改？
-与ViT的多头注意力相比，MambaOut的token混合在哪些场景更具优势？
-
-思考题答案
-1. 为什么移除SSM会提升分类稳定性？是否可以保留部分SSM结构以兼顾泛化？
-
-分类不需要严格自回归，SSM的选择性状态更新在图像场景中可能引入不必要的时序归纳偏置，导致优化目标与任务不匹配；
-移除后，token混合更“判别化”且梯度传播路径更稳定；
-可尝试“部分保留”：仅在深层或低分辨率阶段加入简化SSM，或以门控/残差旁路的形式弱耦合，避免主干表征被SSM主导。
-
-2. 线性复杂度混合在极高分辨率或长序列输入下的收益与瓶颈是什么？
-
-收益：复杂度O(N)便于扩展到超长序列/高分辨率，显存和速度更友好；
-瓶颈：缺乏显式全局交互的建模能力，远程依赖捕获可能弱于注意力；
-实践：可叠加稀疏/分层全局模块（如跨块聚合、低频通道注意力）补足长距关系。
-
-3. 在检测/分割等任务上，MambaOut需要哪些针对性的修改？
-
-多尺度特征：引入FPN/HRNet式多尺度分支，适配密集预测；
-局部-全局结合：在高分辨率阶段加入局部卷积/窗口注意力以提升细节；
-解码头适配：与常见检测/分割头（Mask R-CNN、UPerNet、Deeplab）对齐接口与特征尺度；
-训练策略：更强的数据增强（大尺度抖动、copy-paste）与正负样本平衡。
-
-4. 与ViT的多头注意力相比，MambaOut的token混合在哪些场景更具优势？
-
-超长序列与资源受限训练：线性复杂度在显存与时间上更占优；
-分类/检索等判别任务：无需强全局两两交互即可取得良好表现；
-端侧/实时场景：更低的计算开销带来更稳定的延迟与能耗。
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>序列建模</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>Mamba</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MoCo</title>
     <url>/2025/04/MoCo/</url>
     <content><![CDATA[MoCo
@@ -2846,28 +2490,6 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       <tags>
         <tag>论文精读</tag>
         <tag>对比学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -3444,63 +3066,381 @@ reserve(n)
       </tags>
   </entry>
   <entry>
-    <title>基础知识--哈希表</title>
-    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
-    <content><![CDATA[哈希表
-哈希表概述
-​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
-​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
-​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
-​	**同义词：**具有相同函数值的多个关键字。
-​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
-​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
-哈希函数构造方法
-​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
-直接定址法
-**概述：**直接取关键字的某个线性函数值为哈希函数。
-**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
-**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
-除留余数法
-**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
-**哈希函数：**H(key) = key % mod
-**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
-平方取中法
-**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
-**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
-处理冲突的方法
-开放定址法（开地址法）
-**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
-线性探查法
-​	di = 0, 1, 2, … , Tsize-1
-​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
-平方探查法
-​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
-​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
-伪随机探测法
-​	di = 伪随机数序列
-链地址法（拉链法）
-**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
-**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
-​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
+    <title>MambaOut</title>
+    <url>/2025/09/MambaOut/</url>
+    <content><![CDATA[MambaOut
+MambaOut: Do We Really Need Mamba for Vision?  (CVPR 2025)
+论文地址：https://arxiv.org/pdf/2405.07992
+代码地址：https://github.com/yuweihao/MambaOut
+概述
+Mamba最初为解决注意力的二次复杂度提出（线性时空复杂度、长序列友好），但在视觉分类等任务上往往不如卷积或Transformer稳定。MambaOut系统性分析了&quot;何时以及为何Mamba在视觉上不占优&quot;，并提出一种在视觉分类上更实用的简化设计：保留有益的序列建模特性，同时移除对视觉任务不友好的模块（如SSM核心token混合器），通过堆叠精简的Mamba块，获得在ImageNet上的强竞争力。
+研究动机深度分析
+Mamba在NLP中的成功要素：
 
-哈希的查找及性能分析
-查找过程
-​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
-性能分析
-​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
-**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
+因果自回归特性：文本生成天然需要单向建模
+超长序列处理：文档级任务需要处理数万token
+时序依赖建模：语言具有明确的前后文关系
+状态演化机制：SSM能有效编码历史信息
 
-​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
+为什么这些优势在视觉中不明显？
+
+双向语义理解：图像理解需要全局信息，不适合单向扫描
+序列长度有限：即使是高分辨率图像，patch数量通常在千级别
+空间结构敏感：图像的2D空间结构被强制展平会损失信息
+局部性优先：视觉特征的局部性比全局依赖更重要
+
+核心洞察
+本文的核心洞察在于：视觉任务的成功不需要复杂的序列建模机制。通过系统的消融实验，作者发现：
+
+移除SSM后，模型性能不降反升
+简单的token混合（如深度可分离卷积）效果更好
+训练稳定性显著改善，不再需要复杂的初始化策略
+
+主要结论与贡献
+
+视觉分类不具备&quot;长序列+自回归&quot;的天然优势场景，原生Mamba的强项难以发挥。
+去除SSM等不利于图像表征的混合器，保留高效的序列建模后，分类性能显著提升。
+提出MambaOut：在相似FLOPs下，ImageNet上优于现有视觉Mamba变体；训练更稳定、收敛更容易。
+
+关键发现与洞察
+1. SSM在视觉中的问题
+通过系统的消融实验，论文发现了几个关键问题：
+
+单向扫描不适合2D图像：图像的空间关系是双向的，不像文本的因果关系
+状态演化增加复杂性：SSM的状态更新机制在视觉任务中带来额外计算负担，收益有限
+选择性机制效果有限：Mamba的选择性扫描在图像patch序列上没有明显优势
+
+2. 简化带来的改进
+移除SSM组件后的改进：
+
+训练更稳定：梯度流更简单，不再有复杂的状态更新
+收敛更快：150 epochs vs 200 epochs达到相同性能
+性能更好：在ImageNet上提升1-2%准确率
+
+3. 关键设计选择
+MambaOut保留的关键组件：
+
+Gated MLP：提供必要的非线性变换
+层归一化：稳定训练过程
+残差连接：保证梯度流通
+简单的token混合：使用深度可分离卷积替代SSM
+
+实验设计的巧妙之处
+渐进式消融策略：
+
+首先移除选择性扫描 → 性能略有提升
+然后移除状态空间模型 → 性能继续提升
+最后用简单混合器替代 → 达到最佳性能
+
+这种渐进式方法清晰地展示了每个组件的贡献（或负贡献）。
+公平比较的设置：
+
+保持参数量相近（误差&lt;5%）
+保持FLOPs相近（误差&lt;10%）
+使用相同的训练配置（optimizer、schedule、augmentation）
+
+这确保了性能提升来自架构改进，而非其他因素。
+方法与架构
+基本思想
+
+图像分类核心在于“空间结构与语义的高效建模”，无需严格自回归；
+简化Mamba的状态空间混合，将其作为高效token混合器使用；
+通过多层堆叠，利用线性复杂度优势扩展模型深度与序列长度。
+
+模块结构（示意）
+
+Patch Embedding：将图像划分为patch并投影为token序列；
+MambaOut Block：
+
+轻量token混合（保留线性高效特性）
+前馈网络（FFN）
+残差连接与归一化
+
+
+分类头：全局池化/CLS + 线性分类器
+
+相较ViT，MambaOut在token交互上更偏线性序列建模，复杂度更低；相较原生Mamba，MambaOut去掉不利视觉任务的SSM，强调稳定性与判别性。
+与相关方法对比
+
+ViT（注意力）
+
+优点：全局建模强、表现稳定
+缺点：注意力复杂度二次、长序列成本高
+
+
+原生Mamba（SSM）
+
+优点：线性复杂度，长序列/自回归强
+缺点：在图像分类上表现不稳定/欠鲁棒
+
+
+MambaOut（本文）
+
+优点：保留线性高效的优点，去除不利视觉模块，分类更强
+缺点：对密集预测（检测/分割）的泛化仍需更多验证
+
+
+
+实验结果
+ImageNet-1K分类性能
+主要结果对比（ImageNet-1K validation set）：
+
+
+
+Model
+Params
+FLOPs
+Top-1 Acc
+
+
+
+
+DeiT-S
+22M
+4.6G
+79.8%
+
+
+Swin-T
+29M
+4.5G
+81.3%
+
+
+Vim-S
+26M
+5.1G
+80.5%
+
+
+VMamba-S
+26M
+5.1G
+81.5%
+
+
+MambaOut-S
+24M
+4.5G
+82.0%
+
+
+DeiT-B
+86M
+17.5G
+81.8%
+
+
+Swin-B
+88M
+15.4G
+83.3%
+
+
+Vim-B
+98M
+18.2G
+81.8%
+
+
+VMamba-B
+89M
+18.0G
+82.8%
+
+
+MambaOut-B
+85M
+15.8G
+83.6%
+
+
+
+关键发现：
+
+性能优势：MambaOut在各个模型规模上均超越视觉Mamba变体
+计算效率：在相似或更少的FLOPs下实现更高精度
+参数效率：参数量略少但性能更优
+
+训练稳定性分析
+收敛速度对比：
+
+MambaOut-S：150 epochs即可达到80%准确率
+Vim-S：需要200 epochs才能达到相同性能
+训练损失下降更平滑，无明显震荡
+
+超参数鲁棒性：
+
+学习率范围：MambaOut在1e-4到5e-3范围内都能稳定训练
+Warmup需求：仅需5 epochs warmup（vs. Vim需要20 epochs）
+数据增强：对各种增强策略（RandAugment、Mixup、CutMix）响应良好
+
+消融实验详细分析
+SSM组件消融：
+
+
+
+Component
+Top-1 Acc
+Training Time
+
+
+
+
+Full Mamba
+79.8%
+1.0x
+
+
+w/o selective scan
+80.5%
+0.85x
+
+
+w/o state space
+81.2%
+0.75x
+
+
+MambaOut (all removed)
+82.0%
+0.70x
+
+
+
+Token混合器对比：
+
+
+
+Mixer Type
+Top-1 Acc
+FLOPs
+
+
+
+
+SSM
+79.8%
+4.8G
+
+
+Self-Attention
+81.0%
+5.2G
+
+
+Depthwise Conv
+81.5%
+4.3G
+
+
+Gated Conv
+82.0%
+4.5G
+
+
+
+消融与分析
+
+去除SSM的影响：显著提升稳定性与最终精度；
+深度/宽度扩展：线性复杂度便于堆叠更多层，收益更稳定；
+数据增强/正则：与ViT常规配置兼容（Mixup/CutMix/Label Smoothing等）。
+
+工程实践建议
+
+预处理：标准的ImageNet增强流程足够（RandAug/RandomResizedCrop/HFlip）。
+优化器：AdamW + Cosine LR + Warmup；
+批大小：和ViT训练设置一致即可，梯度累积可平衡显存；
+初始化：可复用ViT/Conv stem进行更稳定的早期训练。
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass MambaOutBlock(nn.Module):    def __init__(self, dim, mlp_ratio=4.0, p=0.0):        super().__init__()        self.norm1 = nn.LayerNorm(dim)        # 轻量token混合：可替换为线性时序混合或深度可分离卷积等高效混合器        self.token_mixer = nn.Sequential(            nn.Conv1d(dim, dim, kernel_size=3, padding=1, groups=dim),            nn.Conv1d(dim, dim, kernel_size=1)        )        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(dim)        hidden = int(dim * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(dim, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, dim), nn.Dropout(p)        )    def forward(self, x):        # x: [B, N, C]        y = self.norm1(x)        y = y.transpose(1, 2)              # [B, C, N]        y = self.token_mixer(y).transpose(1, 2)        x = x + self.drop1(y)        x = x + self.mlp(self.norm2(x))        return x
+
+注：上面用深度可分离卷积近似“线性复杂度的token混合”思想，便于理解；实际论文实现请以官方代码为准。
+
+优缺点
+优点
+
+训练与收敛更稳定，相比视觉Mamba变体更易用；
+线性复杂度便于扩展深度与序列长度；
+与ViT训练技巧兼容，工程门槛低。
+
+缺点
+
+对检测、分割等密集预测任务的系统性评估仍有限；
+理论解释仍在发展中，对何种视觉任务最适合有待进一步量化。
+
+总结
+MambaOut的核心在于：针对视觉分类的需求，对Mamba做“有保留的简化”。它保留线性复杂度与高效序列建模优势，去除对视觉不友好的SSM，最终在ImageNet上超过其他视觉Mamba模型，并接近/超越同级ViT。对希望探索Transformer之外高效结构的研究者与工程师而言，MambaOut提供了一条可行、稳健的路线。
+参考
+
+MambaOut: Do We Really Need Mamba for Vision? (CVPR 2025)
+Mamba: Linear-Time Sequence Modeling with Selective SSMs (2023)
+ViT: An Image is Worth 16x16 Words (ICLR 2021)
+
+思考题
+
+为什么移除SSM会提升分类稳定性？是否可以保留部分SSM结构以兼顾泛化？
+线性复杂度混合在极高分辨率或长序列输入下的收益与瓶颈是什么？
+在检测/分割等任务上，MambaOut需要哪些针对性的修改？
+与ViT的多头注意力相比，MambaOut的token混合在哪些场景更具优势？
+
+思考题答案
+1. 为什么移除SSM会提升分类稳定性？是否可以保留部分SSM结构以兼顾泛化？
+
+分类不需要严格自回归，SSM的选择性状态更新在图像场景中可能引入不必要的时序归纳偏置，导致优化目标与任务不匹配；
+移除后，token混合更“判别化”且梯度传播路径更稳定；
+可尝试“部分保留”：仅在深层或低分辨率阶段加入简化SSM，或以门控/残差旁路的形式弱耦合，避免主干表征被SSM主导。
+
+2. 线性复杂度混合在极高分辨率或长序列输入下的收益与瓶颈是什么？
+
+收益：复杂度O(N)便于扩展到超长序列/高分辨率，显存和速度更友好；
+瓶颈：缺乏显式全局交互的建模能力，远程依赖捕获可能弱于注意力；
+实践：可叠加稀疏/分层全局模块（如跨块聚合、低频通道注意力）补足长距关系。
+
+3. 在检测/分割等任务上，MambaOut需要哪些针对性的修改？
+
+多尺度特征：引入FPN/HRNet式多尺度分支，适配密集预测；
+局部-全局结合：在高分辨率阶段加入局部卷积/窗口注意力以提升细节；
+解码头适配：与常见检测/分割头（Mask R-CNN、UPerNet、Deeplab）对齐接口与特征尺度；
+训练策略：更强的数据增强（大尺度抖动、copy-paste）与正负样本平衡。
+
+4. 与ViT的多头注意力相比，MambaOut的token混合在哪些场景更具优势？
+
+超长序列与资源受限训练：线性复杂度在显存与时间上更占优；
+分类/检索等判别任务：无需强全局两两交互即可取得良好表现；
+端侧/实时场景：更低的计算开销带来更稳定的延迟与能耗。
+
 ]]></content>
       <categories>
-        <category>数据结构与算法</category>
+        <category>论文精读</category>
+        <category>序列建模</category>
       </categories>
       <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>链表</tag>
-        <tag>哈希表</tag>
-        <tag>查找</tag>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -3584,6 +3524,463 @@ void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果
       <tags>
         <tag>数据结构与算法</tag>
         <tag>回溯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--哈希表</title>
+    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
+    <content><![CDATA[哈希表
+哈希表概述
+​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
+​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
+​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
+​	**同义词：**具有相同函数值的多个关键字。
+​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
+​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
+哈希函数构造方法
+​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
+直接定址法
+**概述：**直接取关键字的某个线性函数值为哈希函数。
+**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
+**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
+除留余数法
+**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
+**哈希函数：**H(key) = key % mod
+**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
+平方取中法
+**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
+**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
+处理冲突的方法
+开放定址法（开地址法）
+**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
+线性探查法
+​	di = 0, 1, 2, … , Tsize-1
+​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
+平方探查法
+​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
+​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
+伪随机探测法
+​	di = 伪随机数序列
+链地址法（拉链法）
+**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
+**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
+​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
+
+哈希的查找及性能分析
+查找过程
+​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
+性能分析
+​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
+**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
+
+​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>数组</tag>
+        <tag>链表</tag>
+        <tag>哈希表</tag>
+        <tag>查找</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--图论</title>
+    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
+    <content><![CDATA[基础知识–图论
+图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
+
+核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
+
+图的基本概念
+
+
+图 (Graph)
+一个图 G 由两个基本集合构成：
+
+顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
+边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
+
+我们可以用数学符号表示一个图：  G = (V, E)
+
+
+顶点 (Vertex / Node / Point)
+
+图的基本组成部分，代表研究对象或实体。
+示例:
+
+在社交网络中，顶点可以代表 人。
+在交通网络中，顶点可以代表 城市。
+在电路图中，顶点可以代表 电子元件。
+
+
+
+
+
+边 (Edge / Arc / Line)
+
+连接两个顶点的线，表示顶点之间存在的关系。
+示例:
+
+在社交网络中，边可以表示两个人之间的 朋友关系。
+在交通网络中，边可以表示两个城市之间的 道路。
+在电路图中，边可以代表 导线。
+
+
+
+
+
+关联 (Incidence)
+
+如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
+简单来说，就是边“连接到”哪些顶点。
+
+
+
+邻接 (Adjacency)
+
+顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
+边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
+
+
+
+度 (Degree)
+
+
+一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
+
+
+有向图的度:  对于有向图，度分为两种：
+
+入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
+出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
+
+
+
+
+
+路径 (Path)
+
+图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
+路径中通常不重复经过顶点，除非是环路。
+
+
+
+环路/回路 (Cycle)
+
+一种特殊的路径，起点和终点是同一个顶点。
+环路表示从一个点出发，可以回到原点的路径。
+
+
+
+简单路径 (Simple Path)
+
+路径中所有顶点都不同的路径。
+简单路径避免了在路径中重复访问同一个顶点。
+
+
+
+简单环路/简单回路 (Simple Cycle)
+
+环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
+简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
+
+
+
+图的类型
+有向图 vs 无向图
+
+
+无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
+
+
+有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
+
+
+有权图 vs 无权图
+
+
+有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
+
+
+无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
+
+
+连通图 vs 非连通图
+
+
+连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
+
+
+非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
+
+
+连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
+
+
+强连通 vs 单连通
+
+强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
+单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
+
+图的表示方法
+邻接矩阵表示法
+邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
+
+对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
+对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
+
+优点：
+
+实现简单，便于理解
+查询两点间是否有边的时间复杂度为 O(1)
+适合表示稠密图
+
+缺点：
+
+空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
+添加/删除顶点的操作较为复杂
+
+邻接表表示法
+邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
+
+数组索引 i 对应顶点 i
+链表中存储的是与顶点 i 相邻的所有顶点
+
+优点：
+
+节省空间，特别适合稀疏图
+容易找到给定顶点的所有邻接点
+添加顶点操作简单
+
+缺点：
+
+查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
+对有向图求逆邻接表较困难
+
+十字链表表示法
+十字链表是邻接表的改进版本，主要用于有向图：
+
+结合了邻接表和逆邻接表的特点
+每个顶点有一个出边表和一个入边表
+每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
+
+优点：
+
+容易找到顶点的所有出边和入边
+适合需要频繁查询入度和出度的应用场景
+
+邻接多重表
+邻接多重表主要用于无向图：
+
+每条边只存储一次
+每个顶点有一个边表
+每条边连接到与其关联的两个顶点的边表中
+
+优点：
+
+便于删除和查找特定边
+节省空间
+
+边集数组表示法
+边集数组直接存储图中所有的边：
+
+使用一个一维数组存储所有顶点信息
+使用另一个数组存储所有边的信息（包括起点、终点和权值）
+
+优点：
+
+实现简单
+适合只关注边的操作，如最小生成树的Kruskal算法
+适合稀疏图
+
+缺点：
+
+查找操作效率较低
+不易找到与特定顶点相连的所有边
+
+选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
+图的遍历方法
+DFS(深度优先搜索)
+深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问
+对该顶点的每个未访问的邻接点，递归地应用DFS
+如果当前顶点没有未访问的邻接点，则回溯
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)
+空间复杂度：O(V)
+
+应用场景
+
+拓扑排序
+寻找连通分量
+判断图中是否有环
+寻找路径（如迷宫问题）
+
+BFS(广度优先搜索)
+广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问，并放入队列中
+当队列不为空时，执行以下操作：
+
+取出队列中的第一个顶点u
+访问顶点u
+将u的所有未访问过的邻接点标记为已访问并加入队列
+
+
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)，其中V是顶点数，E是边数
+空间复杂度：O(V)，用于存储访问状态和队列
+
+应用场景
+
+寻找最短路径（无权图）
+网络爬虫
+社交网络中的关系距离（如&quot;六度分隔&quot;理论）
+层次遍历
+
+图的应用
+最小生成树算法
+无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
+Kruskal算法
+
+
+思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
+步骤：
+
+对所有边按照权值进行排序。
+依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
+重复直到生成树中包含 n−1 条边。
+
+
+特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
+
+Prim算法
+
+思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
+步骤：
+
+从任一顶点开始，将其加入生成树。
+找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
+重复直到所有顶点都被加入生成树。
+
+
+特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
+
+最短路径算法
+Dijkstra算法
+从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
+基本流程
+
+初始化：源点距离设为0，其他顶点距离设为无穷大
+每次选择未访问的距离最小的顶点，标记为已访问
+更新该顶点的邻居顶点的距离
+重复步骤2-3直到所有顶点被访问
+
+算法复杂度
+
+时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
+空间复杂度：O(V)
+
+算法的局限性
+
+迪杰斯特拉算法不能处理负权边
+在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
+
+应用场景
+
+导航系统
+网络路由协议
+社交网络分析
+电信网络规划
+
+Floyd-Warshall算法
+对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
+基本流程
+
+初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
+对于每一个顶点k，检查所有顶点对(i,j)
+对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
+重复步骤2和3，直到遍历完所有顶点
+
+算法复杂度
+
+时间复杂度：O(V³)，其中V是顶点数
+空间复杂度：O(V²)
+
+与迪杰斯特拉算法的比较
+
+范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
+适用场景：
+
+对于稀疏图，运行V次迪杰斯特拉算法更高效
+对于稠密图，弗洛伊德算法更优
+
+
+负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
+
+算法优势
+
+实现简单，代码简洁
+可以处理有向图和负权边（但不能有负权环）
+一次运行可以得到所有顶点对之间的最短路径
+
+应用场景
+
+网络路由算法
+交通规划
+寻找图中的传递闭包
+计算最大流问题
+
+A*算法
+A*算法是一种启发式搜索算法，常用于路径规划问题。
+
+结合了Dijkstra算法和启发式搜索的优点
+使用估价函数指导搜索方向
+在有好的启发函数时效率很高
+
+基本流程
+
+初始化：起点放入开放列表
+每次从开放列表中选择f值最小的节点n
+如果n是目标节点，算法结束
+否则，将n移到关闭列表，并检查所有邻居节点
+对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
+更新邻居节点信息并加入开放列表
+重复步骤2-6直到找到目标或开放列表为空
+
+拓扑排序
+拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
+算法原理
+每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
+时间复杂度与空间复杂度
+
+时间复杂度: O(V + E)，其中V是顶点数，E是边数
+空间复杂度: O(V)，需要存储顶点的访问状态和结果
+
+特性和局限性
+
+唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
+环检测: 如果图中存在环，则无法进行拓扑排序
+适用范围: 只适用于有向无环图（DAG）
+初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>图论</tag>
       </tags>
   </entry>
   <entry>
@@ -4083,403 +4480,6 @@ Wu, Z., et al. (2020). A comprehensive survey on graph neural networks. IEEE TNN
         <tag>论文精读</tag>
         <tag>GNN</tag>
         <tag>图神经网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--图论</title>
-    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
-    <content><![CDATA[基础知识–图论
-图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
-
-核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
-
-图的基本概念
-
-
-图 (Graph)
-一个图 G 由两个基本集合构成：
-
-顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
-边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
-
-我们可以用数学符号表示一个图：  G = (V, E)
-
-
-顶点 (Vertex / Node / Point)
-
-图的基本组成部分，代表研究对象或实体。
-示例:
-
-在社交网络中，顶点可以代表 人。
-在交通网络中，顶点可以代表 城市。
-在电路图中，顶点可以代表 电子元件。
-
-
-
-
-
-边 (Edge / Arc / Line)
-
-连接两个顶点的线，表示顶点之间存在的关系。
-示例:
-
-在社交网络中，边可以表示两个人之间的 朋友关系。
-在交通网络中，边可以表示两个城市之间的 道路。
-在电路图中，边可以代表 导线。
-
-
-
-
-
-关联 (Incidence)
-
-如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
-简单来说，就是边“连接到”哪些顶点。
-
-
-
-邻接 (Adjacency)
-
-顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
-边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
-
-
-
-度 (Degree)
-
-
-一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
-
-
-有向图的度:  对于有向图，度分为两种：
-
-入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
-出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
-
-
-
-
-
-路径 (Path)
-
-图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
-路径中通常不重复经过顶点，除非是环路。
-
-
-
-环路/回路 (Cycle)
-
-一种特殊的路径，起点和终点是同一个顶点。
-环路表示从一个点出发，可以回到原点的路径。
-
-
-
-简单路径 (Simple Path)
-
-路径中所有顶点都不同的路径。
-简单路径避免了在路径中重复访问同一个顶点。
-
-
-
-简单环路/简单回路 (Simple Cycle)
-
-环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
-简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
-
-
-
-图的类型
-有向图 vs 无向图
-
-
-无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
-
-
-有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
-
-
-有权图 vs 无权图
-
-
-有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
-
-
-无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
-
-
-连通图 vs 非连通图
-
-
-连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
-
-
-非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
-
-
-连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
-
-
-强连通 vs 单连通
-
-强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
-单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
-
-图的表示方法
-邻接矩阵表示法
-邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
-
-对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
-对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
-
-优点：
-
-实现简单，便于理解
-查询两点间是否有边的时间复杂度为 O(1)
-适合表示稠密图
-
-缺点：
-
-空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
-添加/删除顶点的操作较为复杂
-
-邻接表表示法
-邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
-
-数组索引 i 对应顶点 i
-链表中存储的是与顶点 i 相邻的所有顶点
-
-优点：
-
-节省空间，特别适合稀疏图
-容易找到给定顶点的所有邻接点
-添加顶点操作简单
-
-缺点：
-
-查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
-对有向图求逆邻接表较困难
-
-十字链表表示法
-十字链表是邻接表的改进版本，主要用于有向图：
-
-结合了邻接表和逆邻接表的特点
-每个顶点有一个出边表和一个入边表
-每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
-
-优点：
-
-容易找到顶点的所有出边和入边
-适合需要频繁查询入度和出度的应用场景
-
-邻接多重表
-邻接多重表主要用于无向图：
-
-每条边只存储一次
-每个顶点有一个边表
-每条边连接到与其关联的两个顶点的边表中
-
-优点：
-
-便于删除和查找特定边
-节省空间
-
-边集数组表示法
-边集数组直接存储图中所有的边：
-
-使用一个一维数组存储所有顶点信息
-使用另一个数组存储所有边的信息（包括起点、终点和权值）
-
-优点：
-
-实现简单
-适合只关注边的操作，如最小生成树的Kruskal算法
-适合稀疏图
-
-缺点：
-
-查找操作效率较低
-不易找到与特定顶点相连的所有边
-
-选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
-图的遍历方法
-DFS(深度优先搜索)
-深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问
-对该顶点的每个未访问的邻接点，递归地应用DFS
-如果当前顶点没有未访问的邻接点，则回溯
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)
-空间复杂度：O(V)
-
-应用场景
-
-拓扑排序
-寻找连通分量
-判断图中是否有环
-寻找路径（如迷宫问题）
-
-BFS(广度优先搜索)
-广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问，并放入队列中
-当队列不为空时，执行以下操作：
-
-取出队列中的第一个顶点u
-访问顶点u
-将u的所有未访问过的邻接点标记为已访问并加入队列
-
-
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)，其中V是顶点数，E是边数
-空间复杂度：O(V)，用于存储访问状态和队列
-
-应用场景
-
-寻找最短路径（无权图）
-网络爬虫
-社交网络中的关系距离（如&quot;六度分隔&quot;理论）
-层次遍历
-
-图的应用
-最小生成树算法
-无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
-Kruskal算法
-
-
-思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
-步骤：
-
-对所有边按照权值进行排序。
-依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
-重复直到生成树中包含 n−1 条边。
-
-
-特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
-
-Prim算法
-
-思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
-步骤：
-
-从任一顶点开始，将其加入生成树。
-找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
-重复直到所有顶点都被加入生成树。
-
-
-特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
-
-最短路径算法
-Dijkstra算法
-从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
-基本流程
-
-初始化：源点距离设为0，其他顶点距离设为无穷大
-每次选择未访问的距离最小的顶点，标记为已访问
-更新该顶点的邻居顶点的距离
-重复步骤2-3直到所有顶点被访问
-
-算法复杂度
-
-时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
-空间复杂度：O(V)
-
-算法的局限性
-
-迪杰斯特拉算法不能处理负权边
-在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
-
-应用场景
-
-导航系统
-网络路由协议
-社交网络分析
-电信网络规划
-
-Floyd-Warshall算法
-对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
-基本流程
-
-初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
-对于每一个顶点k，检查所有顶点对(i,j)
-对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
-重复步骤2和3，直到遍历完所有顶点
-
-算法复杂度
-
-时间复杂度：O(V³)，其中V是顶点数
-空间复杂度：O(V²)
-
-与迪杰斯特拉算法的比较
-
-范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
-适用场景：
-
-对于稀疏图，运行V次迪杰斯特拉算法更高效
-对于稠密图，弗洛伊德算法更优
-
-
-负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
-
-算法优势
-
-实现简单，代码简洁
-可以处理有向图和负权边（但不能有负权环）
-一次运行可以得到所有顶点对之间的最短路径
-
-应用场景
-
-网络路由算法
-交通规划
-寻找图中的传递闭包
-计算最大流问题
-
-A*算法
-A*算法是一种启发式搜索算法，常用于路径规划问题。
-
-结合了Dijkstra算法和启发式搜索的优点
-使用估价函数指导搜索方向
-在有好的启发函数时效率很高
-
-基本流程
-
-初始化：起点放入开放列表
-每次从开放列表中选择f值最小的节点n
-如果n是目标节点，算法结束
-否则，将n移到关闭列表，并检查所有邻居节点
-对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
-更新邻居节点信息并加入开放列表
-重复步骤2-6直到找到目标或开放列表为空
-
-拓扑排序
-拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
-算法原理
-每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
-时间复杂度与空间复杂度
-
-时间复杂度: O(V + E)，其中V是顶点数，E是边数
-空间复杂度: O(V)，需要存储顶点的访问状态和结果
-
-特性和局限性
-
-唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
-环检测: 如果图中存在环，则无法进行拓扑排序
-适用范围: 只适用于有向无环图（DAG）
-初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>图论</tag>
       </tags>
   </entry>
   <entry>
