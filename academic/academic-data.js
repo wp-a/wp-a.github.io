@@ -1,6 +1,6 @@
 const academicData = {
   profile: {
-    name: "Wang Peng (王鹏)",
+    name: "Peng Wang (王鹏)",
     title: {
       zh: "硕士研究生 / 人工智能",
       en: "Master's Student / Artificial Intelligence"
@@ -22,7 +22,7 @@ const academicData = {
   },
   about: {
     zh: [
-      "我是山东大学软件学院的硕士研究生，导师为<strong><a href='https://ercdm.sdu.edu.cn/info/1013/1523.htm'>孟雷教授</a></strong>。此前，我于2024年6月在齐鲁工业大学获得工学学士学位。",
+      "我是山东大学软件学院的硕士研究生，导师为<strong><a href='https://ercdm.sdu.edu.cn/info/1013/1523.htm'>孟雷教授</a></strong>。此前，我在齐鲁工业大学获得工学学士学位。",
       "我曾在<strong>西湖大学</strong>担任访问学生，参与实现街道数据集制作及模型训练工作。",
       "我的研究兴趣主要集中在<strong>计算机视觉</strong>和<strong>深度学习</strong>，特别是<strong>多模态大模型</strong>和<strong>视觉理解</strong>。"
     ],
@@ -51,7 +51,7 @@ const academicData = {
   publications: [
     {
       title: "Fall detection algorithm based on global and local feature extraction",
-      authors: "Bin Li*, Jiangqiao Li, <strong>Wang Peng</strong>",
+      authors: "Bin Li*, Jiangjiao Li, <strong>Peng Wang</strong>",
       venue: "Pattern Recognition Letters, 2024",
       venueClass: "tkde",
       image: "https://picsum.photos/500/200?random=1",
@@ -72,7 +72,7 @@ const academicData = {
     },
     {
       title: "Fall detection algorithm based on pyramid network and feature fusion",
-      authors: "Jiangqiao Li, Mengna Huang, <strong>Wang Peng</strong>, Bin Li*",
+      authors: "Jiangjiao Li, Mengqi Gao, <strong>Peng Wang</strong>, Bin Li*",
       venue: "Evolving Systems, 2024",
       venueClass: "tkde",
       image: "https://picsum.photos/500/200?random=2",
