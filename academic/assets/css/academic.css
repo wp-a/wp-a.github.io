@@ -758,3 +758,130 @@ body.dark-mode .news-list li:hover {
         margin-bottom: 6px;
     }
 }
+
+/* --- Cool Features Styles --- */
+
+/* 1. Terminal Easter Egg */
+.terminal-trigger {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.terminal-trigger:hover {
+    transform: scale(1.1) rotate(15deg);
+    background: var(--accent-color);
+    color: #000;
+}
+
+.terminal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.terminal-window {
+    width: 800px;
+    height: 500px;
+    max-width: 90vw;
+    background: rgba(15, 23, 42, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.terminal-header {
+    height: 40px;
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-bottom: 1px solid #334155;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.terminal-buttons .close {
+    background: #ff5f56;
+}
+
+.terminal-buttons .minimize {
+    background: #ffbd2e;
+}
+
+.terminal-buttons .maximize {
+    background: #27c93f;
+}
+
+.terminal-title {
+    flex: 1;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.terminal-body {
+    flex: 1;
+    padding: 20px;
+    color: #38bdf8;
+    overflow-y: auto;
+    font-size: 1rem;
+}
+
+.terminal-input-line {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.terminal-input-line input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #e2e8f0;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+}
+
+/* 2. Visitor Globe */
+#visitor-globe canvas {
+    outline: none;
+}
