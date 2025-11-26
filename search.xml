@@ -224,44 +224,6 @@ for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点    
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--动态规划</title>
-    <url>/2025/03/14day/</url>
-    <content><![CDATA[动态规划
-动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
-斐波那契数
-题目链接：509. 斐波那契数
-前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
-class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
-爬楼梯
-题目链接：70. 爬楼梯
-按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
-class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
-使用最小花费爬楼梯
-题目链接：746. 使用最小花费爬楼梯
-class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
-不同路径
-题目链接：62. 不同路径
-class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
-比特位计数
-题目链接：LCR 003. 比特位计数
-除以2
-如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
-如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
-位运算
-进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--数组</title>
     <url>/2025/01/1day/</url>
     <content><![CDATA[二分查找
@@ -314,6 +276,44 @@ class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt
         <tag>二分查找</tag>
         <tag>双指针</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--动态规划</title>
+    <url>/2025/03/14day/</url>
+    <content><![CDATA[动态规划
+动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
+斐波那契数
+题目链接：509. 斐波那契数
+前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
+class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
+爬楼梯
+题目链接：70. 爬楼梯
+按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
+class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
+使用最小花费爬楼梯
+题目链接：746. 使用最小花费爬楼梯
+class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
+不同路径
+题目链接：62. 不同路径
+class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
+比特位计数
+题目链接：LCR 003. 比特位计数
+除以2
+如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
+如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
+位运算
+进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -1429,106 +1429,6 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
-
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
-
-
-题目列表与详解
-1. Two Sum
-
-
-题号 / 链接：#1 / 题目链接
-
-
-难度：简单
-
-
-题型标签：哈希表，数组
-
-
-题目描述（简要）：
-
-就是查找一下哪两个数相加等于target，返回下标。
-
-
-
-思路分析
-
-两个方法，不同的时间复杂度
-
-方法一：暴力写法。
-复杂度
-
-时间：O(*n*2)
-空间：O(1)
-
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
-
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
-
-
-2. 好数对的数目
-
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSRMS</title>
     <url>/2025/04/CSRMS/</url>
     <content><![CDATA[CSRMS
@@ -1650,250 +1550,103 @@ $$
       </tags>
   </entry>
   <entry>
-    <title>MoE</title>
-    <url>/2025/04/MOE/</url>
-    <content><![CDATA[Mixtures of Experts
-《Adaptive Mixture of Local Experts》
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
 
-论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
-1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
-核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
-基础架构
-如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
-系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
 
-通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
-性能比较
-元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
-数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
 
-模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
-混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
-总结
-这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
-论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
-《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
-超大型神经网络：稀疏门控混合专家层
-论文链接：https://arxiv.org/abs/1701.06538
-2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
-上一篇强调的是减小时间成本，这一篇是减小计算成本。
+题目列表与详解
+1. Two Sum
 
-基础架构
-稀疏门控专家混合层（MoE）
-MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
 
-设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
-$$
-y = \sum_{i=1}^{n} G(x)_i E_i(x)
-$$
+题号 / 链接：#1 / 题目链接
 
-均衡负载
-门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
-Keep Top-K
-Noisy Top-K Gating
-添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
 
-Noise
-使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
+难度：简单
 
-$$
-H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
-$$
-Sparse
-除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
 
-$$
-\text{KeepTopK}(v, k)_i =
-\begin{cases}
-v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
--\infty & \text{otherwise}.
-\end{cases}
-$$
-通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
+题型标签：哈希表，数组
 
-$$
-G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
-$$
-KeepTopK 策略将每个 token 路由给几个选定的专家。
 
-Auxiliary Loss
-为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
-该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
+题目描述（简要）：
 
-$$
-\text{Importance}(X) = \sum_{x \in X} G(x) 
-$$
-这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
+就是查找一下哪两个数相加等于target，返回下标。
 
-如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
 
-$$
-L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
-$$
-最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
-虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
-Load-Balancing Loss
-专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
-对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
-$$ 
-{Load}(X)_i = \sum_{x \in X} P(x, i)
-$$ 
-其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
-$$ 
-P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
-$$ 
-$ (x \cdot W_g)_i $：
 
-$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
-$ W_g $ 是门控网络的可训练权重矩阵。
-$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
+思路分析
 
-$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
+两个方法，不同的时间复杂度
 
-$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
-$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
-$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
-这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
+方法一：暴力写法。
+复杂度
 
-$$ 
-H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
-$$ 
-$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
-$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
-$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
-$$ 
-P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
-$$ 
-Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
-$$ 
-L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
-$$ 
-初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
-Hierarchical Mixture-of-Experts
-层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
-第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
-第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
-专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
-$$ 
-y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
-$$ 
-$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
-$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
-$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
-对专家利用率的衡量指标将更改为以下内容：
-$$ 
-\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
-$$ 
-$$ 
-\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
-$$ 
-$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
-《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
-基于条件计算和自动分片的巨型模型扩展。
-论文链接：https://arxiv.org/abs/2006.16668
+时间：O(*n*2)
+空间：O(1)
 
-创新点
-Expert Capacity
-专家容量
-不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
 
-解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
+时间：O(n)
+空间：O(n)
 
-如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
 
-Auxiliary loss
-门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
-Random routing
-随机路由机制
-在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
-《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
-论文链接：https://arxiv.org/abs/2101.03961
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
 
-简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
-Switch Routing
-（1）仅将token路由到单个专家，因此减少了路由器计算。
-（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
-（3）路由实现得到简化，并且通信成本降低。
-《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
-现有MoE架构问题
-（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
-（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
-这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
-我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
-解决问题的主要策略
-（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
-（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
-DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
 
-DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
+2. 好数对的数目
 
-DeepSeekMoE 架构
-细粒度专家分割
-通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
-$$
-其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
-组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
-共享专家隔离
-采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
-隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
-$$
-最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
-负载均衡问题
-自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
-Expert-Level Balance Loss
-专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
-$$ 
-\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
-$$ 
-$$
-f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
-$$
-$$
-p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
-$$
-其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
-Device-Level Balance Loss
-将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
-$$ 
-\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
-$$ 
-$$ 
-f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
-$$ 
-$$ 
-p'_i = \sum_{j \in \mathcal{E}_i} p_j
-$$ 
-其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
 ]]></content>
       <categories>
-        <category>论文精读</category>
-        <category>大模型</category>
+        <category>算法刷题</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>混合专家系统</tag>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -2234,6 +1987,253 @@ Transformer具备全局建模能力，即便仅看到25%的patch也能捕捉结�
         <tag>MAE</tag>
         <tag>自监督学习</tag>
         <tag>Vision Transformer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MoE</title>
+    <url>/2025/04/MOE/</url>
+    <content><![CDATA[Mixtures of Experts
+《Adaptive Mixture of Local Experts》
+
+论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
+1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
+核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
+基础架构
+如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
+系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
+
+通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
+性能比较
+元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
+数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
+
+模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
+混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
+总结
+这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
+论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
+《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
+超大型神经网络：稀疏门控混合专家层
+论文链接：https://arxiv.org/abs/1701.06538
+2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
+上一篇强调的是减小时间成本，这一篇是减小计算成本。
+
+基础架构
+稀疏门控专家混合层（MoE）
+MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
+
+设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
+$$
+y = \sum_{i=1}^{n} G(x)_i E_i(x)
+$$
+
+均衡负载
+门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
+Keep Top-K
+Noisy Top-K Gating
+添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
+
+Noise
+使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
+
+$$
+H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
+$$
+Sparse
+除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
+
+$$
+\text{KeepTopK}(v, k)_i =
+\begin{cases}
+v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
+-\infty & \text{otherwise}.
+\end{cases}
+$$
+通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
+
+$$
+G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
+$$
+KeepTopK 策略将每个 token 路由给几个选定的专家。
+
+Auxiliary Loss
+为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
+该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
+
+$$
+\text{Importance}(X) = \sum_{x \in X} G(x) 
+$$
+这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
+
+如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
+
+$$
+L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
+$$
+最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
+虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
+Load-Balancing Loss
+专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
+对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
+$$ 
+{Load}(X)_i = \sum_{x \in X} P(x, i)
+$$ 
+其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
+$$ 
+P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
+$$ 
+$ (x \cdot W_g)_i $：
+
+$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
+$ W_g $ 是门控网络的可训练权重矩阵。
+$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
+
+$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
+
+$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
+$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
+$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
+这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
+
+$$ 
+H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
+$$ 
+$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
+$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
+$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
+$$ 
+P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
+$$ 
+Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
+$$ 
+L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
+$$ 
+初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
+Hierarchical Mixture-of-Experts
+层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
+第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
+第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
+专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
+$$ 
+y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
+$$ 
+$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
+$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
+$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
+对专家利用率的衡量指标将更改为以下内容：
+$$ 
+\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
+$$ 
+$$ 
+\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
+$$ 
+$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
+《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
+基于条件计算和自动分片的巨型模型扩展。
+论文链接：https://arxiv.org/abs/2006.16668
+
+创新点
+Expert Capacity
+专家容量
+不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
+
+解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
+
+如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
+
+Auxiliary loss
+门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
+Random routing
+随机路由机制
+在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
+《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
+论文链接：https://arxiv.org/abs/2101.03961
+
+简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
+Switch Routing
+（1）仅将token路由到单个专家，因此减少了路由器计算。
+（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
+（3）路由实现得到简化，并且通信成本降低。
+《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
+现有MoE架构问题
+（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
+（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
+这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
+我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
+解决问题的主要策略
+（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
+（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
+DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
+
+DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
+
+DeepSeekMoE 架构
+细粒度专家分割
+通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
+$$
+其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
+组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
+共享专家隔离
+采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
+隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
+$$
+最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
+负载均衡问题
+自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
+Expert-Level Balance Loss
+专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
+$$ 
+\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
+$$ 
+$$
+f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
+$$
+$$
+p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
+$$
+其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
+Device-Level Balance Loss
+将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
+$$ 
+\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
+$$ 
+$$ 
+f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
+$$ 
+$$ 
+p'_i = \sum_{j \in \mathcal{E}_i} p_j
+$$ 
+其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>大模型</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>混合专家系统</tag>
       </tags>
   </entry>
   <entry>
@@ -6342,24 +6342,6 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       </tags>
   </entry>
   <entry>
-    <title>手撕 Vision Transformer</title>
-    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
-    <content><![CDATA[手撕 Vision Transformer
-
-​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
-​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
-import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>Vit</tag>
-        <tag>手撕代码</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--排序算法</title>
     <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[排序算法详解
@@ -6512,69 +6494,21 @@ O(1)
       </tags>
   </entry>
   <entry>
-    <title>基础知识--线性表</title>
-    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
-    <content><![CDATA[线性表
-线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
-顺序存储（顺序表）
-存取
-顺序表随机存取，存取某个元素的时间复杂度为O(1)。
-查找
-平均时间复杂度O(n)
-插入删除
-平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
-链式存储（链表）
-链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
-单链表
-单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
+    <title>手撕 Vision Transformer</title>
+    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
+    <content><![CDATA[手撕 Vision Transformer
 
-数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
-指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
-
-创建链表
-**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
-**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
-查找
-查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
-插入删除
-在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
-单链表的缺点
-
-访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
-存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
-不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
-
-双链表
-双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
-
-前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
-数据域 (Data):  与单链表相同，用于存储数据元素。
-后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
-
-创建链表
-创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
-查找
-与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
-双链表的优点
-
-双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
-删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
-某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
-
-双链表的缺点
-
-存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
-插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
-访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
-
+​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
+​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
+import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
 ]]></content>
       <categories>
-        <category>数据结构与算法</category>
+        <category>手撕代码</category>
+        <category>图像分类</category>
       </categories>
       <tags>
-        <tag>数据结构与算法</tag>
-        <tag>链表</tag>
-        <tag>线性表</tag>
+        <tag>Vit</tag>
+        <tag>手撕代码</tag>
       </tags>
   </entry>
   <entry>
@@ -6640,6 +6574,72 @@ O(1)
       <tags>
         <tag>数据结构与算法</tag>
         <tag>绪论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--线性表</title>
+    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[线性表
+线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
+顺序存储（顺序表）
+存取
+顺序表随机存取，存取某个元素的时间复杂度为O(1)。
+查找
+平均时间复杂度O(n)
+插入删除
+平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
+链式存储（链表）
+链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
+单链表
+单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
+
+数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
+指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
+
+创建链表
+**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
+**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
+查找
+查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
+插入删除
+在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
+单链表的缺点
+
+访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
+存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
+不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
+
+双链表
+双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
+
+前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
+数据域 (Data):  与单链表相同，用于存储数据元素。
+后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
+
+创建链表
+创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
+查找
+与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
+双链表的优点
+
+双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
+删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
+某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
+
+双链表的缺点
+
+存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
+插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
+访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+        <tag>线性表</tag>
       </tags>
   </entry>
   <entry>

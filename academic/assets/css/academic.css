@@ -299,19 +299,27 @@ a:hover {
 .contact-list {
     list-style: none;
     width: 100%;
-    margin-top: 40px;
+    margin-top: auto;
+    /* Push to bottom */
+    padding-top: 30px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .contact-list li {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    /* Fixed width for alignment */
 }
 
-.contact-list a {
-    width: 40px;
-    height: 40px;
+.contact-list a,
+.contact-list span {
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -319,13 +327,24 @@ a:hover {
     background: rgba(0, 0, 0, 0.05);
     color: var(--text-secondary);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
 }
 
-body.dark-mode .contact-list a {
+.contact-list-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+body.dark-mode .contact-list a,
+body.dark-mode .contact-list span {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.contact-list a:hover {
+.contact-list a:hover,
+.contact-list span:hover {
     background: var(--accent-color);
     color: white;
     transform: translateY(-5px);
@@ -352,12 +371,16 @@ h2 {
     align-items: center;
     color: var(--primary-color);
     letter-spacing: -0.03em;
+    gap: 15px;
+    /* Add gap between elements */
 }
 
 h2 span:first-child {
-    margin-right: 15px;
+    margin-right: 0;
     font-size: 1.8rem;
 }
+
+/* Remove margin-right as we use gap */
 
 /* About Text */
 #about-content p {
