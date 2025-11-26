@@ -1,742 +1,57 @@
 <link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Academic Homepage</title>
+  <title id="page-title">Wang Peng - Academic Homepage</title>
+  <meta name="description"
+    content="Wang Peng's academic homepage. Master's student at Shandong University. Research interests: Computer Vision, Deep Learning, Multimodal Learning.">
+  <meta name="keywords" content="Wang Peng, Computer Vision, Deep Learning, AI, Shandong University, 王鹏, 计算机视觉, 深度学习">
+  <meta name="author" content="Wang Peng">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Wang Peng - Academic Homepage">
+  <meta property="og:description"
+    content="Master's student at Shandong University. Research interests: Computer Vision, Deep Learning, Multimodal Learning.">
+  <meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png">
+  <meta property="og:url" content="https://wpironman.top/academic/">
+
   <link rel="icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png">
-  
+
   <!-- FontAwesome & Google Fonts (Inter + Noto Sans SC) -->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      /* 亮色模式 - 极简高级灰 */
-      --primary-color: #18181b; /* 更深的标题色 */
-      --accent-color: #ea580c; /* 橙红色，更有活力 */
-      --link-color: #0284c7; /* 天蓝色 */
-      --bg-color: #ffffff; /* 纯白背景 */
-      --sidebar-bg: #fafafa; /* 侧边栏微灰 */
-      --card-bg: #ffffff;
-      --text-color: #27272a; /* 深灰文字 */
-      --text-secondary: #71717a; /* 中灰辅助文字 */
-      --border-color: #e4e4e7; /* 极淡边框 */
-      --sidebar-width: 280px;
-      --content-max-width: 1100px; /* 增加内容区域宽度 */
-      --font-main: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-      
-      /* 精致阴影 - 多层次 */
-      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-    }
-    
-    /* 暗黑模式 - 极致黑 */
-    body.dark-mode {
-      --primary-color: #fafafa;
-      --accent-color: #fbbf24; /* 金黄色，更醒目 */
-      --link-color: #38bdf8; /* 天空蓝 */
-      --bg-color: #0a0a0a; /* 极深黑 */
-      --sidebar-bg: #171717;
-      --card-bg: #171717;
-      --text-color: #fafafa;
-      --text-secondary: #a3a3a3;
-      --border-color: #262626;
-      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -1px rgba(0,0,0,0.3);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.4);
-    }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html {
-      scroll-behavior: smooth;
-    }
-    
-    body {
-      font-family: var(--font-main);
-      background: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.65;
-      letter-spacing: -0.011em; /* 微调字间距，更精致 */
-      display: flex;
-      min-height: 100vh;
-      transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    
-    a { 
-      color: var(--link-color); 
-      text-decoration: none; 
-      transition: all 0.3s ease;
-    }
-    a:hover { 
-      color: #0052a3;
-      text-decoration: none; 
-    }
-    
-    /* Top Navigation */
-    .top-nav {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      background: var(--bg-color);
-      padding: 20px 60px;
-      display: flex;
-      justify-content: space-between; /* 左右分布 */
-      align-items: center;
-      z-index: 100;
-      border-bottom: 1px solid var(--border-color);
-      transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    
-    /* 导航链接容器 */
-    .nav-links {
-      display: flex;
-      gap: 30px;
-    }
-    .top-nav a {
-      color: var(--text-secondary);
-      font-weight: 600;
-      font-size: 0.95rem;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    .top-nav a:hover, .top-nav a.active {
-      color: var(--accent-color);
-    }
-    .top-nav a.active::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--accent-color);
-      border-radius: 2px;
-    }
-    
-    /* 左侧语言切换 */
-    .lang-switch-left {
-      font-weight: 600; 
-      color: var(--text-secondary); 
-      cursor: pointer;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      background: rgba(0, 0, 0, 0.05);
-    }
-    /* 中间暗黑模式按钮 */
-    .theme-switch {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-weight: 600; 
-      color: var(--text-secondary); 
-      cursor: pointer;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      background: rgba(0, 0, 0, 0.05);
-    }
-    /* 暗黑模式下的背景调整 */
-    body.dark-mode .lang-switch-left,
-    body.dark-mode .theme-switch {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    .lang-switch-left:hover,
-    .theme-switch:hover {
-      background: rgba(0, 0, 0, 0.1);
-      transform: translateY(-1px);
-      color: var(--text-color);
-    }
-    body.dark-mode .lang-switch-left:hover,
-    body.dark-mode .theme-switch:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    
-    /* Layout */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: var(--sidebar-bg);
-      padding: 120px 30px 60px; /* 进一步增加顶部间距，让内容整体下移 */
-      position: fixed;
-      height: 100vh;
-      left: 0;
-      top: 0;
-      overflow-y: auto;
-      border-right: 1px solid var(--border-color);
-      text-align: center;
-      z-index: 10;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: var(--shadow-sm);
-      scrollbar-width: thin;
-      scrollbar-color: #ccc transparent;
-    }
-    .sidebar::-webkit-scrollbar {
-      width: 5px;
-    }
-    .sidebar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .sidebar::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 2px;
-    }
-    .sidebar::-webkit-scrollbar-thumb:hover {
-      background: #999;
-    }
-    
-    .main-content {
-      margin-left: var(--sidebar-width);
-      padding: 100px 80px 60px; /* 增加左右padding，让内容更宽 */
-      max-width: calc(var(--content-max-width) + var(--sidebar-width));
-      flex: 1;
-    }
-    
-    /* Sidebar Elements */
-    .avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 0 auto 24px;
-      /* 去掉粗边框，改用内发光/微阴影 */
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      border: none;
-    }
-    body.dark-mode .avatar {
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      opacity: 0.9; /* 暗黑模式下稍微压暗一点图片，护眼 */
-    }
-    
-    .author-name { 
-      font-size: 1.65rem; 
-      font-weight: 700; 
-      margin-bottom: 8px; 
-      color: var(--primary-color);
-      letter-spacing: -0.02em; /* 精致的字间距 */
-      line-height: 1.2;
-    }
-    
-    .author-title { 
-      font-size: 0.9rem; 
-      color: var(--text-secondary); 
-      margin-bottom: 20px; 
-      line-height: 1.5;
-      font-weight: 500;
-    }
-    
-    .author-desc { 
-      font-size: 0.9rem; 
-      color: var(--text-secondary); 
-      line-height: 1.8; 
-      margin-bottom: 30px;
-      padding: 0;
-      text-align: center;
-      /* 去掉背景框和阴影，保持简洁 */
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-    
-    .contact-list { 
-      list-style: none; 
-      font-size: 0.9rem; 
-      margin-top: 30px;
-      padding: 0 20px;
-      text-align: left;
-      display: inline-block; /* 让列表整体居中 */
-    }
-    .contact-list li { 
-      margin-bottom: 14px; 
-      display: flex; 
-      align-items: center;
-      color: var(--text-secondary);
-    }
-    .contact-list i { 
-      width: 24px; 
-      color: var(--text-secondary); 
-      margin-right: 12px; 
-      text-align: center;
-      font-size: 1rem;
-      transition: color 0.3s ease;
-    }
-    .contact-list li:hover i {
-      color: var(--accent-color);
-    }
-    .contact-list a { 
-      color: var(--text-secondary); 
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    .contact-list a:hover { 
-      color: var(--accent-color);
-      text-decoration: none;
-    }
-    
-    /* Content Elements */
-    h2 { 
-      font-size: 1.75rem; 
-      margin: 60px 0 30px; 
-      font-weight: 700; 
-      display: flex; 
-      align-items: center;
-      color: var(--primary-color);
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-color);
-    }
-    h2 span { 
-      margin-right: 10px; 
-      font-size: 1.4rem; 
-    }
-    h2 i { 
-      margin-right: 14px; 
-      color: var(--accent-color); 
-      font-size: 1.5rem;
-      opacity: 0.9;
-    }
-    
-    p { 
-      margin-bottom: 15px; 
-      text-align: justify; 
-      line-height: 1.8;
-      color: var(--text-secondary);
-    }
-    
-    /* About Section Cards */
-    #about-content p {
-      background: transparent;
-      padding: 0;
-      margin-bottom: 20px;
-      border: none;
-    }
-    
-    /* News List */
-    .news-list { list-style: none; }
-    /* News List - 增加交互感 */
-    .news-list li { 
-      margin-bottom: 0; /* 去掉底部间距 */
-      display: flex; 
-      align-items: baseline;
-      padding: 10px 15px; /* 减少内边距，更紧凑 */
-      border-bottom: 1px solid var(--border-color);
-      border-radius: 6px;
-      transition: all 0.3s ease;
-    }
-    .news-list li:hover {
-      background: rgba(0,0,0,0.02);
-      transform: translateX(5px); /* 悬停时轻微右移 */
-    }
-    body.dark-mode .news-list li:hover {
-      background: rgba(255,255,255,0.05);
-    }
-    
-    .news-date { 
-      font-weight: 600; 
-      min-width: 85px; /* 稍微缩小日期宽度 */
-      color: var(--accent-color); 
-      font-family: 'Courier New', monospace;
-      font-size: 0.88rem; /* 稍微缩小字号 */
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-    .news-list li:hover .news-date {
-      transform: scale(1.05); /* 日期轻微放大 */
-    }
-    
-    .news-list li .news-content {
-      font-size: 0.95rem; /* 稍微缩小正文字号 */
-      line-height: 1.5;
-    }
-    
-    /* Publication Item - 增强动态交互 */
-    .paper-item {
-      display: flex;
-      margin-bottom: 40px;
-      padding: 20px;
-      border-radius: 12px;
-      border-bottom: 1px solid var(--border-color); /* 恢复分割线 */
-      transition: all 0.3s ease;
-      background: transparent;
-    }
-    
-    /* 鼠标悬停在整个卡片上时 */
-    .paper-item:hover {
-      background: var(--card-bg);
-      box-shadow: var(--shadow-md); /* 浮起效果 */
-      transform: translateY(-2px);
-      border-color: transparent; /* 悬停时隐藏底边框，用阴影代替 */
-    }
-    
-    .paper-img-box {
-      width: 300px; /* 调整回合适大小 */
-      flex-shrink: 0;
-      margin-right: 30px;
-      position: relative;
-      border-radius: 8px;
-      border: 1px solid rgba(0,0,0,0.1);
-      overflow: hidden;
-      background: #f0f0f0;
-      box-shadow: var(--shadow-sm);
-    }
-    body.dark-mode .paper-img-box {
-      border-color: rgba(255,255,255,0.1);
-      background: #222;
-    }
-    
-    .paper-img-box img { 
-      width: 100%; 
-      height: auto; 
-      display: block;
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 更流畅的动画 */
-    }
-    
-    /* 图片放大效果增强 */
-    .paper-item:hover .paper-img-box img {
-      transform: scale(1.08); 
-    }
-    
-    /* Conference Badge */
-    .conf-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(4px);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      z-index: 2;
-    }
-    /* 不同会议使用不同颜色的小点缀，或者统一风格 */
-    .conf-badge.tkde { border-left: 3px solid #2a5298; }
-    .conf-badge.cvpr { border-left: 3px solid #e94057; }
-    .conf-badge.iccv { border-left: 3px solid #f857a6; }
-    
-    .paper-info { flex: 1; }
-    .paper-title { 
-      font-size: 1.2rem; 
-      font-weight: 700; 
-      margin-bottom: 10px; 
-      color: var(--primary-color); 
-      line-height: 1.4;
-      transition: color 0.3s ease;
-    }
-    .paper-item:hover .paper-title {
-      color: var(--link-color); /* 悬停时标题变色 */
-    }
-    .paper-item:hover .paper-title {
-      color: var(--accent-color);
-    }
-    .paper-authors { 
-      color: #666; 
-      margin-bottom: 12px; 
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-    .paper-authors strong { 
-      color: var(--primary-color); 
-      border-bottom: 2px solid var(--accent-color);
-      padding-bottom: 2px;
-    }
-    .paper-links { 
-      font-size: 0.875rem; 
-      margin-top: 14px;
-    }
-    .paper-links a { 
-      display: inline-block;
-      padding: 6px 16px;
-      margin-right: 10px;
-      margin-bottom: 8px;
-      color: var(--text-color);
-      background: var(--bg-color);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: -0.01em;
-    }
-    .paper-links a:hover { 
-      background: var(--primary-color);
-      color: var(--bg-color);
-      border-color: var(--primary-color);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    /* 隐藏英文内容（默认） */
-    .lang-en {
-      display: none;
-    }
-    
-    /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-      body { 
-        flex-direction: column; 
-        font-size: 14px;
-      }
-      
-      /* 顶部导航 */
-      .top-nav { 
-        left: 0; 
-        width: 100%;
-        padding: 0 15px; 
-        height: 50px;
-        font-size: 11px;
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-      .top-nav a {
-        margin-right: 15px;
-        font-size: 11px;
-      }
-      .lang-switch { 
-        display: block !important;
-        font-size: 11px;
-        margin-right: 15px;
-      }
-      
-      /* 侧边栏 */
-      .sidebar { 
-        width: 100%; 
-        position: relative; 
-        height: auto; 
-        padding: 80px 20px 30px;
-        background: var(--sidebar-bg);
-        text-align: center;
-        border-bottom: 1px solid var(--border-color);
-      }
-      .avatar {
-        width: 120px;
-        height: 120px;
-      }
-      .author-name {
-        font-size: 1.3rem;
-      }
-      .author-title {
-        font-size: 0.85rem;
-      }
-      .author-desc {
-        font-size: 0.85rem;
-        padding: 15px 20px;
-      }
-      .contact-list { 
-        justify-content: center; 
-        display: flex;
-        flex-wrap: wrap;
-        font-size: 0.85rem;
-      }
-      .contact-list li {
-        width: 50%;
-        justify-content: flex-start;
-        padding: 0 10px;
-      }
-      
-      /* 主内容区 */
-      .main-content { 
-        margin-left: 0; 
-        padding: 70px 15px 60px;
-        max-width: 100%;
-      }
-      
-      /* 标题 */
-      h2 {
-        font-size: 1.4rem;
-        margin: 35px 0 20px;
-      }
-      h2 span {
-        font-size: 1.3rem;
-      }
-      
-      /* About 卡片 */
-      #about-content p {
-        padding: 15px 18px;
-        font-size: 0.9rem;
-        margin-bottom: 15px;
-      }
-      
-      /* 新闻列表 */
-      .news-list li {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 12px 15px;
-        margin-bottom: 12px;
-      }
-      .news-date {
-        min-width: auto;
-        margin-bottom: 5px;
-      }
-      
-      /* 论文卡片 */
-      .paper-item { 
-        flex-direction: column; 
-        padding: 18px;
-        margin-bottom: 25px;
-      }
-      .paper-img-box { 
-        width: 100%; 
-        max-width: 100%; 
-        margin: 0 0 15px 0; 
-      }
-      .paper-title {
-        font-size: 1rem;
-      }
-      .paper-authors {
-        font-size: 0.85rem;
-      }
-      .paper-links a {
-        padding: 6px 14px;
-        font-size: 0.8rem;
-        margin-right: 8px;
-        margin-bottom: 6px;
-      }
-      
-      /* 荣誉列表 */
-      #honors-list li {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
-  
-  <!-- 数据配置（内联）-->
-  <script>
-    const academicData = {
-      profile: {
-        name: "Wang Peng (王鹏)",
-        title: {
-          zh: "硕士研究生 / 人工智能",
-          en: "Master's Student / Artificial Intelligence"
-        },
-        affiliation: {
-          zh: "山东大学",
-          en: "Shandong University"
-        },
-        bio: {
-          zh: "研究方向：<strong>视觉表征</strong>。<br>关注<strong>计算机视觉</strong>、<strong>深度学习</strong>与<strong>多模态学习</strong>前沿技术。<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>",
-          en: "Research Focus: <strong>Visual Representation</strong>.<br>Interested in <strong>Computer Vision</strong>, <strong>Deep Learning</strong>, and <strong>Multimodal Learning</strong>.<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>"
-        },
-        avatar: "https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png",
-        location: "Shandong, China",
-        email: "2829624376@qq.com",
-        github: "https://github.com/wp-a",
-        scholar: "#",
-        blog: "https://wpironman.top"
-      },
-      about: {
-        zh: [
-          "我是山东大学软件学院的硕士研究生，导师为<strong><a href='https://ercdm.sdu.edu.cn/info/1013/1523.htm'>孟雷教授</a></strong>。此前，我于2024年6月在齐鲁工业大学获得工学学士学位。",
-          "我曾在<strong>西湖大学</strong>担任访问学生，参与实现街道数据集制作及模型训练工作。",
-          "我的研究兴趣主要集中在<strong>计算机视觉</strong>和<strong>深度学习</strong>，特别是<strong>多模态大模型</strong>和<strong>视觉理解</strong>。"
-        ],
-        en: [
-          "I am a Master's student at the School of Software, Shandong University, supervised by <strong><a href='https://ercdm.sdu.edu.cn/info/1013/1523.htm'>Prof. Lei Meng</a></strong>. Before that, I received my B.E. degree from Qilu University of Technology in June 2024.",
-          "I was a visiting student at <strong>Westlake University</strong>, where I participated in street dataset creation and model training.",
-          "My research interests focus on <strong>Computer Vision</strong> and <strong>Deep Learning</strong>, especially <strong>Multimodal Large Models</strong> and <strong>Visual Understanding</strong>."
-        ]
-      },
-      news: {
-        zh: [
-          { date: "2025.09", content: "🎓 入学山东大学人工智能专业攻读硕士学位" },
-          { date: "2024.06", content: "🎉 本科毕业于齐鲁工业大学智能科学与技术专业" },
-          { date: "2024.01", content: "📝 论文被 Pattern Recognition Letters (JCR Q2) 接收" },
-          { date: "2024.01", content: "📝 论文被 Evolving Systems (JCR Q3) 接收" },
-          { date: "2023.08", content: "🏆 获中国机器人及人工智能大赛国家一等奖" }
-        ],
-        en: [
-          { date: "2025.09", content: "🎓 Started Master's program in AI at Shandong University" },
-          { date: "2024.06", content: "🎉 Graduated with B.S. in Intelligent Science from Qilu University" },
-          { date: "2024.01", content: "📝 Paper accepted by Pattern Recognition Letters (JCR Q2)" },
-          { date: "2024.01", content: "📝 Paper accepted by Evolving Systems (JCR Q3)" },
-          { date: "2023.08", content: "🏆 Won First Prize in China Robot and AI Competition" }
-        ]
-      },
-      publications: [
-        {
-          title: "Fall detection algorithm based on global and local feature extraction",
-          authors: "Bin Li*, Jiangqiao Li, <strong>Wang Peng</strong>",
-          venue: "Pattern Recognition Letters, 2024",
-          venueClass: "tkde",
-          image: "https://picsum.photos/500/200?random=1",
-          links: {
-            zh: { 
-              paper: "https://www.sciencedirect.com/science/article/pii/S016786552400206X",
-              project: "/projects/fall-detection-glfee/"
-            },
-            en: { 
-              paper: "https://www.sciencedirect.com/science/article/pii/S016786552400206X",
-              project: "/projects/fall-detection-glfee/"
-            }
-          },
-          note: {
-            zh: "IF: 5.1, JCR Q2, 中科院三区, CCF C",
-            en: "IF: 5.1, JCR Q2, CCF C"
-          }
-        },
-        {
-          title: "Fall detection algorithm based on pyramid network and feature fusion",
-          authors: "Jiangqiao Li, Mengna Huang, <strong>Wang Peng</strong>, Bin Li*",
-          venue: "Evolving Systems, 2024",
-          venueClass: "tkde",
-          image: "https://picsum.photos/500/200?random=2",
-          links: {
-            zh: { paper: "https://www.researchgate.net/publication/381881651" },
-            en: { paper: "https://www.researchgate.net/publication/381881651" }
-          },
-          note: {
-            zh: "IF: 3.2, JCR Q3, 中科院四区",
-            en: "IF: 3.2, JCR Q3"
-          }
-        }
-      ],
-      honors: {
-        zh: [
-          { year: "2023", title: "第二十五届中国机器人及人工智能大赛国家一等奖" },
-          { year: "2022", title: "中国机器人大赛 ROBACUP 机器人世界杯国家二等奖" },
-          { year: "2022", title: "第十七届全国大学生智能汽车竞赛国家三等奖" },
-          { year: "2021", title: "第十六届全国大学生智能汽车竞赛国家二等奖" },
-          { year: "2021", title: "第二十三届中国机器人及人工智能大赛国家二等奖" },
-          { year: "2021", title: "软银机器人杯国际青年人工智能大赛国家二等奖" },
-          { year: "2021", title: "第十三届山东省大学生科技节「超算杯」一等奖" }
-        ],
-        en: [
-          { year: "2023", title: "First Prize, 25th China Robot and AI Competition" },
-          { year: "2022", title: "Second Prize, ROBACUP Robot World Cup China" },
-          { year: "2022", title: "Third Prize, 17th National Smart Car Competition" },
-          { year: "2021", title: "Second Prize, 16th National Smart Car Competition" },
-          { year: "2021", title: "Second Prize, 23rd China Robot and AI Competition" },
-          { year: "2021", title: "Second Prize, SoftBank Robotics Cup International AI Competition" },
-          { year: "2021", title: "First Prize, 13th Shandong University Science Festival" }
-        ]
-      }
-    };
-  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/academic.css">
+
+  <!-- Data Configuration -->
+  <script src="academic-data.js"></script>
 </head>
 
 <body>
 
+  <!-- Background Animation -->
+  <div class="bg-animation">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
   <!-- Sidebar -->
   <div class="sidebar">
-    <img id="avatar" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png" alt="Avatar" class="avatar">
+    <img id="avatar" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png" alt="Avatar"
+      class="avatar">
     <div id="author-name" class="author-name"></div>
     <div id="author-title" class="author-title"></div>
     <div id="author-desc" class="author-desc"></div>
-    
+
     <ul class="contact-list">
       <li><i class="fas fa-map-marker-alt"></i> <span id="location"></span></li>
       <li><i class="fas fa-envelope"></i> <a id="email" href="">Email</a></li>
@@ -745,7 +60,7 @@
       <li><i class="fas fa-blog"></i> <a id="blog" href="">Blog</a></li>
     </ul>
   </div>
-  
+
   <!-- Top Navigation -->
   <nav class="top-nav">
     <!-- 左侧语言切换 -->
@@ -779,16 +94,16 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    
+
     <!-- Bio -->
-    <section id="about">
+    <section id="about" class="fade-in-section">
       <div id="about-content"></div>
     </section>
 
     <!-- News -->
-    <section id="news">
+    <section id="news" class="fade-in-section">
       <h2>
-        <span>🔥</span> 
+        <span>🔥</span>
         <span class="lang-zh">最新动态</span>
         <span class="lang-en">Latest News</span>
       </h2>
@@ -796,19 +111,19 @@
     </section>
 
     <!-- Publications -->
-    <section id="publications">
+    <section id="publications" class="fade-in-section">
       <h2>
-        <span>📝</span> 
+        <span>📝</span>
         <span class="lang-zh">发表论文</span>
         <span class="lang-en">Publications</span>
       </h2>
       <div id="publications-list"></div>
     </section>
-    
+
     <!-- Honors -->
-    <section id="honors">
+    <section id="honors" class="fade-in-section">
       <h2>
-        <span>🎖</span> 
+        <span>🎖</span>
         <span class="lang-zh">荣誉奖项</span>
         <span class="lang-en">Honors & Awards</span>
       </h2>
@@ -817,158 +132,33 @@
 
   </div>
 
-  <!-- 渲染脚本 -->
+  <!-- Render Script -->
+  <script src="assets/js/academic-render.js"></script>
+
+  <!-- Scroll Animation Script -->
   <script>
-    let currentLang = 'zh'; // 默认中文
-    let data = null;
-    
-    // 渲染内容函数（根据当前语言）
-    function renderContent() {
-      if (!data) return;
-      
-      const lang = currentLang;
-      
-      // 渲染侧边栏
-      document.getElementById('author-title').innerHTML = data.profile.title[lang] + '<br>' + data.profile.affiliation[lang];
-      document.getElementById('author-desc').innerHTML = data.profile.bio[lang];
-      
-      // 渲染 About 部分
-      const aboutContent = document.getElementById('about-content');
-      aboutContent.innerHTML = ''; // 清空
-      data.about[lang].forEach(para => {
-        const p = document.createElement('p');
-        p.innerHTML = para;
-        aboutContent.appendChild(p);
-      });
-      
-      // 渲染 News
-      const newsList = document.getElementById('news-list');
-      newsList.innerHTML = ''; // 清空
-      data.news[lang].forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="news-date">${item.date}:</span><span>${item.content}</span>`;
-        newsList.appendChild(li);
-      });
-      
-      // 渲染 Publications
-      const pubsList = document.getElementById('publications-list');
-      pubsList.innerHTML = ''; // 清空
-      data.publications.forEach(paper => {
-        const div = document.createElement('div');
-        div.className = 'paper-item';
-        
-        const paperLinks = paper.links[lang];
-        let linksHtml = '';
-        if (lang === 'zh') {
-          if (paperLinks.paper) linksHtml += `<a href="${paperLinks.paper}">[论文]</a>`;
-          if (paperLinks.code) linksHtml += `<a href="${paperLinks.code}">[代码]</a>`;
-          if (paperLinks.project) linksHtml += `<a href="${paperLinks.project}">[项目主页]</a>`;
-        } else {
-          if (paperLinks.paper) linksHtml += `<a href="${paperLinks.paper}">[Paper]</a>`;
-          if (paperLinks.code) linksHtml += `<a href="${paperLinks.code}">[Code]</a>`;
-          if (paperLinks.project) linksHtml += `<a href="${paperLinks.project}">[Project]</a>`;
-        }
-        
-        const noteHtml = paper.note ? `<div class="paper-note" style="color: #666; font-size: 0.85rem; margin-top: 5px;">${paper.note[lang]}</div>` : '';
-        
-        div.innerHTML = `
-          <div class="paper-img-box">
-            <div class="conf-badge ${paper.venueClass}">${paper.venue.split(',')[0]}</div>
-            <img src="${paper.image}" alt="Paper Thumbnail">
-          </div>
-          <div class="paper-info">
-            <div class="paper-title">${paper.title}</div>
-            <div class="paper-authors">${paper.authors}</div>
-            ${noteHtml}
-            <div class="paper-links">${linksHtml}</div>
-          </div>
-        `;
-        pubsList.appendChild(div);
-      });
-      
-      // 渲染 Honors
-      const honorsList = document.getElementById('honors-list');
-      honorsList.innerHTML = ''; // 清空
-      data.honors[lang].forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="news-date">${item.year}</span> ${item.title}`;
-        honorsList.appendChild(li);
-      });
-    }
-    
-    // 语言切换函数
-    function toggleLanguage() {
-      currentLang = currentLang === 'zh' ? 'en' : 'zh';
-      
-      // 更新切换按钮文字
-      document.getElementById('lang-text').textContent = currentLang === 'zh' ? 'English' : '中文';
-      
-      // 显示/隐藏对应语言的UI文本
-      const zhElements = document.querySelectorAll('.lang-zh');
-      const enElements = document.querySelectorAll('.lang-en');
-      
-      if (currentLang === 'zh') {
-        zhElements.forEach(el => el.style.display = 'inline');
-        enElements.forEach(el => el.style.display = 'none');
-      } else {
-        zhElements.forEach(el => el.style.display = 'none');
-        enElements.forEach(el => el.style.display = 'inline');
-      }
-      
-      // 重新渲染内容
-      renderContent();
-    }
-    
-    // 暗黑模式切换函数
-    function toggleDarkMode() {
-      const body = document.body;
-      const themeIcon = document.getElementById('theme-icon');
-      
-      body.classList.toggle('dark-mode');
-      
-      // 更新图标
-      if (body.classList.contains('dark-mode')) {
-        themeIcon.className = 'fas fa-sun';
-        localStorage.setItem('theme', 'dark');
-      } else {
-        themeIcon.className = 'fas fa-moon';
-        localStorage.setItem('theme', 'light');
-      }
-    }
-    
-    // 页面加载时初始化
-    document.addEventListener('DOMContentLoaded', function() {
-      // 恢复用户的主题偏好
-      const savedTheme = localStorage.getItem('theme');
-      const themeIcon = document.getElementById('theme-icon');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeIcon.className = 'fas fa-sun';
-      }
-      
-      if (typeof academicData === 'undefined') {
-        console.error('academic-data.js 未加载成功！');
-        return;
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
 
-      data = academicData;
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); // Only animate once
+          }
+        });
+      }, observerOptions);
 
-      // 设置页面标题
-      document.getElementById('page-title').textContent = data.profile.name + ' - Academic Homepage';
-
-      // 渲染侧边栏（固定不变的部分）
-      document.getElementById('avatar').src = data.profile.avatar || '/img/head.webp';
-      document.getElementById('author-name').textContent = data.profile.name;
-      document.getElementById('location').textContent = data.profile.location;
-      document.getElementById('email').href = 'mailto:' + data.profile.email;
-      document.getElementById('github').href = data.profile.github;
-      // document.getElementById('scholar').href = data.profile.scholar; // 暂时隐藏
-      document.getElementById('blog').href = data.profile.blog;
-
-      // 初次渲染内容（默认中文）
-      renderContent();
+      document.querySelectorAll('.fade-in-section').forEach(section => {
+        observer.observe(section);
+      });
     });
   </script>
 
 </body>
+
 </html>
