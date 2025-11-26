@@ -2,56 +2,6 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
-class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
-版本二
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
     <url>/2025/02/10day/</url>
     <content><![CDATA[二叉树层序遍历
 二叉树层序遍历的模板
@@ -134,6 +84,56 @@ class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
+class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
+版本二
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--回溯算法</title>
     <url>/2025/03/12day/</url>
     <content><![CDATA[回溯
@@ -174,6 +174,44 @@ class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&
         <tag>递归</tag>
         <tag>回溯</tag>
         <tag>剪枝</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--动态规划</title>
+    <url>/2025/03/14day/</url>
+    <content><![CDATA[动态规划
+动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
+斐波那契数
+题目链接：509. 斐波那契数
+前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
+class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
+爬楼梯
+题目链接：70. 爬楼梯
+按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
+class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
+使用最小花费爬楼梯
+题目链接：746. 使用最小花费爬楼梯
+class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
+不同路径
+题目链接：62. 不同路径
+class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
+比特位计数
+题目链接：LCR 003. 比特位计数
+除以2
+如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
+如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
+位运算
+进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -224,33 +262,43 @@ for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点    
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--动态规划</title>
-    <url>/2025/03/14day/</url>
-    <content><![CDATA[动态规划
-动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
-斐波那契数
-题目链接：509. 斐波那契数
-前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
-class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
-爬楼梯
-题目链接：70. 爬楼梯
-按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
-class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
-使用最小花费爬楼梯
-题目链接：746. 使用最小花费爬楼梯
-class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
-不同路径
-题目链接：62. 不同路径
-class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
-比特位计数
-题目链接：LCR 003. 比特位计数
-除以2
-如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
-如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
-位运算
-进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
+    <title>代码随想录--链表</title>
+    <url>/2025/01/3day/</url>
+    <content><![CDATA[链表基础
+​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
+移除链表元素
+题目链接：203. 移除链表元素
+题目描述：一个链表的头节点 head 和一个整数 val ，删除链表中所有满足 Node.val == val 的节点，并返回新的头节点 。
+虚拟头节点
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：如果直接处理链表的话，需要考虑头节点，但是加入虚拟头节点就可以按照统一的方式去处理。
+class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        pre-&gt;next=head;        while(head)        &#123;            if(head-&gt;val==val)            &#123;                pre-&gt;next=head-&gt;next;                ListNode* tem=head;                head=head-&gt;next;                delete tem;            &#125;            else            &#123;                pre=head;                head=head-&gt;next;            &#125;        &#125;        return dummy-&gt;next;    &#125;&#125;;
+直接操作
+时间复杂度：O(n)     空间复杂度：O(1)
+class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 删除头结点        while (head != NULL &amp;&amp; head-&gt;val == val) &#123; // 注意这里不是if            ListNode* tmp = head;            head = head-&gt;next;            delete tmp;        &#125;        // 删除非头结点        ListNode* cur = head;        while (cur != NULL &amp;&amp; cur-&gt;next!= NULL) &#123;            if (cur-&gt;next-&gt;val == val) &#123;                ListNode* tmp = cur-&gt;next;                cur-&gt;next = cur-&gt;next-&gt;next;                delete tmp;            &#125; else &#123;                cur = cur-&gt;next;            &#125;        &#125;        return head;    &#125;&#125;;
+递归解法
+时间复杂度：O(n)     空间复杂度：O(n)
+题目思路：首先检查头节点的值是否为 val，如果是则移除头节点，答案即为在头节点的后续节点上递归的结果；如果头节点的值不为 val，则答案为头节点与在头节点的后续节点上递归得到的新链表拼接的结果。
+class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 基础情况：空链表        if (head == nullptr) &#123;            return nullptr;        &#125;        // 递归处理        if (head-&gt;val == val) &#123;            ListNode* newHead = removeElements(head-&gt;next, val);            delete head;            return newHead;        &#125; else &#123;            head-&gt;next = removeElements(head-&gt;next, val);            return head;        &#125;    &#125;&#125;;
+反转链表
+题目链接：206. 反转链表
+题目描述：反转单链表，并返回反转后的链表。
+双指针法
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：定义cur和pre指针，pre初始化为NULL，cur指向head，然后反转链表，cur-&gt;next指向pre，按逻辑移动。
+class Solution &#123;public:    ListNode* reverseList(ListNode* head) &#123;        ListNode* tem;        ListNode* cur=head;        ListNode* pre=NULL;        while(cur)        &#123;            tem=cur-&gt;next;            cur-&gt;next=pre;            pre=cur;            cur=tem;        &#125;        return pre;    &#125;&#125;;
+递归法
+思路和双指针差不多，明天研究一下。
+时间复杂度：O(n)     空间复杂度：O(n)
+class Solution &#123;public:    ListNode* reverse(ListNode* pre,ListNode* cur)&#123;        if(cur == NULL) return pre;        ListNode* temp = cur-&gt;next;        cur-&gt;next = pre;        // 可以和双指针法的代码进行对比，如下递归的写法，其实就是做了这两步        // pre = cur;        // cur = temp;        return reverse(cur,temp);    &#125;    ListNode* reverseList(ListNode* head) &#123;        // 和双指针法初始化是一样的逻辑        // ListNode* cur = head;        // ListNode* pre = NULL;        return reverse(NULL, head);    &#125;&#125;;
+设计链表
+题目链接：707. 设计链表
+题目描述：获取第index个节点的值，添加头节点，添加尾节点，在第 index 个节点之前添加值为 val 的节点，删除链表中的第 index 个节点。
+虚拟头节点
+class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定义 LinkedNode 结构体        int val;        LinkedNode* next;        LinkedNode(int val) : val(val), next(nullptr) &#123;&#125;    &#125;;    LinkedNode* dummyhead;       // 现在可以使用 LinkedNode 类型    int size;    public:    MyLinkedList() &#123;        dummyhead=new LinkedNode(0);        size=0;    &#125;       int get(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return -1;        &#125;        LinkedNode* cur=dummyhead-&gt;next;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        return cur-&gt;val;    &#125;      void addAtHead(int val) &#123;        LinkedNode* newNode = new LinkedNode(val);        newNode-&gt;next=dummyhead-&gt;next;        dummyhead-&gt;next=newNode;        size++;    &#125;     void addAtTail(int val) &#123;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(cur-&gt;next != NULL)        &#123;            cur=cur-&gt;next;        &#125;        cur-&gt;next=newNode;        size++;    &#125;       void addAtIndex(int index, int val) &#123;        if(index&gt;size) return;        if(index&lt;0) index=0;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        newNode-&gt;next=cur-&gt;next;        cur-&gt;next=newNode;        size++;    &#125;    void deleteAtIndex(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return;        &#125;        LinkedNode* cur=dummyhead;        while(index--)        &#123;            cur=cur-&gt;next;        &#125;        LinkedNode* tem=cur-&gt;next;        cur-&gt;next=cur-&gt;next-&gt;next;        delete tem;        size--;    &#125;&#125;;
+虚拟头节点（双链表）
+还未看，直接copy的
+//采用循环虚拟结点的双链表实现class MyLinkedList &#123;public:    // 定义双向链表节点结构体    struct DList &#123;        int elem; // 节点存储的元素        DList *next; // 指向下一个节点的指针        DList *prev; // 指向上一个节点的指针        // 构造函数，创建一个值为elem的新节点        DList(int elem) : elem(elem), next(nullptr), prev(nullptr) &#123;&#125;;    &#125;;    // 构造函数，初始化链表    MyLinkedList() &#123;        sentinelNode = new DList(0); // 创建哨兵节点，不存储有效数据        sentinelNode-&gt;next = sentinelNode; // 哨兵节点的下一个节点指向自身，形成循环        sentinelNode-&gt;prev = sentinelNode; // 哨兵节点的上一个节点指向自身，形成循环        size = 0; // 初始化链表大小为0    &#125;    // 获取链表中第index个节点的值    int get(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return -1; // 如果超出范围，返回-1        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index + 1; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标节点            &#125;        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标节点            &#125;        &#125;        num = curNode-&gt;elem; // 获取目标节点的值        return num; // 返回节点的值    &#125;    // 在链表头部添加节点    void addAtHead(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *next = sentinelNode-&gt;next; // 获取当前头节点的下一个节点        newNode-&gt;prev = sentinelNode; // 新节点的上一个节点指向哨兵节点        newNode-&gt;next = next; // 新节点的下一个节点指向原来的头节点        size++; // 链表大小加1        sentinelNode-&gt;next = newNode; // 哨兵节点的下一个节点指向新节点        next-&gt;prev = newNode; // 原来的头节点的上一个节点指向新节点    &#125;    // 在链表尾部添加节点    void addAtTail(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *prev = sentinelNode-&gt;prev; // 获取当前尾节点的上一个节点        newNode-&gt;next = sentinelNode; // 新节点的下一个节点指向哨兵节点        newNode-&gt;prev = prev; // 新节点的上一个节点指向原来的尾节点        size++; // 链表大小加1        sentinelNode-&gt;prev = newNode; // 哨兵节点的上一个节点指向新节点        prev-&gt;next = newNode; // 原来的尾节点的下一个节点指向新节点    &#125;    // 在链表中的第index个节点之前添加值为val的节点    void addAtIndex(int index, int val) &#123;        if (index &gt; size) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        if (index &lt;= 0) &#123; // 如果索引为0或负数，在头部添加节点            addAtHead(val);            return;        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *temp = curNode-&gt;next; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;next = newNode; // 在目标位置前添加新节点            temp-&gt;prev = newNode; // 目标位置的节点的前一个节点指向新节点            newNode-&gt;next = temp; // 新节点的下一个节点指向目标位置的结点            newNode-&gt;prev = curNode; // 新节点的上一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *temp = curNode-&gt;prev; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;prev = newNode; // 在目标位置后添加新节点            temp-&gt;next = newNode; // 目标位置的节点的下一个节点指向新节点            newNode-&gt;prev = temp; // 新节点的上一个节点指向目标位置的节点            newNode-&gt;next = curNode; // 新节点的下一个节点指向当前节点        &#125;        size++; // 链表大小加1    &#125;    // 删除链表中的第index个节点    void deleteAtIndex(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *next = curNode-&gt;next-&gt;next; // 获取目标位置的下一个节点            curNode-&gt;next = next; // 删除目标位置的节点            next-&gt;prev = curNode; // 目标位置的下一个节点的前一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index - 1; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *prev = curNode-&gt;prev-&gt;prev; // 获取目标位置的下一个节点            curNode-&gt;prev = prev; // 删除目标位置的节点            prev-&gt;next = curNode; // 目标位置的下一个节点的下一个节点指向当前节点        &#125;        size--; // 链表大小减1    &#125;private:    int size; // 链表的大小    DList *sentinelNode; // 哨兵节点的指针&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -258,7 +306,9 @@ class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;       
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>动态规划</tag>
+        <tag>递归</tag>
+        <tag>双指针</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -311,8 +361,8 @@ class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>二分查找</tag>
         <tag>双指针</tag>
+        <tag>二分查找</tag>
         <tag>数组</tag>
       </tags>
   </entry>
@@ -368,56 +418,6 @@ class Solution &#123;public:    vector&lt;int&gt; spiralArray(vector&lt;vector&l
         <tag>滑动窗口</tag>
         <tag>矩阵规律</tag>
         <tag>前缀和</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--链表</title>
-    <url>/2025/01/3day/</url>
-    <content><![CDATA[链表基础
-​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
-移除链表元素
-题目链接：203. 移除链表元素
-题目描述：一个链表的头节点 head 和一个整数 val ，删除链表中所有满足 Node.val == val 的节点，并返回新的头节点 。
-虚拟头节点
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：如果直接处理链表的话，需要考虑头节点，但是加入虚拟头节点就可以按照统一的方式去处理。
-class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        pre-&gt;next=head;        while(head)        &#123;            if(head-&gt;val==val)            &#123;                pre-&gt;next=head-&gt;next;                ListNode* tem=head;                head=head-&gt;next;                delete tem;            &#125;            else            &#123;                pre=head;                head=head-&gt;next;            &#125;        &#125;        return dummy-&gt;next;    &#125;&#125;;
-直接操作
-时间复杂度：O(n)     空间复杂度：O(1)
-class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 删除头结点        while (head != NULL &amp;&amp; head-&gt;val == val) &#123; // 注意这里不是if            ListNode* tmp = head;            head = head-&gt;next;            delete tmp;        &#125;        // 删除非头结点        ListNode* cur = head;        while (cur != NULL &amp;&amp; cur-&gt;next!= NULL) &#123;            if (cur-&gt;next-&gt;val == val) &#123;                ListNode* tmp = cur-&gt;next;                cur-&gt;next = cur-&gt;next-&gt;next;                delete tmp;            &#125; else &#123;                cur = cur-&gt;next;            &#125;        &#125;        return head;    &#125;&#125;;
-递归解法
-时间复杂度：O(n)     空间复杂度：O(n)
-题目思路：首先检查头节点的值是否为 val，如果是则移除头节点，答案即为在头节点的后续节点上递归的结果；如果头节点的值不为 val，则答案为头节点与在头节点的后续节点上递归得到的新链表拼接的结果。
-class Solution &#123;public:    ListNode* removeElements(ListNode* head, int val) &#123;        // 基础情况：空链表        if (head == nullptr) &#123;            return nullptr;        &#125;        // 递归处理        if (head-&gt;val == val) &#123;            ListNode* newHead = removeElements(head-&gt;next, val);            delete head;            return newHead;        &#125; else &#123;            head-&gt;next = removeElements(head-&gt;next, val);            return head;        &#125;    &#125;&#125;;
-反转链表
-题目链接：206. 反转链表
-题目描述：反转单链表，并返回反转后的链表。
-双指针法
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：定义cur和pre指针，pre初始化为NULL，cur指向head，然后反转链表，cur-&gt;next指向pre，按逻辑移动。
-class Solution &#123;public:    ListNode* reverseList(ListNode* head) &#123;        ListNode* tem;        ListNode* cur=head;        ListNode* pre=NULL;        while(cur)        &#123;            tem=cur-&gt;next;            cur-&gt;next=pre;            pre=cur;            cur=tem;        &#125;        return pre;    &#125;&#125;;
-递归法
-思路和双指针差不多，明天研究一下。
-时间复杂度：O(n)     空间复杂度：O(n)
-class Solution &#123;public:    ListNode* reverse(ListNode* pre,ListNode* cur)&#123;        if(cur == NULL) return pre;        ListNode* temp = cur-&gt;next;        cur-&gt;next = pre;        // 可以和双指针法的代码进行对比，如下递归的写法，其实就是做了这两步        // pre = cur;        // cur = temp;        return reverse(cur,temp);    &#125;    ListNode* reverseList(ListNode* head) &#123;        // 和双指针法初始化是一样的逻辑        // ListNode* cur = head;        // ListNode* pre = NULL;        return reverse(NULL, head);    &#125;&#125;;
-设计链表
-题目链接：707. 设计链表
-题目描述：获取第index个节点的值，添加头节点，添加尾节点，在第 index 个节点之前添加值为 val 的节点，删除链表中的第 index 个节点。
-虚拟头节点
-class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定义 LinkedNode 结构体        int val;        LinkedNode* next;        LinkedNode(int val) : val(val), next(nullptr) &#123;&#125;    &#125;;    LinkedNode* dummyhead;       // 现在可以使用 LinkedNode 类型    int size;    public:    MyLinkedList() &#123;        dummyhead=new LinkedNode(0);        size=0;    &#125;       int get(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return -1;        &#125;        LinkedNode* cur=dummyhead-&gt;next;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        return cur-&gt;val;    &#125;      void addAtHead(int val) &#123;        LinkedNode* newNode = new LinkedNode(val);        newNode-&gt;next=dummyhead-&gt;next;        dummyhead-&gt;next=newNode;        size++;    &#125;     void addAtTail(int val) &#123;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(cur-&gt;next != NULL)        &#123;            cur=cur-&gt;next;        &#125;        cur-&gt;next=newNode;        size++;    &#125;       void addAtIndex(int index, int val) &#123;        if(index&gt;size) return;        if(index&lt;0) index=0;        LinkedNode* newNode=new LinkedNode(val);        LinkedNode* cur=dummyhead;        while(index--)&#123;            cur=cur-&gt;next;        &#125;        newNode-&gt;next=cur-&gt;next;        cur-&gt;next=newNode;        size++;    &#125;    void deleteAtIndex(int index) &#123;        if(index&gt;(size-1) || index&lt;0)&#123;            return;        &#125;        LinkedNode* cur=dummyhead;        while(index--)        &#123;            cur=cur-&gt;next;        &#125;        LinkedNode* tem=cur-&gt;next;        cur-&gt;next=cur-&gt;next-&gt;next;        delete tem;        size--;    &#125;&#125;;
-虚拟头节点（双链表）
-还未看，直接copy的
-//采用循环虚拟结点的双链表实现class MyLinkedList &#123;public:    // 定义双向链表节点结构体    struct DList &#123;        int elem; // 节点存储的元素        DList *next; // 指向下一个节点的指针        DList *prev; // 指向上一个节点的指针        // 构造函数，创建一个值为elem的新节点        DList(int elem) : elem(elem), next(nullptr), prev(nullptr) &#123;&#125;;    &#125;;    // 构造函数，初始化链表    MyLinkedList() &#123;        sentinelNode = new DList(0); // 创建哨兵节点，不存储有效数据        sentinelNode-&gt;next = sentinelNode; // 哨兵节点的下一个节点指向自身，形成循环        sentinelNode-&gt;prev = sentinelNode; // 哨兵节点的上一个节点指向自身，形成循环        size = 0; // 初始化链表大小为0    &#125;    // 获取链表中第index个节点的值    int get(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return -1; // 如果超出范围，返回-1        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index + 1; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标节点            &#125;        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标节点            &#125;        &#125;        num = curNode-&gt;elem; // 获取目标节点的值        return num; // 返回节点的值    &#125;    // 在链表头部添加节点    void addAtHead(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *next = sentinelNode-&gt;next; // 获取当前头节点的下一个节点        newNode-&gt;prev = sentinelNode; // 新节点的上一个节点指向哨兵节点        newNode-&gt;next = next; // 新节点的下一个节点指向原来的头节点        size++; // 链表大小加1        sentinelNode-&gt;next = newNode; // 哨兵节点的下一个节点指向新节点        next-&gt;prev = newNode; // 原来的头节点的上一个节点指向新节点    &#125;    // 在链表尾部添加节点    void addAtTail(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *prev = sentinelNode-&gt;prev; // 获取当前尾节点的上一个节点        newNode-&gt;next = sentinelNode; // 新节点的下一个节点指向哨兵节点        newNode-&gt;prev = prev; // 新节点的上一个节点指向原来的尾节点        size++; // 链表大小加1        sentinelNode-&gt;prev = newNode; // 哨兵节点的上一个节点指向新节点        prev-&gt;next = newNode; // 原来的尾节点的下一个节点指向新节点    &#125;    // 在链表中的第index个节点之前添加值为val的节点    void addAtIndex(int index, int val) &#123;        if (index &gt; size) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        if (index &lt;= 0) &#123; // 如果索引为0或负数，在头部添加节点            addAtHead(val);            return;        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *temp = curNode-&gt;next; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;next = newNode; // 在目标位置前添加新节点            temp-&gt;prev = newNode; // 目标位置的节点的前一个节点指向新节点            newNode-&gt;next = temp; // 新节点的下一个节点指向目标位置的结点            newNode-&gt;prev = curNode; // 新节点的上一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *temp = curNode-&gt;prev; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;prev = newNode; // 在目标位置后添加新节点            temp-&gt;next = newNode; // 目标位置的节点的下一个节点指向新节点            newNode-&gt;prev = temp; // 新节点的上一个节点指向目标位置的节点            newNode-&gt;next = curNode; // 新节点的下一个节点指向当前节点        &#125;        size++; // 链表大小加1    &#125;    // 删除链表中的第index个节点    void deleteAtIndex(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *next = curNode-&gt;next-&gt;next; // 获取目标位置的下一个节点            curNode-&gt;next = next; // 删除目标位置的节点            next-&gt;prev = curNode; // 目标位置的下一个节点的前一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index - 1; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *prev = curNode-&gt;prev-&gt;prev; // 获取目标位置的下一个节点            curNode-&gt;prev = prev; // 删除目标位置的节点            prev-&gt;next = curNode; // 目标位置的下一个节点的下一个节点指向当前节点        &#125;        size--; // 链表大小减1    &#125;private:    int size; // 链表的大小    DList *sentinelNode; // 哨兵节点的指针&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>递归</tag>
-        <tag>双指针</tag>
-        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -637,6 +637,53 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/9day/</url>
+    <content><![CDATA[二叉树前中后序遍历
+二叉树定义
+struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
+二叉树的前序遍历
+题目链接：144. 二叉树的前序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
+
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
+统一迭代法
+每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的中序遍历
+题目链接：94. 二叉树的中序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
+
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
+统一迭代法
+
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的后序遍历
+题目链接：145. 二叉树的后序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
+迭代遍历
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
+统一迭代法
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--栈·队列</title>
     <url>/2025/02/8day/</url>
     <content><![CDATA[栈·队列
@@ -816,53 +863,6 @@ class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    pub
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/9day/</url>
-    <content><![CDATA[二叉树前中后序遍历
-二叉树定义
-struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
-二叉树的前序遍历
-题目链接：144. 二叉树的前序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
-
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
-统一迭代法
-每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的中序遍历
-题目链接：94. 二叉树的中序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
-
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
-统一迭代法
-
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的后序遍历
-题目链接：145. 二叉树的后序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
-迭代遍历
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
-统一迭代法
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
       </tags>
   </entry>
   <entry>
@@ -1550,6 +1550,106 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
       </tags>
   </entry>
   <entry>
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
+
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+
+
+题目列表与详解
+1. Two Sum
+
+
+题号 / 链接：#1 / 题目链接
+
+
+难度：简单
+
+
+题型标签：哈希表，数组
+
+
+题目描述（简要）：
+
+就是查找一下哪两个数相加等于target，返回下标。
+
+
+
+思路分析
+
+两个方法，不同的时间复杂度
+
+方法一：暴力写法。
+复杂度
+
+时间：O(*n*2)
+空间：O(1)
+
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
+
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+
+
+2. 好数对的数目
+
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MAE详解 - Masked Autoencoders精读</title>
     <url>/2025/11/MAE/</url>
     <content><![CDATA[Masked Autoencoders Are Scalable Vision Learners
@@ -1890,6 +1990,212 @@ Transformer具备全局建模能力，即便仅看到25%的patch也能捕捉结�
       </tags>
   </entry>
   <entry>
+    <title>Mamba详解 - 选择性状态空间模型精读</title>
+    <url>/2025/11/Mamba/</url>
+    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
+论文地址：https://arxiv.org/pdf/2312.00752
+代码地址：https://github.com/state-spaces/mamba
+引言
+Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
+Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
+背景知识：状态空间模型（SSM）与S4
+连续与离散SSM
+连续时间SSM：
+$$
+\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+$$
+离散化后：
+$$
+x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+$$
+其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
+S4的关键思想
+
+通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
+使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
+优点：理论稳定、长依赖强；
+局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
+
+Mamba的核心创新
+
+
+选择性扫描（Selective Scan）：
+
+令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
+避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
+
+
+
+输入条件化的SSM参数化：
+
+将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
+结合高效实现，使其仍保持线性复杂度。
+
+
+
+GPU友好的实现与块并行：
+
+通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
+内存访问模式优化，显著提升吞吐。
+
+
+
+端到端可训练的稳定性：
+
+对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
+
+
+
+模型架构
+典型的 Mamba Block 包含：
+
+输入投影与门控（选择性）
+选择性SSM扫描（线性复杂度）
+前馈网络（MLP/GEGLU）
+残差连接与归一化
+
+流程示意：
+X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
+相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
+选择性扫描（Selective Scan）要点
+
+将序列划分为若干块（blocks），每块内部执行线性递推扫描；
+记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
+通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
+与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
+
+复杂度与性能
+
+时间复杂度：$O(N)$ 随序列长度线性；
+空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
+对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
+在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
+
+训练与实践
+
+优化器：AdamW；学习率余弦退火；warmup数千步；
+正则：Dropout/Stochastic Depth 按深度线性增长；
+初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
+长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
+
+与Transformer/Conv的比较
+
+
+
+方向
+Transformer
+ConvNet
+Mamba（SSM）
+
+
+
+
+复杂度
+O(N^2)
+O(N)
+O(N)
+
+
+长距离依赖
+强（显式全连接）
+弱-中
+强（稳定递推核）
+
+
+并行性
+训练强/推理弱（自回归）
+强
+强（块并行扫描）
+
+
+归纳偏置
+弱
+强（局部）
+中（递推+选择性）
+
+
+适用场景
+通用
+局部模式
+超长序列/低时延
+
+
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
+
+注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
+
+实验要点与经验
+
+序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
+批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
+任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
+可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
+
+优缺点
+优点
+
+线性复杂度，适合超长序列与端侧低时延应用；
+选择性门控使得对稀疏/非稳态事件更敏感；
+GPU友好实现，训练/推理吞吐高；
+理论上可与注意力/卷积并行或互补，形成混合结构。
+
+缺点
+
+对全局两两交互的显式建模不如注意力直观；
+超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
+在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
+
+相关与后续工作
+
+S4/S5：结构化SSM与其后续改进；
+MambaOut：面向视觉分类的实用化改造；
+Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
+混合架构：SSM + Attention/Conv的多路并行。
+
+参考文献
+
+
+Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
+
+
+Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
+
+
+Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
+
+
+Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
+
+
+思考题
+
+为什么选择性扫描能在保持线性复杂度的同时提升表达力？
+如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
+在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
+针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
+
+思考题答案
+
+选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
+采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
+可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
+提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>序列建模</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+        <tag>SSM</tag>
+        <tag>序列建模</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MoE</title>
     <url>/2025/04/MOE/</url>
     <content><![CDATA[Mixtures of Experts
@@ -2134,312 +2440,6 @@ $$
       <tags>
         <tag>论文精读</tag>
         <tag>混合专家系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
-
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
-
-
-题目列表与详解
-1. Two Sum
-
-
-题号 / 链接：#1 / 题目链接
-
-
-难度：简单
-
-
-题型标签：哈希表，数组
-
-
-题目描述（简要）：
-
-就是查找一下哪两个数相加等于target，返回下标。
-
-
-
-思路分析
-
-两个方法，不同的时间复杂度
-
-方法一：暴力写法。
-复杂度
-
-时间：O(*n*2)
-空间：O(1)
-
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
-
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
-
-
-2. 好数对的数目
-
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mamba详解 - 选择性状态空间模型精读</title>
-    <url>/2025/11/Mamba/</url>
-    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
-论文地址：https://arxiv.org/pdf/2312.00752
-代码地址：https://github.com/state-spaces/mamba
-引言
-Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
-Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
-背景知识：状态空间模型（SSM）与S4
-连续与离散SSM
-连续时间SSM：
-$$
-\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
-$$
-离散化后：
-$$
-x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
-$$
-其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
-S4的关键思想
-
-通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
-使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
-优点：理论稳定、长依赖强；
-局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
-
-Mamba的核心创新
-
-
-选择性扫描（Selective Scan）：
-
-令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
-避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
-
-
-
-输入条件化的SSM参数化：
-
-将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
-结合高效实现，使其仍保持线性复杂度。
-
-
-
-GPU友好的实现与块并行：
-
-通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
-内存访问模式优化，显著提升吞吐。
-
-
-
-端到端可训练的稳定性：
-
-对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
-
-
-
-模型架构
-典型的 Mamba Block 包含：
-
-输入投影与门控（选择性）
-选择性SSM扫描（线性复杂度）
-前馈网络（MLP/GEGLU）
-残差连接与归一化
-
-流程示意：
-X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
-相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
-选择性扫描（Selective Scan）要点
-
-将序列划分为若干块（blocks），每块内部执行线性递推扫描；
-记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
-通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
-与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
-
-复杂度与性能
-
-时间复杂度：$O(N)$ 随序列长度线性；
-空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
-对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
-在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
-
-训练与实践
-
-优化器：AdamW；学习率余弦退火；warmup数千步；
-正则：Dropout/Stochastic Depth 按深度线性增长；
-初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
-长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
-
-与Transformer/Conv的比较
-
-
-
-方向
-Transformer
-ConvNet
-Mamba（SSM）
-
-
-
-
-复杂度
-O(N^2)
-O(N)
-O(N)
-
-
-长距离依赖
-强（显式全连接）
-弱-中
-强（稳定递推核）
-
-
-并行性
-训练强/推理弱（自回归）
-强
-强（块并行扫描）
-
-
-归纳偏置
-弱
-强（局部）
-中（递推+选择性）
-
-
-适用场景
-通用
-局部模式
-超长序列/低时延
-
-
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
-
-注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
-
-实验要点与经验
-
-序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
-批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
-任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
-可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
-
-优缺点
-优点
-
-线性复杂度，适合超长序列与端侧低时延应用；
-选择性门控使得对稀疏/非稳态事件更敏感；
-GPU友好实现，训练/推理吞吐高；
-理论上可与注意力/卷积并行或互补，形成混合结构。
-
-缺点
-
-对全局两两交互的显式建模不如注意力直观；
-超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
-在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
-
-相关与后续工作
-
-S4/S5：结构化SSM与其后续改进；
-MambaOut：面向视觉分类的实用化改造；
-Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
-混合架构：SSM + Attention/Conv的多路并行。
-
-参考文献
-
-
-Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
-
-
-Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
-
-
-Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
-
-
-Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
-
-
-思考题
-
-为什么选择性扫描能在保持线性复杂度的同时提升表达力？
-如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
-在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
-针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
-
-思考题答案
-
-选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
-采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
-可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
-提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>序列建模</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>Mamba</tag>
-        <tag>SSM</tag>
-        <tag>序列建模</tag>
       </tags>
   </entry>
   <entry>
@@ -2846,6 +2846,28 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       <tags>
         <tag>论文精读</tag>
         <tag>对比学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -3422,88 +3444,6 @@ reserve(n)
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--哈希表</title>
-    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
-    <content><![CDATA[哈希表
-哈希表概述
-​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
-​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
-​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
-​	**同义词：**具有相同函数值的多个关键字。
-​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
-​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
-哈希函数构造方法
-​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
-直接定址法
-**概述：**直接取关键字的某个线性函数值为哈希函数。
-**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
-**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
-除留余数法
-**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
-**哈希函数：**H(key) = key % mod
-**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
-平方取中法
-**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
-**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
-处理冲突的方法
-开放定址法（开地址法）
-**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
-线性探查法
-​	di = 0, 1, 2, … , Tsize-1
-​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
-平方探查法
-​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
-​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
-伪随机探测法
-​	di = 伪随机数序列
-链地址法（拉链法）
-**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
-**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
-​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
-
-哈希的查找及性能分析
-查找过程
-​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
-性能分析
-​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
-**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
-
-​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>链表</tag>
-        <tag>哈希表</tag>
-        <tag>查找</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--回溯算法</title>
     <url>/2025/03/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[回溯算法
@@ -3584,6 +3524,66 @@ void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果
       <tags>
         <tag>数据结构与算法</tag>
         <tag>回溯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--哈希表</title>
+    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
+    <content><![CDATA[哈希表
+哈希表概述
+​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
+​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
+​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
+​	**同义词：**具有相同函数值的多个关键字。
+​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
+​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
+哈希函数构造方法
+​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
+直接定址法
+**概述：**直接取关键字的某个线性函数值为哈希函数。
+**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
+**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
+除留余数法
+**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
+**哈希函数：**H(key) = key % mod
+**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
+平方取中法
+**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
+**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
+处理冲突的方法
+开放定址法（开地址法）
+**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
+线性探查法
+​	di = 0, 1, 2, … , Tsize-1
+​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
+平方探查法
+​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
+​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
+伪随机探测法
+​	di = 伪随机数序列
+链地址法（拉链法）
+**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
+**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
+​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
+
+哈希的查找及性能分析
+查找过程
+​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
+性能分析
+​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
+**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
+
+​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+        <tag>数组</tag>
+        <tag>哈希表</tag>
+        <tag>查找</tag>
       </tags>
   </entry>
   <entry>
