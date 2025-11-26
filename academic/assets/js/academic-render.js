@@ -9,7 +9,20 @@ function renderContent() {
 
     // 渲染侧边栏
     document.getElementById('author-title').innerHTML = data.profile.title[lang] + '<br>' + data.profile.affiliation[lang];
-    document.getElementById('author-desc').innerHTML = data.profile.bio[lang];
+
+    // Typing Effect for Bio
+    const bioElement = document.getElementById('author-desc');
+    bioElement.innerHTML = ''; // Clear first
+    const bioText = data.profile.bio[lang];
+
+    // Simple HTML typing simulation
+    // Note: Real typing effect with HTML tags is complex, so we just fade it in for elegance
+    bioElement.innerHTML = bioText;
+    bioElement.style.opacity = 0;
+    bioElement.style.transition = 'opacity 1.5s ease';
+    setTimeout(() => {
+        bioElement.style.opacity = 1;
+    }, 500);
 
     // 渲染 About 部分
     const aboutContent = document.getElementById('about-content');

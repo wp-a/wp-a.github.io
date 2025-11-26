@@ -177,6 +177,53 @@ class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--图论</title>
+    <url>/2025/03/13day/</url>
+    <content><![CDATA[图论
+图的存储方式
+邻接矩阵
+邻接矩阵 使用 二维数组来表示图结构。 邻接矩阵是从节点的角度来表示图，有多少节点就申请多大的二维数组。
+有n 个节点，因为节点标号是从1开始的，为了节点标号和下标对齐，申请 n + 1 * n + 1  这么大的二维数组。
+vector&lt;vector&lt;int&gt;&gt; graph(n + 1, vector&lt;int&gt;(n + 1, 0));while (m--) &#123;    cin &gt;&gt; s &gt;&gt; t    // 使用邻接矩阵 ，1 表示 节点s 指向 节点t    graph[s][t] = 1;&#125;
+邻接表
+邻接表 使用 数组 + 链表的方式来表示。 邻接表是从边的数量来表示图，有多少边 才会申请对应大小的链表。
+邻接表的构造相对邻接矩阵难理解一些。
+
+// 节点编号从1到n，所以申请 n+1 这么大的数组vector&lt;list&lt;int&gt;&gt; graph(n + 1); // 邻接表，list为C++里的链表while (m--) &#123;    cin &gt;&gt; s &gt;&gt; t;    // 使用邻接表 ，表示 s -&gt; t 是相连的    graph[s].push_back(t);&#125;
+深度优先搜索三部曲
+
+确认递归函数，参数
+
+vector&lt;vector&lt;int&gt;&gt; result; // 收集符合条件的路径vector&lt;int&gt; path; // 0节点到终点的路径// x：目前遍历的节点// graph：存当前的图// n：终点void dfs (const vector&lt;vector&lt;int&gt;&gt;&amp; graph, int x, int n) &#123;
+
+确认终止条件
+
+// 当前遍历的节点x 到达节点n if (x == n) &#123; // 找到符合条件的一条路径    result.push_back(path);    return;&#125;
+
+处理目前搜索节点出发的路径
+
+for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点    if (graph[x][i] == 1) &#123; // 找到 x链接的节点        path.push_back(i); // 遍历到的节点加入到路径中来        dfs(graph, i, n); // 进入下一层递归        path.pop_back(); // 回溯，撤销本节点    &#125;&#125;
+
+打印结果
+
+// 输出结果if (result.size() == 0) cout &lt;&lt; -1 &lt;&lt; endl;for (const vector&lt;int&gt; &amp;pa : result) &#123;    for (int i = 0; i &lt; pa.size() - 1; i++) &#123; // 这里指打印到倒数第二个        cout &lt;&lt; pa[i] &lt;&lt; &quot; &quot;;    &#125;    cout &lt;&lt; pa[pa.size() - 1]  &lt;&lt; endl; // 这里再打印倒数第一个，控制最后一个元素后面没有空格&#125;
+例题：所有可能的路径
+题目链接：797. 所有可能的路径
+邻接矩阵写法
+#include &lt;iostream&gt;#include &lt;vector&gt;using namespace std;vector&lt;vector&lt;int&gt;&gt; result; // 收集符合条件的路径vector&lt;int&gt; path; // 1节点到终点的路径void dfs (const vector&lt;vector&lt;int&gt;&gt;&amp; graph, int x, int n) &#123;    // 当前遍历的节点x 到达节点n     if (x == n) &#123; // 找到符合条件的一条路径        result.push_back(path);        return;    &#125;    for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点        if (graph[x][i] == 1) &#123; // 找到 x链接的节点            path.push_back(i); // 遍历到的节点加入到路径中来            dfs(graph, i, n); // 进入下一层递归            path.pop_back(); // 回溯，撤销本节点        &#125;    &#125;&#125;int main() &#123;    int n, m, s, t;    cin &gt;&gt; n &gt;&gt; m;    // 节点编号从1到n，所以申请 n+1 这么大的数组    vector&lt;vector&lt;int&gt;&gt; graph(n + 1, vector&lt;int&gt;(n + 1, 0));    while (m--) &#123;        cin &gt;&gt; s &gt;&gt; t;        // 使用邻接矩阵 表示无线图，1 表示 s 与 t 是相连的        graph[s][t] = 1;    &#125;    path.push_back(1); // 无论什么路径已经是从0节点出发    dfs(graph, 1, n); // 开始遍历    // 输出结果    if (result.size() == 0) cout &lt;&lt; -1 &lt;&lt; endl;    for (const vector&lt;int&gt; &amp;pa : result) &#123;        for (int i = 0; i &lt; pa.size() - 1; i++) &#123;            cout &lt;&lt; pa[i] &lt;&lt; &quot; &quot;;        &#125;        cout &lt;&lt; pa[pa.size() - 1]  &lt;&lt; endl;    &#125;&#125;
+邻接表写法
+#include &lt;iostream&gt;#include &lt;vector&gt;#include &lt;list&gt;using namespace std;vector&lt;vector&lt;int&gt;&gt; result; // 收集符合条件的路径vector&lt;int&gt; path; // 1节点到终点的路径void dfs (const vector&lt;list&lt;int&gt;&gt;&amp; graph, int x, int n) &#123;    if (x == n) &#123; // 找到符合条件的一条路径        result.push_back(path);        return;    &#125;    for (int i : graph[x]) &#123; // 找到 x指向的节点        path.push_back(i); // 遍历到的节点加入到路径中来        dfs(graph, i, n); // 进入下一层递归        path.pop_back(); // 回溯，撤销本节点    &#125;&#125;int main() &#123;    int n, m, s, t;    cin &gt;&gt; n &gt;&gt; m;    // 节点编号从1到n，所以申请 n+1 这么大的数组    vector&lt;list&lt;int&gt;&gt; graph(n + 1); // 邻接表    while (m--) &#123;        cin &gt;&gt; s &gt;&gt; t;        // 使用邻接表 ，表示 s -&gt; t 是相连的        graph[s].push_back(t);    &#125;    path.push_back(1); // 无论什么路径已经是从0节点出发    dfs(graph, 1, n); // 开始遍历    // 输出结果    if (result.size() == 0) cout &lt;&lt; -1 &lt;&lt; endl;    for (const vector&lt;int&gt; &amp;pa : result) &#123;        for (int i = 0; i &lt; pa.size() - 1; i++) &#123;            cout &lt;&lt; pa[i] &lt;&lt; &quot; &quot;;        &#125;        cout &lt;&lt; pa[pa.size() - 1]  &lt;&lt; endl;    &#125;&#125;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>图论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--动态规划</title>
     <url>/2025/03/14day/</url>
     <content><![CDATA[动态规划
@@ -267,53 +314,6 @@ class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt
         <tag>二分查找</tag>
         <tag>双指针</tag>
         <tag>数组</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--图论</title>
-    <url>/2025/03/13day/</url>
-    <content><![CDATA[图论
-图的存储方式
-邻接矩阵
-邻接矩阵 使用 二维数组来表示图结构。 邻接矩阵是从节点的角度来表示图，有多少节点就申请多大的二维数组。
-有n 个节点，因为节点标号是从1开始的，为了节点标号和下标对齐，申请 n + 1 * n + 1  这么大的二维数组。
-vector&lt;vector&lt;int&gt;&gt; graph(n + 1, vector&lt;int&gt;(n + 1, 0));while (m--) &#123;    cin &gt;&gt; s &gt;&gt; t    // 使用邻接矩阵 ，1 表示 节点s 指向 节点t    graph[s][t] = 1;&#125;
-邻接表
-邻接表 使用 数组 + 链表的方式来表示。 邻接表是从边的数量来表示图，有多少边 才会申请对应大小的链表。
-邻接表的构造相对邻接矩阵难理解一些。
-
-// 节点编号从1到n，所以申请 n+1 这么大的数组vector&lt;list&lt;int&gt;&gt; graph(n + 1); // 邻接表，list为C++里的链表while (m--) &#123;    cin &gt;&gt; s &gt;&gt; t;    // 使用邻接表 ，表示 s -&gt; t 是相连的    graph[s].push_back(t);&#125;
-深度优先搜索三部曲
-
-确认递归函数，参数
-
-vector&lt;vector&lt;int&gt;&gt; result; // 收集符合条件的路径vector&lt;int&gt; path; // 0节点到终点的路径// x：目前遍历的节点// graph：存当前的图// n：终点void dfs (const vector&lt;vector&lt;int&gt;&gt;&amp; graph, int x, int n) &#123;
-
-确认终止条件
-
-// 当前遍历的节点x 到达节点n if (x == n) &#123; // 找到符合条件的一条路径    result.push_back(path);    return;&#125;
-
-处理目前搜索节点出发的路径
-
-for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点    if (graph[x][i] == 1) &#123; // 找到 x链接的节点        path.push_back(i); // 遍历到的节点加入到路径中来        dfs(graph, i, n); // 进入下一层递归        path.pop_back(); // 回溯，撤销本节点    &#125;&#125;
-
-打印结果
-
-// 输出结果if (result.size() == 0) cout &lt;&lt; -1 &lt;&lt; endl;for (const vector&lt;int&gt; &amp;pa : result) &#123;    for (int i = 0; i &lt; pa.size() - 1; i++) &#123; // 这里指打印到倒数第二个        cout &lt;&lt; pa[i] &lt;&lt; &quot; &quot;;    &#125;    cout &lt;&lt; pa[pa.size() - 1]  &lt;&lt; endl; // 这里再打印倒数第一个，控制最后一个元素后面没有空格&#125;
-例题：所有可能的路径
-题目链接：797. 所有可能的路径
-邻接矩阵写法
-#include &lt;iostream&gt;#include &lt;vector&gt;using namespace std;vector&lt;vector&lt;int&gt;&gt; result; // 收集符合条件的路径vector&lt;int&gt; path; // 1节点到终点的路径void dfs (const vector&lt;vector&lt;int&gt;&gt;&amp; graph, int x, int n) &#123;    // 当前遍历的节点x 到达节点n     if (x == n) &#123; // 找到符合条件的一条路径        result.push_back(path);        return;    &#125;    for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点        if (graph[x][i] == 1) &#123; // 找到 x链接的节点            path.push_back(i); // 遍历到的节点加入到路径中来            dfs(graph, i, n); // 进入下一层递归            path.pop_back(); // 回溯，撤销本节点        &#125;    &#125;&#125;int main() &#123;    int n, m, s, t;    cin &gt;&gt; n &gt;&gt; m;    // 节点编号从1到n，所以申请 n+1 这么大的数组    vector&lt;vector&lt;int&gt;&gt; graph(n + 1, vector&lt;int&gt;(n + 1, 0));    while (m--) &#123;        cin &gt;&gt; s &gt;&gt; t;        // 使用邻接矩阵 表示无线图，1 表示 s 与 t 是相连的        graph[s][t] = 1;    &#125;    path.push_back(1); // 无论什么路径已经是从0节点出发    dfs(graph, 1, n); // 开始遍历    // 输出结果    if (result.size() == 0) cout &lt;&lt; -1 &lt;&lt; endl;    for (const vector&lt;int&gt; &amp;pa : result) &#123;        for (int i = 0; i &lt; pa.size() - 1; i++) &#123;            cout &lt;&lt; pa[i] &lt;&lt; &quot; &quot;;        &#125;        cout &lt;&lt; pa[pa.size() - 1]  &lt;&lt; endl;    &#125;&#125;
-邻接表写法
-#include &lt;iostream&gt;#include &lt;vector&gt;#include &lt;list&gt;using namespace std;vector&lt;vector&lt;int&gt;&gt; result; // 收集符合条件的路径vector&lt;int&gt; path; // 1节点到终点的路径void dfs (const vector&lt;list&lt;int&gt;&gt;&amp; graph, int x, int n) &#123;    if (x == n) &#123; // 找到符合条件的一条路径        result.push_back(path);        return;    &#125;    for (int i : graph[x]) &#123; // 找到 x指向的节点        path.push_back(i); // 遍历到的节点加入到路径中来        dfs(graph, i, n); // 进入下一层递归        path.pop_back(); // 回溯，撤销本节点    &#125;&#125;int main() &#123;    int n, m, s, t;    cin &gt;&gt; n &gt;&gt; m;    // 节点编号从1到n，所以申请 n+1 这么大的数组    vector&lt;list&lt;int&gt;&gt; graph(n + 1); // 邻接表    while (m--) &#123;        cin &gt;&gt; s &gt;&gt; t;        // 使用邻接表 ，表示 s -&gt; t 是相连的        graph[s].push_back(t);    &#125;    path.push_back(1); // 无论什么路径已经是从0节点出发    dfs(graph, 1, n); // 开始遍历    // 输出结果    if (result.size() == 0) cout &lt;&lt; -1 &lt;&lt; endl;    for (const vector&lt;int&gt; &amp;pa : result) &#123;        for (int i = 0; i &lt; pa.size() - 1; i++) &#123;            cout &lt;&lt; pa[i] &lt;&lt; &quot; &quot;;        &#125;        cout &lt;&lt; pa[pa.size() - 1]  &lt;&lt; endl;    &#125;&#125;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>图论</tag>
       </tags>
   </entry>
   <entry>
@@ -1429,6 +1429,106 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
       </tags>
   </entry>
   <entry>
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
+
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+
+
+题目列表与详解
+1. Two Sum
+
+
+题号 / 链接：#1 / 题目链接
+
+
+难度：简单
+
+
+题型标签：哈希表，数组
+
+
+题目描述（简要）：
+
+就是查找一下哪两个数相加等于target，返回下标。
+
+
+
+思路分析
+
+两个方法，不同的时间复杂度
+
+方法一：暴力写法。
+复杂度
+
+时间：O(*n*2)
+空间：O(1)
+
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
+
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+
+
+2. 好数对的数目
+
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSRMS</title>
     <url>/2025/04/CSRMS/</url>
     <content><![CDATA[CSRMS
@@ -1550,103 +1650,250 @@ $$
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
+    <title>MoE</title>
+    <url>/2025/04/MOE/</url>
+    <content><![CDATA[Mixtures of Experts
+《Adaptive Mixture of Local Experts》
 
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
+1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
+核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
+基础架构
+如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
+系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
 
+通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
+性能比较
+元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
+数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
 
-题目列表与详解
-1. Two Sum
+模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
+混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
+总结
+这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
+论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
+《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
+超大型神经网络：稀疏门控混合专家层
+论文链接：https://arxiv.org/abs/1701.06538
+2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
+上一篇强调的是减小时间成本，这一篇是减小计算成本。
 
+基础架构
+稀疏门控专家混合层（MoE）
+MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
 
-题号 / 链接：#1 / 题目链接
+设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
+$$
+y = \sum_{i=1}^{n} G(x)_i E_i(x)
+$$
 
+均衡负载
+门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
+Keep Top-K
+Noisy Top-K Gating
+添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
 
-难度：简单
+Noise
+使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
 
+$$
+H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
+$$
+Sparse
+除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
 
-题型标签：哈希表，数组
+$$
+\text{KeepTopK}(v, k)_i =
+\begin{cases}
+v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
+-\infty & \text{otherwise}.
+\end{cases}
+$$
+通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
 
+$$
+G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
+$$
+KeepTopK 策略将每个 token 路由给几个选定的专家。
 
-题目描述（简要）：
+Auxiliary Loss
+为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
+该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
 
-就是查找一下哪两个数相加等于target，返回下标。
+$$
+\text{Importance}(X) = \sum_{x \in X} G(x) 
+$$
+这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
 
+如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
 
+$$
+L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
+$$
+最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
+虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
+Load-Balancing Loss
+专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
+对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
+$$ 
+{Load}(X)_i = \sum_{x \in X} P(x, i)
+$$ 
+其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
+$$ 
+P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
+$$ 
+$ (x \cdot W_g)_i $：
 
-思路分析
+$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
+$ W_g $ 是门控网络的可训练权重矩阵。
+$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
 
-两个方法，不同的时间复杂度
+$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
 
-方法一：暴力写法。
-复杂度
+$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
+$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
+$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
+这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
 
-时间：O(*n*2)
-空间：O(1)
+$$ 
+H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
+$$ 
+$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
+$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
+$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
+$$ 
+P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
+$$ 
+Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
+$$ 
+L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
+$$ 
+初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
+Hierarchical Mixture-of-Experts
+层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
+第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
+第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
+专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
+$$ 
+y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
+$$ 
+$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
+$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
+$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
+对专家利用率的衡量指标将更改为以下内容：
+$$ 
+\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
+$$ 
+$$ 
+\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
+$$ 
+$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
+《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
+基于条件计算和自动分片的巨型模型扩展。
+论文链接：https://arxiv.org/abs/2006.16668
 
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
+创新点
+Expert Capacity
+专家容量
+不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
 
-时间：O(n)
-空间：O(n)
+解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
 
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
+如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
 
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+Auxiliary loss
+门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
+Random routing
+随机路由机制
+在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
+《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
+论文链接：https://arxiv.org/abs/2101.03961
 
+简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
+Switch Routing
+（1）仅将token路由到单个专家，因此减少了路由器计算。
+（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
+（3）路由实现得到简化，并且通信成本降低。
+《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
+现有MoE架构问题
+（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
+（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
+这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
+我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
+解决问题的主要策略
+（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
+（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
+DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
 
-2. 好数对的数目
+DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
 
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
+DeepSeekMoE 架构
+细粒度专家分割
+通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
+$$
+其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
+组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
+共享专家隔离
+采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
+隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
+$$
+最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
+负载均衡问题
+自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
+Expert-Level Balance Loss
+专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
+$$ 
+\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
+$$ 
+$$
+f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
+$$
+$$
+p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
+$$
+其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
+Device-Level Balance Loss
+将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
+$$ 
+\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
+$$ 
+$$ 
+f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
+$$ 
+$$ 
+p'_i = \sum_{j \in \mathcal{E}_i} p_j
+$$ 
+其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
 ]]></content>
       <categories>
-        <category>算法刷题</category>
+        <category>论文精读</category>
+        <category>大模型</category>
       </categories>
       <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
+        <tag>论文精读</tag>
+        <tag>混合专家系统</tag>
       </tags>
   </entry>
   <entry>
@@ -1987,253 +2234,6 @@ Transformer具备全局建模能力，即便仅看到25%的patch也能捕捉结�
         <tag>MAE</tag>
         <tag>自监督学习</tag>
         <tag>Vision Transformer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MoE</title>
-    <url>/2025/04/MOE/</url>
-    <content><![CDATA[Mixtures of Experts
-《Adaptive Mixture of Local Experts》
-
-论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
-1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
-核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
-基础架构
-如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
-系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
-
-通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
-性能比较
-元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
-数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
-
-模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
-混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
-总结
-这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
-论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
-《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
-超大型神经网络：稀疏门控混合专家层
-论文链接：https://arxiv.org/abs/1701.06538
-2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
-上一篇强调的是减小时间成本，这一篇是减小计算成本。
-
-基础架构
-稀疏门控专家混合层（MoE）
-MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
-
-设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
-$$
-y = \sum_{i=1}^{n} G(x)_i E_i(x)
-$$
-
-均衡负载
-门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
-Keep Top-K
-Noisy Top-K Gating
-添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
-
-Noise
-使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
-
-$$
-H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
-$$
-Sparse
-除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
-
-$$
-\text{KeepTopK}(v, k)_i =
-\begin{cases}
-v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
--\infty & \text{otherwise}.
-\end{cases}
-$$
-通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
-
-$$
-G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
-$$
-KeepTopK 策略将每个 token 路由给几个选定的专家。
-
-Auxiliary Loss
-为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
-该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
-
-$$
-\text{Importance}(X) = \sum_{x \in X} G(x) 
-$$
-这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
-
-如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
-
-$$
-L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
-$$
-最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
-虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
-Load-Balancing Loss
-专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
-对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
-$$ 
-{Load}(X)_i = \sum_{x \in X} P(x, i)
-$$ 
-其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
-$$ 
-P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
-$$ 
-$ (x \cdot W_g)_i $：
-
-$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
-$ W_g $ 是门控网络的可训练权重矩阵。
-$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
-
-$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
-
-$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
-$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
-$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
-这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
-
-$$ 
-H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
-$$ 
-$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
-$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
-$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
-$$ 
-P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
-$$ 
-Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
-$$ 
-L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
-$$ 
-初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
-Hierarchical Mixture-of-Experts
-层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
-第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
-第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
-专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
-$$ 
-y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
-$$ 
-$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
-$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
-$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
-对专家利用率的衡量指标将更改为以下内容：
-$$ 
-\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
-$$ 
-$$ 
-\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
-$$ 
-$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
-《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
-基于条件计算和自动分片的巨型模型扩展。
-论文链接：https://arxiv.org/abs/2006.16668
-
-创新点
-Expert Capacity
-专家容量
-不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
-
-解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
-
-如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
-
-Auxiliary loss
-门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
-Random routing
-随机路由机制
-在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
-《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
-论文链接：https://arxiv.org/abs/2101.03961
-
-简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
-Switch Routing
-（1）仅将token路由到单个专家，因此减少了路由器计算。
-（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
-（3）路由实现得到简化，并且通信成本降低。
-《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
-现有MoE架构问题
-（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
-（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
-这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
-我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
-解决问题的主要策略
-（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
-（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
-DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
-
-DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
-
-DeepSeekMoE 架构
-细粒度专家分割
-通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
-$$
-其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
-组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
-共享专家隔离
-采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
-隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
-$$
-最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
-负载均衡问题
-自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
-Expert-Level Balance Loss
-专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
-$$ 
-\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
-$$ 
-$$
-f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
-$$
-$$
-p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
-$$
-其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
-Device-Level Balance Loss
-将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
-$$ 
-\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
-$$ 
-$$ 
-f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
-$$ 
-$$ 
-p'_i = \sum_{j \in \mathcal{E}_i} p_j
-$$ 
-其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>大模型</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>混合专家系统</tag>
       </tags>
   </entry>
   <entry>
@@ -3587,6 +3587,403 @@ void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果
       </tags>
   </entry>
   <entry>
+    <title>基础知识--图论</title>
+    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
+    <content><![CDATA[基础知识–图论
+图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
+
+核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
+
+图的基本概念
+
+
+图 (Graph)
+一个图 G 由两个基本集合构成：
+
+顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
+边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
+
+我们可以用数学符号表示一个图：  G = (V, E)
+
+
+顶点 (Vertex / Node / Point)
+
+图的基本组成部分，代表研究对象或实体。
+示例:
+
+在社交网络中，顶点可以代表 人。
+在交通网络中，顶点可以代表 城市。
+在电路图中，顶点可以代表 电子元件。
+
+
+
+
+
+边 (Edge / Arc / Line)
+
+连接两个顶点的线，表示顶点之间存在的关系。
+示例:
+
+在社交网络中，边可以表示两个人之间的 朋友关系。
+在交通网络中，边可以表示两个城市之间的 道路。
+在电路图中，边可以代表 导线。
+
+
+
+
+
+关联 (Incidence)
+
+如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
+简单来说，就是边“连接到”哪些顶点。
+
+
+
+邻接 (Adjacency)
+
+顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
+边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
+
+
+
+度 (Degree)
+
+
+一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
+
+
+有向图的度:  对于有向图，度分为两种：
+
+入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
+出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
+
+
+
+
+
+路径 (Path)
+
+图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
+路径中通常不重复经过顶点，除非是环路。
+
+
+
+环路/回路 (Cycle)
+
+一种特殊的路径，起点和终点是同一个顶点。
+环路表示从一个点出发，可以回到原点的路径。
+
+
+
+简单路径 (Simple Path)
+
+路径中所有顶点都不同的路径。
+简单路径避免了在路径中重复访问同一个顶点。
+
+
+
+简单环路/简单回路 (Simple Cycle)
+
+环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
+简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
+
+
+
+图的类型
+有向图 vs 无向图
+
+
+无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
+
+
+有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
+
+
+有权图 vs 无权图
+
+
+有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
+
+
+无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
+
+
+连通图 vs 非连通图
+
+
+连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
+
+
+非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
+
+
+连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
+
+
+强连通 vs 单连通
+
+强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
+单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
+
+图的表示方法
+邻接矩阵表示法
+邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
+
+对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
+对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
+
+优点：
+
+实现简单，便于理解
+查询两点间是否有边的时间复杂度为 O(1)
+适合表示稠密图
+
+缺点：
+
+空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
+添加/删除顶点的操作较为复杂
+
+邻接表表示法
+邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
+
+数组索引 i 对应顶点 i
+链表中存储的是与顶点 i 相邻的所有顶点
+
+优点：
+
+节省空间，特别适合稀疏图
+容易找到给定顶点的所有邻接点
+添加顶点操作简单
+
+缺点：
+
+查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
+对有向图求逆邻接表较困难
+
+十字链表表示法
+十字链表是邻接表的改进版本，主要用于有向图：
+
+结合了邻接表和逆邻接表的特点
+每个顶点有一个出边表和一个入边表
+每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
+
+优点：
+
+容易找到顶点的所有出边和入边
+适合需要频繁查询入度和出度的应用场景
+
+邻接多重表
+邻接多重表主要用于无向图：
+
+每条边只存储一次
+每个顶点有一个边表
+每条边连接到与其关联的两个顶点的边表中
+
+优点：
+
+便于删除和查找特定边
+节省空间
+
+边集数组表示法
+边集数组直接存储图中所有的边：
+
+使用一个一维数组存储所有顶点信息
+使用另一个数组存储所有边的信息（包括起点、终点和权值）
+
+优点：
+
+实现简单
+适合只关注边的操作，如最小生成树的Kruskal算法
+适合稀疏图
+
+缺点：
+
+查找操作效率较低
+不易找到与特定顶点相连的所有边
+
+选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
+图的遍历方法
+DFS(深度优先搜索)
+深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问
+对该顶点的每个未访问的邻接点，递归地应用DFS
+如果当前顶点没有未访问的邻接点，则回溯
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)
+空间复杂度：O(V)
+
+应用场景
+
+拓扑排序
+寻找连通分量
+判断图中是否有环
+寻找路径（如迷宫问题）
+
+BFS(广度优先搜索)
+广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问，并放入队列中
+当队列不为空时，执行以下操作：
+
+取出队列中的第一个顶点u
+访问顶点u
+将u的所有未访问过的邻接点标记为已访问并加入队列
+
+
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)，其中V是顶点数，E是边数
+空间复杂度：O(V)，用于存储访问状态和队列
+
+应用场景
+
+寻找最短路径（无权图）
+网络爬虫
+社交网络中的关系距离（如&quot;六度分隔&quot;理论）
+层次遍历
+
+图的应用
+最小生成树算法
+无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
+Kruskal算法
+
+
+思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
+步骤：
+
+对所有边按照权值进行排序。
+依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
+重复直到生成树中包含 n−1 条边。
+
+
+特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
+
+Prim算法
+
+思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
+步骤：
+
+从任一顶点开始，将其加入生成树。
+找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
+重复直到所有顶点都被加入生成树。
+
+
+特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
+
+最短路径算法
+Dijkstra算法
+从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
+基本流程
+
+初始化：源点距离设为0，其他顶点距离设为无穷大
+每次选择未访问的距离最小的顶点，标记为已访问
+更新该顶点的邻居顶点的距离
+重复步骤2-3直到所有顶点被访问
+
+算法复杂度
+
+时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
+空间复杂度：O(V)
+
+算法的局限性
+
+迪杰斯特拉算法不能处理负权边
+在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
+
+应用场景
+
+导航系统
+网络路由协议
+社交网络分析
+电信网络规划
+
+Floyd-Warshall算法
+对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
+基本流程
+
+初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
+对于每一个顶点k，检查所有顶点对(i,j)
+对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
+重复步骤2和3，直到遍历完所有顶点
+
+算法复杂度
+
+时间复杂度：O(V³)，其中V是顶点数
+空间复杂度：O(V²)
+
+与迪杰斯特拉算法的比较
+
+范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
+适用场景：
+
+对于稀疏图，运行V次迪杰斯特拉算法更高效
+对于稠密图，弗洛伊德算法更优
+
+
+负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
+
+算法优势
+
+实现简单，代码简洁
+可以处理有向图和负权边（但不能有负权环）
+一次运行可以得到所有顶点对之间的最短路径
+
+应用场景
+
+网络路由算法
+交通规划
+寻找图中的传递闭包
+计算最大流问题
+
+A*算法
+A*算法是一种启发式搜索算法，常用于路径规划问题。
+
+结合了Dijkstra算法和启发式搜索的优点
+使用估价函数指导搜索方向
+在有好的启发函数时效率很高
+
+基本流程
+
+初始化：起点放入开放列表
+每次从开放列表中选择f值最小的节点n
+如果n是目标节点，算法结束
+否则，将n移到关闭列表，并检查所有邻居节点
+对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
+更新邻居节点信息并加入开放列表
+重复步骤2-6直到找到目标或开放列表为空
+
+拓扑排序
+拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
+算法原理
+每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
+时间复杂度与空间复杂度
+
+时间复杂度: O(V + E)，其中V是顶点数，E是边数
+空间复杂度: O(V)，需要存储顶点的访问状态和结果
+
+特性和局限性
+
+唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
+环检测: 如果图中存在环，则无法进行拓扑排序
+适用范围: 只适用于有向无环图（DAG）
+初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>图论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>图神经网络</title>
     <url>/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[图神经网络（GNN）全面指：从基础到高级应用
@@ -4083,403 +4480,6 @@ Wu, Z., et al. (2020). A comprehensive survey on graph neural networks. IEEE TNN
         <tag>论文精读</tag>
         <tag>GNN</tag>
         <tag>图神经网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--图论</title>
-    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
-    <content><![CDATA[基础知识–图论
-图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
-
-核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
-
-图的基本概念
-
-
-图 (Graph)
-一个图 G 由两个基本集合构成：
-
-顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
-边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
-
-我们可以用数学符号表示一个图：  G = (V, E)
-
-
-顶点 (Vertex / Node / Point)
-
-图的基本组成部分，代表研究对象或实体。
-示例:
-
-在社交网络中，顶点可以代表 人。
-在交通网络中，顶点可以代表 城市。
-在电路图中，顶点可以代表 电子元件。
-
-
-
-
-
-边 (Edge / Arc / Line)
-
-连接两个顶点的线，表示顶点之间存在的关系。
-示例:
-
-在社交网络中，边可以表示两个人之间的 朋友关系。
-在交通网络中，边可以表示两个城市之间的 道路。
-在电路图中，边可以代表 导线。
-
-
-
-
-
-关联 (Incidence)
-
-如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
-简单来说，就是边“连接到”哪些顶点。
-
-
-
-邻接 (Adjacency)
-
-顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
-边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
-
-
-
-度 (Degree)
-
-
-一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
-
-
-有向图的度:  对于有向图，度分为两种：
-
-入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
-出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
-
-
-
-
-
-路径 (Path)
-
-图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
-路径中通常不重复经过顶点，除非是环路。
-
-
-
-环路/回路 (Cycle)
-
-一种特殊的路径，起点和终点是同一个顶点。
-环路表示从一个点出发，可以回到原点的路径。
-
-
-
-简单路径 (Simple Path)
-
-路径中所有顶点都不同的路径。
-简单路径避免了在路径中重复访问同一个顶点。
-
-
-
-简单环路/简单回路 (Simple Cycle)
-
-环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
-简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
-
-
-
-图的类型
-有向图 vs 无向图
-
-
-无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
-
-
-有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
-
-
-有权图 vs 无权图
-
-
-有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
-
-
-无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
-
-
-连通图 vs 非连通图
-
-
-连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
-
-
-非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
-
-
-连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
-
-
-强连通 vs 单连通
-
-强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
-单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
-
-图的表示方法
-邻接矩阵表示法
-邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
-
-对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
-对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
-
-优点：
-
-实现简单，便于理解
-查询两点间是否有边的时间复杂度为 O(1)
-适合表示稠密图
-
-缺点：
-
-空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
-添加/删除顶点的操作较为复杂
-
-邻接表表示法
-邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
-
-数组索引 i 对应顶点 i
-链表中存储的是与顶点 i 相邻的所有顶点
-
-优点：
-
-节省空间，特别适合稀疏图
-容易找到给定顶点的所有邻接点
-添加顶点操作简单
-
-缺点：
-
-查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
-对有向图求逆邻接表较困难
-
-十字链表表示法
-十字链表是邻接表的改进版本，主要用于有向图：
-
-结合了邻接表和逆邻接表的特点
-每个顶点有一个出边表和一个入边表
-每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
-
-优点：
-
-容易找到顶点的所有出边和入边
-适合需要频繁查询入度和出度的应用场景
-
-邻接多重表
-邻接多重表主要用于无向图：
-
-每条边只存储一次
-每个顶点有一个边表
-每条边连接到与其关联的两个顶点的边表中
-
-优点：
-
-便于删除和查找特定边
-节省空间
-
-边集数组表示法
-边集数组直接存储图中所有的边：
-
-使用一个一维数组存储所有顶点信息
-使用另一个数组存储所有边的信息（包括起点、终点和权值）
-
-优点：
-
-实现简单
-适合只关注边的操作，如最小生成树的Kruskal算法
-适合稀疏图
-
-缺点：
-
-查找操作效率较低
-不易找到与特定顶点相连的所有边
-
-选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
-图的遍历方法
-DFS(深度优先搜索)
-深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问
-对该顶点的每个未访问的邻接点，递归地应用DFS
-如果当前顶点没有未访问的邻接点，则回溯
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)
-空间复杂度：O(V)
-
-应用场景
-
-拓扑排序
-寻找连通分量
-判断图中是否有环
-寻找路径（如迷宫问题）
-
-BFS(广度优先搜索)
-广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问，并放入队列中
-当队列不为空时，执行以下操作：
-
-取出队列中的第一个顶点u
-访问顶点u
-将u的所有未访问过的邻接点标记为已访问并加入队列
-
-
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)，其中V是顶点数，E是边数
-空间复杂度：O(V)，用于存储访问状态和队列
-
-应用场景
-
-寻找最短路径（无权图）
-网络爬虫
-社交网络中的关系距离（如&quot;六度分隔&quot;理论）
-层次遍历
-
-图的应用
-最小生成树算法
-无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
-Kruskal算法
-
-
-思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
-步骤：
-
-对所有边按照权值进行排序。
-依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
-重复直到生成树中包含 n−1 条边。
-
-
-特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
-
-Prim算法
-
-思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
-步骤：
-
-从任一顶点开始，将其加入生成树。
-找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
-重复直到所有顶点都被加入生成树。
-
-
-特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
-
-最短路径算法
-Dijkstra算法
-从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
-基本流程
-
-初始化：源点距离设为0，其他顶点距离设为无穷大
-每次选择未访问的距离最小的顶点，标记为已访问
-更新该顶点的邻居顶点的距离
-重复步骤2-3直到所有顶点被访问
-
-算法复杂度
-
-时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
-空间复杂度：O(V)
-
-算法的局限性
-
-迪杰斯特拉算法不能处理负权边
-在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
-
-应用场景
-
-导航系统
-网络路由协议
-社交网络分析
-电信网络规划
-
-Floyd-Warshall算法
-对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
-基本流程
-
-初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
-对于每一个顶点k，检查所有顶点对(i,j)
-对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
-重复步骤2和3，直到遍历完所有顶点
-
-算法复杂度
-
-时间复杂度：O(V³)，其中V是顶点数
-空间复杂度：O(V²)
-
-与迪杰斯特拉算法的比较
-
-范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
-适用场景：
-
-对于稀疏图，运行V次迪杰斯特拉算法更高效
-对于稠密图，弗洛伊德算法更优
-
-
-负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
-
-算法优势
-
-实现简单，代码简洁
-可以处理有向图和负权边（但不能有负权环）
-一次运行可以得到所有顶点对之间的最短路径
-
-应用场景
-
-网络路由算法
-交通规划
-寻找图中的传递闭包
-计算最大流问题
-
-A*算法
-A*算法是一种启发式搜索算法，常用于路径规划问题。
-
-结合了Dijkstra算法和启发式搜索的优点
-使用估价函数指导搜索方向
-在有好的启发函数时效率很高
-
-基本流程
-
-初始化：起点放入开放列表
-每次从开放列表中选择f值最小的节点n
-如果n是目标节点，算法结束
-否则，将n移到关闭列表，并检查所有邻居节点
-对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
-更新邻居节点信息并加入开放列表
-重复步骤2-6直到找到目标或开放列表为空
-
-拓扑排序
-拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
-算法原理
-每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
-时间复杂度与空间复杂度
-
-时间复杂度: O(V + E)，其中V是顶点数，E是边数
-空间复杂度: O(V)，需要存储顶点的访问状态和结果
-
-特性和局限性
-
-唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
-环检测: 如果图中存在环，则无法进行拓扑排序
-适用范围: 只适用于有向无环图（DAG）
-初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>图论</tag>
       </tags>
   </entry>
   <entry>
@@ -6578,6 +6578,71 @@ O(1)
       </tags>
   </entry>
   <entry>
+    <title>基础知识--绪论</title>
+    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
+    <content><![CDATA[绪论
+数据结构
+数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
+逻辑结构
+线性结构
+一般线性表：线性表
+特殊线性表：栈、队列、字符串
+线性表的推广：数组、广义表
+非线性结构
+树结构：树、二叉树
+图结构：有向图、无向图
+集合结构
+存储结构
+顺序存储
+逻辑上连续，物理上连续
+优点：
+
+随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
+内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
+空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
+
+缺点：
+
+插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
+固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
+内存浪费：若预分配空间过大，可能造成内存冗余。
+
+链式存储
+逻辑上不要求连续，物理上⼀定连续
+优点：
+
+动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
+插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
+灵活性强：支持多种衍生结构（如双向链表、循环链表）。
+
+缺点：
+
+
+无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
+
+
+额外空间开销：每个节点需存储指针字段，占用更多内存。
+
+
+内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
+
+
+算法的效率
+算法是为了解决某类问题而规定的一个有限长的操作序列。
+算法时间复杂度
+一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
+算法空间复杂度
+所⽤到的临时空间⼤⼩
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>绪论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>监督对比学习</title>
     <url>/2025/11/%E7%9B%91%E7%9D%A3%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[Supervised Contrastive Learning
@@ -7173,71 +7238,6 @@ SupCon学习到的特征更具判别性和泛化能力
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>监督学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--绪论</title>
-    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
-    <content><![CDATA[绪论
-数据结构
-数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
-逻辑结构
-线性结构
-一般线性表：线性表
-特殊线性表：栈、队列、字符串
-线性表的推广：数组、广义表
-非线性结构
-树结构：树、二叉树
-图结构：有向图、无向图
-集合结构
-存储结构
-顺序存储
-逻辑上连续，物理上连续
-优点：
-
-随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
-内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
-空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
-
-缺点：
-
-插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
-固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
-内存浪费：若预分配空间过大，可能造成内存冗余。
-
-链式存储
-逻辑上不要求连续，物理上⼀定连续
-优点：
-
-动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
-插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
-灵活性强：支持多种衍生结构（如双向链表、循环链表）。
-
-缺点：
-
-
-无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
-
-
-额外空间开销：每个节点需存储指针字段，占用更多内存。
-
-
-内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
-
-
-算法的效率
-算法是为了解决某类问题而规定的一个有限长的操作序列。
-算法时间复杂度
-一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
-算法空间复杂度
-所⽤到的临时空间⼤⼩
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>绪论</tag>
       </tags>
   </entry>
 </search>
