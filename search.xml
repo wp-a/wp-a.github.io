@@ -2,6 +2,56 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
+class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
+版本二
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
     <url>/2025/02/10day/</url>
     <content><![CDATA[二叉树层序遍历
 二叉树层序遍历的模板
@@ -84,42 +134,36 @@ class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
-class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
-版本二
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
+    <title>代码随想录--回溯算法</title>
+    <url>/2025/03/12day/</url>
+    <content><![CDATA[回溯
+组合
+题目链接：77. 组合
+
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result; // 存放符合条件结果的集合    vector&lt;int&gt; path; // 用来存放符合条件结果    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n; i++) &#123;            path.push_back(i); // 处理节点            backtracking(n, k, i + 1); // 递归            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        result.clear(); // 可以不写        path.clear();   // 可以不写        backtracking(n, k, 1);        return result;    &#125;&#125;;
+回溯剪枝
+剪枝的地方就在递归中每一层的for循环所选择的起始位置。
+如果for循环选择的起始位置之后的元素个数 已经不足 我们需要的元素个数了，那么就没有必要搜索了。
+
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result;    vector&lt;int&gt; path;    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n - (k - path.size()) + 1; i++) &#123; // 优化的地方            path.push_back(i); // 处理节点            backtracking(n, k, i + 1);            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        backtracking(n, k, 1);        return result;    &#125;&#125;;
+组合总和 III
+题目链接：216. 组合总和 III
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    int sum=0;    void track(int n,int k,int s)&#123;        if(an.size()==k &amp;&amp; sum==n)&#123;            ans.push_back(an);            return;        &#125;        if(sum&gt;n) return;        for(int i=s;i&lt;=9;i++)&#123;            an.push_back(i);            sum+=i;            track(n,k,i+1);            sum-=i;            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum3(int k, int n) &#123;        track(n,k,1);        return ans;    &#125;&#125;;
+电话号码的字母组合
+题目链接：17. 电话号码的字母组合
+class Solution &#123;private:    vector&lt;string&gt; ans; // 存储最终结果，字符串组合    string combination;   // 当前正在构建的字符串组合    string phoneMap[10] = &#123;&quot;&quot;, &quot;&quot;, &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;&#125;; // 电话号码数字到字母的映射    void backtracking(string digits, int index) &#123;        if (index == digits.size()) &#123; // 递归终止条件：当处理完所有数字时            ans.push_back(combination); // 将当前组合添加到结果集            return;        &#125;        char digitChar = digits[index]; // 获取当前处理的数字字符        int digitIndex = digitChar - &#x27;0&#x27;; // 将数字字符转换为整数索引 (0-9)        string letters = phoneMap[digitIndex]; // 获取数字对应的字母字符串        for (char letter : letters) &#123; // 遍历当前数字对应的每个字母            combination.push_back(letter); // 将当前字母添加到组合中            backtracking(digits, index + 1); // 递归处理下一个数字，索引 + 1            combination.pop_back(); // 回溯：移除最后一个添加的字母，尝试下一个字母        &#125;    &#125;public:    vector&lt;string&gt; letterCombinations(string digits) &#123;        ans.clear(); // 清空结果集        combination.clear(); // 清空当前组合        if (digits.empty()) &#123; // 如果输入 digits 为空，直接返回空结果集            return ans;        &#125;        backtracking(digits, 0); // 从 digits 的第一个数字开始回溯，索引从 0 开始        return ans;    &#125;&#125;;
+组合总和
+题目链接：39. 组合总和
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int startIndex)&#123;        if(target == 0)&#123;            ans.push_back(an);            return;        &#125;        if(target &lt; 0) return;        for(int i = startIndex; i &lt; candidates.size(); i++)&#123;            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i); // 注意这里是 i，允许重复使用同一元素            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) &#123;        ans.clear();        an.clear();        track(candidates, target, 0);        return ans;    &#125;&#125;;
+组合总和 II
+题目链接：40. 组合总和 II
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int inx) &#123;        if (target == 0) &#123;            ans.push_back(an);            return;        &#125;        if (target &lt; 0) return;        for (int i = inx; i &lt; candidates.size(); i++) &#123;            if (i &gt; inx &amp;&amp; candidates[i] == candidates[i - 1]) continue; // 如果该元素与左边元素相等，说明该搜索分支重复，直接跳过            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i + 1);             an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) &#123;        sort(candidates.begin(), candidates.end());        track(candidates, target, 0);        return ans;    &#125;&#125;;
+子集
+题目链接：78. 子集
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsets(vector&lt;int&gt;&amp; nums) &#123;        track(nums,0);        return ans;    &#125;&#125;;
+子集 II
+题目链接：90. 子集 II
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            if(i&gt;idx &amp;&amp; nums[i]==nums[i-1]) continue;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsetsWithDup(vector&lt;int&gt;&amp; nums) &#123;        sort(nums.begin(),nums.end());        track(nums,0);        return ans;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -127,10 +171,9 @@ class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
         <tag>递归</tag>
-        <tag>迭代</tag>
+        <tag>回溯</tag>
+        <tag>剪枝</tag>
       </tags>
   </entry>
   <entry>
@@ -178,49 +221,6 @@ for (int i = 1; i &lt;= n; i++) &#123; // 遍历节点x链接的所有节点    
       <tags>
         <tag>数据结构与算法</tag>
         <tag>图论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--回溯算法</title>
-    <url>/2025/03/12day/</url>
-    <content><![CDATA[回溯
-组合
-题目链接：77. 组合
-
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result; // 存放符合条件结果的集合    vector&lt;int&gt; path; // 用来存放符合条件结果    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n; i++) &#123;            path.push_back(i); // 处理节点            backtracking(n, k, i + 1); // 递归            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        result.clear(); // 可以不写        path.clear();   // 可以不写        backtracking(n, k, 1);        return result;    &#125;&#125;;
-回溯剪枝
-剪枝的地方就在递归中每一层的for循环所选择的起始位置。
-如果for循环选择的起始位置之后的元素个数 已经不足 我们需要的元素个数了，那么就没有必要搜索了。
-
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result;    vector&lt;int&gt; path;    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n - (k - path.size()) + 1; i++) &#123; // 优化的地方            path.push_back(i); // 处理节点            backtracking(n, k, i + 1);            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        backtracking(n, k, 1);        return result;    &#125;&#125;;
-组合总和 III
-题目链接：216. 组合总和 III
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    int sum=0;    void track(int n,int k,int s)&#123;        if(an.size()==k &amp;&amp; sum==n)&#123;            ans.push_back(an);            return;        &#125;        if(sum&gt;n) return;        for(int i=s;i&lt;=9;i++)&#123;            an.push_back(i);            sum+=i;            track(n,k,i+1);            sum-=i;            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum3(int k, int n) &#123;        track(n,k,1);        return ans;    &#125;&#125;;
-电话号码的字母组合
-题目链接：17. 电话号码的字母组合
-class Solution &#123;private:    vector&lt;string&gt; ans; // 存储最终结果，字符串组合    string combination;   // 当前正在构建的字符串组合    string phoneMap[10] = &#123;&quot;&quot;, &quot;&quot;, &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;&#125;; // 电话号码数字到字母的映射    void backtracking(string digits, int index) &#123;        if (index == digits.size()) &#123; // 递归终止条件：当处理完所有数字时            ans.push_back(combination); // 将当前组合添加到结果集            return;        &#125;        char digitChar = digits[index]; // 获取当前处理的数字字符        int digitIndex = digitChar - &#x27;0&#x27;; // 将数字字符转换为整数索引 (0-9)        string letters = phoneMap[digitIndex]; // 获取数字对应的字母字符串        for (char letter : letters) &#123; // 遍历当前数字对应的每个字母            combination.push_back(letter); // 将当前字母添加到组合中            backtracking(digits, index + 1); // 递归处理下一个数字，索引 + 1            combination.pop_back(); // 回溯：移除最后一个添加的字母，尝试下一个字母        &#125;    &#125;public:    vector&lt;string&gt; letterCombinations(string digits) &#123;        ans.clear(); // 清空结果集        combination.clear(); // 清空当前组合        if (digits.empty()) &#123; // 如果输入 digits 为空，直接返回空结果集            return ans;        &#125;        backtracking(digits, 0); // 从 digits 的第一个数字开始回溯，索引从 0 开始        return ans;    &#125;&#125;;
-组合总和
-题目链接：39. 组合总和
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int startIndex)&#123;        if(target == 0)&#123;            ans.push_back(an);            return;        &#125;        if(target &lt; 0) return;        for(int i = startIndex; i &lt; candidates.size(); i++)&#123;            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i); // 注意这里是 i，允许重复使用同一元素            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) &#123;        ans.clear();        an.clear();        track(candidates, target, 0);        return ans;    &#125;&#125;;
-组合总和 II
-题目链接：40. 组合总和 II
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int inx) &#123;        if (target == 0) &#123;            ans.push_back(an);            return;        &#125;        if (target &lt; 0) return;        for (int i = inx; i &lt; candidates.size(); i++) &#123;            if (i &gt; inx &amp;&amp; candidates[i] == candidates[i - 1]) continue; // 如果该元素与左边元素相等，说明该搜索分支重复，直接跳过            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i + 1);             an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) &#123;        sort(candidates.begin(), candidates.end());        track(candidates, target, 0);        return ans;    &#125;&#125;;
-子集
-题目链接：78. 子集
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsets(vector&lt;int&gt;&amp; nums) &#123;        track(nums,0);        return ans;    &#125;&#125;;
-子集 II
-题目链接：90. 子集 II
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            if(i&gt;idx &amp;&amp; nums[i]==nums[i-1]) continue;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsetsWithDup(vector&lt;int&gt;&amp; nums) &#123;        sort(nums.begin(),nums.end());        track(nums,0);        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>递归</tag>
-        <tag>回溯</tag>
-        <tag>剪枝</tag>
       </tags>
   </entry>
   <entry>
@@ -372,52 +372,6 @@ class Solution &#123;public:    vector&lt;int&gt; spiralArray(vector&lt;vector&l
   </entry>
   <entry>
     <title>代码随想录--链表</title>
-    <url>/2025/01/4day/</url>
-    <content><![CDATA[链表操作
-​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
-两两交换链表中的节点
-题目链接：24. 两两交换链表中的节点
-题目描述：两两交换链表中相邻的节点，并返回交换后链表的头节点
-虚拟头节点
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：直接对指针进行处理就行了。刚才随手写了一下，想着交一下看看哪里有bug呢，结果直接过了，也是挺顺的。
-class Solution &#123;public:    ListNode* swapPairs(ListNode* head) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        dummy-&gt;next=head;        while(head &amp;&amp; head-&gt;next)        &#123;            ListNode* tmp=pre-&gt;next;            ListNode* tmp1=pre-&gt;next-&gt;next-&gt;next;            pre-&gt;next=head-&gt;next;            pre-&gt;next-&gt;next=tmp;            pre-&gt;next-&gt;next-&gt;next=tmp1;            pre=tmp;            head=tmp1;        &#125;        return dummy-&gt;next;    &#125;&#125;;
-删除链表的倒数第 N 个结点
-题目链接：9. 删除链表的倒数第 N 个结点
-题目描述：删除链表的倒数第 n 个结点，并且返回链表的头结点。
-快慢双指针法
-时间复杂度：O(n)     空间复杂度：O(1)
-题目思路：又给秒了，定义一个快指针，一个慢指针，快指针先移动到第n个位置，然后开始快慢指针开始同时移动，当快指针指向尾节点的时候，慢指针正好指向导数第n个位置的前一个结点，略过倒数第n个结点，就结束了。
-class Solution &#123;public:    ListNode* removeNthFromEnd(ListNode* head, int n) &#123;        ListNode* dummy=new ListNode(0);        ListNode* fast=dummy;        ListNode* slow=dummy;        dummy-&gt;next=head;        for(int i=0;i&lt;=n;i++) fast=fast-&gt;next;        while(fast)        &#123;            fast=fast-&gt;next;            slow=slow-&gt;next;        &#125;        ListNode* tmp=slow-&gt;next;        slow-&gt;next=slow-&gt;next-&gt;next;        delete tmp;        return dummy-&gt;next;    &#125;&#125;;
-链表相交
-题目链接：面试题 02.07. 链表相交
-题目描述：给定单链表的头节点 headA 和 headB ，找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
-思路1
-题目思路：求两个链表交点节点的指针。题目我都看不懂！看题解秒了。
-求出两个链表的长度，并求出两个链表长度的差值，然后让curA移动到，和curB 末尾对齐的位置。比较curA和curB是否相同，如果不相同，同时向后移动curA和curB，如果遇到curA == curB，则找到交点。否则循环退出返回空指针。
-class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode* curA = headA;        ListNode* curB = headB;        int lenA = 0, lenB = 0;        while (curA != NULL) &#123; // 求链表A的长度            lenA++;            curA = curA-&gt;next;        &#125;        while (curB != NULL) &#123; // 求链表B的长度            lenB++;            curB = curB-&gt;next;        &#125;        curA = headA;        curB = headB;        // 让curA为最长链表的头，lenA为其长度        if (lenB &gt; lenA) &#123;            swap (lenA, lenB);            swap (curA, curB);        &#125;        // 求长度差        int gap = lenA - lenB;        // 让curA和curB在同一起点上（末尾位置对齐）        while (gap--) &#123;            curA = curA-&gt;next;        &#125;        // 遍历curA 和 curB，遇到相同则直接返回        while (curA != NULL) &#123;            if (curA == curB) &#123;                return curA;            &#125;            curA = curA-&gt;next;            curB = curB-&gt;next;        &#125;        return NULL;    &#125;&#125;;
-思路二
-再贴个牛逼代码。
-class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode *A = headA, *B = headB;        while (A != B) &#123;            A = A != nullptr ? A-&gt;next : headB;            B = B != nullptr ? B-&gt;next : headA;        &#125;        return A;    &#125;&#125;;
-环形链表
-题目链接：142. 环形链表 II
-题目描述：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
-题目思路：很有生活的题，不太好想，看题解才明白怎么才能找到环的入口，也是挺有思维量的。想明白了就好了，记下来就行了。
-class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;        ListNode* fast=head;        ListNode* slow=head;        while(fast &amp;&amp; fast-&gt;next)&#123;            fast=fast-&gt;next-&gt;next;            slow=slow-&gt;next;            if(fast==slow)&#123;                ListNode* f=fast;                ListNode* s=head;                while(f!=s)&#123;                    f=f-&gt;next;                    s=s-&gt;next;                &#125;                return s;            &#125;        &#125;        return 0;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>递归</tag>
-        <tag>双指针</tag>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--链表</title>
     <url>/2025/01/3day/</url>
     <content><![CDATA[链表基础
 ​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
@@ -454,6 +408,52 @@ class MyLinkedList &#123;private:    struct LinkedNode &#123;          // 先定
 虚拟头节点（双链表）
 还未看，直接copy的
 //采用循环虚拟结点的双链表实现class MyLinkedList &#123;public:    // 定义双向链表节点结构体    struct DList &#123;        int elem; // 节点存储的元素        DList *next; // 指向下一个节点的指针        DList *prev; // 指向上一个节点的指针        // 构造函数，创建一个值为elem的新节点        DList(int elem) : elem(elem), next(nullptr), prev(nullptr) &#123;&#125;;    &#125;;    // 构造函数，初始化链表    MyLinkedList() &#123;        sentinelNode = new DList(0); // 创建哨兵节点，不存储有效数据        sentinelNode-&gt;next = sentinelNode; // 哨兵节点的下一个节点指向自身，形成循环        sentinelNode-&gt;prev = sentinelNode; // 哨兵节点的上一个节点指向自身，形成循环        size = 0; // 初始化链表大小为0    &#125;    // 获取链表中第index个节点的值    int get(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return -1; // 如果超出范围，返回-1        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index + 1; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标节点            &#125;        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标节点            &#125;        &#125;        num = curNode-&gt;elem; // 获取目标节点的值        return num; // 返回节点的值    &#125;    // 在链表头部添加节点    void addAtHead(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *next = sentinelNode-&gt;next; // 获取当前头节点的下一个节点        newNode-&gt;prev = sentinelNode; // 新节点的上一个节点指向哨兵节点        newNode-&gt;next = next; // 新节点的下一个节点指向原来的头节点        size++; // 链表大小加1        sentinelNode-&gt;next = newNode; // 哨兵节点的下一个节点指向新节点        next-&gt;prev = newNode; // 原来的头节点的上一个节点指向新节点    &#125;    // 在链表尾部添加节点    void addAtTail(int val) &#123;        DList *newNode = new DList(val); // 创建新节点        DList *prev = sentinelNode-&gt;prev; // 获取当前尾节点的上一个节点        newNode-&gt;next = sentinelNode; // 新节点的下一个节点指向哨兵节点        newNode-&gt;prev = prev; // 新节点的上一个节点指向原来的尾节点        size++; // 链表大小加1        sentinelNode-&gt;prev = newNode; // 哨兵节点的上一个节点指向新节点        prev-&gt;next = newNode; // 原来的尾节点的下一个节点指向新节点    &#125;    // 在链表中的第index个节点之前添加值为val的节点    void addAtIndex(int index, int val) &#123;        if (index &gt; size) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        if (index &lt;= 0) &#123; // 如果索引为0或负数，在头部添加节点            addAtHead(val);            return;        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *temp = curNode-&gt;next; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;next = newNode; // 在目标位置前添加新节点            temp-&gt;prev = newNode; // 目标位置的节点的前一个节点指向新节点            newNode-&gt;next = temp; // 新节点的下一个节点指向目标位置的结点            newNode-&gt;prev = curNode; // 新节点的上一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *temp = curNode-&gt;prev; // 获取目标位置的节点            DList *newNode = new DList(val); // 创建新节点            curNode-&gt;prev = newNode; // 在目标位置后添加新节点            temp-&gt;next = newNode; // 目标位置的节点的下一个节点指向新节点            newNode-&gt;prev = temp; // 新节点的上一个节点指向目标位置的节点            newNode-&gt;next = curNode; // 新节点的下一个节点指向当前节点        &#125;        size++; // 链表大小加1    &#125;    // 删除链表中的第index个节点    void deleteAtIndex(int index) &#123;        if (index &gt; (size - 1) || index &lt; 0) &#123; // 检查索引是否超出范围            return; // 如果超出范围，直接返回        &#125;        int num;        int mid = size &gt;&gt; 1; // 计算链表中部位置        DList *curNode = sentinelNode; // 从哨兵节点开始        if (index &lt; mid) &#123; // 如果索引小于中部位置，从前往后遍历            for (int i = 0; i &lt; index; i++) &#123;                curNode = curNode-&gt;next; // 移动到目标位置的前一个节点            &#125;            DList *next = curNode-&gt;next-&gt;next; // 获取目标位置的下一个节点            curNode-&gt;next = next; // 删除目标位置的节点            next-&gt;prev = curNode; // 目标位置的下一个节点的前一个节点指向当前节点        &#125; else &#123; // 如果索引大于等于中部位置，从后往前遍历            for (int i = 0; i &lt; size - index - 1; i++) &#123;                curNode = curNode-&gt;prev; // 移动到目标位置的后一个节点            &#125;            DList *prev = curNode-&gt;prev-&gt;prev; // 获取目标位置的下一个节点            curNode-&gt;prev = prev; // 删除目标位置的节点            prev-&gt;next = curNode; // 目标位置的下一个节点的下一个节点指向当前节点        &#125;        size--; // 链表大小减1    &#125;private:    int size; // 链表的大小    DList *sentinelNode; // 哨兵节点的指针&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>递归</tag>
+        <tag>双指针</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--链表</title>
+    <url>/2025/01/4day/</url>
+    <content><![CDATA[链表操作
+​	链表是一种通过指针串联在一起的线性结构，每一个节点由两部分组成，一个是数据域一个是指针域，最后一个节点的指针域指向null（空指针的意思）。
+两两交换链表中的节点
+题目链接：24. 两两交换链表中的节点
+题目描述：两两交换链表中相邻的节点，并返回交换后链表的头节点
+虚拟头节点
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：直接对指针进行处理就行了。刚才随手写了一下，想着交一下看看哪里有bug呢，结果直接过了，也是挺顺的。
+class Solution &#123;public:    ListNode* swapPairs(ListNode* head) &#123;        ListNode* dummy=new ListNode(0);        ListNode* pre=dummy;        dummy-&gt;next=head;        while(head &amp;&amp; head-&gt;next)        &#123;            ListNode* tmp=pre-&gt;next;            ListNode* tmp1=pre-&gt;next-&gt;next-&gt;next;            pre-&gt;next=head-&gt;next;            pre-&gt;next-&gt;next=tmp;            pre-&gt;next-&gt;next-&gt;next=tmp1;            pre=tmp;            head=tmp1;        &#125;        return dummy-&gt;next;    &#125;&#125;;
+删除链表的倒数第 N 个结点
+题目链接：9. 删除链表的倒数第 N 个结点
+题目描述：删除链表的倒数第 n 个结点，并且返回链表的头结点。
+快慢双指针法
+时间复杂度：O(n)     空间复杂度：O(1)
+题目思路：又给秒了，定义一个快指针，一个慢指针，快指针先移动到第n个位置，然后开始快慢指针开始同时移动，当快指针指向尾节点的时候，慢指针正好指向导数第n个位置的前一个结点，略过倒数第n个结点，就结束了。
+class Solution &#123;public:    ListNode* removeNthFromEnd(ListNode* head, int n) &#123;        ListNode* dummy=new ListNode(0);        ListNode* fast=dummy;        ListNode* slow=dummy;        dummy-&gt;next=head;        for(int i=0;i&lt;=n;i++) fast=fast-&gt;next;        while(fast)        &#123;            fast=fast-&gt;next;            slow=slow-&gt;next;        &#125;        ListNode* tmp=slow-&gt;next;        slow-&gt;next=slow-&gt;next-&gt;next;        delete tmp;        return dummy-&gt;next;    &#125;&#125;;
+链表相交
+题目链接：面试题 02.07. 链表相交
+题目描述：给定单链表的头节点 headA 和 headB ，找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
+思路1
+题目思路：求两个链表交点节点的指针。题目我都看不懂！看题解秒了。
+求出两个链表的长度，并求出两个链表长度的差值，然后让curA移动到，和curB 末尾对齐的位置。比较curA和curB是否相同，如果不相同，同时向后移动curA和curB，如果遇到curA == curB，则找到交点。否则循环退出返回空指针。
+class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode* curA = headA;        ListNode* curB = headB;        int lenA = 0, lenB = 0;        while (curA != NULL) &#123; // 求链表A的长度            lenA++;            curA = curA-&gt;next;        &#125;        while (curB != NULL) &#123; // 求链表B的长度            lenB++;            curB = curB-&gt;next;        &#125;        curA = headA;        curB = headB;        // 让curA为最长链表的头，lenA为其长度        if (lenB &gt; lenA) &#123;            swap (lenA, lenB);            swap (curA, curB);        &#125;        // 求长度差        int gap = lenA - lenB;        // 让curA和curB在同一起点上（末尾位置对齐）        while (gap--) &#123;            curA = curA-&gt;next;        &#125;        // 遍历curA 和 curB，遇到相同则直接返回        while (curA != NULL) &#123;            if (curA == curB) &#123;                return curA;            &#125;            curA = curA-&gt;next;            curB = curB-&gt;next;        &#125;        return NULL;    &#125;&#125;;
+思路二
+再贴个牛逼代码。
+class Solution &#123;public:    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) &#123;        ListNode *A = headA, *B = headB;        while (A != B) &#123;            A = A != nullptr ? A-&gt;next : headB;            B = B != nullptr ? B-&gt;next : headA;        &#125;        return A;    &#125;&#125;;
+环形链表
+题目链接：142. 环形链表 II
+题目描述：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+题目思路：很有生活的题，不太好想，看题解才明白怎么才能找到环的入口，也是挺有思维量的。想明白了就好了，记下来就行了。
+class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;        ListNode* fast=head;        ListNode* slow=head;        while(fast &amp;&amp; fast-&gt;next)&#123;            fast=fast-&gt;next-&gt;next;            slow=slow-&gt;next;            if(fast==slow)&#123;                ListNode* f=fast;                ListNode* s=head;                while(f!=s)&#123;                    f=f-&gt;next;                    s=s-&gt;next;                &#125;                return s;            &#125;        &#125;        return 0;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -863,6 +863,127 @@ class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* r
         <tag>二叉树遍历</tag>
         <tag>递归</tag>
         <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSRMS</title>
+    <url>/2025/04/CSRMS/</url>
+    <content><![CDATA[CSRMS
+用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
+论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
+代码地址：https://github.com/czt117/CSRMS
+个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
+名词解释：
+课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
+实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
+对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
+研究目的
+缓解类内多样性和类间相似性问题
+
+整体架构
+CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
+在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
+
+离线学习阶段
+类级关系建模
+类级关系定义
+(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
+$$
+R_{ID} = \{ (I_a, I_b) \mid y_a = y_b, P_{C_a} \neq P_{C_b} \}
+$$
+(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
+$$
+R_{IS} = \{(I_a, I_b) \mid y_a \neq y_b, P_{C_a} = P_{C_b} \}
+$$
+© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
+$$
+R_{MC} = \{(I_a, I_b) \mid y_a \neq y_b, M_{C_a} = M_{C_b} \}
+$$
+主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
+混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
+ART聚类
+自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。$ C={c1,…,cJ}$
+$$
+C = ART(M_v(I))
+$$
+得到三个级别：类级别、模式级别、实例级别。然后构建关系图 $G_t$ 。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
+训练阶段
+类感知图采样
+正样本采样
+使用主导模式采样器$ S_{dp} $，从类别 $ y_i $ 主导的最大簇 $c_j $ 中选择与 $ I_i $ 距离最大的前 $ n $个正样本。为每个批次样本选择正样本集合 $ \Omega_{posi} $，以解决类内多样性。
+选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
+$$
+\Omega_{posi} = S_{dp}(I_i, \varphi(I_i, I_{i_j}), n)
+$$
+负样本采样
+视觉相似模式采样器 $ S_{ap} $，从类别 $ y_i $ 主导的最大簇 $c_i $ 中选择与 $ I_i $ 距离最大的前 $m$个正样本。为每个批次样本选择负样本集合$\Omega_{nega} $，以解决类间相似性和混类簇。
+选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
+$$
+\Omega_{nega} = S_{ap}(I_i, \varphi(I_i, I_{i_j}), m)
+$$
+课程学习
+基于易难估计，为批次样本分配难度级别。
+$$
+f(I_i) = \begin{cases}
+\Omega_{\text{easy}} &amp; \text{if } \frac{N_k^j}{N_k} &gt; \rho_1 \\
+\Omega_{\text{medium}} &amp; \text{if } \frac{N_k^j}{N_k} &lt; \rho_1 \\
+\Omega_{\text{hard}} &amp; \text{if } \frac{N_k^h}{N_k} &gt; \rho_1 \text{ and } j \neq h
+\end{cases}
+$$
+调整学习权重
+使用“衰减方法”，设置惩罚系数，并通过参数调节。
+$$
+α_i⋅λ_e+(1−α_i)⋅(α_f⋅λ_m+(1−α_f)⋅λ_h)=1
+$$
+初期：$\alpha_i $、$ \alpha_f $接近 1，优先学习简单样本。
+后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 $ \alpha_i $、$ \alpha_f $，引入更多困难样本。
+构建批次子图
+$G_b$ 是 $ G_t $的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 $ G_t $中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
+关系图引导的表示学习
+簇感知表征平滑
+图形平滑
+使用图卷积网络（GCN）$ \mathcal{G}(\cdot) $，基于子图 $ G_b $ 和正样本 $ \Omega_{posi} $，聚合同一类别图像的信息。
+$$
+F_g=\mathcal{G}(\hat{A},I_i,Ω_{posi})=softmax(\hat{A}⋅ReLU(\hat{A}⋅X⋅W^{(1)})⋅W^{(0)})
+$$
+簇级特征平滑
+将表征 $ F_g $ 与簇原型  $ w_{cu} $ 对齐，其中$w_{cu} $是类别 $ y_i $主导的最大簇 $c_j $的原型。
+$$
+F_u=α_u⊙F_g+β_u⊙w_{cu}
+$$
+类级分布正则化
+类级表征对齐
+表征 $ F_u$ 与类原型 $ p_{cu} $ 对齐，其中 $ p_{cu} $ 是类别 $ y_i $ 在所有主导簇中的表征聚合。
+$$
+F_a=α_a⊙F_u+β_a⊙p_{cu}
+$$
+负样本约束
+构建负样本损失$\mathcal L_{neg}$，推远不同类别表征：
+$$
+\mathcal L_{neg} = \sum_{i=1}^{N} -\log \left( \mu_{i} \frac{\theta}{\sum_{q=1}^{m}|M_v(I_i) - M_v(\Omega_{nega}^q)|_2 + \theta} \right)
+$$
+类间约束
+构建类间分散损失$\mathcal L_{inter}$，进一步推远不同类别表征：
+$$
+\mathcal L_{inter} = \sum_{i,j} { i = j } |0| + { i \ne j } -\log \left( \mu\frac{\theta}{|F_v^i - F_v^j|_2 + \theta} \right)
+$$
+分类器训练
+使用分类器 $ C(\cdot) $预测类别：
+$$
+F_a →P
+$$
+使用交叉熵损失 $\mathcal L_{ce}$优化：
+$$
+\mathcal L_{ce} = \frac{1}{N} \sum_{i} \mathcal L_i = -\frac{1}{N} \sum_{i}\sum_{c=1}^{C} y_{ic} \log(P_{ic})
+$$
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>视觉表征</tag>
+        <tag>论文精读</tag>
       </tags>
   </entry>
   <entry>
@@ -1422,231 +1543,10 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
         <category>自然语言处理</category>
       </categories>
       <tags>
+        <tag>论文精读</tag>
         <tag>BERT</tag>
         <tag>Transformer</tag>
         <tag>自然语言处理</tag>
-        <tag>论文精读</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
-
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
-
-
-题目列表与详解
-1. Two Sum
-
-
-题号 / 链接：#1 / 题目链接
-
-
-难度：简单
-
-
-题型标签：哈希表，数组
-
-
-题目描述（简要）：
-
-就是查找一下哪两个数相加等于target，返回下标。
-
-
-
-思路分析
-
-两个方法，不同的时间复杂度
-
-方法一：暴力写法。
-复杂度
-
-时间：O(*n*2)
-空间：O(1)
-
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
-
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
-
-
-2. 好数对的数目
-
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSRMS</title>
-    <url>/2025/04/CSRMS/</url>
-    <content><![CDATA[CSRMS
-用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
-论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
-代码地址：https://github.com/czt117/CSRMS
-个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
-名词解释：
-课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
-实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
-对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
-研究目的
-缓解类内多样性和类间相似性问题
-
-整体架构
-CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
-在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
-
-离线学习阶段
-类级关系建模
-类级关系定义
-(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
-$$
-R_{ID} = \{ (I_a, I_b) \mid y_a = y_b, P_{C_a} \neq P_{C_b} \}
-$$
-(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
-$$
-R_{IS} = \{(I_a, I_b) \mid y_a \neq y_b, P_{C_a} = P_{C_b} \}
-$$
-© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
-$$
-R_{MC} = \{(I_a, I_b) \mid y_a \neq y_b, M_{C_a} = M_{C_b} \}
-$$
-主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
-混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
-ART聚类
-自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。$ C={c1,…,cJ}$
-$$
-C = ART(M_v(I))
-$$
-得到三个级别：类级别、模式级别、实例级别。然后构建关系图 $G_t$ 。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
-训练阶段
-类感知图采样
-正样本采样
-使用主导模式采样器$ S_{dp} $，从类别 $ y_i $ 主导的最大簇 $c_j $ 中选择与 $ I_i $ 距离最大的前 $ n $个正样本。为每个批次样本选择正样本集合 $ \Omega_{posi} $，以解决类内多样性。
-选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
-$$
-\Omega_{posi} = S_{dp}(I_i, \varphi(I_i, I_{i_j}), n)
-$$
-负样本采样
-视觉相似模式采样器 $ S_{ap} $，从类别 $ y_i $ 主导的最大簇 $c_i $ 中选择与 $ I_i $ 距离最大的前 $m$个正样本。为每个批次样本选择负样本集合$\Omega_{nega} $，以解决类间相似性和混类簇。
-选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
-$$
-\Omega_{nega} = S_{ap}(I_i, \varphi(I_i, I_{i_j}), m)
-$$
-课程学习
-基于易难估计，为批次样本分配难度级别。
-$$
-f(I_i) = \begin{cases}
-\Omega_{\text{easy}} &amp; \text{if } \frac{N_k^j}{N_k} &gt; \rho_1 \\
-\Omega_{\text{medium}} &amp; \text{if } \frac{N_k^j}{N_k} &lt; \rho_1 \\
-\Omega_{\text{hard}} &amp; \text{if } \frac{N_k^h}{N_k} &gt; \rho_1 \text{ and } j \neq h
-\end{cases}
-$$
-调整学习权重
-使用“衰减方法”，设置惩罚系数，并通过参数调节。
-$$
-α_i⋅λ_e+(1−α_i)⋅(α_f⋅λ_m+(1−α_f)⋅λ_h)=1
-$$
-初期：$\alpha_i $、$ \alpha_f $接近 1，优先学习简单样本。
-后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 $ \alpha_i $、$ \alpha_f $，引入更多困难样本。
-构建批次子图
-$G_b$ 是 $ G_t $的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 $ G_t $中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
-关系图引导的表示学习
-簇感知表征平滑
-图形平滑
-使用图卷积网络（GCN）$ \mathcal{G}(\cdot) $，基于子图 $ G_b $ 和正样本 $ \Omega_{posi} $，聚合同一类别图像的信息。
-$$
-F_g=\mathcal{G}(\hat{A},I_i,Ω_{posi})=softmax(\hat{A}⋅ReLU(\hat{A}⋅X⋅W^{(1)})⋅W^{(0)})
-$$
-簇级特征平滑
-将表征 $ F_g $ 与簇原型  $ w_{cu} $ 对齐，其中$w_{cu} $是类别 $ y_i $主导的最大簇 $c_j $的原型。
-$$
-F_u=α_u⊙F_g+β_u⊙w_{cu}
-$$
-类级分布正则化
-类级表征对齐
-表征 $ F_u$ 与类原型 $ p_{cu} $ 对齐，其中 $ p_{cu} $ 是类别 $ y_i $ 在所有主导簇中的表征聚合。
-$$
-F_a=α_a⊙F_u+β_a⊙p_{cu}
-$$
-负样本约束
-构建负样本损失$\mathcal L_{neg}$，推远不同类别表征：
-$$
-\mathcal L_{neg} = \sum_{i=1}^{N} -\log \left( \mu_{i} \frac{\theta}{\sum_{q=1}^{m}|M_v(I_i) - M_v(\Omega_{nega}^q)|_2 + \theta} \right)
-$$
-类间约束
-构建类间分散损失$\mathcal L_{inter}$，进一步推远不同类别表征：
-$$
-\mathcal L_{inter} = \sum_{i,j} { i = j } |0| + { i \ne j } -\log \left( \mu\frac{\theta}{|F_v^i - F_v^j|_2 + \theta} \right)
-$$
-分类器训练
-使用分类器 $ C(\cdot) $预测类别：
-$$
-F_a →P
-$$
-使用交叉熵损失 $\mathcal L_{ce}$优化：
-$$
-\mathcal L_{ce} = \frac{1}{N} \sum_{i} \mathcal L_i = -\frac{1}{N} \sum_{i}\sum_{c=1}^{C} y_{ic} \log(P_{ic})
-$$
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>视觉表征</tag>
       </tags>
   </entry>
   <entry>
@@ -2234,6 +2134,106 @@ $$
       <tags>
         <tag>论文精读</tag>
         <tag>混合专家系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
+
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+
+
+题目列表与详解
+1. Two Sum
+
+
+题号 / 链接：#1 / 题目链接
+
+
+难度：简单
+
+
+题型标签：哈希表，数组
+
+
+题目描述（简要）：
+
+就是查找一下哪两个数相加等于target，返回下标。
+
+
+
+思路分析
+
+两个方法，不同的时间复杂度
+
+方法一：暴力写法。
+复杂度
+
+时间：O(*n*2)
+空间：O(1)
+
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
+
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+
+
+2. 好数对的数目
+
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -2849,28 +2849,6 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--STL</title>
     <url>/2025/02/STL/</url>
     <content><![CDATA[标准模板库（STL）
@@ -3441,6 +3419,28 @@ reserve(n)
         <tag>string</tag>
         <tag>algorithm</tag>
         <tag>priority_queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -4654,24 +4654,6 @@ lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较
         <tag>Resnet</tag>
         <tag>Lenet</tag>
         <tag>CIFAR10</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手撕 Vision Transformer</title>
-    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
-    <content><![CDATA[手撕 Vision Transformer
-
-​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
-​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
-import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>Vit</tag>
-        <tag>手撕代码</tag>
       </tags>
   </entry>
   <entry>
@@ -6357,6 +6339,24 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>无监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手撕 Vision Transformer</title>
+    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
+    <content><![CDATA[手撕 Vision Transformer
+
+​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
+​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
+import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
+]]></content>
+      <categories>
+        <category>手撕代码</category>
+        <category>图像分类</category>
+      </categories>
+      <tags>
+        <tag>Vit</tag>
+        <tag>手撕代码</tag>
       </tags>
   </entry>
   <entry>
