@@ -130,12 +130,20 @@ function toggleDarkMode() {
 
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function () {
-    // 恢复用户的主题偏好
+    // 恢复用户的主题偏好 (默认为暗黑模式)
     const savedTheme = localStorage.getItem('theme');
     const themeIcon = document.getElementById('theme-icon');
-    if (savedTheme === 'dark') {
+
+    // 如果没有保存的偏好，或者保存的是 dark，都使用暗黑模式
+    if (!savedTheme || savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
         themeIcon.className = 'fas fa-sun';
+        // 如果是第一次访问（没有savedTheme），可以顺便存一下，或者不存保持默认
+        if (!savedTheme) localStorage.setItem('theme', 'dark');
+    } else {
+        // 显式为 light 时才移除（虽然默认body没有dark类，但为了逻辑清晰）
+        document.body.classList.remove('dark-mode');
+        themeIcon.className = 'fas fa-moon';
     }
 
     if (typeof academicData === 'undefined') {

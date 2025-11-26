@@ -74,15 +74,17 @@
 
   <!-- Top Navigation -->
   <nav class="top-nav">
-    <!-- 左侧语言切换 -->
-    <div class="lang-switch-left" onclick="toggleLanguage()">
-      <span id="lang-text">English</span>
+    <!-- Controls (Left) -->
+    <div class="nav-controls">
+      <div class="control-btn" onclick="toggleLanguage()">
+        <span id="lang-text">English</span>
+      </div>
+      <div class="control-btn" onclick="toggleDarkMode()">
+        <i id="theme-icon" class="fas fa-moon"></i>
+      </div>
     </div>
-    <!-- 中间暗黑模式按钮 -->
-    <div class="theme-switch" onclick="toggleDarkMode()">
-      <i id="theme-icon" class="fas fa-moon"></i>
-    </div>
-    <!-- 右侧导航链接 -->
+
+    <!-- Navigation Links (Right) -->
     <div class="nav-links">
       <a href="#about" class="active">
         <span class="lang-zh">关于我</span>
