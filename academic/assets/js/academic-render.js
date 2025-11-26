@@ -117,14 +117,20 @@ function toggleDarkMode() {
     const themeIcon = document.getElementById('theme-icon');
 
     body.classList.toggle('dark-mode');
+    const isDark = body.classList.contains('dark-mode');
 
     // 更新图标
-    if (body.classList.contains('dark-mode')) {
+    if (isDark) {
         themeIcon.className = 'fas fa-sun';
         localStorage.setItem('theme', 'dark');
     } else {
         themeIcon.className = 'fas fa-moon';
         localStorage.setItem('theme', 'light');
+    }
+
+    // 更新 Vanta 背景
+    if (window.updateVantaTheme) {
+        window.updateVantaTheme(isDark);
     }
 }
 
@@ -133,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 恢复用户的主题偏好 (默认为暗黑模式)
     const savedTheme = localStorage.getItem('theme');
     const themeIcon = document.getElementById('theme-icon');
+    let isDark = true; // 默认为 true
 
     // 如果没有保存的偏好，或者保存的是 dark，都使用暗黑模式
     if (!savedTheme || savedTheme === 'dark') {
@@ -140,11 +147,20 @@ document.addEventListener('DOMContentLoaded', function () {
         themeIcon.className = 'fas fa-sun';
         // 如果是第一次访问（没有savedTheme），可以顺便存一下，或者不存保持默认
         if (!savedTheme) localStorage.setItem('theme', 'dark');
+        isDark = true;
     } else {
         // 显式为 light 时才移除（虽然默认body没有dark类，但为了逻辑清晰）
         document.body.classList.remove('dark-mode');
         themeIcon.className = 'fas fa-moon';
+        isDark = false;
     }
+
+    // 初始化 Vanta 背景颜色 (延迟一点确保 Vanta 已加载)
+    setTimeout(() => {
+        if (window.updateVantaTheme) {
+            window.updateVantaTheme(isDark);
+        }
+    }, 1500); // 稍微晚于 cool-features.js 的初始化
 
     if (typeof academicData === 'undefined') {
         console.error('academic-data.js 未加载成功！');

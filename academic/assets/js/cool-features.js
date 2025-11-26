@@ -7,6 +7,9 @@
  */
 
 // --- 1. 3D Neural Network Background (Vanta.js) ---
+// --- 1. 3D Neural Network Background (Vanta.js) ---
+let vantaEffect = null;
+
 function initNeuralBackground() {
     // 检查是否是移动端，移动端为了性能不加载复杂3D背景
     if (window.innerWidth < 768) return;
@@ -17,8 +20,14 @@ function initNeuralBackground() {
         return;
     }
 
+    const isDark = document.body.classList.contains('dark-mode');
+    const colors = {
+        color: isDark ? 0x38bdf8 : 0x667eea,       // 连线颜色
+        backgroundColor: isDark ? 0x0f172a : 0xf8f9fa // 背景颜色
+    };
+
     try {
-        VANTA.NET({
+        vantaEffect = VANTA.NET({
             el: "#bg-animation-container",
             mouseControls: true,
             touchControls: true,
@@ -27,8 +36,8 @@ function initNeuralBackground() {
             minWidth: 200.00,
             scale: 1.00,
             scaleMobile: 1.00,
-            color: 0x38bdf8,       // 连线颜色 (Light Blue)
-            backgroundColor: 0x0f172a, // 背景颜色 (Dark Blue)
+            color: colors.color,
+            backgroundColor: colors.backgroundColor,
             points: 12.00,
             maxDistance: 22.00,
             spacing: 18.00,
@@ -39,6 +48,26 @@ function initNeuralBackground() {
         console.error('Failed to init Vanta Net:', e);
     }
 }
+
+// 监听主题切换
+function updateVantaTheme(isDark) {
+    if (!vantaEffect) return;
+
+    if (isDark) {
+        vantaEffect.setOptions({
+            color: 0x38bdf8,
+            backgroundColor: 0x0f172a
+        });
+    } else {
+        vantaEffect.setOptions({
+            color: 0x667eea,
+            backgroundColor: 0xf8f9fa
+        });
+    }
+}
+
+// 暴露给全局以便在 toggleDarkMode 中调用
+window.updateVantaTheme = updateVantaTheme;
 
 // --- 2. Terminal Easter Egg ---
 function initTerminal() {
@@ -139,7 +168,8 @@ function handleCommand(cmd, output) {
             output.innerHTML = '';
             break;
         case 'sudo':
-            if (args[1] === 'rm' && args[2] === '-rf' && args[3] === '/') {
+            // 只要包含 rm -rf 就触发彩蛋，不严格要求 /
+            if (args.includes('rm') && args.includes('-rf')) {
                 append('WARNING: DELETING SYSTEM FILES...', true);
                 setTimeout(() => append('<span style="color:red">Error: Permission denied. Nice try! 😉</span>', true), 1000);
             } else {
@@ -161,18 +191,49 @@ function handleCommand(cmd, output) {
     }
 }
 
-// --- 3. Interactive Skill Galaxy (Three.js) ---
-// This will be a simplified version using CSS3DObject or just standard DOM manipulation for "planet" tags
-// For simplicity and performance, we might use a tag cloud library or custom implementation
-// Here we'll implement a simple 3D Tag Cloud
+// --- 3. Interactive Skill Galaxy (TagCanvas) ---
 function initSkillGalaxy() {
-    const container = document.getElementById('skill-galaxy');
+    // 检查是否是移动端，移动端可以简化或不显示
+    if (window.innerWidth < 768) {
+        // 移动端可以选择不显示，或者显示静态列表
+        // 这里我们尝试显示，但参数调优
+    }
+
+    const container = document.getElementById('skill-galaxy-container');
     if (!container) return;
 
-    // TODO: Implement 3D Tag Cloud using Three.js or similar
-    // For now, we'll leave this placeholder. 
-    // We need to inject the HTML structure first.
-    console.log('Skill Galaxy placeholder');
+    // 显示容器
+    container.style.display = 'block';
+
+    try {
+        if (!$('#skill-canvas').tagcanvas({
+            textColour: '#38bdf8',
+            outlineColour: 'transparent',
+            reverse: true,
+            depth: 0.8,
+            maxSpeed: 0.05,
+            initial: [0.1, -0.1],
+            wheelZoom: false,
+            shape: 'sphere',
+            shuffleTags: true,
+            noSelect: true,
+            textFont: 'Inter, sans-serif',
+            textHeight: 20,
+            weight: true,
+            weightMode: 'both',
+            weightSize: 1.0,
+            weightGradient: {
+                0: '#94a3b8', // 较小的标签颜色
+                1: '#38bdf8'  // 较大的标签颜色
+            }
+        }, 'skill-tags')) {
+            // TagCanvas failed to load
+            $('#skill-galaxy-container').hide();
+        }
+    } catch (e) {
+        console.error('Failed to init TagCanvas:', e);
+        $('#skill-galaxy-container').hide();
+    }
 }
 
 // --- 4. Visitor Globe (Globe.gl) ---
