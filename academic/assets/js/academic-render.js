@@ -167,4 +167,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 初次渲染内容（默认中文）
     renderContent();
+
+    // 初始化滚动监听
+    initScrollSpy();
 });
+
+// 滚动监听函数
+function initScrollSpy() {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-30% 0px -70% 0px', // 当section进入视口中间区域时触发
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 移除所有 active
+                navLinks.forEach(link => link.classList.remove('active'));
+
+                // 给当前对应的链接添加 active
+                const id = entry.target.getAttribute('id');
+                const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+}
