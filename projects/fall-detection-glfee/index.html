@@ -1,261 +1,386 @@
 <link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fall Detection Algorithm - Project Page</title>
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+
   <style>
+    :root {
+      --bg-color: #0f172a;
+      --text-color: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --accent-color: #38bdf8;
+      --glass-bg: rgba(30, 41, 59, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(30, 41, 59, 0.4);
+      --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 20px 40px 0 rgba(0, 0, 0, 0.4);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #fff;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      line-height: 1.8;
+      color: var(--text-color);
+      background: var(--bg-color);
+      overflow-x: hidden;
     }
-    
+
+    /* Background Animation */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s infinite ease-in-out alternate;
+    }
+
+    .blob-1 {
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: #4f46e5;
+      animation-delay: 0s;
+    }
+
+    .blob-2 {
+      bottom: -10%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: #7c3aed;
+      animation-delay: -5s;
+    }
+
+    .blob-3 {
+      top: 40%;
+      left: 40%;
+      width: 40vw;
+      height: 40vw;
+      background: #2563eb;
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(30px, 50px) rotate(10deg);
+      }
+    }
+
     .container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
-    
+
     /* Header */
     .header {
       text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      margin-bottom: 60px;
+      padding: 80px 20px 60px;
+      margin-bottom: 40px;
     }
-    
+
     .title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 20px;
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 25px;
       line-height: 1.2;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    
+
     .authors {
       font-size: 1.2rem;
       margin-bottom: 20px;
+      color: var(--text-color);
     }
-    
+
+    .authors strong {
+      color: var(--accent-color);
+    }
+
     .venue {
-      font-size: 1rem;
-      opacity: 0.95;
-      margin-bottom: 30px;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      font-weight: 500;
     }
-    
+
     .links {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       justify-content: center;
       flex-wrap: wrap;
     }
-    
+
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.2);
+      gap: 10px;
+      padding: 12px 28px;
+      background: var(--glass-bg);
       color: white;
       text-decoration: none;
-      border-radius: 25px;
-      font-weight: 500;
+      border-radius: 50px;
+      font-weight: 600;
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-glass);
     }
-    
+
     .btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      color: #0f172a;
     }
-    
+
+    .btn i {
+      font-size: 1.1em;
+    }
+
     /* Sections */
     section {
       margin-bottom: 60px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow-glass);
     }
-    
+
     h2 {
       font-size: 2rem;
-      margin-bottom: 25px;
-      color: #667eea;
-      border-left: 4px solid #667eea;
-      padding-left: 15px;
+      margin-bottom: 30px;
+      color: var(--accent-color);
+      font-weight: 700;
+      text-align: center;
     }
-    
-    .abstract {
-      background: #f8f9fa;
-      padding: 30px;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
-      margin-bottom: 40px;
-    }
-    
-    .abstract p {
-      font-size: 1.1rem;
+
+    .abstract-text {
+      font-size: 1.15rem;
       line-height: 1.8;
       text-align: justify;
+      color: var(--text-color);
     }
-    
+
     /* Video/Image container */
     .media-container {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 */
-      height: 0;
+      width: 100%;
+      border-radius: 16px;
       overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-glass);
       margin-bottom: 40px;
+      border: 1px solid var(--glass-border);
     }
-    
+
     .media-container img,
     .media-container video {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
     }
-    
+
     /* Grid for multiple images */
     .image-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+      gap: 25px;
       margin-bottom: 40px;
     }
-    
+
     .image-grid img {
       width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: var(--shadow-glass);
       transition: transform 0.3s ease;
+      border: 1px solid var(--glass-border);
     }
-    
+
     .image-grid img:hover {
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
-    
+
     /* BibTeX */
     .bibtex {
-      background: #2d2d2d;
-      color: #f8f8f2;
+      background: rgba(0, 0, 0, 0.3);
+      color: #a5b4fc;
       padding: 25px;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow-x: auto;
-      font-family: 'Courier New', monospace;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
       font-size: 0.9rem;
       line-height: 1.6;
+      border: 1px solid var(--glass-border);
     }
-    
+
     /* Method overview */
     .method-figure {
       text-align: center;
-      margin: 40px 0;
+      margin: 20px 0;
     }
-    
+
     .method-figure img {
       max-width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: var(--shadow-glass);
+      border: 1px solid var(--glass-border);
     }
-    
+
     .method-figure figcaption {
-      margin-top: 15px;
-      color: #666;
+      margin-top: 20px;
+      color: var(--text-secondary);
       font-style: italic;
+      font-size: 0.95rem;
     }
-    
+
     /* Back button */
     .back-btn {
       position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 10px 20px;
-      background: white;
-      color: #667eea;
+      top: 30px;
+      left: 30px;
+      padding: 12px 24px;
+      background: var(--glass-bg);
+      color: var(--text-color);
       text-decoration: none;
-      border-radius: 25px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      font-weight: 500;
+      border-radius: 50px;
+      box-shadow: var(--shadow-glass);
+      font-weight: 600;
       transition: all 0.3s ease;
       z-index: 1000;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    
+
     .back-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      background: var(--accent-color);
+      color: #0f172a;
+      transform: translateX(-5px);
     }
-    
+
+    /* Key Features List */
+    .feature-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .feature-item strong {
+      color: var(--accent-color);
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
     @media (max-width: 768px) {
       .title {
         font-size: 1.8rem;
       }
-      
-      .authors {
-        font-size: 1rem;
+
+      .header {
+        padding-top: 100px;
       }
-      
-      h2 {
-        font-size: 1.5rem;
-      }
-      
+
       .back-btn {
-        position: static;
-        display: block;
-        margin: 20px auto;
-        text-align: center;
-        width: fit-content;
+        top: 20px;
+        left: 20px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+
+      section {
+        padding: 25px;
       }
     }
   </style>
 </head>
 
 <body>
-  <a href="/academic/" class="back-btn">
-    <i class="fas fa-arrow-left"></i> 返回学术主页
-  </a>
-
-  <!-- Header -->
-  <div class="header">
-    <h1 class="title">Fall Detection Algorithm Based on Global and Local Feature Extraction</h1>
-    <div class="authors">
-      Bin Li*, Jiangqiao Li, <strong>Wang Peng</strong>
-    </div>
-    <div class="venue">
-      Pattern Recognition Letters, 2024<br>
-      IF: 5.1, JCR Q2, CCF C
-    </div>
-    <div class="links">
-      <a href="https://www.sciencedirect.com/science/article/pii/S016786552400206X" class="btn" target="_blank">
-        <i class="fas fa-file-pdf"></i> Paper
-      </a>
-      <a href="#" class="btn">
-        <i class="fab fa-github"></i> Code (Coming Soon)
-      </a>
-      <a href="#bibtex" class="btn">
-        <i class="fas fa-quote-right"></i> BibTeX
-      </a>
-    </div>
+  <!-- Background Animation -->
+  <div class="bg-animation">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
   </div>
 
+  <a href="/academic/" class="back-btn">
+    <i class="fas fa-arrow-left"></i> Back to Academic
+  </a>
+
   <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title">Fall Detection Algorithm Based on Global and Local Feature Extraction</h1>
+      <div class="authors">
+        Bin Li*, Jiangjiao Li, <strong>Peng Wang</strong>
+      </div>
+      <div class="venue">
+        Pattern Recognition Letters, 2024<br>
+        <span style="font-size: 0.9em; opacity: 0.8; margin-top: 5px; display: inline-block;">IF: 5.1 | JCR Q2 | CCF
+          C</span>
+      </div>
+      <div class="links">
+        <a href="https://www.sciencedirect.com/science/article/pii/S016786552400206X" class="btn" target="_blank">
+          <i class="fas fa-file-pdf"></i> Paper
+        </a>
+        <a href="#" class="btn" style="opacity: 0.6; cursor: not-allowed;">
+          <i class="fab fa-github"></i> Code (Coming Soon)
+        </a>
+        <a href="#bibtex" class="btn">
+          <i class="fas fa-quote-right"></i> BibTeX
+        </a>
+      </div>
+    </div>
+
     <!-- Abstract -->
     <section>
       <h2>Abstract</h2>
-      <div class="abstract">
+      <div class="abstract-text">
         <p>
           我们提出了一种基于全局和局部特征提取的跌倒检测算法。该方法结合了深度学习和传统计算机视觉技术，
           在保持高准确率的同时实现了实时检测。通过提取视频序列中的全局运动特征和局部姿态特征，
@@ -279,7 +404,7 @@
       <div class="media-container">
         <img src="https://picsum.photos/1600/900?random=2" alt="Detection Results">
       </div>
-      
+
       <div class="image-grid">
         <img src="https://picsum.photos/400/300?random=3" alt="Example 1">
         <img src="https://picsum.photos/400/300?random=4" alt="Example 2">
@@ -290,11 +415,23 @@
     <!-- Key Features -->
     <section>
       <h2>Key Features</h2>
-      <ul style="font-size: 1.1rem; line-height: 2;">
-        <li>✅ <strong>高准确率</strong>：在多个公开数据集上达到95%以上的准确率</li>
-        <li>✅ <strong>实时检测</strong>：处理速度达到30 FPS，满足实时应用需求</li>
-        <li>✅ <strong>鲁棒性强</strong>：对光照变化、遮挡等情况具有良好的适应性</li>
-        <li>✅ <strong>易于部署</strong>：轻量级模型设计，适合边缘设备部署</li>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <strong>✅ 高准确率</strong>
+          在多个公开数据集上达到95%以上的准确率
+        </li>
+        <li class="feature-item">
+          <strong>✅ 实时检测</strong>
+          处理速度达到30 FPS，满足实时应用需求
+        </li>
+        <li class="feature-item">
+          <strong>✅ 鲁棒性强</strong>
+          对光照变化、遮挡等情况具有良好的适应性
+        </li>
+        <li class="feature-item">
+          <strong>✅ 易于部署</strong>
+          轻量级模型设计，适合边缘设备部署
+        </li>
       </ul>
     </section>
 
@@ -303,7 +440,7 @@
       <h2>BibTeX</h2>
       <pre class="bibtex">@article{li2024fall,
   title={Fall detection algorithm based on global and local feature extraction},
-  author={Li, Bin and Li, Jiangqiao and Wang, Peng},
+  author={Li, Bin and Li, Jiangjiao and Wang, Peng},
   journal={Pattern Recognition Letters},
   year={2024},
   publisher={Elsevier}
@@ -313,10 +450,11 @@
     <!-- Acknowledgments -->
     <section>
       <h2>Acknowledgments</h2>
-      <p style="font-size: 1.05rem; line-height: 1.8;">
+      <p style="text-align: center; color: var(--text-secondary);">
         感谢所有参与数据收集和实验的志愿者。本研究得到了相关科研项目的支持。
       </p>
     </section>
   </div>
 </body>
+
 </html>
