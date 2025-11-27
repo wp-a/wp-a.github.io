@@ -237,14 +237,40 @@ function initSkillGalaxy() {
 }
 
 // --- 4. Visitor Globe (Globe.gl) ---
+// --- 4. Visitor Globe (Globe.gl) - Lazy Loaded ---
 function initVisitorGlobe() {
     const container = document.getElementById('visitor-globe');
     if (!container) return;
 
-    if (typeof Globe === 'undefined') {
-        console.warn('Globe.gl not loaded');
+    // 使用 IntersectionObserver 实现懒加载
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            loadGlobeScript();
+            observer.disconnect(); // 只加载一次
+        }
+    }, { threshold: 0.1 });
+
+    observer.observe(container);
+}
+
+function loadGlobeScript() {
+    if (typeof Globe !== 'undefined') {
+        renderGlobe();
         return;
     }
+
+    console.log('Lazy loading Globe.gl...');
+    const script = document.createElement('script');
+    script.src = '//unpkg.com/globe.gl';
+    script.onload = () => {
+        renderGlobe();
+    };
+    document.head.appendChild(script);
+}
+
+function renderGlobe() {
+    const container = document.getElementById('visitor-globe');
+    if (!container) return;
 
     // 生成一些随机数据模拟访客
     const N = 20;
@@ -282,13 +308,11 @@ function initVisitorGlobe() {
 
 // Initialize all
 document.addEventListener('DOMContentLoaded', () => {
-    // Load scripts dynamically if not present
-    // But ideally they should be in index.html
-
+    // 延迟执行，等待 jQuery 和 DOM 就绪
     setTimeout(() => {
         initNeuralBackground();
         initTerminal();
         initSkillGalaxy();
-        initVisitorGlobe();
-    }, 1000); // Delay to ensure libraries are loaded
+        initVisitorGlobe(); // 现在只是注册观察者
+    }, 1000);
 });

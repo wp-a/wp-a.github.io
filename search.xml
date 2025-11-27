@@ -134,6 +134,49 @@ class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--回溯算法</title>
+    <url>/2025/03/12day/</url>
+    <content><![CDATA[回溯
+组合
+题目链接：77. 组合
+
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result; // 存放符合条件结果的集合    vector&lt;int&gt; path; // 用来存放符合条件结果    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n; i++) &#123;            path.push_back(i); // 处理节点            backtracking(n, k, i + 1); // 递归            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        result.clear(); // 可以不写        path.clear();   // 可以不写        backtracking(n, k, 1);        return result;    &#125;&#125;;
+回溯剪枝
+剪枝的地方就在递归中每一层的for循环所选择的起始位置。
+如果for循环选择的起始位置之后的元素个数 已经不足 我们需要的元素个数了，那么就没有必要搜索了。
+
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result;    vector&lt;int&gt; path;    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n - (k - path.size()) + 1; i++) &#123; // 优化的地方            path.push_back(i); // 处理节点            backtracking(n, k, i + 1);            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        backtracking(n, k, 1);        return result;    &#125;&#125;;
+组合总和 III
+题目链接：216. 组合总和 III
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    int sum=0;    void track(int n,int k,int s)&#123;        if(an.size()==k &amp;&amp; sum==n)&#123;            ans.push_back(an);            return;        &#125;        if(sum&gt;n) return;        for(int i=s;i&lt;=9;i++)&#123;            an.push_back(i);            sum+=i;            track(n,k,i+1);            sum-=i;            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum3(int k, int n) &#123;        track(n,k,1);        return ans;    &#125;&#125;;
+电话号码的字母组合
+题目链接：17. 电话号码的字母组合
+class Solution &#123;private:    vector&lt;string&gt; ans; // 存储最终结果，字符串组合    string combination;   // 当前正在构建的字符串组合    string phoneMap[10] = &#123;&quot;&quot;, &quot;&quot;, &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;&#125;; // 电话号码数字到字母的映射    void backtracking(string digits, int index) &#123;        if (index == digits.size()) &#123; // 递归终止条件：当处理完所有数字时            ans.push_back(combination); // 将当前组合添加到结果集            return;        &#125;        char digitChar = digits[index]; // 获取当前处理的数字字符        int digitIndex = digitChar - &#x27;0&#x27;; // 将数字字符转换为整数索引 (0-9)        string letters = phoneMap[digitIndex]; // 获取数字对应的字母字符串        for (char letter : letters) &#123; // 遍历当前数字对应的每个字母            combination.push_back(letter); // 将当前字母添加到组合中            backtracking(digits, index + 1); // 递归处理下一个数字，索引 + 1            combination.pop_back(); // 回溯：移除最后一个添加的字母，尝试下一个字母        &#125;    &#125;public:    vector&lt;string&gt; letterCombinations(string digits) &#123;        ans.clear(); // 清空结果集        combination.clear(); // 清空当前组合        if (digits.empty()) &#123; // 如果输入 digits 为空，直接返回空结果集            return ans;        &#125;        backtracking(digits, 0); // 从 digits 的第一个数字开始回溯，索引从 0 开始        return ans;    &#125;&#125;;
+组合总和
+题目链接：39. 组合总和
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int startIndex)&#123;        if(target == 0)&#123;            ans.push_back(an);            return;        &#125;        if(target &lt; 0) return;        for(int i = startIndex; i &lt; candidates.size(); i++)&#123;            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i); // 注意这里是 i，允许重复使用同一元素            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) &#123;        ans.clear();        an.clear();        track(candidates, target, 0);        return ans;    &#125;&#125;;
+组合总和 II
+题目链接：40. 组合总和 II
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int inx) &#123;        if (target == 0) &#123;            ans.push_back(an);            return;        &#125;        if (target &lt; 0) return;        for (int i = inx; i &lt; candidates.size(); i++) &#123;            if (i &gt; inx &amp;&amp; candidates[i] == candidates[i - 1]) continue; // 如果该元素与左边元素相等，说明该搜索分支重复，直接跳过            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i + 1);             an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) &#123;        sort(candidates.begin(), candidates.end());        track(candidates, target, 0);        return ans;    &#125;&#125;;
+子集
+题目链接：78. 子集
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsets(vector&lt;int&gt;&amp; nums) &#123;        track(nums,0);        return ans;    &#125;&#125;;
+子集 II
+题目链接：90. 子集 II
+class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            if(i&gt;idx &amp;&amp; nums[i]==nums[i-1]) continue;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsetsWithDup(vector&lt;int&gt;&amp; nums) &#123;        sort(nums.begin(),nums.end());        track(nums,0);        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>递归</tag>
+        <tag>回溯</tag>
+        <tag>剪枝</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--图论</title>
     <url>/2025/03/13day/</url>
     <content><![CDATA[图论
@@ -216,49 +259,6 @@ class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;       
       <tags>
         <tag>数据结构与算法</tag>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--回溯算法</title>
-    <url>/2025/03/12day/</url>
-    <content><![CDATA[回溯
-组合
-题目链接：77. 组合
-
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result; // 存放符合条件结果的集合    vector&lt;int&gt; path; // 用来存放符合条件结果    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n; i++) &#123;            path.push_back(i); // 处理节点            backtracking(n, k, i + 1); // 递归            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        result.clear(); // 可以不写        path.clear();   // 可以不写        backtracking(n, k, 1);        return result;    &#125;&#125;;
-回溯剪枝
-剪枝的地方就在递归中每一层的for循环所选择的起始位置。
-如果for循环选择的起始位置之后的元素个数 已经不足 我们需要的元素个数了，那么就没有必要搜索了。
-
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; result;    vector&lt;int&gt; path;    void backtracking(int n, int k, int startIndex) &#123;        if (path.size() == k) &#123;            result.push_back(path);            return;        &#125;        for (int i = startIndex; i &lt;= n - (k - path.size()) + 1; i++) &#123; // 优化的地方            path.push_back(i); // 处理节点            backtracking(n, k, i + 1);            path.pop_back(); // 回溯，撤销处理的节点        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;        backtracking(n, k, 1);        return result;    &#125;&#125;;
-组合总和 III
-题目链接：216. 组合总和 III
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    int sum=0;    void track(int n,int k,int s)&#123;        if(an.size()==k &amp;&amp; sum==n)&#123;            ans.push_back(an);            return;        &#125;        if(sum&gt;n) return;        for(int i=s;i&lt;=9;i++)&#123;            an.push_back(i);            sum+=i;            track(n,k,i+1);            sum-=i;            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum3(int k, int n) &#123;        track(n,k,1);        return ans;    &#125;&#125;;
-电话号码的字母组合
-题目链接：17. 电话号码的字母组合
-class Solution &#123;private:    vector&lt;string&gt; ans; // 存储最终结果，字符串组合    string combination;   // 当前正在构建的字符串组合    string phoneMap[10] = &#123;&quot;&quot;, &quot;&quot;, &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;&#125;; // 电话号码数字到字母的映射    void backtracking(string digits, int index) &#123;        if (index == digits.size()) &#123; // 递归终止条件：当处理完所有数字时            ans.push_back(combination); // 将当前组合添加到结果集            return;        &#125;        char digitChar = digits[index]; // 获取当前处理的数字字符        int digitIndex = digitChar - &#x27;0&#x27;; // 将数字字符转换为整数索引 (0-9)        string letters = phoneMap[digitIndex]; // 获取数字对应的字母字符串        for (char letter : letters) &#123; // 遍历当前数字对应的每个字母            combination.push_back(letter); // 将当前字母添加到组合中            backtracking(digits, index + 1); // 递归处理下一个数字，索引 + 1            combination.pop_back(); // 回溯：移除最后一个添加的字母，尝试下一个字母        &#125;    &#125;public:    vector&lt;string&gt; letterCombinations(string digits) &#123;        ans.clear(); // 清空结果集        combination.clear(); // 清空当前组合        if (digits.empty()) &#123; // 如果输入 digits 为空，直接返回空结果集            return ans;        &#125;        backtracking(digits, 0); // 从 digits 的第一个数字开始回溯，索引从 0 开始        return ans;    &#125;&#125;;
-组合总和
-题目链接：39. 组合总和
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int startIndex)&#123;        if(target == 0)&#123;            ans.push_back(an);            return;        &#125;        if(target &lt; 0) return;        for(int i = startIndex; i &lt; candidates.size(); i++)&#123;            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i); // 注意这里是 i，允许重复使用同一元素            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) &#123;        ans.clear();        an.clear();        track(candidates, target, 0);        return ans;    &#125;&#125;;
-组合总和 II
-题目链接：40. 组合总和 II
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; candidates, int target, int inx) &#123;        if (target == 0) &#123;            ans.push_back(an);            return;        &#125;        if (target &lt; 0) return;        for (int i = inx; i &lt; candidates.size(); i++) &#123;            if (i &gt; inx &amp;&amp; candidates[i] == candidates[i - 1]) continue; // 如果该元素与左边元素相等，说明该搜索分支重复，直接跳过            an.push_back(candidates[i]);            track(candidates, target - candidates[i], i + 1);             an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) &#123;        sort(candidates.begin(), candidates.end());        track(candidates, target, 0);        return ans;    &#125;&#125;;
-子集
-题目链接：78. 子集
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsets(vector&lt;int&gt;&amp; nums) &#123;        track(nums,0);        return ans;    &#125;&#125;;
-子集 II
-题目链接：90. 子集 II
-class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&lt;int&gt; an;    void track(vector&lt;int&gt;&amp; nums,int idx)&#123;        int n=nums.size();        ans.push_back(an);        for(int i=idx;i&lt;n;i++)&#123;            if(i&gt;idx &amp;&amp; nums[i]==nums[i-1]) continue;            an.push_back(nums[i]);            track(nums,i+1);            an.pop_back();        &#125;    &#125;public:    vector&lt;vector&lt;int&gt;&gt; subsetsWithDup(vector&lt;int&gt;&amp; nums) &#123;        sort(nums.begin(),nums.end());        track(nums,0);        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>递归</tag>
-        <tag>回溯</tag>
-        <tag>剪枝</tag>
       </tags>
   </entry>
   <entry>
@@ -371,52 +371,6 @@ class Solution &#123;public:    vector&lt;int&gt; spiralArray(vector&lt;vector&l
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--哈希表</title>
-    <url>/2025/02/6day/</url>
-    <content><![CDATA[哈希表
-​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
-四数相加Ⅱ
-题目链接：454. 四数相加 II
-题目思路：我刚开始的思路是for四次，但是算了一下，可能有点超时，然后就直接看题解了。将四个数组两两分成一组进行处理，时间复杂度就是O(n*n)。
-
-首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
-遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
-定义int变量count，用来统计 a+b+c+d = 0 出现的次数。
-再遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
-最后返回统计值 count 就可以了
-
-class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        unordered_map&lt;int,int&gt; umap;        for(int a : nums1) for(int b:nums2) umap[a+b]++;        int count=0;        for(int c:nums3) for(int d:nums4) if(umap.find(0-(c+d))!=umap.end()) count+=umap[0-(c+d)];        return count;    &#125;&#125;;
-救赎金
-题目链接：383. 赎金信
-题目思路：秒了，这和 242. 有效的字母异位词 几乎差不多。
-class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int n=magazine.size(),m=ransomNote.size();        int j[26]=&#123;0&#125;;        for(int i=0;i&lt;n;i++) j[magazine[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) j[ransomNote[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(j[i]&lt;0) return false;         return true;    &#125;&#125;;
-三数之和
-题目链接：15. 三数之和
-题目思路1：感觉这题最不好处理的地方就是去重。三次循环，意料之中的超时了，当锻炼一下代码熟练度了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                for(int k=j+1;k&lt;nums.size();k++)                &#123;                    if((nums[i]+nums[j]+nums[k])==0)                     result.push_back(&#123;nums[i], nums[j], nums[k]&#125;);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
-题目思路2：改了一下上一种方法，用哈希表进行处理。虽然可以通过，但是还是很慢。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            if (nums[i] &gt; 0) break;            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;            unordered_set&lt;int&gt; set;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                int target = 0 - (nums[i] + nums[j]);                if (set.find(target) != set.end()) &#123;                    result.push_back(&#123;nums[i], target, nums[j]&#125;);                       set.erase(target);                &#125;                else &#123;                    set.insert(nums[j]);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
-双指针：代码随想录的那个代码，感觉很多地方可以优化，所以就去找了一个优化完的代码。首先先将数组排序，我们只需要输出加和等于0的元素就可以，不用管次序。排序之后就可以从两端开始操作了，先创造一个大循环，用来固定住第一个数，然后再用双指针取操作另外两个数。
-优化一：当最小的三个数的和大于0时，就可以直接退出循环了。
-优化二：当最大的两个数加最小的那个数，还是小于0，就可以向前移动到再大的数了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        ranges::sort(nums);        vector&lt;vector&lt;int&gt;&gt; ans;        int n = nums.size();        for (int i = 0; i &lt; n - 2; i++) &#123;            int x = nums[i];            if (i &amp;&amp; x == nums[i - 1]) continue; // 跳过重复数字            if (x + nums[i + 1] + nums[i + 2] &gt; 0) break; // 优化一            if (x + nums[n - 2] + nums[n - 1] &lt; 0) continue; // 优化二            int j = i + 1, k = n - 1;            while (j &lt; k) &#123;                int s = x + nums[j] + nums[k];                if (s &gt; 0) &#123;                    k--;                &#125; else if (s &lt; 0) &#123;                    j++;                &#125; else &#123; // 三数之和为 0                    ans.push_back(&#123;x, nums[j], nums[k]&#125;);                    for (j++; j &lt; k &amp;&amp; nums[j] == nums[j - 1]; j++); // 跳过重复数字                    for (k--; k &gt; j &amp;&amp; nums[k] == nums[k + 1]; k--); // 跳过重复数字                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
-四数之和
-题目链接：18. 四数之和
-我的思路：做了半个小时，好几个小问题，思路和上一题一样，用同样的方法，只不过多了一层循环，需要多判断一下重复条件，那几个相加超范围不太会如何处理，chatgpt让它给的方案。看了一下代码随想录的思路，差不多，它加了两行剪枝代码，但是它的代码性能有点慢，加了也不如我的这个性能高，我也在代码中加上了那两行剪枝代码。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) &#123;        int n=nums.size();        sort(nums.begin(),nums.end());        vector&lt;vector&lt;int&gt;&gt; ans;        for(int i=0;i&lt;n-3;i++)            if(i&gt;0 &amp;&amp; nums[i]==nums[i-1]) continue;            if (nums[i] &gt; target &amp;&amp; nums[i] &gt;= 0) break; //             for(int j=i+1;j&lt;n-2;j++)            &#123;                if(j&gt;i+1 &amp;&amp; nums[j]==nums[j-1]) continue;                if(nums[i]+nums[j] &gt; target &amp;&amp; nums[i]+nums[j] &gt;= 0) break; //                int c=j+1,d=n-1;                if((long long)nums[i]+nums[j]+nums[j+1]+nums[j+2]&gt;target) break;                if((long long)nums[i]+nums[j]+nums[n-1]+nums[n-2]&lt;target) continue;                while(c&lt;d)&#123;                    long long sum=(long long)nums[i]+nums[j]+nums[c]+nums[d];                    if(sum&gt;target) d--;                    else if(sum&lt;target) c++;                    else&#123;                        ans.push_back(vector&lt;int&gt; &#123;nums[i],nums[j],nums[c],nums[d]&#125;);                        while(c&lt;d &amp;&amp; nums[c]==nums[c+1]) c++;                        while(c&lt;d &amp;&amp; nums[d]==nums[d-1]) d--;                        c++;                        d--;                    &#125;                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>双指针</tag>
-        <tag>哈希表</tag>
-        <tag>map</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--链表</title>
     <url>/2025/01/3day/</url>
     <content><![CDATA[链表基础
@@ -513,6 +467,70 @@ class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;    
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--哈希表</title>
+    <url>/2025/02/5day/</url>
+    <content><![CDATA[哈希表
+​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
+有效的字母异位词
+题目链接：242. 有效的字母异位词
+题目描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的 字母异位词。
+题目思路：创建一个哈希表，表长为26，哈希函数采用直接定址法，都不用处理冲突，还是比较简单的。直接排序，看是否两个数组相等应该也可以吧。
+class Solution &#123;public:    bool isAnagram(string s, string t) &#123;        int n=s.size(),m=t.size(),q[26]=&#123;0&#125;;        if(m!=n) return false;        for(int i=0;i&lt;n;i++) q[s[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) q[t[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(q[i]!=0) return false;        return true;    &#125;&#125;;
+两个数组的交集
+题目链接：349. 两个数组的交集
+题目描述：给定两个数组 nums1 和 nums2 ，返回它们的交集。输出结果中的每个元素一定是 唯一 的。
+我的思路：感觉自己写的这个代码和屎一样，又臭又长，一点也不优雅。首先循环nums1数组，将出现的元素在s[]的位置变为1，然后再遍历第二个数组，如果出现和第一个数组相同的元素，则t[]对应位置变为1，再将这些位置存到一个新数组中，记录数组长度，然后构建一个正好长度的新数组，返回这个数组。
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        int n=nums1.size(),m=nums2.size();        int s[1001]=&#123;0&#125;,t[1001]=&#123;-1&#125;,num=0,u=1001;        for(int i=0;i&lt;n;i++) s[nums1[i]]=1;        for(int i=0;i&lt;m;i++) if(s[nums2[i]]==1) t[nums2[i]]=1;        vector&lt;int&gt; r(u);        for(int i=0;i&lt;1001;i++)        &#123;            if(t[i]&gt;0)&#123;r[num]=i;            num++;            &#125;        &#125;        vector&lt;int&gt; v(num);        for(int i=0;i&lt;num;i++) v[i]=r[i];        return v;    &#125;&#125;;
+代码随想录题解：太高级了，看都看不懂，特意搜了一下这几个函数的用法。
+​	使用 unordered_set&lt;int&gt; result 来存储交集，这样可以自动去重，只保留一个 nums2 中与 nums1 相同的元素。
+set1.find(num)：
+
+find 是 unordered_set 提供的一个成员函数，用于查找一个元素。如果元素存在，它会返回指向该元素的迭代器；如果元素不存在，它会返回指向 set1.end() 的迭代器。
+
+set1.end()：
+
+set1.end() 返回的是一个指向 set1 容器最后一个元素之后的位置的迭代器。它并不是容器中的一个有效元素，表示容器的末尾。
+
+set1.find(num) != set1.end()：
+
+如果 find(num) 返回的迭代器与 set1.end() 不同，说明 num 存在于 set1 中。
+如果 find(num) 返回的迭代器等于 set1.end()，说明 num 不存在于 set1 中。
+
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         unordered_set&lt;int&gt; nums_set(nums1.begin(), nums1.end());        for (int num : nums2) &#123;            if (nums_set.find(num) != nums_set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
+class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         int hash[1005] = &#123;0&#125;;         for (int num : nums1) &#123;             hash[num] = 1;        &#125;        for (int num : nums2) &#123;             if (hash[num] == 1) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
+快乐数
+题目链接：202. 快乐数
+我的思路：我就随便试一下，就直接过了，因为不知道停止条件，所以直接设了个100次，性能还很高。
+class Solution &#123;public:    bool isHappy(int n) &#123;        for(int j=0;j&lt;100;j++)        &#123;            int num=0,t;            while(n&gt;0)            &#123;t=n%10;            n=n/10;            num=num+t*t;            &#125;            n=num;            if(n==1) return true;        &#125;        return false;    &#125;&#125;;
+代码随想录：题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！
+class Solution &#123;public:    // 取数值各个位上的单数之和    int getSum(int n) &#123;        int sum = 0;        while (n) &#123;            sum += (n % 10) * (n % 10);            n /= 10;        &#125;        return sum;    &#125;    bool isHappy(int n) &#123;        unordered_set&lt;int&gt; set;        while(1) &#123;            int sum = getSum(n);            if (sum == 1) &#123;                return true;            &#125;            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false            if (set.find(sum) != set.end()) &#123;                return false;            &#125; else &#123;                set.insert(sum);            &#125;            n = sum;        &#125;    &#125;&#125;;
+两数之和
+题目链接：1. 两数之和
+暴力解法：我直接先用暴力解写了一下,比较简单。
+class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;         int n=nums.size();        for(int i=0;i&lt;n;i++)        &#123;            for(int j=i+1;j&lt;n;j++)            &#123;                if((nums[i]+nums[j])==target)                 &#123;                    return &#123;i,j&#125;;                &#125;            &#125;        &#125;        return &#123;&#125;;    &#125;&#125;;
+哈希解法：思路还是挺好想的，但是代码不太会实现，不太熟练，自己写了一半，发现很多操作不会表达。直接贴一份代码随想录的代码。
+
+数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
+set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
+
+​	此时就要选择另一种数据结构：map ，map是一种key value的存储结构，可以用key保存数值，用value再保存数值所在的下标。
+map中的存储结构为 {key：数据元素，value：数组元素对应的下标}。
+auto 是 C++11 引入的 类型自动推导（Type Inference） 关键字，编译器会根据变量的 初始化值 自动推导出其数据类型，而无需手动声明类型。
+class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        std::unordered_map &lt;int,int&gt; map;        for(int i = 0; i &lt; nums.size(); i++) &#123;            // 遍历当前元素，并在map中寻找是否有匹配的key            auto iter = map.find(target - nums[i]);             if(iter != map.end()) &#123;                return &#123;iter-&gt;second, i&#125;;            &#125;            // 如果没找到匹配对，就把访问过的元素和下标加入到map中            map.insert(pair&lt;int, int&gt;(nums[i], i));         &#125;        return &#123;&#125;;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>哈希表</tag>
+        <tag>查找</tag>
+        <tag>set</tag>
+        <tag>map</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--字符串</title>
     <url>/2025/02/7day/</url>
     <content><![CDATA[字符串
@@ -573,103 +591,39 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/9day/</url>
-    <content><![CDATA[二叉树前中后序遍历
-二叉树定义
-struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
-二叉树的前序遍历
-题目链接：144. 二叉树的前序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
-
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
-统一迭代法
-每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的中序遍历
-题目链接：94. 二叉树的中序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
-
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
-统一迭代法
-
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的后序遍历
-题目链接：145. 二叉树的后序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
-迭代遍历
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
-统一迭代法
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--哈希表</title>
-    <url>/2025/02/5day/</url>
+    <url>/2025/02/6day/</url>
     <content><![CDATA[哈希表
-​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
-有效的字母异位词
-题目链接：242. 有效的字母异位词
-题目描述：给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的 字母异位词。
-题目思路：创建一个哈希表，表长为26，哈希函数采用直接定址法，都不用处理冲突，还是比较简单的。直接排序，看是否两个数组相等应该也可以吧。
-class Solution &#123;public:    bool isAnagram(string s, string t) &#123;        int n=s.size(),m=t.size(),q[26]=&#123;0&#125;;        if(m!=n) return false;        for(int i=0;i&lt;n;i++) q[s[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) q[t[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(q[i]!=0) return false;        return true;    &#125;&#125;;
-两个数组的交集
-题目链接：349. 两个数组的交集
-题目描述：给定两个数组 nums1 和 nums2 ，返回它们的交集。输出结果中的每个元素一定是 唯一 的。
-我的思路：感觉自己写的这个代码和屎一样，又臭又长，一点也不优雅。首先循环nums1数组，将出现的元素在s[]的位置变为1，然后再遍历第二个数组，如果出现和第一个数组相同的元素，则t[]对应位置变为1，再将这些位置存到一个新数组中，记录数组长度，然后构建一个正好长度的新数组，返回这个数组。
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        int n=nums1.size(),m=nums2.size();        int s[1001]=&#123;0&#125;,t[1001]=&#123;-1&#125;,num=0,u=1001;        for(int i=0;i&lt;n;i++) s[nums1[i]]=1;        for(int i=0;i&lt;m;i++) if(s[nums2[i]]==1) t[nums2[i]]=1;        vector&lt;int&gt; r(u);        for(int i=0;i&lt;1001;i++)        &#123;            if(t[i]&gt;0)&#123;r[num]=i;            num++;            &#125;        &#125;        vector&lt;int&gt; v(num);        for(int i=0;i&lt;num;i++) v[i]=r[i];        return v;    &#125;&#125;;
-代码随想录题解：太高级了，看都看不懂，特意搜了一下这几个函数的用法。
-​	使用 unordered_set&lt;int&gt; result 来存储交集，这样可以自动去重，只保留一个 nums2 中与 nums1 相同的元素。
-set1.find(num)：
+​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
+四数相加Ⅱ
+题目链接：454. 四数相加 II
+题目思路：我刚开始的思路是for四次，但是算了一下，可能有点超时，然后就直接看题解了。将四个数组两两分成一组进行处理，时间复杂度就是O(n*n)。
 
-find 是 unordered_set 提供的一个成员函数，用于查找一个元素。如果元素存在，它会返回指向该元素的迭代器；如果元素不存在，它会返回指向 set1.end() 的迭代器。
+首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
+遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
+定义int变量count，用来统计 a+b+c+d = 0 出现的次数。
+再遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
+最后返回统计值 count 就可以了
 
-set1.end()：
-
-set1.end() 返回的是一个指向 set1 容器最后一个元素之后的位置的迭代器。它并不是容器中的一个有效元素，表示容器的末尾。
-
-set1.find(num) != set1.end()：
-
-如果 find(num) 返回的迭代器与 set1.end() 不同，说明 num 存在于 set1 中。
-如果 find(num) 返回的迭代器等于 set1.end()，说明 num 不存在于 set1 中。
-
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         unordered_set&lt;int&gt; nums_set(nums1.begin(), nums1.end());        for (int num : nums2) &#123;            if (nums_set.find(num) != nums_set.end()) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
-class Solution &#123;public:    vector&lt;int&gt; intersection(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;        unordered_set&lt;int&gt; result_set;         int hash[1005] = &#123;0&#125;;         for (int num : nums1) &#123;             hash[num] = 1;        &#125;        for (int num : nums2) &#123;             if (hash[num] == 1) &#123;                result_set.insert(num);            &#125;        &#125;        return vector&lt;int&gt;(result_set.begin(), result_set.end());    &#125;&#125;;
-快乐数
-题目链接：202. 快乐数
-我的思路：我就随便试一下，就直接过了，因为不知道停止条件，所以直接设了个100次，性能还很高。
-class Solution &#123;public:    bool isHappy(int n) &#123;        for(int j=0;j&lt;100;j++)        &#123;            int num=0,t;            while(n&gt;0)            &#123;t=n%10;            n=n/10;            num=num+t*t;            &#125;            n=num;            if(n==1) return true;        &#125;        return false;    &#125;&#125;;
-代码随想录：题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！
-class Solution &#123;public:    // 取数值各个位上的单数之和    int getSum(int n) &#123;        int sum = 0;        while (n) &#123;            sum += (n % 10) * (n % 10);            n /= 10;        &#125;        return sum;    &#125;    bool isHappy(int n) &#123;        unordered_set&lt;int&gt; set;        while(1) &#123;            int sum = getSum(n);            if (sum == 1) &#123;                return true;            &#125;            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false            if (set.find(sum) != set.end()) &#123;                return false;            &#125; else &#123;                set.insert(sum);            &#125;            n = sum;        &#125;    &#125;&#125;;
-两数之和
-题目链接：1. 两数之和
-暴力解法：我直接先用暴力解写了一下,比较简单。
-class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;         int n=nums.size();        for(int i=0;i&lt;n;i++)        &#123;            for(int j=i+1;j&lt;n;j++)            &#123;                if((nums[i]+nums[j])==target)                 &#123;                    return &#123;i,j&#125;;                &#125;            &#125;        &#125;        return &#123;&#125;;    &#125;&#125;;
-哈希解法：思路还是挺好想的，但是代码不太会实现，不太熟练，自己写了一半，发现很多操作不会表达。直接贴一份代码随想录的代码。
-
-数组的大小是受限制的，而且如果元素很少，而哈希值太大会造成内存空间的浪费。
-set是一个集合，里面放的元素只能是一个key，而两数之和这道题目，不仅要判断y是否存在而且还要记录y的下标位置，因为要返回x 和 y的下标。所以set 也不能用。
-
-​	此时就要选择另一种数据结构：map ，map是一种key value的存储结构，可以用key保存数值，用value再保存数值所在的下标。
-map中的存储结构为 {key：数据元素，value：数组元素对应的下标}。
-auto 是 C++11 引入的 类型自动推导（Type Inference） 关键字，编译器会根据变量的 初始化值 自动推导出其数据类型，而无需手动声明类型。
-class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        std::unordered_map &lt;int,int&gt; map;        for(int i = 0; i &lt; nums.size(); i++) &#123;            // 遍历当前元素，并在map中寻找是否有匹配的key            auto iter = map.find(target - nums[i]);             if(iter != map.end()) &#123;                return &#123;iter-&gt;second, i&#125;;            &#125;            // 如果没找到匹配对，就把访问过的元素和下标加入到map中            map.insert(pair&lt;int, int&gt;(nums[i], i));         &#125;        return &#123;&#125;;    &#125;&#125;;
+class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        unordered_map&lt;int,int&gt; umap;        for(int a : nums1) for(int b:nums2) umap[a+b]++;        int count=0;        for(int c:nums3) for(int d:nums4) if(umap.find(0-(c+d))!=umap.end()) count+=umap[0-(c+d)];        return count;    &#125;&#125;;
+救赎金
+题目链接：383. 赎金信
+题目思路：秒了，这和 242. 有效的字母异位词 几乎差不多。
+class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int n=magazine.size(),m=ransomNote.size();        int j[26]=&#123;0&#125;;        for(int i=0;i&lt;n;i++) j[magazine[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) j[ransomNote[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(j[i]&lt;0) return false;         return true;    &#125;&#125;;
+三数之和
+题目链接：15. 三数之和
+题目思路1：感觉这题最不好处理的地方就是去重。三次循环，意料之中的超时了，当锻炼一下代码熟练度了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                for(int k=j+1;k&lt;nums.size();k++)                &#123;                    if((nums[i]+nums[j]+nums[k])==0)                     result.push_back(&#123;nums[i], nums[j], nums[k]&#125;);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
+题目思路2：改了一下上一种方法，用哈希表进行处理。虽然可以通过，但是还是很慢。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            if (nums[i] &gt; 0) break;            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;            unordered_set&lt;int&gt; set;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                int target = 0 - (nums[i] + nums[j]);                if (set.find(target) != set.end()) &#123;                    result.push_back(&#123;nums[i], target, nums[j]&#125;);                       set.erase(target);                &#125;                else &#123;                    set.insert(nums[j]);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
+双指针：代码随想录的那个代码，感觉很多地方可以优化，所以就去找了一个优化完的代码。首先先将数组排序，我们只需要输出加和等于0的元素就可以，不用管次序。排序之后就可以从两端开始操作了，先创造一个大循环，用来固定住第一个数，然后再用双指针取操作另外两个数。
+优化一：当最小的三个数的和大于0时，就可以直接退出循环了。
+优化二：当最大的两个数加最小的那个数，还是小于0，就可以向前移动到再大的数了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        ranges::sort(nums);        vector&lt;vector&lt;int&gt;&gt; ans;        int n = nums.size();        for (int i = 0; i &lt; n - 2; i++) &#123;            int x = nums[i];            if (i &amp;&amp; x == nums[i - 1]) continue; // 跳过重复数字            if (x + nums[i + 1] + nums[i + 2] &gt; 0) break; // 优化一            if (x + nums[n - 2] + nums[n - 1] &lt; 0) continue; // 优化二            int j = i + 1, k = n - 1;            while (j &lt; k) &#123;                int s = x + nums[j] + nums[k];                if (s &gt; 0) &#123;                    k--;                &#125; else if (s &lt; 0) &#123;                    j++;                &#125; else &#123; // 三数之和为 0                    ans.push_back(&#123;x, nums[j], nums[k]&#125;);                    for (j++; j &lt; k &amp;&amp; nums[j] == nums[j - 1]; j++); // 跳过重复数字                    for (k--; k &gt; j &amp;&amp; nums[k] == nums[k + 1]; k--); // 跳过重复数字                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
+四数之和
+题目链接：18. 四数之和
+我的思路：做了半个小时，好几个小问题，思路和上一题一样，用同样的方法，只不过多了一层循环，需要多判断一下重复条件，那几个相加超范围不太会如何处理，chatgpt让它给的方案。看了一下代码随想录的思路，差不多，它加了两行剪枝代码，但是它的代码性能有点慢，加了也不如我的这个性能高，我也在代码中加上了那两行剪枝代码。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) &#123;        int n=nums.size();        sort(nums.begin(),nums.end());        vector&lt;vector&lt;int&gt;&gt; ans;        for(int i=0;i&lt;n-3;i++)            if(i&gt;0 &amp;&amp; nums[i]==nums[i-1]) continue;            if (nums[i] &gt; target &amp;&amp; nums[i] &gt;= 0) break; //             for(int j=i+1;j&lt;n-2;j++)            &#123;                if(j&gt;i+1 &amp;&amp; nums[j]==nums[j-1]) continue;                if(nums[i]+nums[j] &gt; target &amp;&amp; nums[i]+nums[j] &gt;= 0) break; //                int c=j+1,d=n-1;                if((long long)nums[i]+nums[j]+nums[j+1]+nums[j+2]&gt;target) break;                if((long long)nums[i]+nums[j]+nums[n-1]+nums[n-2]&lt;target) continue;                while(c&lt;d)&#123;                    long long sum=(long long)nums[i]+nums[j]+nums[c]+nums[d];                    if(sum&gt;target) d--;                    else if(sum&lt;target) c++;                    else&#123;                        ans.push_back(vector&lt;int&gt; &#123;nums[i],nums[j],nums[c],nums[d]&#125;);                        while(c&lt;d &amp;&amp; nums[c]==nums[c+1]) c++;                        while(c&lt;d &amp;&amp; nums[d]==nums[d-1]) d--;                        c++;                        d--;                    &#125;                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
@@ -677,10 +631,9 @@ class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; 
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
+        <tag>双指针</tag>
         <tag>哈希表</tag>
         <tag>map</tag>
-        <tag>查找</tag>
-        <tag>set</tag>
       </tags>
   </entry>
   <entry>
@@ -863,6 +816,53 @@ class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    pub
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/9day/</url>
+    <content><![CDATA[二叉树前中后序遍历
+二叉树定义
+struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
+二叉树的前序遍历
+题目链接：144. 二叉树的前序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
+
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
+统一迭代法
+每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的中序遍历
+题目链接：94. 二叉树的中序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
+
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
+统一迭代法
+
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的后序遍历
+题目链接：145. 二叉树的后序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
+迭代遍历
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
+统一迭代法
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
       </tags>
   </entry>
   <entry>
@@ -2237,212 +2237,6 @@ $$
       </tags>
   </entry>
   <entry>
-    <title>Mamba详解 - 选择性状态空间模型精读</title>
-    <url>/2025/11/Mamba/</url>
-    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
-论文地址：https://arxiv.org/pdf/2312.00752
-代码地址：https://github.com/state-spaces/mamba
-引言
-Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
-Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
-背景知识：状态空间模型（SSM）与S4
-连续与离散SSM
-连续时间SSM：
-$$
-\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
-$$
-离散化后：
-$$
-x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
-$$
-其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
-S4的关键思想
-
-通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
-使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
-优点：理论稳定、长依赖强；
-局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
-
-Mamba的核心创新
-
-
-选择性扫描（Selective Scan）：
-
-令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
-避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
-
-
-
-输入条件化的SSM参数化：
-
-将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
-结合高效实现，使其仍保持线性复杂度。
-
-
-
-GPU友好的实现与块并行：
-
-通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
-内存访问模式优化，显著提升吞吐。
-
-
-
-端到端可训练的稳定性：
-
-对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
-
-
-
-模型架构
-典型的 Mamba Block 包含：
-
-输入投影与门控（选择性）
-选择性SSM扫描（线性复杂度）
-前馈网络（MLP/GEGLU）
-残差连接与归一化
-
-流程示意：
-X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
-相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
-选择性扫描（Selective Scan）要点
-
-将序列划分为若干块（blocks），每块内部执行线性递推扫描；
-记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
-通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
-与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
-
-复杂度与性能
-
-时间复杂度：$O(N)$ 随序列长度线性；
-空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
-对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
-在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
-
-训练与实践
-
-优化器：AdamW；学习率余弦退火；warmup数千步；
-正则：Dropout/Stochastic Depth 按深度线性增长；
-初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
-长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
-
-与Transformer/Conv的比较
-
-
-
-方向
-Transformer
-ConvNet
-Mamba（SSM）
-
-
-
-
-复杂度
-O(N^2)
-O(N)
-O(N)
-
-
-长距离依赖
-强（显式全连接）
-弱-中
-强（稳定递推核）
-
-
-并行性
-训练强/推理弱（自回归）
-强
-强（块并行扫描）
-
-
-归纳偏置
-弱
-强（局部）
-中（递推+选择性）
-
-
-适用场景
-通用
-局部模式
-超长序列/低时延
-
-
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
-
-注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
-
-实验要点与经验
-
-序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
-批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
-任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
-可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
-
-优缺点
-优点
-
-线性复杂度，适合超长序列与端侧低时延应用；
-选择性门控使得对稀疏/非稳态事件更敏感；
-GPU友好实现，训练/推理吞吐高；
-理论上可与注意力/卷积并行或互补，形成混合结构。
-
-缺点
-
-对全局两两交互的显式建模不如注意力直观；
-超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
-在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
-
-相关与后续工作
-
-S4/S5：结构化SSM与其后续改进；
-MambaOut：面向视觉分类的实用化改造；
-Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
-混合架构：SSM + Attention/Conv的多路并行。
-
-参考文献
-
-
-Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
-
-
-Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
-
-
-Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
-
-
-Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
-
-
-思考题
-
-为什么选择性扫描能在保持线性复杂度的同时提升表达力？
-如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
-在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
-针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
-
-思考题答案
-
-选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
-采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
-可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
-提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>序列建模</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>Mamba</tag>
-        <tag>SSM</tag>
-        <tag>序列建模</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MambaOut</title>
     <url>/2025/09/MambaOut/</url>
     <content><![CDATA[MambaOut
@@ -2796,6 +2590,212 @@ ViT: An Image is Worth 16x16 Words (ICLR 2021)
       <tags>
         <tag>论文精读</tag>
         <tag>Mamba</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mamba详解 - 选择性状态空间模型精读</title>
+    <url>/2025/11/Mamba/</url>
+    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
+论文地址：https://arxiv.org/pdf/2312.00752
+代码地址：https://github.com/state-spaces/mamba
+引言
+Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
+Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
+背景知识：状态空间模型（SSM）与S4
+连续与离散SSM
+连续时间SSM：
+$$
+\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+$$
+离散化后：
+$$
+x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+$$
+其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
+S4的关键思想
+
+通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
+使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
+优点：理论稳定、长依赖强；
+局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
+
+Mamba的核心创新
+
+
+选择性扫描（Selective Scan）：
+
+令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
+避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
+
+
+
+输入条件化的SSM参数化：
+
+将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
+结合高效实现，使其仍保持线性复杂度。
+
+
+
+GPU友好的实现与块并行：
+
+通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
+内存访问模式优化，显著提升吞吐。
+
+
+
+端到端可训练的稳定性：
+
+对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
+
+
+
+模型架构
+典型的 Mamba Block 包含：
+
+输入投影与门控（选择性）
+选择性SSM扫描（线性复杂度）
+前馈网络（MLP/GEGLU）
+残差连接与归一化
+
+流程示意：
+X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
+相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
+选择性扫描（Selective Scan）要点
+
+将序列划分为若干块（blocks），每块内部执行线性递推扫描；
+记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
+通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
+与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
+
+复杂度与性能
+
+时间复杂度：$O(N)$ 随序列长度线性；
+空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
+对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
+在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
+
+训练与实践
+
+优化器：AdamW；学习率余弦退火；warmup数千步；
+正则：Dropout/Stochastic Depth 按深度线性增长；
+初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
+长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
+
+与Transformer/Conv的比较
+
+
+
+方向
+Transformer
+ConvNet
+Mamba（SSM）
+
+
+
+
+复杂度
+O(N^2)
+O(N)
+O(N)
+
+
+长距离依赖
+强（显式全连接）
+弱-中
+强（稳定递推核）
+
+
+并行性
+训练强/推理弱（自回归）
+强
+强（块并行扫描）
+
+
+归纳偏置
+弱
+强（局部）
+中（递推+选择性）
+
+
+适用场景
+通用
+局部模式
+超长序列/低时延
+
+
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
+
+注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
+
+实验要点与经验
+
+序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
+批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
+任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
+可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
+
+优缺点
+优点
+
+线性复杂度，适合超长序列与端侧低时延应用；
+选择性门控使得对稀疏/非稳态事件更敏感；
+GPU友好实现，训练/推理吞吐高；
+理论上可与注意力/卷积并行或互补，形成混合结构。
+
+缺点
+
+对全局两两交互的显式建模不如注意力直观；
+超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
+在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
+
+相关与后续工作
+
+S4/S5：结构化SSM与其后续改进；
+MambaOut：面向视觉分类的实用化改造；
+Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
+混合架构：SSM + Attention/Conv的多路并行。
+
+参考文献
+
+
+Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
+
+
+Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
+
+
+Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
+
+
+Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
+
+
+思考题
+
+为什么选择性扫描能在保持线性复杂度的同时提升表达力？
+如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
+在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
+针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
+
+思考题答案
+
+选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
+采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
+可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
+提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>序列建模</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+        <tag>SSM</tag>
+        <tag>序列建模</tag>
       </tags>
   </entry>
   <entry>
@@ -3409,8 +3409,8 @@ reserve(n)
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>map</tag>
         <tag>set</tag>
+        <tag>map</tag>
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
@@ -3419,6 +3419,28 @@ reserve(n)
         <tag>string</tag>
         <tag>algorithm</tag>
         <tag>priority_queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -3476,31 +3498,92 @@ reserve(n)
       <tags>
         <tag>数据结构与算法</tag>
         <tag>数组</tag>
-        <tag>哈希表</tag>
         <tag>链表</tag>
+        <tag>哈希表</tag>
         <tag>查找</tag>
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+    <title>基础知识--回溯算法</title>
+    <url>/2025/03/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[回溯算法
+​	回溯算法 是一种通过试错的方式寻找问题解的算法。它尝试逐步构建解决方案，如果在构建过程中的某一步发现当前的构建方案不可行，它会回溯（即取消最近一步的选择），然后尝试其他的可能性。这个过程就像是在迷宫中探索路径，当遇到死路时就退回上一个岔路口，选择另一条路继续前进。
+核心思想
+
+试探性选择:  在每一步，都面临多个选择，回溯算法会先选择其中一个进行尝试。
+逐步构建:  它一步一步地构建可能的解。
+可行性判断 (约束条件): 在每一步构建后，都会检查当前的部分解是否满足问题的约束条件。
+回溯 (撤销选择): 如果发现当前部分解不可行，则撤销上一步的选择，回到之前的状态，并尝试其他的选择。
+终止条件: 当找到一个完整的可行解，或者当所有可能的选择都尝试完毕且没有找到解时，算法终止。
+
+基本步骤
 
 
+定义问题的解空间： 确定问题的解可能存在的所有可能组合。例如，对于一个排列问题，解空间就是所有可能的排列。
+
+
+确定约束条件：  定义问题解必须满足的条件。这些条件用于判断当前构建的部分解是否有效。
+
+
+选择搜索策略 (通常是深度优先搜索 DFS)：  回溯算法通常使用深度优先搜索的方式来遍历解空间。
+
+
+设计递归函数 (或迭代方式模拟递归)：
+递归函数是实现回溯算法的关键。该函数通常包含以下几个部分：
+
+基本情况 (终止条件)：  判断是否找到了一个完整的解，或者是否已经遍历完所有可能性但没有找到解。
+选择步骤：  在当前状态下，有哪些选择可以进行？
+扩展状态：  对于每个选择，更新状态，并递归调用自身进入下一层搜索。
+回溯步骤：  在递归调用返回后，需要撤销当前的选择，恢复到之前的状态，以便尝试其他的选择。
+
+
+
+剪枝优化 (可选但重要)：  在搜索过程中，如果发现某个部分解已经不可能导致最终解，可以提前结束对该分支的搜索，以提高效率。这称为剪枝。
+
+
+应用示例
+回溯算法可以应用于解决许多经典问题，包括但不限于：
+
+组合问题：
+
+组合总和 (Combination Sum):  在一个数字集合中找到所有和为目标值的组合。
+子集 (Subsets):  找出给定集合的所有子集。
+电话号码的字母组合 (Letter Combinations of a Phone Number):  给定数字字符串，返回所有可能的字母组合。
+
+
+排列问题：
+
+全排列 (Permutations):  生成给定集合的所有排列。
+下一个排列 (Next Permutation):  找到给定排列的下一个字典序排列。
+
+
+图论问题：
+
+N 皇后问题 (N-Queens Problem):  在 NxN 的棋盘上放置 N 个皇后，使其互不攻击。
+数独 (Sudoku Solver):  解决数独谜题。
+迷宫寻路 (Maze Solving):  找到迷宫的路径。
+图的着色问题 (Graph Coloring):  给图的顶点着色，使得相邻顶点颜色不同。
+旅行商问题 (Traveling Salesman Problem - TSP) (近似解或小规模问题)：  虽然TSP通常使用更优化的算法，但在小规模情况下，回溯可以找到解。
+
+
+其他问题：
+
+0-1 背包问题 (0-1 Knapsack Problem)：  虽然动态规划更常用，但回溯也可以解决。
+正则表达式匹配 (Regular Expression Matching) (某些情况)：  复杂的正则表达式匹配问题可以使用回溯解决。
+解方程 (Solving Equations) (某些类型)：  例如，约束满足问题 (Constraint Satisfaction Problems - CSPs)。
+
+
+
+回溯算法模板
+回溯法其实就是暴力查找，回溯法解决的问题都可以抽象为树形结构（N叉树）。
+void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果;        return;    &#125;    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) &#123;        处理节点;        backtracking(路径，选择列表); // 递归        回溯，撤销处理结果    &#125;&#125;
 ]]></content>
       <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
+        <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
+        <tag>数据结构与算法</tag>
+        <tag>回溯</tag>
       </tags>
   </entry>
   <entry>
@@ -4003,89 +4086,6 @@ Wu, Z., et al. (2020). A comprehensive survey on graph neural networks. IEEE TNN
       </tags>
   </entry>
   <entry>
-    <title>基础知识--回溯算法</title>
-    <url>/2025/03/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[回溯算法
-​	回溯算法 是一种通过试错的方式寻找问题解的算法。它尝试逐步构建解决方案，如果在构建过程中的某一步发现当前的构建方案不可行，它会回溯（即取消最近一步的选择），然后尝试其他的可能性。这个过程就像是在迷宫中探索路径，当遇到死路时就退回上一个岔路口，选择另一条路继续前进。
-核心思想
-
-试探性选择:  在每一步，都面临多个选择，回溯算法会先选择其中一个进行尝试。
-逐步构建:  它一步一步地构建可能的解。
-可行性判断 (约束条件): 在每一步构建后，都会检查当前的部分解是否满足问题的约束条件。
-回溯 (撤销选择): 如果发现当前部分解不可行，则撤销上一步的选择，回到之前的状态，并尝试其他的选择。
-终止条件: 当找到一个完整的可行解，或者当所有可能的选择都尝试完毕且没有找到解时，算法终止。
-
-基本步骤
-
-
-定义问题的解空间： 确定问题的解可能存在的所有可能组合。例如，对于一个排列问题，解空间就是所有可能的排列。
-
-
-确定约束条件：  定义问题解必须满足的条件。这些条件用于判断当前构建的部分解是否有效。
-
-
-选择搜索策略 (通常是深度优先搜索 DFS)：  回溯算法通常使用深度优先搜索的方式来遍历解空间。
-
-
-设计递归函数 (或迭代方式模拟递归)：
-递归函数是实现回溯算法的关键。该函数通常包含以下几个部分：
-
-基本情况 (终止条件)：  判断是否找到了一个完整的解，或者是否已经遍历完所有可能性但没有找到解。
-选择步骤：  在当前状态下，有哪些选择可以进行？
-扩展状态：  对于每个选择，更新状态，并递归调用自身进入下一层搜索。
-回溯步骤：  在递归调用返回后，需要撤销当前的选择，恢复到之前的状态，以便尝试其他的选择。
-
-
-
-剪枝优化 (可选但重要)：  在搜索过程中，如果发现某个部分解已经不可能导致最终解，可以提前结束对该分支的搜索，以提高效率。这称为剪枝。
-
-
-应用示例
-回溯算法可以应用于解决许多经典问题，包括但不限于：
-
-组合问题：
-
-组合总和 (Combination Sum):  在一个数字集合中找到所有和为目标值的组合。
-子集 (Subsets):  找出给定集合的所有子集。
-电话号码的字母组合 (Letter Combinations of a Phone Number):  给定数字字符串，返回所有可能的字母组合。
-
-
-排列问题：
-
-全排列 (Permutations):  生成给定集合的所有排列。
-下一个排列 (Next Permutation):  找到给定排列的下一个字典序排列。
-
-
-图论问题：
-
-N 皇后问题 (N-Queens Problem):  在 NxN 的棋盘上放置 N 个皇后，使其互不攻击。
-数独 (Sudoku Solver):  解决数独谜题。
-迷宫寻路 (Maze Solving):  找到迷宫的路径。
-图的着色问题 (Graph Coloring):  给图的顶点着色，使得相邻顶点颜色不同。
-旅行商问题 (Traveling Salesman Problem - TSP) (近似解或小规模问题)：  虽然TSP通常使用更优化的算法，但在小规模情况下，回溯可以找到解。
-
-
-其他问题：
-
-0-1 背包问题 (0-1 Knapsack Problem)：  虽然动态规划更常用，但回溯也可以解决。
-正则表达式匹配 (Regular Expression Matching) (某些情况)：  复杂的正则表达式匹配问题可以使用回溯解决。
-解方程 (Solving Equations) (某些类型)：  例如，约束满足问题 (Constraint Satisfaction Problems - CSPs)。
-
-
-
-回溯算法模板
-回溯法其实就是暴力查找，回溯法解决的问题都可以抽象为树形结构（N叉树）。
-void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果;        return;    &#125;    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) &#123;        处理节点;        backtracking(路径，选择列表); // 递归        回溯，撤销处理结果    &#125;&#125;
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>回溯</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--图论</title>
     <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
     <content><![CDATA[基础知识–图论
@@ -4480,198 +4480,6 @@ A*算法是一种启发式搜索算法，常用于路径规划问题。
       <tags>
         <tag>数据结构与算法</tag>
         <tag>图论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于深度学习的图像分类</title>
-    <url>/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</url>
-    <content><![CDATA[使用ResNet18预训练模型
-由于笔记本性能太差，所以在服务器上运行的，显卡配置为4090。经大量实验判断，初始学习率为0.01最后效果较差，所以初始学习率应设为0.001。全部代码代码已上传到：https://github.com/wp-a/-CIFAR10-.git
-库函数导入
-import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
-数据集加载及增强操作
-transform_train = transforms.Compose([    transforms.Resize(224),	#图像从32x32放大到224x224是通过在原始像素之间插入新的像素点来实现的。插入的像素值是根据周围原始像素的值，通过不同的插值算法计算出来的，默认使用双线性插值。    transforms.RandomHorizontalFlip(), #以 0.5 的概率水平随机翻转图像    transforms.RandomRotation(10),  #将图像随机旋转 -10 到 10 度之间的角度    transforms.ToTensor(),  #将图像从 PIL 图像格式转换为 PyTorch 张量    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))     #使用为三个颜色通道中的每一个提供的平均和标准差来标准化图像的像素值(归一化)])transform_test = transforms.Compose([    transforms.Resize(224),    transforms.ToTensor(),    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))])# 加载CIFAR-10数据集train_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, transform=transform_train)test_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, train=False, transform=transform_test)batch_size = 64  train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)#返回数字对应的类名def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
-加载预训练模型
-def get_resnet18(pretrained=True):    model = torchvision.models.resnet18(pretrained=pretrained)    model.fc = nn.Linear(512, 10)  # 修改最后一层以适应CIFAR10的10个类别    return modelmodel = get_resnet18()model = model.to(device)
-模型训练超参数设置
-#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。Adam负责在参数层面进行自适应的学习率调整，以加快收敛。学习率调度器负责在训练过程的宏观层面调整全局学习率，以提高模型的最终性能和泛化能力。二者不会产生冲突。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
-模型训练
-num_epochs = 6count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()              total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
-实验结果保存
-torch.save(model.state_dict(), &#x27;resnet18_cifar10.pth&#x27;)print(&#x27;Model saved to resnet18_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for ResNet on CIFAR-10:&quot;)print(classification_report(flat_labels, flat_predictions, target_names=classes))
-实验结果分析
-lr分析
-由实验结果可得lr=0.01时，效果较差，所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
-lr=0.01
-
-lr=0.001
-
-lr=1e6
-
-batchsize分析
-Batchsize：64    epoch：6      lr_decay_epoch：2      初始学习率为0.001       94.46%
-
-
-
-
-Batchsize：128       epoch：12      lr_decay_epoch：3        初始学习率为0.001     95.23%
-
-
-
-
-Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.01        85.87%
-和分析的一致，对比下面实验，控制变量，只有初始学习率改变，精度提升10%左右。
-
-
-
-
-Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.44%
-
-
-
-
-Batchsize：64      epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.66%
-
-
-
-
-使用LeNet网络
-与Resnet相比换了一个网络和改了数据加载模块，其他没啥变化。
-库函数导入
-import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
-数据集加载及增强操作
-transform = transforms.Compose(        [transforms.RandomHorizontalFlip(),         transforms.RandomCrop(32, padding=4),         transforms.ToTensor(),         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])trainset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=True,                                            download=True, transform=transform)train_loader = torch.utils.data.DataLoader(trainset, batch_size=32,                                              shuffle=True, num_workers=2)testset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=False,                                           download=True, transform=transform)test_loader = torch.utils.data.DataLoader(testset, batch_size=32,                                             shuffle=False, num_workers=2)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
-LeNet模型
-class C1(nn.Module):    def __init__(self):        super(C1, self).__init__()        self.c1 = nn.Sequential(OrderedDict([            (&#x27;conv1&#x27;, nn.Conv2d(3, 6, kernel_size=(5, 5))),            (&#x27;relu1&#x27;, nn.ReLU()),            (&#x27;pool1&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c1(img)        return outputclass C3(nn.Module):    def __init__(self):        super(C3, self).__init__()        self.c3 = nn.Sequential(OrderedDict([            (&#x27;conv3&#x27;, nn.Conv2d(6, 16, kernel_size=(5, 5))),            (&#x27;relu3&#x27;, nn.ReLU()),            (&#x27;pool3&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c3(img)        return outputclass F4(nn.Module):    def __init__(self):        super(F4, self).__init__()        self.f4 = nn.Sequential(OrderedDict([            (&#x27;fc4&#x27;, nn.Linear(16 * 5 * 5, 120)),            (&#x27;relu4&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f4(img)        return outputclass F5(nn.Module):    def __init__(self):        super(F5, self).__init__()        self.f5 = nn.Sequential(OrderedDict([            (&#x27;fc5&#x27;, nn.Linear(120, 84)),            (&#x27;relu5&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f5(img)        return outputclass F6(nn.Module):    def __init__(self):        super(F6, self).__init__()        self.f6 = nn.Sequential(OrderedDict([            (&#x27;fc6&#x27;, nn.Linear(84, 10))        ]))    def forward(self, img):        output = self.f6(img)        return outputclass LeNet5(nn.Module):    def __init__(self):        super(LeNet5, self).__init__()        self.c1 = C1()        self.c3 = C3()        self.f4 = F4()        self.f5 = F5()        self.f6 = F6()    def forward(self, img):        output = self.c1(img)        output = self.c3(output)        output = output.view(-1, 16 * 5 * 5)        output = self.f4(output)        output = self.f5(output)        output = self.f6(output)        return output
-模型训练超参数设置
-#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
-模型训练
-num_epochs = 20count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()             total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
-实验结果保存
-torch.save(model.state_dict(), &#x27;lenet5_cifar10.pth&#x27;) print(&#x27;Model saved to lenet5_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for LeNet on CIFAR-10:&quot;) print(classification_report(flat_labels, flat_predictions, target_names=classes))
-实验结果分析
-使用图像增强操作
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
-
-
-
-
-未使用图像增强操作
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       62.66%
-
-
-
-
-使用FashionNet
-代码详见github
-图像增强操作训练结果分析
-使用图像增强操作
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        71.51%
-
-
-未使用图像增强操作
-Batchsize：128      epoch：30      lr_decay_epoch：6     初始学习率为 0.01        71.69%
-
-
-
-
-Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
-
-
-
-
-Gradcam实现图像特征可视化
-Grad-CAM 的目标层均为最后一个卷积层
-Resnet效果图
-参数配置    Batch_size：64    epoch：20      lr_decay_epoch：5     lr：0.001      95.66%
-图片来自谷歌。
-  
-      
-FashionNet效果图
-参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
-  
-      
-LeNet效果图
-参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
-  
-      
-总结
-数据集在不同模型上的准确率
-
-
-
-模型
-准确率
-
-
-
-
-ResNet
-95.66%
-
-
-LeNet
-62.66%
-
-
-FashionNet
-74.25%
-
-
-
-LeNet对数据集进行图像增强操作的影响
-分析：由于模型过于简单，本来就会出现欠拟合现象，继续进行图像增强操作后会导致模型更加欠拟合。所以出现三个模型精度差距较大，主要是因为模型复杂度的差距。虽然是欠拟合，但是继续增加epoch也并不会提高精度，因为模型对数据已经学到了尽可能多的知识。
-
-
-
-未归一化
-归一化
-图像增强操作
-大量图像增强操作
-
-
-
-
-58.75%
-62.66%
-60.56%
-56.78%
-
-
-
-神经网络参数对模型准确率的影响
-batch_size：64或128并无太大影响。
-初始学习率：由实验结果可得lr=0.01时，效果较差，三个网络都使用了0.01进行测试得出的结果，有的实验结果没贴图。所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。
-lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-        <tag>图像分类</tag>
-        <tag>Resnet</tag>
-        <tag>Lenet</tag>
-        <tag>CIFAR10</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手撕 Vision Transformer</title>
-    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
-    <content><![CDATA[手撕 Vision Transformer
-
-​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
-​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
-import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>Vit</tag>
-        <tag>手撕代码</tag>
       </tags>
   </entry>
   <entry>
@@ -5470,155 +5278,177 @@ Memory更新策略：能否利用动量更新与自适应权重结合，既保�
       </tags>
   </entry>
   <entry>
-    <title>基础知识--排序算法</title>
-    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[排序算法详解
-排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
-#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
-1. 冒泡排序 (Bubble Sort)
-冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
-实现原理
+    <title>基于深度学习的图像分类</title>
+    <url>/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[使用ResNet18预训练模型
+由于笔记本性能太差，所以在服务器上运行的，显卡配置为4090。经大量实验判断，初始学习率为0.01最后效果较差，所以初始学习率应设为0.001。全部代码代码已上传到：https://github.com/wp-a/-CIFAR10-.git
+库函数导入
+import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+数据集加载及增强操作
+transform_train = transforms.Compose([    transforms.Resize(224),	#图像从32x32放大到224x224是通过在原始像素之间插入新的像素点来实现的。插入的像素值是根据周围原始像素的值，通过不同的插值算法计算出来的，默认使用双线性插值。    transforms.RandomHorizontalFlip(), #以 0.5 的概率水平随机翻转图像    transforms.RandomRotation(10),  #将图像随机旋转 -10 到 10 度之间的角度    transforms.ToTensor(),  #将图像从 PIL 图像格式转换为 PyTorch 张量    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))     #使用为三个颜色通道中的每一个提供的平均和标准差来标准化图像的像素值(归一化)])transform_test = transforms.Compose([    transforms.Resize(224),    transforms.ToTensor(),    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616))])# 加载CIFAR-10数据集train_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, transform=transform_train)test_set = torchvision.datasets.CIFAR10(&quot;./data&quot;, download=True, train=False, transform=transform_test)batch_size = 64  train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)#返回数字对应的类名def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
+加载预训练模型
+def get_resnet18(pretrained=True):    model = torchvision.models.resnet18(pretrained=pretrained)    model.fc = nn.Linear(512, 10)  # 修改最后一层以适应CIFAR10的10个类别    return modelmodel = get_resnet18()model = model.to(device)
+模型训练超参数设置
+#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。Adam负责在参数层面进行自适应的学习率调整，以加快收敛。学习率调度器负责在训练过程的宏观层面调整全局学习率，以提高模型的最终性能和泛化能力。二者不会产生冲突。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
+模型训练
+num_epochs = 6count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()              total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
+实验结果保存
+torch.save(model.state_dict(), &#x27;resnet18_cifar10.pth&#x27;)print(&#x27;Model saved to resnet18_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for ResNet on CIFAR-10:&quot;)print(classification_report(flat_labels, flat_predictions, target_names=classes))
+实验结果分析
+lr分析
+由实验结果可得lr=0.01时，效果较差，所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
+lr=0.01
 
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
+lr=0.001
 
-实现代码
-void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
-2. 选择排序 (Selection Sort)
-选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
-实现原理
+lr=1e6
 
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
-3. 插入排序 (Insertion Sort)
-插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-实现原理
-
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
-
-实现代码
-void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
-4. 快速排序 (Quick Sort)
-快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
-实现原理
-
-时间复杂度：平均 O(nlogn)，最坏 O(n²)
-空间复杂度：O(logn)
-稳定性：不稳定
-
-实现代码
-int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
-5. 归并排序 (Merge Sort)
-归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(n)
-稳定性：稳定
-
-实现代码
-void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
-6. 堆排序 (Heap Sort)
-堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
-排序算法的比较
-
-
-
-排序算法
-平均时间复杂度
-最坏时间复杂度
-空间复杂度
-稳定性
+batchsize分析
+Batchsize：64    epoch：6      lr_decay_epoch：2      初始学习率为0.001       94.46%
 
 
 
 
-冒泡排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-选择排序
-O(n²)
-O(n²)
-O(1)
-不稳定
-
-
-插入排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-快速排序
-O(nlogn)
-O(n²)
-O(logn)
-不稳定
-
-
-归并排序
-O(nlogn)
-O(nlogn)
-O(n)
-稳定
-
-
-堆排序
-O(nlogn)
-O(nlogn)
-O(1)
-不稳定
+Batchsize：128       epoch：12      lr_decay_epoch：3        初始学习率为0.001     95.23%
 
 
 
-如何选择排序算法？
 
-数据量小（n &lt; 50）：插入排序
-数据量大：
-
-要求稳定：归并排序
-不要求稳定：快速排序
+Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.01        85.87%
+和分析的一致，对比下面实验，控制变量，只有初始学习率改变，精度提升10%左右。
 
 
-内存空间有限：堆排序
-数据基本有序：插入排序
-数据量特别大且有重复：计数排序/基数排序
 
+
+Batchsize：128    epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.44%
+
+
+
+
+Batchsize：64      epoch：20      lr_decay_epoch：5       初始学习率为0.001        95.66%
+
+
+
+
+使用LeNet网络
+与Resnet相比换了一个网络和改了数据加载模块，其他没啥变化。
+库函数导入
+import matplotlib.pyplot as pltimport torchimport torch.nn as nnimport torchvisionimport torchvision.transforms as transformsfrom sklearn.metrics import confusion_matrix, classification_reportfrom itertools import chainimport multiprocessingdevice = torch.device(&quot;cuda:0&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+数据集加载及增强操作
+transform = transforms.Compose(        [transforms.RandomHorizontalFlip(),         transforms.RandomCrop(32, padding=4),         transforms.ToTensor(),         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])trainset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=True,                                            download=True, transform=transform)train_loader = torch.utils.data.DataLoader(trainset, batch_size=32,                                              shuffle=True, num_workers=2)testset = torchvision.datasets.CIFAR10(root=&#x27;./data&#x27;, train=False,                                           download=True, transform=transform)test_loader = torch.utils.data.DataLoader(testset, batch_size=32,                                             shuffle=False, num_workers=2)classes = (&#x27;plane&#x27;, &#x27;car&#x27;, &#x27;bird&#x27;, &#x27;cat&#x27;, &#x27;deer&#x27;, &#x27;dog&#x27;, &#x27;frog&#x27;, &#x27;horse&#x27;, &#x27;ship&#x27;, &#x27;truck&#x27;)def output_label(label):    output_mapping = &#123;        0: &quot;plane&quot;, 1: &quot;car&quot;, 2: &quot;bird&quot;, 3: &quot;cat&quot;, 4: &quot;deer&quot;,        5: &quot;dog&quot;, 6: &quot;frog&quot;, 7: &quot;horse&quot;, 8: &quot;ship&quot;, 9: &quot;truck&quot;    &#125;    input = (label.item() if type(label) == torch.Tensor else label)    return output_mapping[input]
+LeNet模型
+class C1(nn.Module):    def __init__(self):        super(C1, self).__init__()        self.c1 = nn.Sequential(OrderedDict([            (&#x27;conv1&#x27;, nn.Conv2d(3, 6, kernel_size=(5, 5))),            (&#x27;relu1&#x27;, nn.ReLU()),            (&#x27;pool1&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c1(img)        return outputclass C3(nn.Module):    def __init__(self):        super(C3, self).__init__()        self.c3 = nn.Sequential(OrderedDict([            (&#x27;conv3&#x27;, nn.Conv2d(6, 16, kernel_size=(5, 5))),            (&#x27;relu3&#x27;, nn.ReLU()),            (&#x27;pool3&#x27;, nn.MaxPool2d(kernel_size=(2, 2), stride=2))        ]))    def forward(self, img):        output = self.c3(img)        return outputclass F4(nn.Module):    def __init__(self):        super(F4, self).__init__()        self.f4 = nn.Sequential(OrderedDict([            (&#x27;fc4&#x27;, nn.Linear(16 * 5 * 5, 120)),            (&#x27;relu4&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f4(img)        return outputclass F5(nn.Module):    def __init__(self):        super(F5, self).__init__()        self.f5 = nn.Sequential(OrderedDict([            (&#x27;fc5&#x27;, nn.Linear(120, 84)),            (&#x27;relu5&#x27;, nn.ReLU())        ]))    def forward(self, img):        output = self.f5(img)        return outputclass F6(nn.Module):    def __init__(self):        super(F6, self).__init__()        self.f6 = nn.Sequential(OrderedDict([            (&#x27;fc6&#x27;, nn.Linear(84, 10))        ]))    def forward(self, img):        output = self.f6(img)        return outputclass LeNet5(nn.Module):    def __init__(self):        super(LeNet5, self).__init__()        self.c1 = C1()        self.c3 = C3()        self.f4 = F4()        self.f5 = F5()        self.f6 = F6()    def forward(self, img):        output = self.c1(img)        output = self.c3(output)        output = output.view(-1, 16 * 5 * 5)        output = self.f4(output)        output = self.f5(output)        output = self.f6(output)        return output
+模型训练超参数设置
+#定义损失函数，初始学习率，优化器criterion = nn.CrossEntropyLoss()learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)#学习率调节器，前期需要较大步长来快速收敛，后期如还用较大步长可能会在极小值周围震荡，所以后期学习率逐步衰减。可以提高训练效率和性能。def exp_lr_scheduler(optimizer, epoch, init_lr=0.001, lr_decay_epoch=2):    lr = init_lr * (0.1 ** (epoch // lr_decay_epoch))    if epoch % lr_decay_epoch == 0:        print(f&#x27;LR is set to &#123;lr&#125;&#x27;)    for param_group in optimizer.param_groups:        param_group[&#x27;lr&#x27;] = lr    return optimizer
+模型训练
+num_epochs = 20count = 0loss_list = []iteration_list = []accuracy_list = []predictions_list = []labels_list = []for epoch in range(num_epochs):    model.train()     running_loss = 0.0    optimizer = exp_lr_scheduler(optimizer, epoch, init_lr=learning_rate, lr_decay_epoch=2)    for i, (images, labels) in enumerate(train_loader):        images, labels = images.to(device), labels.to(device)        outputs = model(images)        loss = criterion(outputs, labels)        optimizer.zero_grad()        loss.backward()        optimizer.step()        running_loss += loss.item()        count += 1        if (i + 1) % 50 == 0:            print(f&#x27;Epoch [&#123;epoch + 1&#125;/&#123;num_epochs&#125;], Step [&#123;i + 1&#125;/&#123;len(train_loader)&#125;], Loss: &#123;loss.item():.4f&#125;&#x27;)            model.eval()             total = 0            correct = 0            test_predictions = []            test_labels = []            with torch.no_grad():                for images, labels in test_loader:                    images, labels = images.to(device), labels.to(device)                    test_labels.extend(labels.cpu().numpy())                    outputs = model(images)                    _, predicted = torch.max(outputs.data, 1)                    test_predictions.extend(predicted.cpu().numpy())                    total += labels.size(0)                    correct += (predicted == labels).sum().item()            accuracy = 100 * correct / total            print(f&#x27;Accuracy on test set: &#123;accuracy:.2f&#125;%&#x27;)            loss_list.append(loss.item())            iteration_list.append(count)            accuracy_list.append(accuracy)            predictions_list.append(test_predictions)            labels_list.append(test_labels)            model.train()print(&#x27;Finished Training&#x27;)
+实验结果保存
+torch.save(model.state_dict(), &#x27;lenet5_cifar10.pth&#x27;) print(&#x27;Model saved to lenet5_cifar10.pth&#x27;)plt.figure(figsize=(10, 5))plt.plot(iteration_list, loss_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Loss&quot;)plt.title(&quot;Iterations vs Loss&quot;)plt.savefig(&#x27;loss_curve.png&#x27;)plt.show()plt.figure(figsize=(10, 5))plt.plot(iteration_list, accuracy_list)plt.xlabel(&quot;No. of Iteration&quot;)plt.ylabel(&quot;Accuracy&quot;)plt.title(&quot;Iterations vs Accuracy&quot;)plt.savefig(&#x27;accuracy_curve.png&#x27;)plt.show()class_correct = [0. for _ in range(10)]total_correct = [0. for _ in range(10)]model.eval()with torch.no_grad():    for images, labels in test_loader:        images, labels = images.to(device), labels.to(device)        outputs = model(images)        _, predicted = torch.max(outputs, 1)        c = (predicted == labels).squeeze()        for i in range(labels.size(0)):            label = labels[i]            class_correct[label] += c[i].item()            total_correct[label] += 1for i in range(10):    print(f&quot;Accuracy of &#123;classes[i]&#125;: &#123;100 * class_correct[i] / total_correct[i]:.2f&#125;%&quot;)flat_predictions = list(chain.from_iterable(predictions_list))flat_labels = list(chain.from_iterable(labels_list))cm = confusion_matrix(flat_labels, flat_predictions)print(&quot;Confusion Matrix:&quot;)print(cm)print(&quot;Classification report for LeNet on CIFAR-10:&quot;) print(classification_report(flat_labels, flat_predictions, target_names=classes))
+实验结果分析
+使用图像增强操作
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
+
+
+
+
+未使用图像增强操作
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       62.66%
+
+
+
+
+使用FashionNet
+代码详见github
+图像增强操作训练结果分析
+使用图像增强操作
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        71.51%
+
+
+未使用图像增强操作
+Batchsize：128      epoch：30      lr_decay_epoch：6     初始学习率为 0.01        71.69%
+
+
+
+
+Batchsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
+
+
+
+
+Gradcam实现图像特征可视化
+Grad-CAM 的目标层均为最后一个卷积层
+Resnet效果图
+参数配置    Batch_size：64    epoch：20      lr_decay_epoch：5     lr：0.001      95.66%
+图片来自谷歌。
+  
+      
+FashionNet效果图
+参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001        74.25%
+  
+      
+LeNet效果图
+参数配置      Bachsize：128      epoch：20      lr_decay_epoch：5     初始学习率为 0.001       60.56%
+  
+      
 总结
-每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
+数据集在不同模型上的准确率
+
+
+
+模型
+准确率
+
+
+
+
+ResNet
+95.66%
+
+
+LeNet
+62.66%
+
+
+FashionNet
+74.25%
+
+
+
+LeNet对数据集进行图像增强操作的影响
+分析：由于模型过于简单，本来就会出现欠拟合现象，继续进行图像增强操作后会导致模型更加欠拟合。所以出现三个模型精度差距较大，主要是因为模型复杂度的差距。虽然是欠拟合，但是继续增加epoch也并不会提高精度，因为模型对数据已经学到了尽可能多的知识。
+
+
+
+未归一化
+归一化
+图像增强操作
+大量图像增强操作
+
+
+
+
+58.75%
+62.66%
+60.56%
+56.78%
+
+
+
+神经网络参数对模型准确率的影响
+batch_size：64或128并无太大影响。
+初始学习率：由实验结果可得lr=0.01时，效果较差，三个网络都使用了0.01进行测试得出的结果，有的实验结果没贴图。所以直接设置初始学习率为0.001可以更节省时间，提高效率。当学习率为1e-6时，发现准确率更新较小，所以准确率最小设置为1e-6。即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。
+lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较好的效果。即令epoch / lr_decay_epoch = 3或4 都可以，具体以epoch大小为准。
 ]]></content>
       <categories>
-        <category>数据结构与算法</category>
+        <category>手撕代码</category>
+        <category>图像分类</category>
       </categories>
       <tags>
-        <tag>数据结构与算法</tag>
-        <tag>排序</tag>
-        <tag>冒泡排序</tag>
-        <tag>选择排序</tag>
-        <tag>插入排序</tag>
-        <tag>快速排序</tag>
-        <tag>归并排序</tag>
-        <tag>堆排序</tag>
+        <tag>深度学习</tag>
+        <tag>图像分类</tag>
+        <tag>Resnet</tag>
+        <tag>Lenet</tag>
+        <tag>CIFAR10</tag>
       </tags>
   </entry>
   <entry>
@@ -6507,139 +6337,178 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       <tags>
         <tag>自监督学习</tag>
         <tag>对比学习</tag>
-        <tag>深度学习</tag>
         <tag>无监督学习</tag>
+        <tag>深度学习</tag>
       </tags>
   </entry>
   <entry>
-    <title>基础知识--绪论</title>
-    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
-    <content><![CDATA[绪论
-数据结构
-数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
-逻辑结构
-线性结构
-一般线性表：线性表
-特殊线性表：栈、队列、字符串
-线性表的推广：数组、广义表
-非线性结构
-树结构：树、二叉树
-图结构：有向图、无向图
-集合结构
-存储结构
-顺序存储
-逻辑上连续，物理上连续
-优点：
+    <title>手撕 Vision Transformer</title>
+    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
+    <content><![CDATA[手撕 Vision Transformer
 
-随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
-内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
-空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
+​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
+​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
+import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
+]]></content>
+      <categories>
+        <category>手撕代码</category>
+        <category>图像分类</category>
+      </categories>
+      <tags>
+        <tag>Vit</tag>
+        <tag>手撕代码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--排序算法</title>
+    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[排序算法详解
+排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
+#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
+1. 冒泡排序 (Bubble Sort)
+冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+实现原理
 
-缺点：
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
 
-插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
-固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
-内存浪费：若预分配空间过大，可能造成内存冗余。
+实现代码
+void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
+2. 选择排序 (Selection Sort)
+选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
+实现原理
 
-链式存储
-逻辑上不要求连续，物理上⼀定连续
-优点：
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：不稳定
 
-动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
-插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
-灵活性强：支持多种衍生结构（如双向链表、循环链表）。
+实现代码
+void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
+3. 插入排序 (Insertion Sort)
+插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+实现原理
 
-缺点：
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
+
+实现代码
+void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
+4. 快速排序 (Quick Sort)
+快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
+实现原理
+
+时间复杂度：平均 O(nlogn)，最坏 O(n²)
+空间复杂度：O(logn)
+稳定性：不稳定
+
+实现代码
+int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
+5. 归并排序 (Merge Sort)
+归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
+稳定性：稳定
+
+实现代码
+void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
+6. 堆排序 (Heap Sort)
+堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
+实现原理
+
+时间复杂度：O(nlogn)
+空间复杂度：O(1)
+稳定性：不稳定
+
+实现代码
+void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
+排序算法的比较
 
 
-无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
+
+排序算法
+平均时间复杂度
+最坏时间复杂度
+空间复杂度
+稳定性
 
 
-额外空间开销：每个节点需存储指针字段，占用更多内存。
 
 
-内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
+冒泡排序
+O(n²)
+O(n²)
+O(1)
+稳定
 
 
-算法的效率
-算法是为了解决某类问题而规定的一个有限长的操作序列。
-算法时间复杂度
-一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
-算法空间复杂度
-所⽤到的临时空间⼤⼩
+选择排序
+O(n²)
+O(n²)
+O(1)
+不稳定
+
+
+插入排序
+O(n²)
+O(n²)
+O(1)
+稳定
+
+
+快速排序
+O(nlogn)
+O(n²)
+O(logn)
+不稳定
+
+
+归并排序
+O(nlogn)
+O(nlogn)
+O(n)
+稳定
+
+
+堆排序
+O(nlogn)
+O(nlogn)
+O(1)
+不稳定
+
+
+
+如何选择排序算法？
+
+数据量小（n &lt; 50）：插入排序
+数据量大：
+
+要求稳定：归并排序
+不要求稳定：快速排序
+
+
+内存空间有限：堆排序
+数据基本有序：插入排序
+数据量特别大且有重复：计数排序/基数排序
+
+总结
+每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
 ]]></content>
       <categories>
         <category>数据结构与算法</category>
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>绪论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--线性表</title>
-    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
-    <content><![CDATA[线性表
-线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
-顺序存储（顺序表）
-存取
-顺序表随机存取，存取某个元素的时间复杂度为O(1)。
-查找
-平均时间复杂度O(n)
-插入删除
-平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
-链式存储（链表）
-链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
-单链表
-单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
-
-数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
-指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
-
-创建链表
-**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
-**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
-查找
-查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
-插入删除
-在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
-单链表的缺点
-
-访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
-存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
-不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
-
-双链表
-双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
-
-前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
-数据域 (Data):  与单链表相同，用于存储数据元素。
-后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
-
-创建链表
-创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
-查找
-与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
-双链表的优点
-
-双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
-删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
-某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
-
-双链表的缺点
-
-存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
-插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
-访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>链表</tag>
-        <tag>线性表</tag>
+        <tag>排序</tag>
+        <tag>冒泡排序</tag>
+        <tag>选择排序</tag>
+        <tag>插入排序</tag>
+        <tag>快速排序</tag>
+        <tag>归并排序</tag>
+        <tag>堆排序</tag>
       </tags>
   </entry>
   <entry>
@@ -7238,6 +7107,137 @@ SupCon学习到的特征更具判别性和泛化能力
         <tag>对比学习</tag>
         <tag>深度学习</tag>
         <tag>监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--线性表</title>
+    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[线性表
+线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
+顺序存储（顺序表）
+存取
+顺序表随机存取，存取某个元素的时间复杂度为O(1)。
+查找
+平均时间复杂度O(n)
+插入删除
+平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
+链式存储（链表）
+链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
+单链表
+单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
+
+数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
+指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
+
+创建链表
+**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
+**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
+查找
+查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
+插入删除
+在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
+单链表的缺点
+
+访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
+存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
+不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
+
+双链表
+双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
+
+前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
+数据域 (Data):  与单链表相同，用于存储数据元素。
+后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
+
+创建链表
+创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
+查找
+与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
+双链表的优点
+
+双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
+删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
+某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
+
+双链表的缺点
+
+存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
+插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
+访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+        <tag>线性表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--绪论</title>
+    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
+    <content><![CDATA[绪论
+数据结构
+数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
+逻辑结构
+线性结构
+一般线性表：线性表
+特殊线性表：栈、队列、字符串
+线性表的推广：数组、广义表
+非线性结构
+树结构：树、二叉树
+图结构：有向图、无向图
+集合结构
+存储结构
+顺序存储
+逻辑上连续，物理上连续
+优点：
+
+随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
+内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
+空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
+
+缺点：
+
+插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
+固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
+内存浪费：若预分配空间过大，可能造成内存冗余。
+
+链式存储
+逻辑上不要求连续，物理上⼀定连续
+优点：
+
+动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
+插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
+灵活性强：支持多种衍生结构（如双向链表、循环链表）。
+
+缺点：
+
+
+无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
+
+
+额外空间开销：每个节点需存储指针字段，占用更多内存。
+
+
+内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
+
+
+算法的效率
+算法是为了解决某类问题而规定的一个有限长的操作序列。
+算法时间复杂度
+一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
+算法空间复杂度
+所⽤到的临时空间⼤⼩
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>绪论</tag>
       </tags>
   </entry>
 </search>
