@@ -2,83 +2,6 @@
  * Cool Features for Hexo Blog (Butterfly Theme)
  */
 
-// 1. 3D Tag Cloud in Sidebar
-function initSidebarTagCloud() {
-    console.log('Initializing Sidebar Tag Cloud...');
-
-    // 尝试多种选择器找到标签卡片的内容容器
-    // Butterfly 主题通常是 .card-widget.card-tags .card-tag-cloud
-    let tagCard = document.querySelector('.card-widget.card-tags .card-tag-cloud');
-    if (!tagCard) {
-        tagCard = document.querySelector('.card-tags .card-content');
-    }
-
-    if (!tagCard) {
-        console.warn('Tag card container not found');
-        return;
-    }
-
-    // 创建 Canvas 容器
-    const canvasId = 'sidebar-tag-canvas';
-    // 如果已经存在，就不重复创建
-    if (document.getElementById(canvasId)) {
-        console.log('Canvas already exists');
-        return;
-    }
-
-    // 获取原有的标签链接
-    const tagsHtml = tagCard.innerHTML;
-
-    // 清空原有内容，替换为 Canvas 和隐藏的标签列表
-    // 注意：TagCanvas 需要标签列表在 Canvas 之外或者作为参数
-    // 这里我们创建一个隐藏的 div 来存放标签列表
-    tagCard.innerHTML = `
-        <div id="tag-cloud-container" style="width: 100%; height: 250px;">
-            <canvas id="${canvasId}" width="300" height="250" style="width: 100%; height: 100%"></canvas>
-        </div>
-        <div id="tag-list" style="display: none;">${tagsHtml}</div>
-    `;
-
-    // 检查 jQuery
-    if (typeof jQuery === 'undefined') {
-        console.error('jQuery is not loaded');
-        return;
-    }
-
-    // 确保 TagCanvas 已加载
-    if (typeof $.fn.tagcanvas !== 'function') {
-        console.warn('TagCanvas plugin not loaded yet, retrying...');
-        // 简单的重试机制
-        setTimeout(initSidebarTagCloud, 1000);
-        return;
-    }
-
-    try {
-        console.log('Starting TagCanvas...');
-        $('#' + canvasId).tagcanvas({
-            textColour: null, // 使用原有链接颜色
-            outlineColour: 'transparent',
-            reverse: true,
-            depth: 0.8,
-            maxSpeed: 0.05,
-            wheelZoom: false,
-            shape: 'sphere',
-            shuffleTags: true,
-            noSelect: true,
-            textFont: null, // 使用原有字体
-            textHeight: 16, // 稍微调大字体
-            weight: true,
-            weightMode: 'both',
-            weightSize: 1.0,
-            initial: [0.1, -0.1]
-        }, 'tag-list');
-    } catch (e) {
-        console.error('Failed to init TagCanvas:', e);
-        // 恢复原始内容
-        tagCard.innerHTML = tagsHtml;
-    }
-}
-
 // 2. Terminal Easter Egg (Simplified for Blog)
 function initBlogTerminal() {
     // 复用之前的终端逻辑，但样式可能需要微调以适应博客主题
@@ -211,14 +134,13 @@ function handleBlogCommand(cmd, output, inputLine) {
 document.addEventListener('DOMContentLoaded', () => {
     // 延迟执行，等待 jQuery 和 DOM 就绪
     setTimeout(() => {
-        initSidebarTagCloud();
         initBlogTerminal();
     }, 1000);
 
     // Pjax 支持 (如果博客使用了 Pjax)
     document.addEventListener('pjax:complete', () => {
         setTimeout(() => {
-            initSidebarTagCloud();
+            // initSidebarTagCloud(); // Removed
         }, 500);
     });
 });
