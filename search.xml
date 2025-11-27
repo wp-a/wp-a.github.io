@@ -127,6 +127,56 @@ class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
+class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
+版本二
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--图论</title>
     <url>/2025/03/13day/</url>
     <content><![CDATA[图论
@@ -213,6 +263,61 @@ class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;       
   </entry>
   <entry>
     <title>代码随想录--数组</title>
+    <url>/2025/01/1day/</url>
+    <content><![CDATA[二分查找
+每次去除当前区间一半的元素，时间复杂度O(logn)，注意处理好区间。
+例题
+题目链接：704. 二分查找
+题目描述：在严格递增的序列中找到给定的数，并返回其下标。
+左闭右闭 [left,right]
+class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid-1;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
+左闭右开 [left,right)
+class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;r) //当l=r时没有意义，所以改为l&lt;r.        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
+相关题目
+35. 搜索插入位置
+比较简单，处理一下返回值就可以。
+34. 在排序数组中查找元素的第一个和最后一个位置
+需要进行两次操作，找到左右边界，较复杂，还需要多做做。
+69. x 的平方根 
+我的思路是当(l-r)&lt;=1,找到的l便是整数部分。
+367. 有效的完全平方数
+题目还未做
+双指针
+一种重要的编程思想，非常高效。
+例题
+题目链接：https://leetcode.cn/problems/remove-element/
+题目描述：给定一个数组 nums 和一个值 val，原地移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+左右指针法
+思路：从两头向中间移动指针，当左边==val，右边！=val时，交换两个元素，边界问题不太好处理，较麻烦。
+class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            while(l&lt;=r &amp;&amp; nums[l]!=val) l++;            while(l&lt;=r &amp;&amp; nums[r]==val) r--;            if(l&lt;r)&#123; swap(nums[l],nums[r]);            l++;            r--;&#125;        &#125;        return r+1;    &#125;&#125;;
+快慢指针法
+思路：定义一个快指针，用于一直向前循环，定义一个慢指针，当快指针指到的元素！=val时，将这个元素加入到慢指针指向的位置。快指针不会慢于慢指针，所以慢指针元素的更改就是它最后输出的数组。
+class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int fast=0,slow=0,n=nums.size();        while(fast&lt;n)        &#123;            if(nums[fast]==val) fast++;            else nums[slow++]=nums[fast++];        &#125;        return slow;    &#125;&#125;;
+相关题目
+26.删除有序数组中的重复项：https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description/
+思路：快慢指针，题解中i为快指针，n为慢指针，当快慢指针指向的元素不相等时，更新慢指针，思路和例题中的差不多。
+class Solution &#123;public:    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;        int n=0;        for(int i=0;i&lt;nums.size();i++) if(nums[i]!=nums[n]) nums[++n]=nums[i];        return n+1;    &#125;&#125;;
+283.移动零：https://leetcode.cn/problems/move-zeroes/solutions/2821184/san-chong-jie-fa-duo-yu-yan-you-pei-tu-b-1d3s/
+思路：这题不太好想，前几天做过，这次看还是没思路。
+class Solution &#123;public:    void moveZeroes(vector&lt;int&gt;&amp; nums) &#123;        int n=0,tem;        for(int i=0;i&lt;nums.size();i++)        &#123;            if(nums[i]!=0)            &#123;                tem=nums[i];                nums[i]=0;                nums[n++]=tem;                 &#125;        &#125;    &#125;&#125;;
+977.有序数组的平方：https://leetcode.cn/problems/squares-of-a-sorted-array/
+这题印象比较深刻，前几天做的时候一直想不明白我的做法的问题，后来问了学长，才知道，我因为没有定义一个新数组，导致在原数组上操作导致的问题。直接定义int数组也不行，得用vector定义一个动态数组，没接触过vector也是不太会用，一直想着看看呢，也总是不想看。当时一直以为是超出int范围了。
+思路：左右指针法，两边的数的平方向中间是递减的，所以比较两端，大的那一个就是剩下元素中最大的那个。
+class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        int l = 0, r = nums.size() - 1, pos = nums.size() - 1;        vector&lt;int&gt; result(nums.size());  // 创建 int 类型的结果数组        while (l &lt;= r) &#123;            int ll = nums[l] * nums[l];              int rr = nums[r] * nums[r];              if (ll &gt;= rr) &#123;                result[pos] = ll;                l++;            &#125; else &#123;                result[pos] = rr;                r--;            &#125;            pos--;        &#125;        return result;  // 返回结果数组    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二分查找</tag>
+        <tag>双指针</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--数组</title>
     <url>/2025/01/2day/</url>
     <content><![CDATA[滑动窗口
 ​	刚开始不太好想到滑动窗口这种方法，即使想到了也并没有办法证明滑动窗口方法的正确性，现在我也不会证明。只是会用，前几天做过一次，这是第二次做，记住了这个方法之后也是没有什么障碍。
@@ -263,111 +368,6 @@ class Solution &#123;public:    vector&lt;int&gt; spiralArray(vector&lt;vector&l
         <tag>滑动窗口</tag>
         <tag>矩阵规律</tag>
         <tag>前缀和</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
-class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
-版本二
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--数组</title>
-    <url>/2025/01/1day/</url>
-    <content><![CDATA[二分查找
-每次去除当前区间一半的元素，时间复杂度O(logn)，注意处理好区间。
-例题
-题目链接：704. 二分查找
-题目描述：在严格递增的序列中找到给定的数，并返回其下标。
-左闭右闭 [left,right]
-class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid-1;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
-左闭右开 [left,right)
-class Solution &#123;public:    int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;        while(l&lt;r) //当l=r时没有意义，所以改为l&lt;r.        &#123;            int mid=(l+r)/2;            if(nums[mid]&gt;target) r=mid;            else if(nums[mid]&lt;target) l=mid+1;            else return mid;        &#125;        return -1;    &#125;&#125;;
-相关题目
-35. 搜索插入位置
-比较简单，处理一下返回值就可以。
-34. 在排序数组中查找元素的第一个和最后一个位置
-需要进行两次操作，找到左右边界，较复杂，还需要多做做。
-69. x 的平方根 
-我的思路是当(l-r)&lt;=1,找到的l便是整数部分。
-367. 有效的完全平方数
-题目还未做
-双指针
-一种重要的编程思想，非常高效。
-例题
-题目链接：https://leetcode.cn/problems/remove-element/
-题目描述：给定一个数组 nums 和一个值 val，原地移除所有数值等于 val 的元素，并返回移除后数组的新长度。
-左右指针法
-思路：从两头向中间移动指针，当左边==val，右边！=val时，交换两个元素，边界问题不太好处理，较麻烦。
-class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int l=0,r=nums.size()-1;        while(l&lt;=r)        &#123;            while(l&lt;=r &amp;&amp; nums[l]!=val) l++;            while(l&lt;=r &amp;&amp; nums[r]==val) r--;            if(l&lt;r)&#123; swap(nums[l],nums[r]);            l++;            r--;&#125;        &#125;        return r+1;    &#125;&#125;;
-快慢指针法
-思路：定义一个快指针，用于一直向前循环，定义一个慢指针，当快指针指到的元素！=val时，将这个元素加入到慢指针指向的位置。快指针不会慢于慢指针，所以慢指针元素的更改就是它最后输出的数组。
-class Solution &#123;public:    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;        int fast=0,slow=0,n=nums.size();        while(fast&lt;n)        &#123;            if(nums[fast]==val) fast++;            else nums[slow++]=nums[fast++];        &#125;        return slow;    &#125;&#125;;
-相关题目
-26.删除有序数组中的重复项：https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description/
-思路：快慢指针，题解中i为快指针，n为慢指针，当快慢指针指向的元素不相等时，更新慢指针，思路和例题中的差不多。
-class Solution &#123;public:    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;        int n=0;        for(int i=0;i&lt;nums.size();i++) if(nums[i]!=nums[n]) nums[++n]=nums[i];        return n+1;    &#125;&#125;;
-283.移动零：https://leetcode.cn/problems/move-zeroes/solutions/2821184/san-chong-jie-fa-duo-yu-yan-you-pei-tu-b-1d3s/
-思路：这题不太好想，前几天做过，这次看还是没思路。
-class Solution &#123;public:    void moveZeroes(vector&lt;int&gt;&amp; nums) &#123;        int n=0,tem;        for(int i=0;i&lt;nums.size();i++)        &#123;            if(nums[i]!=0)            &#123;                tem=nums[i];                nums[i]=0;                nums[n++]=tem;                 &#125;        &#125;    &#125;&#125;;
-977.有序数组的平方：https://leetcode.cn/problems/squares-of-a-sorted-array/
-这题印象比较深刻，前几天做的时候一直想不明白我的做法的问题，后来问了学长，才知道，我因为没有定义一个新数组，导致在原数组上操作导致的问题。直接定义int数组也不行，得用vector定义一个动态数组，没接触过vector也是不太会用，一直想着看看呢，也总是不想看。当时一直以为是超出int范围了。
-思路：左右指针法，两边的数的平方向中间是递减的，所以比较两端，大的那一个就是剩下元素中最大的那个。
-class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        int l = 0, r = nums.size() - 1, pos = nums.size() - 1;        vector&lt;int&gt; result(nums.size());  // 创建 int 类型的结果数组        while (l &lt;= r) &#123;            int ll = nums[l] * nums[l];              int rr = nums[r] * nums[r];              if (ll &gt;= rr) &#123;                result[pos] = ll;                l++;            &#125; else &#123;                result[pos] = rr;                r--;            &#125;            pos--;        &#125;        return result;  // 返回结果数组    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>二分查找</tag>
-        <tag>双指针</tag>
       </tags>
   </entry>
   <entry>
@@ -531,6 +531,52 @@ class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; 
       </tags>
   </entry>
   <entry>
+    <title>代码随想录--哈希表</title>
+    <url>/2025/02/6day/</url>
+    <content><![CDATA[哈希表
+​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
+四数相加Ⅱ
+题目链接：454. 四数相加 II
+题目思路：我刚开始的思路是for四次，但是算了一下，可能有点超时，然后就直接看题解了。将四个数组两两分成一组进行处理，时间复杂度就是O(n*n)。
+
+首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
+遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
+定义int变量count，用来统计 a+b+c+d = 0 出现的次数。
+再遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
+最后返回统计值 count 就可以了
+
+class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        unordered_map&lt;int,int&gt; umap;        for(int a : nums1) for(int b:nums2) umap[a+b]++;        int count=0;        for(int c:nums3) for(int d:nums4) if(umap.find(0-(c+d))!=umap.end()) count+=umap[0-(c+d)];        return count;    &#125;&#125;;
+救赎金
+题目链接：383. 赎金信
+题目思路：秒了，这和 242. 有效的字母异位词 几乎差不多。
+class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int n=magazine.size(),m=ransomNote.size();        int j[26]=&#123;0&#125;;        for(int i=0;i&lt;n;i++) j[magazine[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) j[ransomNote[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(j[i]&lt;0) return false;         return true;    &#125;&#125;;
+三数之和
+题目链接：15. 三数之和
+题目思路1：感觉这题最不好处理的地方就是去重。三次循环，意料之中的超时了，当锻炼一下代码熟练度了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                for(int k=j+1;k&lt;nums.size();k++)                &#123;                    if((nums[i]+nums[j]+nums[k])==0)                     result.push_back(&#123;nums[i], nums[j], nums[k]&#125;);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
+题目思路2：改了一下上一种方法，用哈希表进行处理。虽然可以通过，但是还是很慢。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            if (nums[i] &gt; 0) break;            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;            unordered_set&lt;int&gt; set;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                int target = 0 - (nums[i] + nums[j]);                if (set.find(target) != set.end()) &#123;                    result.push_back(&#123;nums[i], target, nums[j]&#125;);                       set.erase(target);                &#125;                else &#123;                    set.insert(nums[j]);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
+双指针：代码随想录的那个代码，感觉很多地方可以优化，所以就去找了一个优化完的代码。首先先将数组排序，我们只需要输出加和等于0的元素就可以，不用管次序。排序之后就可以从两端开始操作了，先创造一个大循环，用来固定住第一个数，然后再用双指针取操作另外两个数。
+优化一：当最小的三个数的和大于0时，就可以直接退出循环了。
+优化二：当最大的两个数加最小的那个数，还是小于0，就可以向前移动到再大的数了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        ranges::sort(nums);        vector&lt;vector&lt;int&gt;&gt; ans;        int n = nums.size();        for (int i = 0; i &lt; n - 2; i++) &#123;            int x = nums[i];            if (i &amp;&amp; x == nums[i - 1]) continue; // 跳过重复数字            if (x + nums[i + 1] + nums[i + 2] &gt; 0) break; // 优化一            if (x + nums[n - 2] + nums[n - 1] &lt; 0) continue; // 优化二            int j = i + 1, k = n - 1;            while (j &lt; k) &#123;                int s = x + nums[j] + nums[k];                if (s &gt; 0) &#123;                    k--;                &#125; else if (s &lt; 0) &#123;                    j++;                &#125; else &#123; // 三数之和为 0                    ans.push_back(&#123;x, nums[j], nums[k]&#125;);                    for (j++; j &lt; k &amp;&amp; nums[j] == nums[j - 1]; j++); // 跳过重复数字                    for (k--; k &gt; j &amp;&amp; nums[k] == nums[k + 1]; k--); // 跳过重复数字                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
+四数之和
+题目链接：18. 四数之和
+我的思路：做了半个小时，好几个小问题，思路和上一题一样，用同样的方法，只不过多了一层循环，需要多判断一下重复条件，那几个相加超范围不太会如何处理，chatgpt让它给的方案。看了一下代码随想录的思路，差不多，它加了两行剪枝代码，但是它的代码性能有点慢，加了也不如我的这个性能高，我也在代码中加上了那两行剪枝代码。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) &#123;        int n=nums.size();        sort(nums.begin(),nums.end());        vector&lt;vector&lt;int&gt;&gt; ans;        for(int i=0;i&lt;n-3;i++)            if(i&gt;0 &amp;&amp; nums[i]==nums[i-1]) continue;            if (nums[i] &gt; target &amp;&amp; nums[i] &gt;= 0) break; //             for(int j=i+1;j&lt;n-2;j++)            &#123;                if(j&gt;i+1 &amp;&amp; nums[j]==nums[j-1]) continue;                if(nums[i]+nums[j] &gt; target &amp;&amp; nums[i]+nums[j] &gt;= 0) break; //                int c=j+1,d=n-1;                if((long long)nums[i]+nums[j]+nums[j+1]+nums[j+2]&gt;target) break;                if((long long)nums[i]+nums[j]+nums[n-1]+nums[n-2]&lt;target) continue;                while(c&lt;d)&#123;                    long long sum=(long long)nums[i]+nums[j]+nums[c]+nums[d];                    if(sum&gt;target) d--;                    else if(sum&lt;target) c++;                    else&#123;                        ans.push_back(vector&lt;int&gt; &#123;nums[i],nums[j],nums[c],nums[d]&#125;);                        while(c&lt;d &amp;&amp; nums[c]==nums[c+1]) c++;                        while(c&lt;d &amp;&amp; nums[d]==nums[d-1]) d--;                        c++;                        d--;                    &#125;                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>双指针</tag>
+        <tag>哈希表</tag>
+        <tag>map</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码随想录--字符串</title>
     <url>/2025/02/7day/</url>
     <content><![CDATA[字符串
@@ -588,52 +634,6 @@ class Solution &#123;public:    void getNext (int* next, const string&amp; s)&#1
         <tag>字符串</tag>
         <tag>KMP</tag>
         <tag>reverse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--哈希表</title>
-    <url>/2025/02/6day/</url>
-    <content><![CDATA[哈希表
-​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
-四数相加Ⅱ
-题目链接：454. 四数相加 II
-题目思路：我刚开始的思路是for四次，但是算了一下，可能有点超时，然后就直接看题解了。将四个数组两两分成一组进行处理，时间复杂度就是O(n*n)。
-
-首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
-遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
-定义int变量count，用来统计 a+b+c+d = 0 出现的次数。
-再遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
-最后返回统计值 count 就可以了
-
-class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        unordered_map&lt;int,int&gt; umap;        for(int a : nums1) for(int b:nums2) umap[a+b]++;        int count=0;        for(int c:nums3) for(int d:nums4) if(umap.find(0-(c+d))!=umap.end()) count+=umap[0-(c+d)];        return count;    &#125;&#125;;
-救赎金
-题目链接：383. 赎金信
-题目思路：秒了，这和 242. 有效的字母异位词 几乎差不多。
-class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int n=magazine.size(),m=ransomNote.size();        int j[26]=&#123;0&#125;;        for(int i=0;i&lt;n;i++) j[magazine[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) j[ransomNote[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(j[i]&lt;0) return false;         return true;    &#125;&#125;;
-三数之和
-题目链接：15. 三数之和
-题目思路1：感觉这题最不好处理的地方就是去重。三次循环，意料之中的超时了，当锻炼一下代码熟练度了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                for(int k=j+1;k&lt;nums.size();k++)                &#123;                    if((nums[i]+nums[j]+nums[k])==0)                     result.push_back(&#123;nums[i], nums[j], nums[k]&#125;);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
-题目思路2：改了一下上一种方法，用哈希表进行处理。虽然可以通过，但是还是很慢。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            if (nums[i] &gt; 0) break;            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;            unordered_set&lt;int&gt; set;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                int target = 0 - (nums[i] + nums[j]);                if (set.find(target) != set.end()) &#123;                    result.push_back(&#123;nums[i], target, nums[j]&#125;);                       set.erase(target);                &#125;                else &#123;                    set.insert(nums[j]);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
-双指针：代码随想录的那个代码，感觉很多地方可以优化，所以就去找了一个优化完的代码。首先先将数组排序，我们只需要输出加和等于0的元素就可以，不用管次序。排序之后就可以从两端开始操作了，先创造一个大循环，用来固定住第一个数，然后再用双指针取操作另外两个数。
-优化一：当最小的三个数的和大于0时，就可以直接退出循环了。
-优化二：当最大的两个数加最小的那个数，还是小于0，就可以向前移动到再大的数了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        ranges::sort(nums);        vector&lt;vector&lt;int&gt;&gt; ans;        int n = nums.size();        for (int i = 0; i &lt; n - 2; i++) &#123;            int x = nums[i];            if (i &amp;&amp; x == nums[i - 1]) continue; // 跳过重复数字            if (x + nums[i + 1] + nums[i + 2] &gt; 0) break; // 优化一            if (x + nums[n - 2] + nums[n - 1] &lt; 0) continue; // 优化二            int j = i + 1, k = n - 1;            while (j &lt; k) &#123;                int s = x + nums[j] + nums[k];                if (s &gt; 0) &#123;                    k--;                &#125; else if (s &lt; 0) &#123;                    j++;                &#125; else &#123; // 三数之和为 0                    ans.push_back(&#123;x, nums[j], nums[k]&#125;);                    for (j++; j &lt; k &amp;&amp; nums[j] == nums[j - 1]; j++); // 跳过重复数字                    for (k--; k &gt; j &amp;&amp; nums[k] == nums[k + 1]; k--); // 跳过重复数字                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
-四数之和
-题目链接：18. 四数之和
-我的思路：做了半个小时，好几个小问题，思路和上一题一样，用同样的方法，只不过多了一层循环，需要多判断一下重复条件，那几个相加超范围不太会如何处理，chatgpt让它给的方案。看了一下代码随想录的思路，差不多，它加了两行剪枝代码，但是它的代码性能有点慢，加了也不如我的这个性能高，我也在代码中加上了那两行剪枝代码。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) &#123;        int n=nums.size();        sort(nums.begin(),nums.end());        vector&lt;vector&lt;int&gt;&gt; ans;        for(int i=0;i&lt;n-3;i++)            if(i&gt;0 &amp;&amp; nums[i]==nums[i-1]) continue;            if (nums[i] &gt; target &amp;&amp; nums[i] &gt;= 0) break; //             for(int j=i+1;j&lt;n-2;j++)            &#123;                if(j&gt;i+1 &amp;&amp; nums[j]==nums[j-1]) continue;                if(nums[i]+nums[j] &gt; target &amp;&amp; nums[i]+nums[j] &gt;= 0) break; //                int c=j+1,d=n-1;                if((long long)nums[i]+nums[j]+nums[j+1]+nums[j+2]&gt;target) break;                if((long long)nums[i]+nums[j]+nums[n-1]+nums[n-2]&lt;target) continue;                while(c&lt;d)&#123;                    long long sum=(long long)nums[i]+nums[j]+nums[c]+nums[d];                    if(sum&gt;target) d--;                    else if(sum&lt;target) c++;                    else&#123;                        ans.push_back(vector&lt;int&gt; &#123;nums[i],nums[j],nums[c],nums[d]&#125;);                        while(c&lt;d &amp;&amp; nums[c]==nums[c+1]) c++;                        while(c&lt;d &amp;&amp; nums[d]==nums[d-1]) d--;                        c++;                        d--;                    &#125;                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>双指针</tag>
-        <tag>哈希表</tag>
-        <tag>map</tag>
       </tags>
   </entry>
   <entry>
@@ -819,224 +819,50 @@ class Solution &#123;public:    // 小顶堆    class mycomparison &#123;    pub
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 两个变量 - 2025.11.13</title>
-    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[今日概览
+    <title>代码随想录--二叉树</title>
+    <url>/2025/02/9day/</url>
+    <content><![CDATA[二叉树前中后序遍历
+二叉树定义
+struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
+二叉树的前序遍历
+题目链接：144. 二叉树的前序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
 
-日期：&#123;2025-11-13&#125;
-题目数量：&#123;共 2 题&#125;
-难度分布：简单 2 
-主要收获：自己的方法就是屎山，灵神的方法高端又通透
-心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
+统一迭代法
+每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
+class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的中序遍历
+题目链接：94. 二叉树的中序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
+迭代遍历
 
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
+统一迭代法
 
-题目列表与详解
-1. Two Sum
-
-
-题号 / 链接：#1 / 题目链接
-
-
-难度：简单
-
-
-题型标签：哈希表，数组
-
-
-题目描述（简要）：
-
-就是查找一下哪两个数相加等于target，返回下标。
-
-
-
-思路分析
-
-两个方法，不同的时间复杂度
-
-方法一：暴力写法。
-复杂度
-
-时间：O(*n*2)
-空间：O(1)
-
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
-​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
-words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
-输出结果：
-0 apple1 banana2 cherry
-方法二：哈希。
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-2025.11.17 二刷
-出去开会几天，把enumerate函数忘记了
-class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
-反思与总结
-
-可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
-
-
-2. 好数对的数目
-
-题号 / 链接：#2 / 题目链接
-难度：简单
-题型标签：哈希表，数组
-题目描述（简要）：
-
-就是统计每个数出现了多少次，然后用排列组合算出来相加。
-
-
-
-思路分析
-我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
-复杂度
-class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
-如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
-改进方法一：使用 Counter
-from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
-改进方法二：一边遍历一边累加
-from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
-复杂度
-
-时间：O(n)
-空间：O(n)
-
-反思与总结
-
-我的方法毫无通用性可言
-
+class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
+二叉树的后序遍历
+题目链接：145. 二叉树的后序遍历
+递归遍历
+class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
+迭代遍历
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
+统一迭代法
+class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
 ]]></content>
       <categories>
         <category>算法刷题</category>
+        <category>代码随想录</category>
       </categories>
       <tags>
-        <tag>LeetCode</tag>
-        <tag>刷题记录</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSRMS</title>
-    <url>/2025/04/CSRMS/</url>
-    <content><![CDATA[CSRMS
-用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
-论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
-代码地址：https://github.com/czt117/CSRMS
-个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
-名词解释：
-课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
-实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
-对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
-研究目的
-缓解类内多样性和类间相似性问题
-
-整体架构
-CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
-在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
-
-离线学习阶段
-类级关系建模
-类级关系定义
-(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
-$$
-R_{ID} = \{ (I_a, I_b) \mid y_a = y_b, P_{C_a} \neq P_{C_b} \}
-$$
-(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
-$$
-R_{IS} = \{(I_a, I_b) \mid y_a \neq y_b, P_{C_a} = P_{C_b} \}
-$$
-© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
-$$
-R_{MC} = \{(I_a, I_b) \mid y_a \neq y_b, M_{C_a} = M_{C_b} \}
-$$
-主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
-混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
-ART聚类
-自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。$ C={c1,…,cJ}$
-$$
-C = ART(M_v(I))
-$$
-得到三个级别：类级别、模式级别、实例级别。然后构建关系图 $G_t$ 。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
-训练阶段
-类感知图采样
-正样本采样
-使用主导模式采样器$ S_{dp} $，从类别 $ y_i $ 主导的最大簇 $c_j $ 中选择与 $ I_i $ 距离最大的前 $ n $个正样本。为每个批次样本选择正样本集合 $ \Omega_{posi} $，以解决类内多样性。
-选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
-$$
-\Omega_{posi} = S_{dp}(I_i, \varphi(I_i, I_{i_j}), n)
-$$
-负样本采样
-视觉相似模式采样器 $ S_{ap} $，从类别 $ y_i $ 主导的最大簇 $c_i $ 中选择与 $ I_i $ 距离最大的前 $m$个正样本。为每个批次样本选择负样本集合$\Omega_{nega} $，以解决类间相似性和混类簇。
-选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
-$$
-\Omega_{nega} = S_{ap}(I_i, \varphi(I_i, I_{i_j}), m)
-$$
-课程学习
-基于易难估计，为批次样本分配难度级别。
-$$
-f(I_i) = \begin{cases}
-\Omega_{\text{easy}} &amp; \text{if } \frac{N_k^j}{N_k} &gt; \rho_1 \\
-\Omega_{\text{medium}} &amp; \text{if } \frac{N_k^j}{N_k} &lt; \rho_1 \\
-\Omega_{\text{hard}} &amp; \text{if } \frac{N_k^h}{N_k} &gt; \rho_1 \text{ and } j \neq h
-\end{cases}
-$$
-调整学习权重
-使用“衰减方法”，设置惩罚系数，并通过参数调节。
-$$
-α_i⋅λ_e+(1−α_i)⋅(α_f⋅λ_m+(1−α_f)⋅λ_h)=1
-$$
-初期：$\alpha_i $、$ \alpha_f $接近 1，优先学习简单样本。
-后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 $ \alpha_i $、$ \alpha_f $，引入更多困难样本。
-构建批次子图
-$G_b$ 是 $ G_t $的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 $ G_t $中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
-关系图引导的表示学习
-簇感知表征平滑
-图形平滑
-使用图卷积网络（GCN）$ \mathcal{G}(\cdot) $，基于子图 $ G_b $ 和正样本 $ \Omega_{posi} $，聚合同一类别图像的信息。
-$$
-F_g=\mathcal{G}(\hat{A},I_i,Ω_{posi})=softmax(\hat{A}⋅ReLU(\hat{A}⋅X⋅W^{(1)})⋅W^{(0)})
-$$
-簇级特征平滑
-将表征 $ F_g $ 与簇原型  $ w_{cu} $ 对齐，其中$w_{cu} $是类别 $ y_i $主导的最大簇 $c_j $的原型。
-$$
-F_u=α_u⊙F_g+β_u⊙w_{cu}
-$$
-类级分布正则化
-类级表征对齐
-表征 $ F_u$ 与类原型 $ p_{cu} $ 对齐，其中 $ p_{cu} $ 是类别 $ y_i $ 在所有主导簇中的表征聚合。
-$$
-F_a=α_a⊙F_u+β_a⊙p_{cu}
-$$
-负样本约束
-构建负样本损失$\mathcal L_{neg}$，推远不同类别表征：
-$$
-\mathcal L_{neg} = \sum_{i=1}^{N} -\log \left( \mu_{i} \frac{\theta}{\sum_{q=1}^{m}|M_v(I_i) - M_v(\Omega_{nega}^q)|_2 + \theta} \right)
-$$
-类间约束
-构建类间分散损失$\mathcal L_{inter}$，进一步推远不同类别表征：
-$$
-\mathcal L_{inter} = \sum_{i,j} { i = j } |0| + { i \ne j } -\log \left( \mu\frac{\theta}{|F_v^i - F_v^j|_2 + \theta} \right)
-$$
-分类器训练
-使用分类器 $ C(\cdot) $预测类别：
-$$
-F_a →P
-$$
-使用交叉熵损失 $\mathcal L_{ce}$优化：
-$$
-\mathcal L_{ce} = \frac{1}{N} \sum_{i} \mathcal L_i = -\frac{1}{N} \sum_{i}\sum_{c=1}^{C} y_{ic} \log(P_{ic})
-$$
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
-      </categories>
-      <tags>
-        <tag>视觉表征</tag>
-        <tag>论文精读</tag>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
       </tags>
   </entry>
   <entry>
@@ -1596,10 +1422,231 @@ BERT是&quot;真双向&quot;：真正的双向同时编码和融合
         <category>自然语言处理</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
         <tag>BERT</tag>
         <tag>Transformer</tag>
         <tag>自然语言处理</tag>
+        <tag>论文精读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSRMS</title>
+    <url>/2025/04/CSRMS/</url>
+    <content><![CDATA[CSRMS
+用于视觉表征学习的类级结构化关系建模与平滑 (MM2023)
+论文地址：https://ercdm.sdu.edu.cn/__local/7/AC/70/7E4948C4761839F62E3958CE772_043AE854_2B459A.pdf
+代码地址：https://github.com/czt117/CSRMS
+个人理解这个像是一个知识总结的过程。首先通过特征提取获得特征图，这个过程可以类比我从书本上学习知识的过程，提取出有用的知识，然后通过聚类算法对特征图进行分簇，就相当于把学到的知识进行总结的过程，但是总会有一些比较相近的知识容易被搞混，这个就是类间相似性和类内多样性，再着重对这一块进行处理，使得对知识的掌握更加透彻。
+名词解释：
+课程构建（Curriculum Construction）：是一种渐进式学习方法，通过根据任务或样本的难度或复杂性来设计学习顺序，让模型从简单的内容逐步过渡到复杂的内容，从而更高效地掌握知识。它通过评估样本难度、调整学习权重并动态控制训练过程，帮助模型更高效地学习，最终提高收敛速度和泛化能力。
+实例级别的图像（Instance-level images）：指的是针对单个具体图像样本的研究和处理。每一张图像被视为一个独立的实例，拥有其独特的特征和属性，而不是仅仅代表某个类别或群体的共性。与类别级别（Class-level）的研究不同，实例级别更关注图像的个体差异和细节。
+对比学习（Contrastive Learning）：是一种机器学习技术，特别在无监督学习和自监督学习中应用广泛。它的核心思想是通过对比不同样本之间的相似性和差异性，让模型自动学习数据的特征表示
+研究目的
+缓解类内多样性和类间相似性问题
+
+整体架构
+CSRMS 框架的三个核心模块：类级关系建模、类感知图采样 和 关系图引导的表示学习
+在离线学习阶段，根据表征视觉分布挖掘类级关系，构建数据集级关系图；在训练阶段，根据类级关系构建多样化类感知采样策略，结合课程构建，获得Batch级别关系子图；在类级关系的引导下，利用特征平滑、类原型对齐和类级约束显式正则化视觉表征，有效缓解视觉表征分布复杂性。
+
+离线学习阶段
+类级关系建模
+类级关系定义
+(a) 类内视觉模式的多样性（Intra-Class Diversity of Visual Patterns）：同一类别的样本分布在不同主导簇，说明类内样本视觉差异大。
+$$
+R_{ID} = \{ (I_a, I_b) \mid y_a = y_b, P_{C_a} \neq P_{C_b} \}
+$$
+(b) 视觉模式的类间相似性 （Inter-Class Similarity of Visual Patterns）：不同类别的样本分布在同一主导簇，说明类间样本视觉上相似。
+$$
+R_{IS} = \{(I_a, I_b) \mid y_a \neq y_b, P_{C_a} = P_{C_b} \}
+$$
+© 视觉模式的混类簇 (Mix-class Cluster of Visual Patterns)：不同类别的样本分布在同一混类簇，说明聚类结果复杂，缺乏主导类别。
+$$
+R_{MC} = \{(I_a, I_b) \mid y_a \neq y_b, M_{C_a} = M_{C_b} \}
+$$
+主导簇（Dominant Clusters）：指聚类中主要由某个类别样本构成的簇，通常通过聚类算法基于特征分布确定。
+混类簇（Mix-class Clusters）：指聚类中没有明显主导类别的簇，包含多个类别的样本，增加了建模难度。
+ART聚类
+自适应聚类算法 ART：能够根据数据分布动态调整簇数量，适合处理视觉特征空间中的复杂分布。对视觉特征进行聚类，得到视觉模式。$ C={c1,…,cJ}$
+$$
+C = ART(M_v(I))
+$$
+得到三个级别：类级别、模式级别、实例级别。然后构建关系图 $G_t$ 。这是一个多层图结构，实例级别连接到模式级别（通过聚类），模式级别连接到类级别（通过标签），这种结构有助于捕捉样本间的复杂关系。
+训练阶段
+类感知图采样
+正样本采样
+使用主导模式采样器$ S_{dp} $，从类别 $ y_i $ 主导的最大簇 $c_j $ 中选择与 $ I_i $ 距离最大的前 $ n $个正样本。为每个批次样本选择正样本集合 $ \Omega_{posi} $，以解决类内多样性。
+选择距离最远的正样本，增加类内样本的多样性，增强表征学习的鲁棒性。
+$$
+\Omega_{posi} = S_{dp}(I_i, \varphi(I_i, I_{i_j}), n)
+$$
+负样本采样
+视觉相似模式采样器 $ S_{ap} $，从类别 $ y_i $ 主导的最大簇 $c_i $ 中选择与 $ I_i $ 距离最大的前 $m$个正样本。为每个批次样本选择负样本集合$\Omega_{nega} $，以解决类间相似性和混类簇。
+选择视觉相似的负样本，增强类间区分度，缓解类间相似性问题。
+$$
+\Omega_{nega} = S_{ap}(I_i, \varphi(I_i, I_{i_j}), m)
+$$
+课程学习
+基于易难估计，为批次样本分配难度级别。
+$$
+f(I_i) = \begin{cases}
+\Omega_{\text{easy}} &amp; \text{if } \frac{N_k^j}{N_k} &gt; \rho_1 \\
+\Omega_{\text{medium}} &amp; \text{if } \frac{N_k^j}{N_k} &lt; \rho_1 \\
+\Omega_{\text{hard}} &amp; \text{if } \frac{N_k^h}{N_k} &gt; \rho_1 \text{ and } j \neq h
+\end{cases}
+$$
+调整学习权重
+使用“衰减方法”，设置惩罚系数，并通过参数调节。
+$$
+α_i⋅λ_e+(1−α_i)⋅(α_f⋅λ_m+(1−α_f)⋅λ_h)=1
+$$
+初期：$\alpha_i $、$ \alpha_f $接近 1，优先学习简单样本。
+后期：当损失收敛（例如损失 &lt; 0.01 且连续两轮损失差 &lt; 0.0001）时，逐步减小 $ \alpha_i $、$ \alpha_f $，引入更多困难样本。
+构建批次子图
+$G_b$ 是 $ G_t $的一个子图，针对每个训练批次（batch）生成，包含批次中的样本及其正负样本对，用于后续表征学习。过采样策略，从 $ G_t $中选择与批次样本相关的子图结构，保留类级别、模式级别和实例级别的关系，同时引入正样本和负样本以增强表征学习。
+关系图引导的表示学习
+簇感知表征平滑
+图形平滑
+使用图卷积网络（GCN）$ \mathcal{G}(\cdot) $，基于子图 $ G_b $ 和正样本 $ \Omega_{posi} $，聚合同一类别图像的信息。
+$$
+F_g=\mathcal{G}(\hat{A},I_i,Ω_{posi})=softmax(\hat{A}⋅ReLU(\hat{A}⋅X⋅W^{(1)})⋅W^{(0)})
+$$
+簇级特征平滑
+将表征 $ F_g $ 与簇原型  $ w_{cu} $ 对齐，其中$w_{cu} $是类别 $ y_i $主导的最大簇 $c_j $的原型。
+$$
+F_u=α_u⊙F_g+β_u⊙w_{cu}
+$$
+类级分布正则化
+类级表征对齐
+表征 $ F_u$ 与类原型 $ p_{cu} $ 对齐，其中 $ p_{cu} $ 是类别 $ y_i $ 在所有主导簇中的表征聚合。
+$$
+F_a=α_a⊙F_u+β_a⊙p_{cu}
+$$
+负样本约束
+构建负样本损失$\mathcal L_{neg}$，推远不同类别表征：
+$$
+\mathcal L_{neg} = \sum_{i=1}^{N} -\log \left( \mu_{i} \frac{\theta}{\sum_{q=1}^{m}|M_v(I_i) - M_v(\Omega_{nega}^q)|_2 + \theta} \right)
+$$
+类间约束
+构建类间分散损失$\mathcal L_{inter}$，进一步推远不同类别表征：
+$$
+\mathcal L_{inter} = \sum_{i,j} { i = j } |0| + { i \ne j } -\log \left( \mu\frac{\theta}{|F_v^i - F_v^j|_2 + \theta} \right)
+$$
+分类器训练
+使用分类器 $ C(\cdot) $预测类别：
+$$
+F_a →P
+$$
+使用交叉熵损失 $\mathcal L_{ce}$优化：
+$$
+\mathcal L_{ce} = \frac{1}{N} \sum_{i} \mathcal L_i = -\frac{1}{N} \sum_{i}\sum_{c=1}^{C} y_{ic} \log(P_{ic})
+$$
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>视觉表征</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 两个变量 - 2025.11.13</title>
+    <url>/2025/11/LeetCode%E5%88%B7%E9%A2%98%E6%97%A5%E5%BF%97%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[今日概览
+
+日期：&#123;2025-11-13&#125;
+题目数量：&#123;共 2 题&#125;
+难度分布：简单 2 
+主要收获：自己的方法就是屎山，灵神的方法高端又通透
+心情/状态：太久没刷了，已经把基本的语法忘记了，以后尝试用python刷题，学习一些比较好用的函数
+
+
+题目列表与详解
+1. Two Sum
+
+
+题号 / 链接：#1 / 题目链接
+
+
+难度：简单
+
+
+题型标签：哈希表，数组
+
+
+题目描述（简要）：
+
+就是查找一下哪两个数相加等于target，返回下标。
+
+
+
+思路分析
+
+两个方法，不同的时间复杂度
+
+方法一：暴力写法。
+复杂度
+
+时间：O(*n*2)
+空间：O(1)
+
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        for i, x in enumerate(nums):              for j in range(i + 1, len(nums)):                  if x + nums[j] == target:                     return [i, j]  
+​	这里主要是enumerate( )函数，忘记是干啥用的了，enumerate( ) 是 Python 提供的内置函数，用来在遍历可迭代对象（如列表、元组、字符串等）时，同时获得元素的索引和值。它的常见用法如下：
+words = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]for index, item in enumerate(words):    print(index, item)
+输出结果：
+0 apple1 banana2 cherry
+方法二：哈希。
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        seen = &#123;&#125;        for idx, num in enumerate(nums):            complement = target - num            if complement in seen:                return [seen[complement], idx]            seen[num] = idx        return []
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+2025.11.17 二刷
+出去开会几天，把enumerate函数忘记了
+class Solution:    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:        s=&#123;&#125;        for i in range(len(nums)):            if target-nums[i] in s:                return [i,s[target-nums[i]]]            s[nums[i]]=i
+反思与总结
+
+可以按照题目要求找符合两数相加的值，也可以换一种思路直接去查找符合要求的值，枚举其中一个变量，把它当成常量看待，从而转化成「一个变量」的问题
+
+
+2. 好数对的数目
+
+题号 / 链接：#2 / 题目链接
+难度：简单
+题型标签：哈希表，数组
+题目描述（简要）：
+
+就是统计每个数出现了多少次，然后用排列组合算出来相加。
+
+
+
+思路分析
+我的垃圾写法，后续有可以进行改进，学习的新函数，还是贴了一下。
+复杂度
+class Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        n=[0 for i in range(101)]        m=0        for index,num in enumerate(nums):            n[num]+=1        for i in range(101):            t=0            while n[i]&gt;=1:                n[i]=n[i]-1                t=t+n[i]            m+=t        return m
+如果换一个数据范围可能就不行了，更通用的写法可以使用 collections.Counter 或 defaultdict(int) 自动统计。还有可以直接使用排列组合公式cnt * (cnt - 1) // 2 就能得到该值的所有好数对数量。
+改进方法一：使用 Counter
+from typing import Listfrom collections import Counterclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        counter = Counter(nums)        ans = 0        for cnt in counter.values():            ans += cnt * (cnt - 1) // 2        return ans
+改进方法二：一边遍历一边累加
+from typing import Listfrom collections import defaultdictclass Solution:    def numIdenticalPairs(self, nums: List[int]) -&gt; int:        freq = defaultdict(int)        ans = 0        for num in nums:            ans += freq[num]      # 之前出现了 freq[num] 个 num，与当前 num 都能构成好数对            freq[num] += 1        return ans
+复杂度
+
+时间：O(n)
+空间：O(n)
+
+反思与总结
+
+我的方法毫无通用性可言
+
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>刷题记录</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1943,50 +1990,456 @@ Transformer具备全局建模能力，即便仅看到25%的patch也能捕捉结�
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/9day/</url>
-    <content><![CDATA[二叉树前中后序遍历
-二叉树定义
-struct TreeNode &#123;    int val;    TreeNode *left;    TreeNode *right;    TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;&#125;;
-二叉树的前序遍历
-题目链接：144. 二叉树的前序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;left, vec);  // 左        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
+    <title>MoE</title>
+    <url>/2025/04/MOE/</url>
+    <content><![CDATA[Mixtures of Experts
+《Adaptive Mixture of Local Experts》
 
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node= s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;right) s.push(node-&gt;right);            if(node-&gt;left) s.push(node-&gt;left);        &#125;        return res;    &#125;&#125;;
-统一迭代法
-每次加入一个右中左，接着将中全部输出，最后再按顺序输出栈里的内容，思路很直观，另外两种遍历也是如此。
-class Solution &#123;public:    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push(root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop();                if (node-&gt;right) st.push(node-&gt;right);  // 右                if (node-&gt;left) st.push(node-&gt;left);    // 左                st.push(node);                          // 中                st.push(NULL);            &#125; else &#123;                st.pop();                node = st.top();                st.pop();                result.push_back(node-&gt;val);            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的中序遍历
-题目链接：94. 二叉树的中序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode* cur, vector&lt;int&gt;&amp; vec) &#123;        if (cur == NULL) return;        traversal(cur-&gt;left, vec);  // 左        vec.push_back(cur-&gt;val);    // 中        traversal(cur-&gt;right, vec); // 右    &#125;    vector&lt;int&gt; preorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        traversal(root, result);        return result;    &#125;&#125;;
-迭代遍历
+论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
+1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
+核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
+基础架构
+如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
+系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
 
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        TreeNode* cur = root;                while (cur != nullptr || !s.empty()) &#123;            // 将当前节点及其左子树压入栈            while (cur != nullptr) &#123;                s.push(cur);                cur = cur-&gt;left;            &#125;            cur = s.top();            s.pop();            res.push_back(cur-&gt;val);            cur = cur-&gt;right;        &#125;         return res;    &#125;&#125;;
-统一迭代法
+通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
+性能比较
+元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
+数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
 
-class Solution &#123;public:    vector&lt;int&gt; inorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; result;        stack&lt;TreeNode*&gt; st;        if (root != NULL) st.push (root);        while (!st.empty()) &#123;            TreeNode* node = st.top();            if (node != NULL) &#123;                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中                if (node-&gt;right) st.push(node-&gt;right);  // 添加右节点（空节点不入栈）                st.push(node);                          // 添加中节点                st.push(NULL); // 中节点访问过，但是还没有处理，加入空节点做为标记。                if (node-&gt;left) st.push(node-&gt;left);    // 添加左节点（空节点不入栈）            &#125; else &#123; // 只有遇到空节点的时候，才将下一个节点放进结果集                st.pop();           // 将空节点弹出                node = st.top();    // 重新取出栈中元素                st.pop();                result.push_back(node-&gt;val); // 加入到结果集            &#125;        &#125;        return result;    &#125;&#125;;
-二叉树的后序遍历
-题目链接：145. 二叉树的后序遍历
-递归遍历
-class Solution &#123;public:    void traversal(TreeNode *root,vector&lt;int&gt;&amp; res)&#123;        if(root==NULL) return;        traversal(root-&gt;left,res);        traversal(root-&gt;right,res);        res.push_back(root-&gt;val);    &#125;    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; re;        traversal(root,re);        return re;    &#125;&#125;;
-迭代遍历
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        vector&lt;int&gt; res;        stack&lt;TreeNode*&gt; s;        if(root==NULL) return res;        s.push(root);        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            res.push_back(node-&gt;val);            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
-统一迭代法
-class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        vector&lt;int&gt; res;        if(root==NULL) return res;        s.push(root);        while(!s.empty())        &#123;            TreeNode* node =s.top();            if(node!=NULL)            &#123;                s.pop();                s.push(node);                s.push(NULL);                if(node-&gt;right) s.push(node-&gt;right);                if(node-&gt;left) s.push(node-&gt;left);            &#125;            else&#123;                s.pop();                node =s.top();                s.pop();                res.push_back(node-&gt;val);            &#125;        &#125;        return res;    &#125;&#125;;
+模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
+混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
+总结
+这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
+论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
+《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
+超大型神经网络：稀疏门控混合专家层
+论文链接：https://arxiv.org/abs/1701.06538
+2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
+上一篇强调的是减小时间成本，这一篇是减小计算成本。
+
+基础架构
+稀疏门控专家混合层（MoE）
+MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
+
+设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
+$$
+y = \sum_{i=1}^{n} G(x)_i E_i(x)
+$$
+
+均衡负载
+门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
+Keep Top-K
+Noisy Top-K Gating
+添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
+
+Noise
+使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
+
+$$
+H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
+$$
+Sparse
+除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
+
+$$
+\text{KeepTopK}(v, k)_i =
+\begin{cases}
+v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
+-\infty & \text{otherwise}.
+\end{cases}
+$$
+通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
+
+$$
+G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
+$$
+KeepTopK 策略将每个 token 路由给几个选定的专家。
+
+Auxiliary Loss
+为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
+该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
+
+$$
+\text{Importance}(X) = \sum_{x \in X} G(x) 
+$$
+这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
+
+如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
+
+$$
+L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
+$$
+最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
+虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
+Load-Balancing Loss
+专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
+对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
+$$ 
+{Load}(X)_i = \sum_{x \in X} P(x, i)
+$$ 
+其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
+$$ 
+P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
+$$ 
+$ (x \cdot W_g)_i $：
+
+$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
+$ W_g $ 是门控网络的可训练权重矩阵。
+$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
+
+$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
+
+$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
+$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
+$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
+这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
+
+$$ 
+H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
+$$ 
+$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
+$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
+$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
+$$ 
+P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
+$$ 
+Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
+$$ 
+L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
+$$ 
+初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
+Hierarchical Mixture-of-Experts
+层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
+第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
+第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
+专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
+$$ 
+y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
+$$ 
+$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
+$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
+$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
+对专家利用率的衡量指标将更改为以下内容：
+$$ 
+\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
+$$ 
+$$ 
+\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
+$$ 
+$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
+《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
+基于条件计算和自动分片的巨型模型扩展。
+论文链接：https://arxiv.org/abs/2006.16668
+
+创新点
+Expert Capacity
+专家容量
+不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
+
+解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
+
+如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
+
+Auxiliary loss
+门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
+Random routing
+随机路由机制
+在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
+《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
+论文链接：https://arxiv.org/abs/2101.03961
+
+简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
+Switch Routing
+（1）仅将token路由到单个专家，因此减少了路由器计算。
+（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
+（3）路由实现得到简化，并且通信成本降低。
+《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
+现有MoE架构问题
+（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
+（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
+这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
+我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
+解决问题的主要策略
+（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
+（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
+DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
+
+DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
+
+DeepSeekMoE 架构
+细粒度专家分割
+通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
+$$
+其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
+组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
+共享专家隔离
+采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
+隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
+$$ 
+\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
+$$ 
+$$
+g_{i,t} = \begin{cases}
+s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
+0, &amp; \text{otherwise}
+\end{cases}
+$$
+$$
+s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
+$$
+最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
+负载均衡问题
+自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
+Expert-Level Balance Loss
+专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
+$$ 
+\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
+$$ 
+$$
+f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
+$$
+$$
+p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
+$$
+其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
+Device-Level Balance Loss
+将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
+$$ 
+\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
+$$ 
+$$ 
+f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
+$$ 
+$$ 
+p'_i = \sum_{j \in \mathcal{E}_i} p_j
+$$ 
+其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
 ]]></content>
       <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
+        <category>论文精读</category>
+        <category>大模型</category>
       </categories>
       <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
+        <tag>论文精读</tag>
+        <tag>混合专家系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mamba详解 - 选择性状态空间模型精读</title>
+    <url>/2025/11/Mamba/</url>
+    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
+论文地址：https://arxiv.org/pdf/2312.00752
+代码地址：https://github.com/state-spaces/mamba
+引言
+Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
+Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
+背景知识：状态空间模型（SSM）与S4
+连续与离散SSM
+连续时间SSM：
+$$
+\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
+$$
+离散化后：
+$$
+x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
+$$
+其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
+S4的关键思想
+
+通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
+使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
+优点：理论稳定、长依赖强；
+局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
+
+Mamba的核心创新
+
+
+选择性扫描（Selective Scan）：
+
+令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
+避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
+
+
+
+输入条件化的SSM参数化：
+
+将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
+结合高效实现，使其仍保持线性复杂度。
+
+
+
+GPU友好的实现与块并行：
+
+通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
+内存访问模式优化，显著提升吞吐。
+
+
+
+端到端可训练的稳定性：
+
+对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
+
+
+
+模型架构
+典型的 Mamba Block 包含：
+
+输入投影与门控（选择性）
+选择性SSM扫描（线性复杂度）
+前馈网络（MLP/GEGLU）
+残差连接与归一化
+
+流程示意：
+X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
+相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
+选择性扫描（Selective Scan）要点
+
+将序列划分为若干块（blocks），每块内部执行线性递推扫描；
+记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
+通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
+与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
+
+复杂度与性能
+
+时间复杂度：$O(N)$ 随序列长度线性；
+空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
+对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
+在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
+
+训练与实践
+
+优化器：AdamW；学习率余弦退火；warmup数千步；
+正则：Dropout/Stochastic Depth 按深度线性增长；
+初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
+长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
+
+与Transformer/Conv的比较
+
+
+
+方向
+Transformer
+ConvNet
+Mamba（SSM）
+
+
+
+
+复杂度
+O(N^2)
+O(N)
+O(N)
+
+
+长距离依赖
+强（显式全连接）
+弱-中
+强（稳定递推核）
+
+
+并行性
+训练强/推理弱（自回归）
+强
+强（块并行扫描）
+
+
+归纳偏置
+弱
+强（局部）
+中（递推+选择性）
+
+
+适用场景
+通用
+局部模式
+超长序列/低时延
+
+
+
+代码片段（概念化示例）
+import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
+
+注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
+
+实验要点与经验
+
+序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
+批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
+任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
+可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
+
+优缺点
+优点
+
+线性复杂度，适合超长序列与端侧低时延应用；
+选择性门控使得对稀疏/非稳态事件更敏感；
+GPU友好实现，训练/推理吞吐高；
+理论上可与注意力/卷积并行或互补，形成混合结构。
+
+缺点
+
+对全局两两交互的显式建模不如注意力直观；
+超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
+在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
+
+相关与后续工作
+
+S4/S5：结构化SSM与其后续改进；
+MambaOut：面向视觉分类的实用化改造；
+Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
+混合架构：SSM + Attention/Conv的多路并行。
+
+参考文献
+
+
+Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
+
+
+Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
+
+
+Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
+
+
+Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
+
+
+思考题
+
+为什么选择性扫描能在保持线性复杂度的同时提升表达力？
+如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
+在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
+针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
+
+思考题答案
+
+选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
+采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
+可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
+提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>序列建模</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>Mamba</tag>
+        <tag>SSM</tag>
+        <tag>序列建模</tag>
       </tags>
   </entry>
   <entry>
@@ -2346,253 +2799,6 @@ ViT: An Image is Worth 16x16 Words (ICLR 2021)
       </tags>
   </entry>
   <entry>
-    <title>MoE</title>
-    <url>/2025/04/MOE/</url>
-    <content><![CDATA[Mixtures of Experts
-《Adaptive Mixture of Local Experts》
-
-论文链接：https://www.cs.toronto.edu/~hinton/absps/jjnh91.pdf
-1991年，由 Hinton和 Jordan提出，这是最早的MoE架构。
-核心思想：通过多个独立专家网络处理输入数据不同子集，并由门控网络动态选择专家。每个专家接受相同的输入数据，但通过门控网络的动态分配，专家会专注于处理输入空间的特定区域。
-基础架构
-如图，一个由专家网络和门控网络组成的系统。每个专家是一个前馈网络，所有专家接收相同的输入，并具有相同数量的输出。门控网络也是一个前馈网络，通常接收与专家网络相同的输入。它的输出是归一化的 $ p_j = \exp(r_j) / \sum_i \exp(r_i) $，其中 $ r_j $是门控网络输出单元 $j$ 接收的总加权输入。选择器（selector）类似于一个多输入单输出的随机开关；开关选择来自专家 $ j $ 的输出的概率为 $p_j$ 。每个专家通常只会被分配到可能输入向量空间的一个小区域内。
-系统由多个专家网络和一个门控网络组成。每个专家是一个前馈网络，处理特定子任务；门控网络根据输入决定每个专家的混合比例（概率）。
-
-通过重新定义误差函数，鼓励专家竞争而非协作，确保每个专家专注于特定子任务。传统误差函数（如均方误差）会导致专家协作，增加耦合；论文提出优比损失（基于高斯混合模型的负对数概率），使专家独立学习，减少干扰。改进后的误差函数使门控网络倾向于选择最适合的专家，加快收敛。
-性能比较
-元音辨别：区分多说话者元音区分（识别元音 [i], [I], [a], [A]）。
-数据集：来自 75 个说话者的共振峰数据（Peterson 和 Barney, 1952），前 50 个用于训练，后 25 个用于测试。
-
-模型能自动分解任务，专注于不同类别对（如 [i]/[I] 和 [a]/[A]），仅 2-3 个专家在最终混合中活跃。
-混合专家模型达到误差标准明显快于反向传播网络，平均只需要大约一半的周期数。混合模型的学习时间也随着专家数量的增加而很好地扩展。混合专家模型具有较小但统计上显著的平均周期数优势。
-总结
-这篇论文针对的问题是在不同场合执行不同任务会产生干扰，导致训练速度慢和泛化性能差。MoE 的核心思想是让专家专注于适合的子任务。这意味着某些专家的利用率较低（论文中提到最终只有 2-3 个专家活跃），后续的论文大多都是在解决这个问题。
-论文展示了 MoE 模型的任务分解过程：初始阶段，门控网络给所有专家分配相等的混合比例，导致每个专家处理的案例数量大致相等，决策线趋向于处理所有案例的平均最优解。随着训练进行，竞争机制使专家分化，专注于特定子任务，从而形成更符合数据分布的最优决策面。这种机制显著减少了干扰，训练速度比反向传播网络快约 50%，体现了 MoE 架构在训练时间上的优势。
-《Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer》
-超大型神经网络：稀疏门控混合专家层
-论文链接：https://arxiv.org/abs/1701.06538
-2017年，合作作者中还有Hinton和 Jordan，在LSTM层之间应用MoE卷积。仅以微小的计算效率损失就取得了超过 1000 倍的模型容量提升，并在公共语言建模和翻译数据集上显著提升了最先进的结果。
-上一篇强调的是减小时间成本，这一篇是减小计算成本。
-
-基础架构
-稀疏门控专家混合层（MoE）
-MoE 由很多专家组成，每个专家相当于一个前馈神经网络。以及一个可训练的门控网络，该网络选择专家的稀疏组合来处理每个输入。网络的所有部分都通过反向传播进行联合训练。
-
-设 $ G(x) $和 $ E_i(x) $ 分别为给定输入 $ x $ 的门控网络输出和第 $ i $ 个专家网络的输出。MoE 模块的输出 $ y $ 可表示为：
-$$
-y = \sum_{i=1}^{n} G(x)_i E_i(x)
-$$
-
-均衡负载
-门控网络总是倾向于收敛到一种状态，在这种状态下，它总是对同一批专家产生较大的权重，使得被偏好的专家训练得更快，更容易被门控网络选中。希望在训练和推理过程中，专家的重要性相等，称之为负载平衡 。某种程度上，这是为了防止对同一个专家过度拟合。
-Keep Top-K
-Noisy Top-K Gating
-添加了两个组件：稀疏性和噪音。在应用 Softmax 函数之前，添加可调的高斯噪声，然后仅保留前 $ k $ 个值，将其余值设为 $-\infty$（这会导致对应的门控值为 0）。每部分的噪声量由可训练权重矩阵 $ W_{\text{noise}} $ 控制。通过简单的反向传播训练门控网络。稀疏性用于节省计算，噪声项有助于负载均衡。
-
-Noise
-使用Noisy Top-K Gating方法改进MoE层，引入可训练的 Gaussian 噪声防止总是选择相同的专家。
-
-$$
-H(x)_i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i)
-$$
-Sparse
-除了想要激活的前 k 名专家之外，其他所有专家的权重都将设置为 $-\infty$ 。
-
-$$
-\text{KeepTopK}(v, k)_i =
-\begin{cases}
-v_i & \text{if } v_i \text{ is in the top } k \text{ elements of } v, \\\
--\infty & \text{otherwise}.
-\end{cases}
-$$
-通过将这些权重设置为 $-\infty$ ，SoftMax 在这些权重上的输出将产生概率 0 ：
-
-$$
-G(x) = \text{Softmax}(\text{KeepTopK}(H(x), k))
-$$
-KeepTopK 策略将每个 token 路由给几个选定的专家。
-
-Auxiliary Loss
-为了在训练过程中获得更均匀的专家分布，辅助损失（也称为负载平衡损失 ）被添加到网络的常规损失中。它增加了一个约束，迫使专家具有同等重要性。
-该辅助损失的第一个组成部分是将整个批次中每个专家的门控值相加。
-
-$$
-\text{Importance}(X) = \sum_{x \in X} G(x) 
-$$
-这为我们提供了每个专家的重要性分数 ，该分数表示无论输入如何，选择特定专家的可能性。可以用它来计算变异系数 （ CV ），它告诉我们专家之间重要性得分的差异有多大。利用这个 CV 分数，我们可以在训练期间更新辅助损失 ，以尽可能降低 CV 分数（ 从而给予每个专家同等的重要性 ）。
-
-如果重要性分数存在很大差异，则 CV 会很高，相反，如果所有专家的重要性得分都相似，那么 CV 就会较低
-
-$$
-L_{\text{importance}}(X) = w_{\text{importance}} \cdot CV(\text{Importance}(X))^2
-$$
-最后，将辅助损失作为单独的损失添加，以便在训练期间进行优化。
-虽然这种损失函数可以确保平衡的重要性，但专家仍然可能收到数量非常不同的样本。为了解决这一问题，论文引入了 $ L_{\text{load}} $ 损失，专门用于平衡专家接收的样本数量（即负载均衡），与 $ L_{\text{importance}} $ 损失（平衡门控权重总和）配合使用。
-Load-Balancing Loss
-专家接收的样本数量是一个离散值，无法用于反向传播。所以这里定义了一个平滑估计器 $Load(X)$，用于估计每个专家在输入批次 $X$ 中分配到的示例数量，通过概率计算来近似样本分配。平滑性使得可以通过估计器反向传播梯度。这是门控函数中噪声项的目的。
-对于一个输入批次 $ X $，第 $ i $ 个专家的负载定义为：
-$$ 
-{Load}(X)_i = \sum_{x \in X} P(x, i)
-$$ 
-其中 $ P(x, i) $ 是给定输入 $ x $ 时第 $ i $ 个专家被选中的概率，它描述了第 $ i$ 个专家的“带噪声得分”大于某个阈值的概率。论文通过噪声 Top-K 门控的特性计算 $ P(x, i) $：
-$$ 
-P(x, i) = \Pr\left( (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i) > k{th\_excluding}(H(x), k, i) \right)
-$$ 
-$ (x \cdot W_g)_i $：
-
-$x $ 是输入向量（例如来自上一层的 LSTM 输出）。
-$ W_g $ 是门控网络的可训练权重矩阵。
-$ (x \cdot W_g)_i $ 是第 $ i $ 个专家的原始得分（未添加噪声），表示门控网络对第 $ i $ 个专家的“偏好”。
-
-$ StandardNormal()⋅Softplus((x⋅Wnoise)i) $：
-
-$ \text{StandardNormal}() $：表示从均值为 0、标准差为 1 的标准正态分布中采样一个随机数。
-$ (x \cdot W_{\text{noise}})_i $：通过另一个可训练权重矩阵$ W_{\text{noise}} $ 计算的噪声控制项。
-$ \text{Softplus}((x \cdot W_{\text{noise}})_i) $：这部分计算噪声的标准差。它通过将输入 $x$ 与另一个可训练的权重矩阵 $W_{noise}$ 相乘，然后应用 Softplus 函数 $ \text{Softplus}(z) = \log(1 + e^z) $ 来确保标准差为正值。这个标准差是可调节的，并且依赖于输入 $x$ 。
-这部分是加到原始得分上的高斯噪声，表示一个高斯噪声项，均值为 0，方差由 $ \text{Softplus}((x \cdot W_{\text{noise}})_i) $决定。噪声的引入有助于负载均衡，避免门控网络总是选择固定的专家。
-
-$$ 
-H(x)_ i = (x \cdot W_g)_i + \text{StandardNormal}() \cdot \text{Softplus}((x \cdot W_{\text{noise}})_i
-$$ 
-$H(x)_i$代表了第$ i $个专家的最终“带噪声得分”。
-$k\text{th_excluding}(H(x), k, i)$: 这是决定专家 i 是否被选中的阈值。它的含义是：在向量 $H(x)$（包含了所有专家的带噪声得分）中，排除掉第 i 个专家自身的分数后，找到剩下 n−1 个分数中第 k 大的分数 。
-$Pr(⋯&gt;…): $ 公式计算  $ H(x)_ i $（重新采样噪声后）大于  $k\text{th_excluding}(H(x), k, i)$ 的概率。在噪声 Top-K 门控中，第 $𝑖$ 个专家被选中当且仅当 $ H(x)_ i$ 是 $𝐻 ( 𝑥 )$ 中前 $𝑘$ 大的值。
-$$ 
-P(x, i) = \Phi\left( \frac{(x \cdot W_g)_i - k{th\_ excluding}(H(x), k, i)}{\text{Softplus}((x \cdot W_{\text{noise}})_i)} \right)
-$$ 
-Φ 表示标准正态分布的累积分布函数（CDF）。利用正态分布的 CDF 给出了计算这个概率的具体数学表达式，方便进行计算和反向传播（因为 Φ 是可微的）。这整个机制是为了在选择专家时引入随机性（有助于负载均衡 ）并估算每个专家被选中的概率，进而定义$L_{load}$损失。
-$$ 
-L_{\text{load}}(X) = w_{\text{load}} \cdot CV(\text{Load}(X))^2
-$$ 
-初始负载不平衡：为了避免内存溢出错误，需要在近似相等的专家负载状态下初始化网络（因为软约束需要一些时间才能发挥作用）。为了实现这一点，将矩阵 $W_g$ 和 $W_{noise}$ 初始化为全零，这样就不会产生信号，而只有一些噪声。
-Hierarchical Mixture-of-Experts
-层次 MoE 是一种分层结构的 MoE，如果专家数量非常庞大，可以使用两层分层MoE来降低分支因子。在一个分层MoE中，一个主门控网络选择一个稀疏加权组合的“专家”，每个“专家”本身就是一个具有自己门控网络的二级混合专家。
-第一级（主门控网络）：主门控网络 $ G_{\text{primary}} $ 负责选择一组“专家组”（groups of experts）。
-第二级（次级门控网络）：每个专家组内有一个次级门控网络 $G_i $，负责在该组内选择具体的专家。
-专家网络：最终的专家网络 $E_{i,j} $，其中 $ i $ 表示组索引，$j $ 表示组内的专家索引。
-$$ 
-y_H = \sum_{i=1}^{a} \sum_{j=1}^{b} G_{\text{primary}}(x)_i \cdot G_i(x)_j \cdot E_{i,j}(x)
-$$ 
-$Gprimary(x)i$：主门控网络对第 $ i $ 个组的权重。
-$G_i(x)_j $：第 $ i $ 个组的次级门控网络对组内第 $j $ 个专家的权重。
-$ E_{i,j}(x) $：第 $ i $ 个组中第 $j $ 个专家的输出。
-对专家利用率的衡量指标将更改为以下内容：
-$$ 
-\text{Importance}_H(X)_{i,j} = \sum_{x \in X} G_{\text{primary}}(x)_i \cdot G_i(x)_j
-$$ 
-$$ 
-\text{Load}_H(X)_{i,j} = \frac{\text{Load}_{\text{primary}}(X)_i \cdot \text{Load}_i(X^{(i)})_j}{|X^{(i)}|}
-$$ 
-$Load_{primary}$   和 $Load_i$ 分别表示主门控网络和 $i^{th}$ 次级门控网络的加载函数。 $ X^{(i)}$表示 X 中满足 $ G_{primary}(x)_i &gt; 0 $ 的子集。
-《GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding》
-基于条件计算和自动分片的巨型模型扩展。
-论文链接：https://arxiv.org/abs/2006.16668
-
-创新点
-Expert Capacity
-专家容量
-不平衡不仅存在于所选专家中，还存在于发送给专家的token分配中。如果输入 token 不成比例地发送给一个专家而不是另一个专家，那么也可能导致训练不足。
-
-解决这个问题的一个方法是限制每个专家可以处理的 token 数量，即专家容量 。当专家达到容量上限时，产生的 token 将被发送给下一个专家：
-
-如果两个专家都已达到其容量上限，则 token 将不会被任何专家处理，而是被发送到下一层。这称为 token 溢出 。这些token的表示通过残差连接传递到下一层。
-
-Auxiliary loss
-门控函数不应总是选择相同的一小部分专家，因为这会导致一小部分专家容量溢出，而其余专家则被闲置。定义了一个辅助损失项 ℓaux 来强制执行此约束。 它被添加到模型的总损失函数中 L = ℓnll + k ∗ ℓaux，其中 k 是一个常数乘数。
-Random routing
-随机路由机制
-在 top-2 设计中，始终选择表现最优的专家，但第二选择的专家则根据其权重以一定概率被选中。
-《Switch Transformers: Scaling to Trillion Parameter Models with Simple and Eﬃcient Sparsity》
-论文链接：https://arxiv.org/abs/2101.03961
-
-简化了MoE路由算法，并设计了直观的改进模型，从而降低了通信和计算成本。提出的训练技术减轻了不稳定性，并且证明了可以使用较低精度（bfloat16）格式首次训练大型稀疏模型。将 Switch 层添加到 Transformer 的自注意力层中。
-Switch Routing
-（1）仅将token路由到单个专家，因此减少了路由器计算。
-（2）由于每个token仅被路由到单个专家，因此每个专家的批次大小（专家容量）可以至少减半。
-（3）路由实现得到简化，并且通信成本降低。
-《DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models》
-现有MoE架构问题
-（1）知识混合性：现有的MoE实践通常采用数量有限的专家（例如，8个或16个），因此分配给特定专家的token可能涵盖各种知识。因此，指定的专家将倾向于在其参数中组合截然不同的知识类型，而这些知识很难同时利用。
-（2）知识冗余：分配给不同专家的token可能需要共同的知识。因此，多个专家可能会收敛于在其各自的参数中获取共享知识，从而导致专家参数的冗余。
-这些问题共同阻碍了现有MoE实践中的专家专业化，使其无法达到MoE模型的理论性能上限。
-我个人感觉第一个问题和第一篇论文提出的目的应该是一致的，一个模型在不同场合执行不同任务会产生干扰，然后这里的专家又出现了这个问题，使得专家的专业化程度较低。
-解决问题的主要策略
-（1）细粒度专家分割：在保持参数数量不变的同时，我们通过分割 FFN 中间隐藏维度将专家分割成更细的粒度。相应地，在保持恒定计算成本的同时，我们也激活更多细粒度的专家，以实现激活专家的更灵活和适应性更强的组合。细粒度的专家分割使得不同的知识能够被更精细地分解，并被更精确地学习到不同的专家中，其中每个专家将保持更高的专业化水平。此外，激活专家组合的灵活性增加也有助于更准确和有针对性的知识获取。
-（2）共享专家隔离：我们隔离某些专家作为始终激活的共享专家，旨在捕获和巩固不同上下文中的通用知识。通过将通用知识压缩到这些共享专家中，其他路由专家之间的冗余将被减轻。这可以提高参数效率，并确保每个路由专家通过专注于独特的方面来保持专业性。
-DeepSeekMoE 中的这些架构创新为训练参数高效的 MoE 语言模型提供了机会，其中每个专家都高度专业化。
-
-DeepSeekMoE 的示意图。子图 (a) 展示了具有传统 top-2 路由策略的 MoE 层。子图 (b) 说明了细粒度专家分割策略。子图 © 展示了共享专家隔离策略的集成，构成了完整的 DeepSeekMoE 架构。值得注意的是，在这三种架构中，专家参数的数量和计算成本保持不变。
-
-DeepSeekMoE 架构
-细粒度专家分割
-通过将FFN中间隐藏维度降低到原始大小的𝑚分之一，将每个专家FFN分割成𝑚个更小的专家。由于每个专家变得更小，作为回应，还将激活专家的数量增加到𝑚倍，以保持相同的计算成本。通过细粒度的专家分割，MoE层的输出可以表示为：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t}} \mid 1 \leq j \leq mN), mK), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i^l)
-$$
-其中，专家参数的总数等于 𝑁 乘以标准 FFN 中的参数数量，mN 表示细粒度专家的总数。采用细粒度专家分割策略后，非零门控的数量也将增加到 mK。
-组合灵活性的激增增强了实现更准确和更有针对性的知识获取的潜力。
-共享专家隔离
-采用传统的路由策略，分配给不同专家的令牌可能需要一些共同的知识或信息。因此，多个专家可能会趋同于在其各自的参数中获取共享知识，从而导致专家参数的冗余。然而，如果存在专门用于捕获和整合不同上下文中的共同知识的共享专家，则可以减轻其他路由专家之间的参数冗余。这种冗余的减轻将有助于构建一个参数效率更高、专家更专业的模型。
-隔离𝐾𝑠个专家作为共享专家。无论路由器模块如何，每个token都将被确定性地分配给这些共享专家。为了保持恒定的计算成本，其他路由专家中激活的专家数量将减少𝐾𝑠。通过集成共享专家隔离策略，完整DeepSeekMoE架构中的MoE层可以表述如下：
-$$ 
-\mathbf{h}_t^l = \sum_{i=1}^{K_s} \text{FFN}_i(\mathbf{u}_t^l) + \sum_{i=K_s+1}^{mN} (g_{i,t} \cdot \text{FFN}_i(\mathbf{u}_t^l)) + \mathbf{u}_t^l
-$$ 
-$$
-g_{i,t} = \begin{cases}
-s_{i,t}, &amp; s_{i,t} \in \text{Topk}({s_{j,t} \mid K_s + 1 \leq j \leq mN }), mK - K_s), \
-0, &amp; \text{otherwise}
-\end{cases}
-$$
-$$
-s_{i,t} = \text{Softmax}_i(\mathbf{u}_t^{l^T} \mathbf{e}_i)
-$$
-最后，在 DeepSeekMoE 中，共享专家的数量为 𝐾𝑠，路由专家的总数为 𝑚𝑁 − 𝐾𝑠，非零门的数量为 𝑚𝐾 − 𝐾𝑠。
-负载均衡问题
-自动学习的路由策略可能会遇到负载不均衡的问题，这表现出两个显著的缺陷。首先，存在路由崩溃的风险，即模型总是只选择少数几个专家，导致其他专家无法得到充分的训练。其次，如果专家分布在多个设备上，负载不均衡会加剧计算瓶颈。
-Expert-Level Balance Loss
-专家级平衡损失。为了降低路由崩溃的风险，平衡损失的计算如下：
-$$ 
-\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N'} f_i p_i
-$$ 
-$$
-f_i = \frac{N’}{K’ T} \sum_{t=1}^{T} \mathbb{1}(\text{Token } t \text{ selects Expert } i)
-$$
-$$
-p_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
-$$
-其中𝛼1是一个被称为专家级别平衡因子的超参数，为了简洁起见，𝑁′等于(𝑚𝑁 − 𝐾𝑠)，𝐾′等于(𝑚𝐾 − 𝐾𝑠)。1(·)表示指示函数。
-Device-Level Balance Loss
-将所有路由的专家划分为 𝐷 组 {E1, E2, . . ., E𝐷}，并将每组部署在单个设备上，则设备级别平衡损失的计算方式如下：
-$$ 
-\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i p'_i
-$$ 
-$$ 
-f'_i = \frac{1}{|\mathcal{E}_i|} \sum_{j \in \mathcal{E}_i} f_j
-$$ 
-$$ 
-p'_i = \sum_{j \in \mathcal{E}_i} p_j
-$$ 
-其中𝛼2是一个被称为设备级别平衡因子的超参数。设置一个较小的专家级别平衡因子以降低路由崩溃的风险，同时设置一个较大的设备级别平衡因子以促进设备间的均衡计算。
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>大模型</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>混合专家系统</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MoCo</title>
     <url>/2025/04/MoCo/</url>
     <content><![CDATA[MoCo
@@ -2640,317 +2846,6 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       <tags>
         <tag>论文精读</tag>
         <tag>对比学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mamba详解 - 选择性状态空间模型精读</title>
-    <url>/2025/11/Mamba/</url>
-    <content><![CDATA[Mamba: Linear-Time Sequence Modeling with Selective SSMs
-论文地址：https://arxiv.org/pdf/2312.00752
-代码地址：https://github.com/state-spaces/mamba
-引言
-Mamba 是一种基于状态空间模型（State Space Model, SSM）的高效序列建模框架，旨在在保持强表达能力的同时，将计算与内存复杂度降至与序列长度线性相关。与Transformer的二次复杂度相比，Mamba在超长序列、低时延和内存受限场景中具有显著优势。
-Mamba的核心在于“选择性扫描（Selective Scan）”与“输入依赖的状态转移”，通过对经典S4（Structured State Space Sequence Model）的工程化与理论改进，实现端到端可训练、GPU友好、且具有SOTA性能的线性时间序列模型。
-背景知识：状态空间模型（SSM）与S4
-连续与离散SSM
-连续时间SSM：
-$$
-\dot x(t) = A x(t) + B u(t), \quad y(t) = C x(t) + D u(t)
-$$
-离散化后：
-$$
-x_{k+1} = \bar A x_k + \bar B u_k, \quad y_k = C x_k + D u_k
-$$
-其中 $x$ 为隐状态，$u$ 为输入，$y$ 为输出。
-S4的关键思想
-
-通过特定结构（HiPPO 等）构造稳定的 $A$ 矩阵，捕捉长程依赖；
-使用高效卷积实现序列到序列的映射（状态演化可转换为一维卷积核）；
-优点：理论稳定、长依赖强；
-局限：实现复杂、某些硬件/场景下吞吐有限，且与输入的自适应性不足。
-
-Mamba的核心创新
-
-
-选择性扫描（Selective Scan）：
-
-令状态转移与输入耦合，通过门控/选择性机制动态调节信息流；
-避免固定核卷积的刚性，增强对非稳态、稀疏事件的响应能力。
-
-
-
-输入条件化的SSM参数化：
-
-将 $B, C$ 等参数设为输入依赖（conditioning on input），提升表达力；
-结合高效实现，使其仍保持线性复杂度。
-
-
-
-GPU友好的实现与块并行：
-
-通过分块扫描（block scan）与前缀-后缀合并，实现可并行化的线性时间推理；
-内存访问模式优化，显著提升吞吐。
-
-
-
-端到端可训练的稳定性：
-
-对状态矩阵参数施加稳定性约束（如谱半径控制、隐式参数化），保证数值稳定。
-
-
-
-模型架构
-典型的 Mamba Block 包含：
-
-输入投影与门控（选择性）
-选择性SSM扫描（线性复杂度）
-前馈网络（MLP/GEGLU）
-残差连接与归一化
-
-流程示意：
-X → InputProj → Selective SSM (scan) → OutputProj → MLP → Residual/Norm
-相较Transformer：不使用全局自注意力，而以“可学习的一维核 + 选择性门控”的形式进行token混合；相较S4：对输入进行条件化，提升适配性与表达力。
-选择性扫描（Selective Scan）要点
-
-将序列划分为若干块（blocks），每块内部执行线性递推扫描；
-记录块末端的状态作为“前缀状态”，在合并阶段向后续块传递；
-通过选择性/门控，抑制无用状态更新，突出关键位置的信息流；
-与并行卷积不同，选择性扫描可随输入动态调整有效感受野。
-
-复杂度与性能
-
-时间复杂度：$O(N)$ 随序列长度线性；
-空间复杂度：$O(N)$（可通过流水线/检查点进一步降内存峰值）；
-对超长序列（&gt;4K、&gt;16K tokens）训练与推理更加高效；
-在语言建模、语音、时间序列等任务上与或优于同级别Transformer。
-
-训练与实践
-
-优化器：AdamW；学习率余弦退火；warmup数千步；
-正则：Dropout/Stochastic Depth 按深度线性增长；
-初始化：对状态矩阵采用稳定化参数化（如对角+低秩）；
-长序列技巧：梯度检查点、混合精度、分块扫描大小调优。
-
-与Transformer/Conv的比较
-
-
-
-方向
-Transformer
-ConvNet
-Mamba（SSM）
-
-
-
-
-复杂度
-O(N^2)
-O(N)
-O(N)
-
-
-长距离依赖
-强（显式全连接）
-弱-中
-强（稳定递推核）
-
-
-并行性
-训练强/推理弱（自回归）
-强
-强（块并行扫描）
-
-
-归纳偏置
-弱
-强（局部）
-中（递推+选择性）
-
-
-适用场景
-通用
-局部模式
-超长序列/低时延
-
-
-
-代码片段（概念化示例）
-import torchimport torch.nn as nnclass SelectiveSSM(nn.Module):    def __init__(self, d_model, state_size):        super().__init__()        self.d_model = d_model        self.state_size = state_size        # 输入依赖的门控/参数化（示意）        self.in_proj = nn.Linear(d_model, 3 * state_size)        self.out_proj = nn.Linear(state_size, d_model)    def forward(self, x):        # x: [B, N, D]        B, N, D = x.shape        a, b, g = self.in_proj(x).chunk(3, dim=-1)  # 输入条件化参数（示意）        state = torch.zeros(B, self.state_size, device=x.device)        outputs = []        for t in range(N):  # 实际实现会使用块并行，这里仅示意            state = torch.tanh(a[:, t, :] * state + b[:, t, :])            state = g[:, t, :].sigmoid() * state  # 选择性门控            outputs.append(state)        y = torch.stack(outputs, dim=1)  # [B, N, S]        return self.out_proj(y)class MambaBlock(nn.Module):    def __init__(self, d_model, state_size, mlp_ratio=4.0, p=0.1):        super().__init__()        self.norm1 = nn.LayerNorm(d_model)        self.ssm = SelectiveSSM(d_model, state_size)        self.drop1 = nn.Dropout(p)        self.norm2 = nn.LayerNorm(d_model)        hidden = int(d_model * mlp_ratio)        self.mlp = nn.Sequential(            nn.Linear(d_model, hidden), nn.GELU(), nn.Dropout(p),            nn.Linear(hidden, d_model), nn.Dropout(p)        )    def forward(self, x):        x = x + self.drop1(self.ssm(self.norm1(x)))        x = x + self.mlp(self.norm2(x))        return x
-
-注：上例为思想演示，真实Mamba使用更优化的扫描与参数化，且为高效CUDA/Flash实现；请参考官方实现。
-
-实验要点与经验
-
-序列长度：尽量使用长序列预训练以发挥线性复杂度优势；
-批量与块大小：根据显存调优块扫描长度，保持吞吐与稳定；
-任务迁移：语言→语音/时间序列时，适当调整状态规模与门控强度；
-可解释性：通过可视化门控开启位置与核响应，分析模型关注点。
-
-优缺点
-优点
-
-线性复杂度，适合超长序列与端侧低时延应用；
-选择性门控使得对稀疏/非稳态事件更敏感；
-GPU友好实现，训练/推理吞吐高；
-理论上可与注意力/卷积并行或互补，形成混合结构。
-
-缺点
-
-对全局两两交互的显式建模不如注意力直观；
-超参数（状态规模、门控强度、离散化方式）对稳定性敏感；
-在某些视觉任务（如密集预测）上需额外结构适配（见MambaOut）。
-
-相关与后续工作
-
-S4/S5：结构化SSM与其后续改进；
-MambaOut：面向视觉分类的实用化改造；
-Hyena/RetNet/WSI：其他线性/次线性序列混合范式；
-混合架构：SSM + Attention/Conv的多路并行。
-
-参考文献
-
-
-Gu, A., &amp; Dao, T. (2023). Mamba: Linear-Time Sequence Modeling with Selective State Spaces. arXiv preprint arXiv:2312.00752. https://arxiv.org/pdf/2312.00752
-
-
-Gu, A., Goel, K., &amp; Ré, C. (2022). Efficiently Modeling Long Sequences with Structured State Spaces. ICML 2022.
-
-
-Sun, Y., et al. (2023). RetNet: Retentive Network: A Successor to Transformer for Large Language Models. NeurIPS 2023.
-
-
-Poli, M., et al. (2023). Hyena Hierarchy: Towards Larger Convolutional Language Models. ICML 2023.
-
-
-思考题
-
-为什么选择性扫描能在保持线性复杂度的同时提升表达力？
-如何在保持稳定性的同时引入更强的输入条件化（例如多尺度门控）？
-在语言建模中，Mamba与Transformer是否适合分工合作？如何设计混合路由？
-针对超长上下文（&gt;64K tokens），Mamba的块并行与跨块信息传递应如何权衡？
-
-思考题答案
-
-选择性扫描通过输入依赖的门控让状态更新“稀疏化/聚焦化”，避免固定核对非稳态信号的欠拟合，同时保持线性递推形式；因此表达力↑、复杂度仍为O(N)。
-采用分层门控（通道/时间/块级多粒度）、稳定化参数化（对角+低秩）、以及正则（门控L1/温度限制）可提升条件化同时维持稳定；
-可用“前段SSM提取远距记忆 + 中段注意力做细粒度交互”的混合体，或MoE式路由将易于局部建模的片段交给Conv/SSM，需在延迟与精度之间折中；
-提高块大小、增加跨块汇总通道（summary tokens）、或在块边界引入轻量全局模块（如稀疏注意力）以减小信息切换损失；同时用检查点与流水线降低内存峰值。
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>序列建模</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>Mamba</tag>
-        <tag>SSM</tag>
-        <tag>序列建模</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--回溯算法</title>
-    <url>/2025/03/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[回溯算法
-​	回溯算法 是一种通过试错的方式寻找问题解的算法。它尝试逐步构建解决方案，如果在构建过程中的某一步发现当前的构建方案不可行，它会回溯（即取消最近一步的选择），然后尝试其他的可能性。这个过程就像是在迷宫中探索路径，当遇到死路时就退回上一个岔路口，选择另一条路继续前进。
-核心思想
-
-试探性选择:  在每一步，都面临多个选择，回溯算法会先选择其中一个进行尝试。
-逐步构建:  它一步一步地构建可能的解。
-可行性判断 (约束条件): 在每一步构建后，都会检查当前的部分解是否满足问题的约束条件。
-回溯 (撤销选择): 如果发现当前部分解不可行，则撤销上一步的选择，回到之前的状态，并尝试其他的选择。
-终止条件: 当找到一个完整的可行解，或者当所有可能的选择都尝试完毕且没有找到解时，算法终止。
-
-基本步骤
-
-
-定义问题的解空间： 确定问题的解可能存在的所有可能组合。例如，对于一个排列问题，解空间就是所有可能的排列。
-
-
-确定约束条件：  定义问题解必须满足的条件。这些条件用于判断当前构建的部分解是否有效。
-
-
-选择搜索策略 (通常是深度优先搜索 DFS)：  回溯算法通常使用深度优先搜索的方式来遍历解空间。
-
-
-设计递归函数 (或迭代方式模拟递归)：
-递归函数是实现回溯算法的关键。该函数通常包含以下几个部分：
-
-基本情况 (终止条件)：  判断是否找到了一个完整的解，或者是否已经遍历完所有可能性但没有找到解。
-选择步骤：  在当前状态下，有哪些选择可以进行？
-扩展状态：  对于每个选择，更新状态，并递归调用自身进入下一层搜索。
-回溯步骤：  在递归调用返回后，需要撤销当前的选择，恢复到之前的状态，以便尝试其他的选择。
-
-
-
-剪枝优化 (可选但重要)：  在搜索过程中，如果发现某个部分解已经不可能导致最终解，可以提前结束对该分支的搜索，以提高效率。这称为剪枝。
-
-
-应用示例
-回溯算法可以应用于解决许多经典问题，包括但不限于：
-
-组合问题：
-
-组合总和 (Combination Sum):  在一个数字集合中找到所有和为目标值的组合。
-子集 (Subsets):  找出给定集合的所有子集。
-电话号码的字母组合 (Letter Combinations of a Phone Number):  给定数字字符串，返回所有可能的字母组合。
-
-
-排列问题：
-
-全排列 (Permutations):  生成给定集合的所有排列。
-下一个排列 (Next Permutation):  找到给定排列的下一个字典序排列。
-
-
-图论问题：
-
-N 皇后问题 (N-Queens Problem):  在 NxN 的棋盘上放置 N 个皇后，使其互不攻击。
-数独 (Sudoku Solver):  解决数独谜题。
-迷宫寻路 (Maze Solving):  找到迷宫的路径。
-图的着色问题 (Graph Coloring):  给图的顶点着色，使得相邻顶点颜色不同。
-旅行商问题 (Traveling Salesman Problem - TSP) (近似解或小规模问题)：  虽然TSP通常使用更优化的算法，但在小规模情况下，回溯可以找到解。
-
-
-其他问题：
-
-0-1 背包问题 (0-1 Knapsack Problem)：  虽然动态规划更常用，但回溯也可以解决。
-正则表达式匹配 (Regular Expression Matching) (某些情况)：  复杂的正则表达式匹配问题可以使用回溯解决。
-解方程 (Solving Equations) (某些类型)：  例如，约束满足问题 (Constraint Satisfaction Problems - CSPs)。
-
-
-
-回溯算法模板
-回溯法其实就是暴力查找，回溯法解决的问题都可以抽象为树形结构（N叉树）。
-void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果;        return;    &#125;    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) &#123;        处理节点;        backtracking(路径，选择列表); // 递归        回溯，撤销处理结果    &#125;&#125;
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>回溯</tag>
       </tags>
   </entry>
   <entry>
@@ -3527,6 +3422,171 @@ reserve(n)
       </tags>
   </entry>
   <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--哈希表</title>
+    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
+    <content><![CDATA[哈希表
+哈希表概述
+​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
+​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
+​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
+​	**同义词：**具有相同函数值的多个关键字。
+​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
+​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
+哈希函数构造方法
+​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
+直接定址法
+**概述：**直接取关键字的某个线性函数值为哈希函数。
+**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
+**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
+除留余数法
+**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
+**哈希函数：**H(key) = key % mod
+**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
+平方取中法
+**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
+**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
+处理冲突的方法
+开放定址法（开地址法）
+**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
+线性探查法
+​	di = 0, 1, 2, … , Tsize-1
+​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
+平方探查法
+​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
+​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
+伪随机探测法
+​	di = 伪随机数序列
+链地址法（拉链法）
+**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
+**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
+​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
+
+哈希的查找及性能分析
+查找过程
+​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
+性能分析
+​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
+**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
+
+​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>数组</tag>
+        <tag>链表</tag>
+        <tag>哈希表</tag>
+        <tag>查找</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--回溯算法</title>
+    <url>/2025/03/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[回溯算法
+​	回溯算法 是一种通过试错的方式寻找问题解的算法。它尝试逐步构建解决方案，如果在构建过程中的某一步发现当前的构建方案不可行，它会回溯（即取消最近一步的选择），然后尝试其他的可能性。这个过程就像是在迷宫中探索路径，当遇到死路时就退回上一个岔路口，选择另一条路继续前进。
+核心思想
+
+试探性选择:  在每一步，都面临多个选择，回溯算法会先选择其中一个进行尝试。
+逐步构建:  它一步一步地构建可能的解。
+可行性判断 (约束条件): 在每一步构建后，都会检查当前的部分解是否满足问题的约束条件。
+回溯 (撤销选择): 如果发现当前部分解不可行，则撤销上一步的选择，回到之前的状态，并尝试其他的选择。
+终止条件: 当找到一个完整的可行解，或者当所有可能的选择都尝试完毕且没有找到解时，算法终止。
+
+基本步骤
+
+
+定义问题的解空间： 确定问题的解可能存在的所有可能组合。例如，对于一个排列问题，解空间就是所有可能的排列。
+
+
+确定约束条件：  定义问题解必须满足的条件。这些条件用于判断当前构建的部分解是否有效。
+
+
+选择搜索策略 (通常是深度优先搜索 DFS)：  回溯算法通常使用深度优先搜索的方式来遍历解空间。
+
+
+设计递归函数 (或迭代方式模拟递归)：
+递归函数是实现回溯算法的关键。该函数通常包含以下几个部分：
+
+基本情况 (终止条件)：  判断是否找到了一个完整的解，或者是否已经遍历完所有可能性但没有找到解。
+选择步骤：  在当前状态下，有哪些选择可以进行？
+扩展状态：  对于每个选择，更新状态，并递归调用自身进入下一层搜索。
+回溯步骤：  在递归调用返回后，需要撤销当前的选择，恢复到之前的状态，以便尝试其他的选择。
+
+
+
+剪枝优化 (可选但重要)：  在搜索过程中，如果发现某个部分解已经不可能导致最终解，可以提前结束对该分支的搜索，以提高效率。这称为剪枝。
+
+
+应用示例
+回溯算法可以应用于解决许多经典问题，包括但不限于：
+
+组合问题：
+
+组合总和 (Combination Sum):  在一个数字集合中找到所有和为目标值的组合。
+子集 (Subsets):  找出给定集合的所有子集。
+电话号码的字母组合 (Letter Combinations of a Phone Number):  给定数字字符串，返回所有可能的字母组合。
+
+
+排列问题：
+
+全排列 (Permutations):  生成给定集合的所有排列。
+下一个排列 (Next Permutation):  找到给定排列的下一个字典序排列。
+
+
+图论问题：
+
+N 皇后问题 (N-Queens Problem):  在 NxN 的棋盘上放置 N 个皇后，使其互不攻击。
+数独 (Sudoku Solver):  解决数独谜题。
+迷宫寻路 (Maze Solving):  找到迷宫的路径。
+图的着色问题 (Graph Coloring):  给图的顶点着色，使得相邻顶点颜色不同。
+旅行商问题 (Traveling Salesman Problem - TSP) (近似解或小规模问题)：  虽然TSP通常使用更优化的算法，但在小规模情况下，回溯可以找到解。
+
+
+其他问题：
+
+0-1 背包问题 (0-1 Knapsack Problem)：  虽然动态规划更常用，但回溯也可以解决。
+正则表达式匹配 (Regular Expression Matching) (某些情况)：  复杂的正则表达式匹配问题可以使用回溯解决。
+解方程 (Solving Equations) (某些类型)：  例如，约束满足问题 (Constraint Satisfaction Problems - CSPs)。
+
+
+
+回溯算法模板
+回溯法其实就是暴力查找，回溯法解决的问题都可以抽象为树形结构（N叉树）。
+void backtracking(参数) &#123;    if (终止条件) &#123;        存放结果;        return;    &#125;    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) &#123;        处理节点;        backtracking(路径，选择列表); // 递归        回溯，撤销处理结果    &#125;&#125;
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>回溯</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>图神经网络</title>
     <url>/2025/09/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/</url>
     <content><![CDATA[图神经网络（GNN）全面指：从基础到高级应用
@@ -4026,6 +4086,403 @@ Wu, Z., et al. (2020). A comprehensive survey on graph neural networks. IEEE TNN
       </tags>
   </entry>
   <entry>
+    <title>基础知识--图论</title>
+    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
+    <content><![CDATA[基础知识–图论
+图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
+
+核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
+
+图的基本概念
+
+
+图 (Graph)
+一个图 G 由两个基本集合构成：
+
+顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
+边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
+
+我们可以用数学符号表示一个图：  G = (V, E)
+
+
+顶点 (Vertex / Node / Point)
+
+图的基本组成部分，代表研究对象或实体。
+示例:
+
+在社交网络中，顶点可以代表 人。
+在交通网络中，顶点可以代表 城市。
+在电路图中，顶点可以代表 电子元件。
+
+
+
+
+
+边 (Edge / Arc / Line)
+
+连接两个顶点的线，表示顶点之间存在的关系。
+示例:
+
+在社交网络中，边可以表示两个人之间的 朋友关系。
+在交通网络中，边可以表示两个城市之间的 道路。
+在电路图中，边可以代表 导线。
+
+
+
+
+
+关联 (Incidence)
+
+如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
+简单来说，就是边“连接到”哪些顶点。
+
+
+
+邻接 (Adjacency)
+
+顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
+边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
+
+
+
+度 (Degree)
+
+
+一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
+
+
+有向图的度:  对于有向图，度分为两种：
+
+入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
+出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
+
+
+
+
+
+路径 (Path)
+
+图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
+路径中通常不重复经过顶点，除非是环路。
+
+
+
+环路/回路 (Cycle)
+
+一种特殊的路径，起点和终点是同一个顶点。
+环路表示从一个点出发，可以回到原点的路径。
+
+
+
+简单路径 (Simple Path)
+
+路径中所有顶点都不同的路径。
+简单路径避免了在路径中重复访问同一个顶点。
+
+
+
+简单环路/简单回路 (Simple Cycle)
+
+环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
+简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
+
+
+
+图的类型
+有向图 vs 无向图
+
+
+无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
+
+
+有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
+
+
+有权图 vs 无权图
+
+
+有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
+
+
+无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
+
+
+连通图 vs 非连通图
+
+
+连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
+
+
+非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
+
+
+连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
+
+
+强连通 vs 单连通
+
+强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
+单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
+
+图的表示方法
+邻接矩阵表示法
+邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
+
+对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
+对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
+
+优点：
+
+实现简单，便于理解
+查询两点间是否有边的时间复杂度为 O(1)
+适合表示稠密图
+
+缺点：
+
+空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
+添加/删除顶点的操作较为复杂
+
+邻接表表示法
+邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
+
+数组索引 i 对应顶点 i
+链表中存储的是与顶点 i 相邻的所有顶点
+
+优点：
+
+节省空间，特别适合稀疏图
+容易找到给定顶点的所有邻接点
+添加顶点操作简单
+
+缺点：
+
+查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
+对有向图求逆邻接表较困难
+
+十字链表表示法
+十字链表是邻接表的改进版本，主要用于有向图：
+
+结合了邻接表和逆邻接表的特点
+每个顶点有一个出边表和一个入边表
+每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
+
+优点：
+
+容易找到顶点的所有出边和入边
+适合需要频繁查询入度和出度的应用场景
+
+邻接多重表
+邻接多重表主要用于无向图：
+
+每条边只存储一次
+每个顶点有一个边表
+每条边连接到与其关联的两个顶点的边表中
+
+优点：
+
+便于删除和查找特定边
+节省空间
+
+边集数组表示法
+边集数组直接存储图中所有的边：
+
+使用一个一维数组存储所有顶点信息
+使用另一个数组存储所有边的信息（包括起点、终点和权值）
+
+优点：
+
+实现简单
+适合只关注边的操作，如最小生成树的Kruskal算法
+适合稀疏图
+
+缺点：
+
+查找操作效率较低
+不易找到与特定顶点相连的所有边
+
+选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
+图的遍历方法
+DFS(深度优先搜索)
+深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问
+对该顶点的每个未访问的邻接点，递归地应用DFS
+如果当前顶点没有未访问的邻接点，则回溯
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)
+空间复杂度：O(V)
+
+应用场景
+
+拓扑排序
+寻找连通分量
+判断图中是否有环
+寻找路径（如迷宫问题）
+
+BFS(广度优先搜索)
+广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
+基本算法步骤
+
+选择一个起始顶点，将其标记为已访问，并放入队列中
+当队列不为空时，执行以下操作：
+
+取出队列中的第一个顶点u
+访问顶点u
+将u的所有未访问过的邻接点标记为已访问并加入队列
+
+
+
+时间复杂度与空间复杂度
+
+时间复杂度：O(V + E)，其中V是顶点数，E是边数
+空间复杂度：O(V)，用于存储访问状态和队列
+
+应用场景
+
+寻找最短路径（无权图）
+网络爬虫
+社交网络中的关系距离（如&quot;六度分隔&quot;理论）
+层次遍历
+
+图的应用
+最小生成树算法
+无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
+Kruskal算法
+
+
+思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
+步骤：
+
+对所有边按照权值进行排序。
+依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
+重复直到生成树中包含 n−1 条边。
+
+
+特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
+
+Prim算法
+
+思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
+步骤：
+
+从任一顶点开始，将其加入生成树。
+找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
+重复直到所有顶点都被加入生成树。
+
+
+特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
+
+最短路径算法
+Dijkstra算法
+从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
+基本流程
+
+初始化：源点距离设为0，其他顶点距离设为无穷大
+每次选择未访问的距离最小的顶点，标记为已访问
+更新该顶点的邻居顶点的距离
+重复步骤2-3直到所有顶点被访问
+
+算法复杂度
+
+时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
+空间复杂度：O(V)
+
+算法的局限性
+
+迪杰斯特拉算法不能处理负权边
+在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
+
+应用场景
+
+导航系统
+网络路由协议
+社交网络分析
+电信网络规划
+
+Floyd-Warshall算法
+对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
+基本流程
+
+初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
+对于每一个顶点k，检查所有顶点对(i,j)
+对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
+重复步骤2和3，直到遍历完所有顶点
+
+算法复杂度
+
+时间复杂度：O(V³)，其中V是顶点数
+空间复杂度：O(V²)
+
+与迪杰斯特拉算法的比较
+
+范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
+适用场景：
+
+对于稀疏图，运行V次迪杰斯特拉算法更高效
+对于稠密图，弗洛伊德算法更优
+
+
+负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
+
+算法优势
+
+实现简单，代码简洁
+可以处理有向图和负权边（但不能有负权环）
+一次运行可以得到所有顶点对之间的最短路径
+
+应用场景
+
+网络路由算法
+交通规划
+寻找图中的传递闭包
+计算最大流问题
+
+A*算法
+A*算法是一种启发式搜索算法，常用于路径规划问题。
+
+结合了Dijkstra算法和启发式搜索的优点
+使用估价函数指导搜索方向
+在有好的启发函数时效率很高
+
+基本流程
+
+初始化：起点放入开放列表
+每次从开放列表中选择f值最小的节点n
+如果n是目标节点，算法结束
+否则，将n移到关闭列表，并检查所有邻居节点
+对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
+更新邻居节点信息并加入开放列表
+重复步骤2-6直到找到目标或开放列表为空
+
+拓扑排序
+拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
+算法原理
+每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
+时间复杂度与空间复杂度
+
+时间复杂度: O(V + E)，其中V是顶点数，E是边数
+空间复杂度: O(V)，需要存储顶点的访问状态和结果
+
+特性和局限性
+
+唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
+环检测: 如果图中存在环，则无法进行拓扑排序
+适用范围: 只适用于有向无环图（DAG）
+初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
+
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>图论</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于深度学习的图像分类</title>
     <url>/2025/04/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</url>
     <content><![CDATA[使用ResNet18预训练模型
@@ -4200,63 +4657,816 @@ lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较
       </tags>
   </entry>
   <entry>
-    <title>基础知识--哈希表</title>
-    <url>/2025/02/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
-    <content><![CDATA[哈希表
-哈希表概述
-​	哈希表：又称散列表，一种以关键码的值「key-value」而直接进行访问的数据结构。任意的键值 key  都唯一对应到内存中的某个位置。只需要输入查找的键值，就可以快速地找到其对应的  value。
-​	哈希函数：根据键值计算索引的函数就叫做哈希函数。
-​	**冲突：**不同的关键码映射到同一散列位置。key1!=key2，但是H(key1)=H(key2)。
-​	**同义词：**具有相同函数值的多个关键字。
-​	All in all:  将元素通过一个函数转换为整数，使得该整数可以尽量唯一地代表这个元素 。
-​	**需要解决的问题：**1. 哈希函数的构造。   2. 冲突解决的方法。
-哈希函数构造方法
-​	哈希函数应当易于计算，并且尽量使计算出来的索引均匀分布，以避免冲突。
-直接定址法
-**概述：**直接取关键字的某个线性函数值为哈希函数。
-**哈希函数：**H(key) = key 或 H(key) = a*key + b   ( a和b为常数 )
-**特点：**计算简单，不会产生冲突，适合关键字分布连续的情况（若不连续，则存储空间浪费很多，空间效率低）。
-除留余数法
-**概述：**指把key除以一个数mod得到的余数作为hash值的方法。当mod是一个质数时，H(key)能尽可能均匀覆盖每一个数。所以取mod为不大于表长Tsize但接近或等于表长的质数，即mod&lt;=Tsize且为质数。
-**哈希函数：**H(key) = key % mod
-**特点：**比较常用，关键在mod的选择，如何使得每个关键字通过该函数转换后等概率映射到散列空间的任一地址。
-平方取中法
-**概述：**指取key的平方的中间若干位作为hash值的方法，不常用。
-**特点：**适合于关键字的每位取值都不够均匀或均小于散列地址所需位数。
-处理冲突的方法
-开放定址法（开地址法）
-**基本思想：**有冲突时就去寻找下一个空的散列地址，只要散列表足够大，空的散列地址总能找到，并将数据元素存入。Hi = (H(key) + di) % Tsize (di为增量序列)   计算新的哈希值。
-线性探查法
-​	di = 0, 1, 2, … , Tsize-1
-​	发生冲突时，顺序表查看表中下一个元素，直到有空闲单元。会出现聚集现象，降低查询效率。
-平方探查法
-​	di = 0² , +1² ,  -1² , +2² , -2² , … , +k² , -k²
-​	不会出现聚集现象，不能探测所有单元，但至少能探测一半
-伪随机探测法
-​	di = 伪随机数序列
-链地址法（拉链法）
-**基本思想：**和上边方法不同，链地址法不计算新的哈希值，而是把相同散列地址的记录链成一单链表。m个散列地址就设m个单链表，然后用一个数组将m个单链表的表头指针存储起来，形成一个动态的结构。
-**优点：**1. 非同义词不会冲突，无&quot;聚集&quot;现象。
-​	   2. 链表上结点空间动态申请，更适合于表长不确定的情况（经常插入删除）。
+    <title>实例判别学习 - Non-Parametric Instance Discrimination精读</title>
+    <url>/2025/11/%E5%AE%9E%E4%BE%8B%E5%88%A4%E5%88%AB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[Unsupervised Feature Learning via Non-Parametric Instance Discrimination
+论文地址：https://arxiv.org/pdf/1805.01978
+代码地址：https://github.com/zhirongw/lemniscate.pytorch
+引言
+实例判别（Instance Discrimination） 是2018年提出的一种无监督特征学习方法，它将对比学习的思想推向极致：将每个图像实例视为一个独立的类别，通过区分不同实例来学习特征表示。这篇论文是MoCo、SimCLR等现代对比学习方法的重要先驱工作。
+论文的核心洞察来自对监督学习的观察：在ImageNet上训练的神经网络，即使没有显式指导，也能自动发现视觉上相似的类别（如leopard和jaguar）之间的关联。作者将这一观察延伸到实例级别：如果能够区分每个实例，那么学习到的特征应该能够捕获实例间的视觉相似性。
+实例判别的核心创新
+将无监督问题转化为监督问题：
+实例判别的天才之处在于一个简单的转换：
 
-哈希的查找及性能分析
-查找过程
-​	检测由散列函数形成的地址上是否有记录，若无记录则失败； 若有记录比较关键字值，若相等则查找成功，否则散列函数更新增量值，重复执行。
-性能分析
-​	在列表查找中，使用最广泛的二分查找算法，复杂度为O(log2n)，但其始终只能用于有序列表。普通无序列表只能采用遍历查找，复杂度为O(n)。而拥有较为理想的哈希函数实现的哈希表，对其任意元素的查找速度始终为常数级，即O(1)。  链地址法优于开放定址法，除留余数法作散列函数优于其它类型函数。
-**装填因子：**∂=表中记录数/散列表长度。平均查找长度直接依赖于装填因子大小。也就是说，装填因子大小会直接影响到查找效率。装填因子越大，发生冲突的可能性越大。
+传统无监督学习：没有标签，难以定义学习目标
+实例判别：每个图像就是自己的标签，变成N分类问题
+好处：可以直接使用成熟的分类框架和技术
 
-​	查找效率三个因素影响：哈希函数、装填因子、处理冲突方法。
+为什么这种方法有效？
+
+
+视觉相似性的自然涌现
+
+虽然每个实例是独立类别，但视觉相似的实例会在特征空间聚集
+原因：它们共享底层视觉模式（边缘、纹理、形状等）
+结果：学到的特征捕获了语义信息
+
+
+
+信息论的解释
+
+区分N个实例需要log(N)比特信息
+模型被迫学习最有效的编码
+这种编码自然对应于语义特征
+
+
+
+避免平凡解
+
+不能简单记住每个实例（泛化要求）
+必须学习可迁移的特征
+数据增强强制学习不变性
+
+
+
+技术挑战与解决方案
+挑战1：计算Softmax的分母
+当有百万级实例时，计算softmax分母需要遍历所有实例，计算成本巨大。
+解决方案：NCE近似
+原始softmax概率：P(i|v) = exp(v·f_i) / Σ_j exp(v·f_j)NCE近似：将其转化为二分类问题（实例i vs 噪声）
+挑战2：存储所有实例的特征
+需要存储所有训练图像的特征表示，内存需求大。
+解决方案：Memory Bank
+
+使用动量更新：新特征 = m×旧特征 + (1-m)×当前特征
+好处：平滑特征变化，提高训练稳定性
+内存需求：128维×100万实例 ≈ 500MB（可接受）
+
+挑战3：负样本采样
+从百万实例中采样负样本，如何保证采样质量？
+解决方案：Proximal Regularization
+
+不是随机采样，而是基于特征相似度
+优先采样相似但不同的实例（困难负样本）
+提高学习效率
+
+核心思想
+基本动机
+关键观察：
+
+监督学习中，模型会自动学习到视觉相似类别之间的关联
+这种相似性不是来自语义标注，而是来自视觉数据本身
+如果将类别级别的监督推向实例级别，能否学到更好的表示？
+
+核心假设：
+
+每个图像实例本身就是一个独特的&quot;类别&quot;
+通过区分不同实例，模型会学习到捕获视觉相似性的特征
+视觉相似的实例在特征空间中应该更接近
+
+方法概述
+将无监督学习问题转化为实例级别的分类问题：
+
+每个训练图像是一个独立的类别
+使用非参数softmax进行分类
+使用NCE（Noise-Contrastive Estimation）解决计算问题
+
+方法详解
+非参数Softmax分类器
+参数化Softmax的问题
+传统的参数化softmax：
+$$
+P(i|v) = \frac{\exp(w_i^T v)}{\sum_{j=1}^{n} \exp(w_j^T v)}
+$$
+其中 $w_j$ 是类别 $j$ 的权重向量。
+问题：
+
+权重向量 $w_j$ 只对训练类别有效，无法泛化到新实例
+权重向量作为类别原型，阻止了实例间的直接比较
+需要存储和更新大量权重参数
+
+非参数Softmax
+将权重向量 $w_j$ 替换为特征向量 $v_j$：
+$$
+P(i|v) = \frac{\exp(v_i^T v / \tau)}{\sum_{j=1}^{n} \exp(v_j^T v / \tau)}
+$$
+其中：
+
+$v_i, v_j$ 是归一化后的特征向量（$||v|| = 1$）
+$\tau$ 是温度参数，控制分布的尖锐程度
+
+优势：
+
+直接比较实例：特征向量直接作为&quot;类别原型&quot;
+泛化能力强：学习到的特征可以应用到任何新实例
+计算高效：无需存储和更新权重参数
+训练测试一致：训练和测试都使用相同的度量空间
+
+Memory Bank机制
+问题：计算 $P(i|v)$ 需要所有实例的特征 ${v_j}$，但每次迭代只更新当前batch的特征。
+解决方案：维护一个Memory Bank $V = {v_j}$ 存储所有实例的特征。
+更新策略：
+
+初始化：Memory Bank中的特征初始化为随机单位向量
+更新：每次迭代后，将当前batch的特征更新到Memory Bank
+使用：计算损失时，从Memory Bank中读取特征
+
+优势：
+
+避免每次重新计算所有特征
+保持特征的历史信息
+计算效率高
+
+Noise-Contrastive Estimation (NCE)
+问题：当实例数量 $n$ 很大（如ImageNet的1.2M）时，计算完整的softmax不可行。
+解决方案：使用NCE将多类分类问题转化为二分类问题。
+NCE原理
+将问题转化为：区分数据样本和噪声样本。
+定义：
+
+数据分布：$P_d(i\mid v) = \frac{\exp(v_i^\top v / \tau)}{Z_i}$，其中 $Z_i = \sum_{j=1}^{n} \exp(v_j^\top v / \tau)$
+噪声分布：$P_n(i) = 1/n$（均匀分布）
+噪声样本频率：$m$ 倍于数据样本
+
+后验概率：
+$$ 
+h(i, v) = P(D=1\mid i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
+$$ 
+损失函数：
+$$ 
+\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v')\sim P_n}[\log\big(1 - h(i, v')\big)]
+$$ 
+归一化常数估计
+计算 $Z_i$ 仍然昂贵，使用蒙特卡洛估计：
+$$ 
+Z_i \approx \frac{n}{m} \sum_{k=1}^{m} \exp\big(v_{j_k}^\top v / \tau\big)
+$$ 
+其中 ${j_k}$ 是随机采样的索引。
+复杂度：从 $O(n)$ 降低到 $O(1)$ 每个样本。
+Proximal Regularization（近端正则化）
+问题：每个&quot;类别&quot;只有一个实例，每个epoch每个类别只访问一次，训练过程振荡严重。
+解决方案：引入近端正则化项，鼓励训练过程的平滑性。
+正则化项：
+$$ 
+\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
+$$ 
+其中：
+
+$v_i^{(t)}$ 是当前迭代的特征
+$v_i^{(t-1)}$ 是Memory Bank中存储的特征（上一迭代）
+
+完整损失：
+$$ 
+\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v')\sim P_n}\Big[\log\big(1 - h(i, v'^{(t-1)})\big)\Big]
+$$ 
+加权k-NN分类器
+测试时分类：
+
+计算特征：$\hat{f} = f_\theta(\hat{x})$
+相似度计算：$s_i = \cos(v_i, \hat{f})$
+k-NN检索：找到top-k最近邻 $N_k$
+加权投票：类别 $c$ 的权重为
+$$
+w_c = \sum_{i \in N_k} \alpha_i \cdot \mathbf{1}(c_i = c)
+$$
+其中 $\alpha_i = \exp(s_i / \tau)$
+
+参数设置：
+
+$k = 200$
+$\tau = 0.07$（与训练时相同）
+
+实验分析
+参数化 vs 非参数化Softmax
+在CIFAR-10上的对比实验：
+
+
+
+方法
+Linear SVM
+k-NN
+
+
+
+
+参数化Softmax
+60.3%
+63.0%
+
+
+非参数化Softmax
+75.4%
+80.8%
+
+
+
+关键发现：
+
+非参数化方法显著优于参数化方法（+18%）
+k-NN性能接近线性SVM，说明学习到的特征度量质量高
+
+NCE近似质量
+不同负样本数量 $m$ 的影响：
+
+
+
+m
+k-NN Accuracy
+
+
+
+
+1
+42.5%
+
+
+10
+63.4%
+
+
+512
+78.4%
+
+
+4096
+80.4%
+
+
+
+结论：随着 $m$ 增加，NCE近似质量提升，$m=4096$ 时接近完整softmax。
+ImageNet分类结果
+不同网络架构的性能：
+
+
+
+方法
+conv5 (Linear)
+k-NN
+特征维度
+
+
+
+
+Random
+14.1%
+3.5%
+10K
+
+
+Split-Brain
+35.2%
+11.8%
+10K
+
+
+Ours (AlexNet)
+35.6%
+31.3%
+128
+
+
+Ours (VGG16)
+39.2%
+33.9%
+128
+
+
+Ours (ResNet-18)
+44.5%
+41.0%
+128
+
+
+Ours (ResNet-50)
+54.0%
+46.5%
+128
+
+
+
+关键发现：
+
+显著超越SOTA：在ImageNet上大幅超越之前的方法
+网络深度优势：从AlexNet到ResNet-50，性能持续提升
+紧凑表示：仅用128维特征就达到优异性能
+存储高效：1.28M图像的特征仅需600MB存储
+
+特征泛化能力
+在Places数据集上的零样本评估（使用ImageNet训练的特征）：
+
+
+
+方法
+ResNet-50 (conv5)
+ResNet-50 (k-NN)
+
+
+
+
+Ours
+45.5%
+41.6%
+
+
+
+结论：学习到的特征具有良好的跨数据集泛化能力。
+训练目标与测试目标的一致性
+关键观察：
+
+训练损失持续下降
+测试准确率同步提升
+无过拟合迹象
+
+意义：说明训练目标（实例判别）与测试目标（语义分类）是一致的，学习到的特征确实捕获了视觉相似性。
+消融实验
+特征维度：
+
+
+
+维度
+Top-1 Accuracy
+
+
+
+
+32
+34.0%
+
+
+64
+38.8%
+
+
+128
+41.0%
+
+
+256
+40.1%
+
+
+
+结论：128维是最优选择，性能在128维达到峰值。
+训练数据量：
+
+
+
+数据比例
+Accuracy
+
+
+
+
+0.1%
+3.9%
+
+
+1%
+10.7%
+
+
+10%
+23.1%
+
+
+30%
+31.7%
+
+
+100%
+41.0%
+
+
+
+结论：性能随训练数据量增加而持续提升，说明方法具有良好的可扩展性。
+半监督学习
+使用不同比例的标注数据进行微调：
+
+
+
+标注比例
+Ours (ResNet)
+Scratch (ResNet)
+Split-Brain (AlexNet)
+
+
+
+
+1%
+48.0%
+38.0%
+35.0%
+
+
+2%
+57.0%
+46.0%
+42.0%
+
+
+4%
+63.0%
+54.0%
+50.0%
+
+
+10%
+70.0%
+65.0%
+62.0%
+
+
+20%
+75.0%
+72.0%
+70.0%
+
+
+
+结论：在少样本场景下优势明显，1%标注数据时领先10%。
+目标检测
+在PASCAL VOC 2007上的检测性能：
+
+
+
+方法
+AlexNet
+VGG16
+ResNet-50
+
+
+
+
+Supervised
+56.8%
+67.3%
+76.2%
+
+
+Ours
+48.1%
+60.5%
+65.4%
+
+
+
+结论：在检测任务上达到无监督方法的SOTA，且随网络加深性能提升。
+代码实现
+核心损失函数实现
+import torchimport torch.nn as nnimport torch.nn.functional as Fclass InstanceDiscriminationLoss(nn.Module):    &quot;&quot;&quot;实例判别损失（使用NCE近似）&quot;&quot;&quot;        def __init__(self, memory_bank, temperature=0.07, m=4096, lambda_reg=10.0):        super().__init__()        self.memory_bank = memory_bank  # [n, dim] 所有实例的特征        self.temperature = temperature        self.m = m  # 负样本数量        self.lambda_reg = lambda_reg  # 正则化系数        def forward(self, features, indices, memory_bank_prev):        &quot;&quot;&quot;        Args:            features: [batch_size, dim] 当前batch的特征            indices: [batch_size] 当前batch的实例索引            memory_bank_prev: [batch_size, dim] Memory Bank中的特征（上一迭代）        &quot;&quot;&quot;        batch_size = features.size(0)        device = features.device                # L2归一化        features = F.normalize(features, p=2, dim=1)                # 从Memory Bank获取正样本特征        pos_features = memory_bank_prev  # [batch_size, dim]                # 随机采样负样本        neg_indices = torch.randint(0, len(self.memory_bank), (batch_size, self.m), device=device)        neg_features = self.memory_bank[neg_indices]  # [batch_size, m, dim]                # 计算相似度        pos_sim = torch.sum(features * pos_features, dim=1, keepdim=True) / self.temperature  # [batch_size, 1]        neg_sim = torch.bmm(            features.unsqueeze(1),  # [batch_size, 1, dim]            neg_features.transpose(1, 2)  # [batch_size, dim, m]        ) / self.temperature  # [batch_size, 1, m]                # 估计归一化常数（蒙特卡洛）        Z_approx = (len(self.memory_bank) / self.m) * torch.sum(torch.exp(neg_sim), dim=2)  # [batch_size, 1]                # 计算概率        pos_prob = torch.exp(pos_sim) / (torch.exp(pos_sim) + self.m * (1.0 / len(self.memory_bank)) * Z_approx)                # NCE损失        nce_loss = -torch.mean(torch.log(pos_prob + 1e-8))                # 近端正则化        reg_loss = self.lambda_reg * torch.mean(torch.sum((features - memory_bank_prev) ** 2, dim=1))                total_loss = nce_loss + reg_loss                return total_loss, nce_loss, reg_loss
+完整训练流程
+import torchimport torch.optim as optimfrom torch.utils.data import DataLoaderclass InstanceDiscriminationTrainer:    def __init__(self, model, memory_bank, dataset_size, temperature=0.07, m=4096):        self.model = model        self.memory_bank = memory_bank  # 初始化为随机单位向量        self.temperature = temperature        self.m = m                # 初始化Memory Bank        self.memory_bank.data = F.normalize(            torch.randn(dataset_size, 128), p=2, dim=1        )        def train_epoch(self, dataloader, optimizer, criterion):        self.model.train()        total_loss = 0                for batch_idx, (images, indices) in enumerate(dataloader):            # 前向传播            features = self.model(images)  # [batch_size, 128]                        # 从Memory Bank获取上一迭代的特征            memory_bank_prev = self.memory_bank[indices].clone()                        # 计算损失            loss, nce_loss, reg_loss = criterion(                features, indices, memory_bank_prev            )                        # 反向传播            optimizer.zero_grad()            loss.backward()            optimizer.step()                        # 更新Memory Bank（动量更新）            with torch.no_grad():                self.memory_bank[indices] = F.normalize(features, p=2, dim=1)                        total_loss += loss.item()                        if batch_idx % 100 == 0:                print(f&#x27;Batch &#123;batch_idx&#125;, Loss: &#123;loss.item():.4f&#125;, &#x27;                      f&#x27;NCE: &#123;nce_loss.item():.4f&#125;, Reg: &#123;reg_loss.item():.4f&#125;&#x27;)                return total_loss / len(dataloader)
+k-NN分类器实现
+def knn_classify(query_features, memory_bank, memory_labels, k=200, temperature=0.07):    &quot;&quot;&quot;    使用k-NN对查询特征进行分类        Args:        query_features: [n_query, dim] 查询特征        memory_bank: [n_memory, dim] Memory Bank中的特征        memory_labels: [n_memory] Memory Bank中的标签        k: 最近邻数量        temperature: 温度参数    &quot;&quot;&quot;    # 计算相似度矩阵    similarity = torch.mm(        F.normalize(query_features, p=2, dim=1),        F.normalize(memory_bank, p=2, dim=1).t()    )  # [n_query, n_memory]        # 找到top-k最近邻    _, topk_indices = torch.topk(similarity, k, dim=1)  # [n_query, k]    topk_similarities = torch.gather(similarity, 1, topk_indices)  # [n_query, k]    topk_labels = memory_labels[topk_indices]  # [n_query, k]        # 加权投票    weights = torch.exp(topk_similarities / temperature)  # [n_query, k]        # 对每个类别求和权重    num_classes = memory_labels.max().item() + 1    class_weights = torch.zeros(query_features.size(0), num_classes, device=query_features.device)        for c in range(num_classes):        mask = (topk_labels == c)  # [n_query, k]        class_weights[:, c] = (weights * mask.float()).sum(dim=1)        # 预测类别    predictions = class_weights.argmax(dim=1)        return predictions
+技术细节
+Memory Bank更新策略
+选项1：直接替换
+memory_bank[indices] = features
+选项2：动量更新
+memory_bank[indices] = momentum * memory_bank[indices] + (1 - momentum) * features
+选项3：仅在训练时更新
+
+训练时：每次迭代更新
+测试时：固定不变
+
+温度参数选择
+
+典型值：0.07（与SimCLR、MoCo相同）
+调优范围：0.05 - 0.15
+影响：控制softmax分布的尖锐程度
+
+NCE负样本数量
+
+最小值：$m = 1$（性能较差）
+推荐值：$m = 4096$（性能接近完整softmax）
+权衡：$m$ 越大，性能越好，但计算成本也越高
+
+近端正则化系数
+
+典型值：$\lambda = 10.0$
+作用：稳定训练，加速收敛
+调优：根据训练稳定性调整
+
+优缺点分析
+优点
+
+概念简单：将无监督学习转化为实例分类问题
+非参数化：特征直接作为&quot;类别原型&quot;，泛化能力强
+存储高效：128维特征，1M图像仅需600MB
+可扩展性好：性能随数据和网络深度提升
+训练测试一致：都使用相同的度量空间
+
+缺点
+
+计算成本：需要大量负样本（NCE）
+Memory Bank维护：需要存储所有实例的特征
+更新延迟：Memory Bank更新有延迟，可能影响性能
+对数据增强依赖：需要合理的数据增强策略
+
+与后续工作的关系
+对MoCo的启发
+
+Memory Bank → 队列：MoCo用队列替代Memory Bank
+直接更新 → 动量更新：MoCo使用动量编码器
+一致性保证：两者都关注特征的一致性
+
+对SimCLR的启发
+
+实例判别思想：SimCLR也使用实例判别
+端到端训练：SimCLR去除了Memory Bank，使用大batch
+数据增强重要性：SimCLR强调了数据增强的关键作用
+
+对SupCon的启发
+
+监督信号融入：SupCon将标签信息融入对比学习
+同类样本作为正样本：SupCon扩展了正样本的定义
+
+总结
+实例判别学习通过将每个图像实例视为独立类别，使用非参数softmax和NCE来学习特征表示。其核心贡献包括：
+
+非参数化设计：特征直接作为类别原型，泛化能力强
+NCE近似：解决了大规模实例分类的计算问题
+Memory Bank机制：高效存储和更新所有实例的特征
+近端正则化：稳定训练过程
+
+虽然后续的MoCo、SimCLR等方法在实现上更加优雅，但实例判别学习奠定了对比学习的基础思想，是这一领域的重要里程碑。
+参考文献
+
+
+Wu, Z., Xiong, Y., Yu, S. X., &amp; Lin, D. (2018). Unsupervised feature learning via non-parametric instance discrimination. CVPR 2018. https://arxiv.org/pdf/1805.01978
+
+
+Gutmann, M., &amp; Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. AISTATS 2010.
+
+
+He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
+
+
+Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
+
+
+思考题
+
+为什么非参数softmax比参数化softmax更适合实例判别任务？
+NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
+Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
+近端正则化为什么能稳定训练？其背后的数学原理是什么？
+实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
+为什么k-NN分类器在测试时表现良好？这说明了什么？
+
+思考题答案
+1. 为什么非参数softmax比参数化softmax更适合实例判别任务？
+参数化softmax的问题：
+
+泛化能力弱：权重向量 $w_j$ 只对训练实例有效，无法应用到新实例
+阻止直接比较：权重向量作为&quot;类别原型&quot;，阻止了实例特征间的直接比较
+参数冗余：需要为每个实例存储一个权重向量，参数量大
+
+非参数softmax的优势：
+
+直接比较实例：特征向量 $v_j$ 直接作为&quot;类别原型&quot;，允许实例间的直接比较
+泛化能力强：学习到的特征可以应用到任何新实例
+参数高效：无需存储权重参数，只需存储特征
+训练测试一致：训练和测试都使用相同的特征度量空间
+
+实验验证：在CIFAR-10上，非参数方法比参数方法性能提升18%，证明了其优势。
+2. NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
+转化过程：
+
+原始问题：区分 $n$ 个类别（实例），需要计算所有类别的概率
+NCE转化：将问题转化为&quot;区分数据样本和噪声样本&quot;的二分类问题
+后验概率：
+$$
+h(i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
+$$
+其中 $P_d$ 是数据分布，$P_n$ 是噪声分布（均匀分布）
+
+为什么有效：
+
+计算效率：从 $O(n)$ 降低到 $O(1)$ 每个样本
+近似质量：当负样本数量 $m$ 足够大时，近似质量接近完整softmax
+理论基础：NCE有坚实的理论保证，是unnormalized模型的标准估计方法
+实践验证：实验表明 $m=4096$ 时性能接近完整softmax
+
+关键洞察：不需要计算所有类别的概率，只需要区分&quot;是正样本&quot;还是&quot;是噪声样本&quot;。
+3. Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
+Memory Bank的优势：
+
+存储所有特征：可以访问训练集中所有实例的特征
+计算高效：避免每次重新计算所有特征
+历史信息：保留特征的历史状态
+
+Memory Bank的局限性：
+
+更新延迟：特征更新有延迟（使用上一迭代的特征）
+内存需求：需要存储所有实例的特征
+一致性挑战：特征可能因为编码器变化而变得不一致
+
+与MoCo队列的区别：
+
+
+
+特性
+Memory Bank
+MoCo队列
+
+
+
+
+大小
+所有训练实例
+固定大小（如65536）
+
+
+更新
+直接替换
+FIFO（先进先出）
+
+
+一致性
+可能不一致
+通过动量编码器保证
+
+
+存储
+所有实例
+仅最近batch的特征
+
+
+
+MoCo的改进：
+
+使用动量编码器保证Key的一致性
+队列大小固定，内存可控
+FIFO更新保证队列中的特征相对新鲜
+
+4. 近端正则化为什么能稳定训练？其背后的数学原理是什么？
+问题背景：
+
+每个&quot;类别&quot;只有一个实例
+每个epoch每个类别只访问一次
+随机采样导致训练过程振荡严重
+
+近端正则化的作用：
+
+平滑性约束：鼓励当前特征 $v_i^{(t)}$ 与上一迭代特征 $v_i^{(t-1)}$ 接近
+减少振荡：防止特征因为随机采样而剧烈变化
+稳定梯度：使梯度更新更加平滑
+
+数学原理：
+近端正则化项：
+$$
+\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
+$$
+这等价于在优化问题中加入平滑性约束：
+
+当 $\lambda \to 0$：退化为原始损失
+当 $\lambda \to \infty$：强制 $v_i^{(t)} = v_i^{(t-1)}$（不更新）
+
+优化视角：
+近端正则化是近端梯度方法的应用，用于优化非光滑或约束优化问题。在这里，它起到了稳定化的作用。
+实验验证：图3显示，加入正则化后训练损失曲线更平滑，收敛更快。
+5. 实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
+共同思想：
+
+实例判别：都将每个实例视为独立类别
+对比学习：通过区分正负样本来学习特征
+特征归一化：都使用L2归一化
+温度参数：都使用温度缩放
+
+主要区别：
+
+
+
+特性
+Instance Discrimination
+MoCo
+SimCLR
+
+
+
+
+负样本来源
+Memory Bank
+队列
+当前batch
+
+
+特征更新
+延迟更新
+动量更新
+实时更新
+
+
+计算方式
+NCE近似
+完整softmax
+完整softmax
+
+
+batch size
+小（256）
+中等（1024）
+大（≥4096）
+
+
+实现复杂度
+中等
+较高
+较低
+
+
+
+演进关系：
+
+Instance Discrimination：提出非参数softmax和Memory Bank
+MoCo：改进Memory Bank为队列，引入动量编码器
+SimCLR：去除Memory Bank，使用大batch和端到端训练
+
+核心改进：
+
+MoCo解决了Memory Bank的一致性问题
+SimCLR简化了实现，但需要更多计算资源
+
+6. 为什么k-NN分类器在测试时表现良好？这说明了什么？
+k-NN表现良好的原因：
+
+训练测试一致：训练和测试都使用相同的特征度量空间
+非参数化设计：特征直接作为&quot;类别原型&quot;，适合k-NN
+度量质量高：学习到的特征确实捕获了视觉相似性
+
+实验证据：
+
+在ImageNet上，k-NN准确率（46.5%）接近线性SVM（54.0%）
+说明学习到的特征度量质量很高
+
+深层含义：
+
+训练目标有效：实例判别目标与语义分类目标一致
+特征质量高：特征空间中的距离确实反映了视觉相似性
+泛化能力强：学习到的表示可以泛化到新任务
+
+对比其他方法：
+
+Split-Brain：k-NN准确率（11.8%）远低于线性SVM（35.2%）
+说明其学习到的特征度量质量较低
+
+结论：k-NN的良好表现证明了实例判别学习的有效性，学习到的特征确实捕获了视觉相似性，而不仅仅是适合特定分类器的表示。
+深入理解与实践思考
+
+实例判别与语义判别的关系：虽然每个实例都被视作一个类别，但模型最终学习到的特征仍然会聚合出语义簇。这一现象说明视觉数据的结构性远强于我们赋予的标签结构。实际操作中可以通过t-SNE/UMAP观察到同类样本自然聚团。
+Memory Bank vs. 队列：Memory Bank提供了全局视角，但需要处理“陈旧”特征的问题。后来MoCo中的动量编码器与固定长度队列，可以被视作对“特征一致性”与“可扩展性”的不同取舍。若业务中GPU显存紧张，可采用分片Memory Bank或结合近邻图的稀疏更新。
+正则化的更广义含义：近端正则化不仅平滑了优化，还暗含“特征轨迹不能跳跃太远”的约束，相当于引入了一个时间维度的Lipschitz限制。这提醒我们，在设计自监督任务时，需要关注优化轨迹是否稳定。
+评价指标的选择：k-NN性能高说明学到的度量空间质量好，但在工业场景往往还需关注召回、延迟等指标。实例判别学习天然适合构建向量检索服务（如图像去重、相似商品推荐）。
+与现代方法的衔接：若希望复现最新SOTA，可在此框架上引入更强的编码器（ViT、ConvNeXt）、更丰富的数据增强（RandAugment、CutMix）以及更加稳定的优化器（AdamW + Cosine）。同时也可以尝试将SupCon的标签约束融入Memory Bank以获得更平滑的语义结构。
+
+开放问题与研究方向
+
+Memory更新策略：能否利用动量更新与自适应权重结合，既保持全局视野又不过度依赖旧特征？
+负样本质量：如何更智能地采样“困难负样本”，避免CNN在易区分的负样本上浪费容量？
+多模态扩展：能否直接在该框架中支持图像-文本或多模态实例判别，减少对比学习与跨模态模型之间的割裂？
+理论解释：实例判别为何能自动恢复语义结构？是否存在可证明的聚类或流形假设支撑？
+增量学习：面对不断新增的数据集，如何无缝扩展Memory Bank并避免遗忘？
+
 ]]></content>
       <categories>
-        <category>数据结构与算法</category>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
       </categories>
       <tags>
-        <tag>数据结构与算法</tag>
-        <tag>数组</tag>
-        <tag>链表</tag>
-        <tag>哈希表</tag>
-        <tag>查找</tag>
+        <tag>论文精读</tag>
+        <tag>对比学习</tag>
+        <tag>实例判别</tag>
+        <tag>无监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手撕 Vision Transformer</title>
+    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
+    <content><![CDATA[手撕 Vision Transformer
+
+​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
+​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
+import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
+]]></content>
+      <categories>
+        <category>手撕代码</category>
+        <category>图像分类</category>
+      </categories>
+      <tags>
+        <tag>Vit</tag>
+        <tag>手撕代码</tag>
       </tags>
   </entry>
   <entry>
@@ -5150,1344 +6360,155 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       </tags>
   </entry>
   <entry>
-    <title>基础知识--图论</title>
-    <url>/2025/03/%E5%9B%BE%E8%AE%BA/</url>
-    <content><![CDATA[基础知识–图论
-图论是数学的一个分支，以图为研究对象。  图论中的“图”是一种抽象的数学结构，由顶点（点）和连接顶点的边（线）构成，用于描述事物之间特定的关系。
+    <title>基础知识--排序算法</title>
+    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[排序算法详解
+排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
+#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
+1. 冒泡排序 (Bubble Sort)
+冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+实现原理
 
-核心思想:  用点代表事物，用连接两点的线表示事物之间的关系。
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
 
-图的基本概念
+实现代码
+void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
+2. 选择排序 (Selection Sort)
+选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
+实现原理
+
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：不稳定
 
+实现代码
+void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
+3. 插入排序 (Insertion Sort)
+插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+实现原理
 
-图 (Graph)
-一个图 G 由两个基本集合构成：
+时间复杂度：O(n²)
+空间复杂度：O(1)
+稳定性：稳定
 
-顶点集 (Vertex Set) V(G):  图中所有顶点的集合。 顶点通常用点、小圆圈或标签表示。
-边集 (Edge Set) E(G):  图中所有边的集合。 边连接一对顶点，表示顶点之间的关系。 边通常用线段、曲线或箭头表示。
+实现代码
+void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
+4. 快速排序 (Quick Sort)
+快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
+实现原理
 
-我们可以用数学符号表示一个图：  G = (V, E)
+时间复杂度：平均 O(nlogn)，最坏 O(n²)
+空间复杂度：O(logn)
+稳定性：不稳定
 
+实现代码
+int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
+5. 归并排序 (Merge Sort)
+归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
+实现原理
 
-顶点 (Vertex / Node / Point)
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
+稳定性：稳定
 
-图的基本组成部分，代表研究对象或实体。
-示例:
+实现代码
+void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
+6. 堆排序 (Heap Sort)
+堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
+实现原理
 
-在社交网络中，顶点可以代表 人。
-在交通网络中，顶点可以代表 城市。
-在电路图中，顶点可以代表 电子元件。
+时间复杂度：O(nlogn)
+空间复杂度：O(1)
+稳定性：不稳定
 
+实现代码
+void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
+排序算法的比较
 
 
 
+排序算法
+平均时间复杂度
+最坏时间复杂度
+空间复杂度
+稳定性
 
-边 (Edge / Arc / Line)
 
-连接两个顶点的线，表示顶点之间存在的关系。
-示例:
 
-在社交网络中，边可以表示两个人之间的 朋友关系。
-在交通网络中，边可以表示两个城市之间的 道路。
-在电路图中，边可以代表 导线。
 
+冒泡排序
+O(n²)
+O(n²)
+O(1)
+稳定
 
 
+选择排序
+O(n²)
+O(n²)
+O(1)
+不稳定
 
 
-关联 (Incidence)
+插入排序
+O(n²)
+O(n²)
+O(1)
+稳定
 
-如果一条边 e 连接了顶点 u 和 v，则称边 e 与顶点 u 和 v 关联。
-简单来说，就是边“连接到”哪些顶点。
 
+快速排序
+O(nlogn)
+O(n²)
+O(logn)
+不稳定
 
 
-邻接 (Adjacency)
+归并排序
+O(nlogn)
+O(nlogn)
+O(n)
+稳定
 
-顶点邻接: 如果两个顶点 u 和 v 被一条边直接连接，则称顶点 u 和 v 是邻接的。
-边邻接: 如果两条边 共享 一个公共顶点，则称这两条边是邻接的。
 
+堆排序
+O(nlogn)
+O(nlogn)
+O(1)
+不稳定
 
 
-度 (Degree)
 
+如何选择排序算法？
 
-一个顶点的度是指与该顶点关联的边的数量。  度反映了顶点与其他顶点的连接数量。
+数据量小（n &lt; 50）：插入排序
+数据量大：
 
+要求稳定：归并排序
+不要求稳定：快速排序
 
-有向图的度:  对于有向图，度分为两种：
 
-入度 (In-degree):  指向该顶点的边的数量 (有多少边进入该顶点)。
-出度 (Out-degree):  从该顶点出发的边的数量 (有多少边从该顶点出发)。
-
-
-
-
-
-路径 (Path)
-
-图中从一个顶点到另一个顶点，依次经过的顶点和边的序列。
-路径中通常不重复经过顶点，除非是环路。
-
-
-
-环路/回路 (Cycle)
-
-一种特殊的路径，起点和终点是同一个顶点。
-环路表示从一个点出发，可以回到原点的路径。
-
-
-
-简单路径 (Simple Path)
-
-路径中所有顶点都不同的路径。
-简单路径避免了在路径中重复访问同一个顶点。
-
-
-
-简单环路/简单回路 (Simple Cycle)
-
-环路中，除了起点和终点相同外，所有其他顶点都不同的环路。
-简单环路是最基本的环路形式，避免了在环路中重复访问除起点/终点之外的顶点。
-
-
-
-图的类型
-有向图 vs 无向图
-
-
-无向图: 边 没有方向，表示连接的两个顶点是互通的。 通常用  (v, w)  表示顶点 v 和 w 之间的无向边。
-
-
-有向图: 边 有方向，表示连接的两个顶点之间是单向关系。  通常用  &lt;v, w&gt;  表示从顶点 v 指向顶点 w 的有向边。
-
-
-有权图 vs 无权图
-
-
-有权图: 图的每条边都被赋予一个 权重 (weight)，通常是一个数字。 权重可以代表 距离、成本、时间 等实际含义。
-
-
-无权图: 图的边 没有权重。 可以理解为所有边的权重都相同（例如权重为 1）。
-
-
-连通图 vs 非连通图
-
-
-连通图 (针对无向图):  图中 任意两个顶点之间都存在路径。  这意味着从图中任何一个顶点出发，都可以到达其他任何顶点。
-
-
-非连通图 (针对无向图):  图中 至少存在一对顶点之间没有路径。  非连通图由多个互相独立的“部分”组成。
-
-
-连通分量 (Connected Component):  非连通图可以被划分成多个 连通的子图，每个这样的连通子图被称为一个 连通分量。 连通图自身只有一个连通分量，就是它本身。
-
-
-强连通 vs 单连通
-
-强连通 (Strongly Connected):  有向图 中，任意两个顶点之间都存在互相可达的路径。  即从顶点 u 可以到达 v，同时从顶点 v 也可以到达 u。
-单连通 (Unilaterally Connected): 有向图 中，任意两个顶点之间都存在至少一个方向可达的路径 （无需互相可达）。  即对于任意两个顶点 u 和 v，要么从 u 可以到达 v，要么从 v 可以到达 u，或者两者都成立。
-
-图的表示方法
-邻接矩阵表示法
-邻接矩阵是一个二维数组，用于表示顶点之间的连接关系：
-
-对于无权图，矩阵元素 A[i][j] = 1 表示顶点 i 和 j 之间有边相连，A[i][j]= 0 表示没有边相连
-对于有权图，矩阵元素 A[i][j]表示顶点 i 和 j 之间边的权值，通常用一个特殊值（如∞或0）表示不存在的边
-
-优点：
-
-实现简单，便于理解
-查询两点间是否有边的时间复杂度为 O(1)
-适合表示稠密图
-
-缺点：
-
-空间复杂度为 O(V²)，其中 V 是顶点数，对于稀疏图会浪费大量空间
-添加/删除顶点的操作较为复杂
-
-邻接表表示法
-邻接表使用一个数组，数组的每个元素是一个链表，用于存储与该顶点相邻的所有顶点：
-
-数组索引 i 对应顶点 i
-链表中存储的是与顶点 i 相邻的所有顶点
-
-优点：
-
-节省空间，特别适合稀疏图
-容易找到给定顶点的所有邻接点
-添加顶点操作简单
-
-缺点：
-
-查询两点间是否有边的时间复杂度为 O(V)，不如邻接矩阵高效
-对有向图求逆邻接表较困难
-
-十字链表表示法
-十字链表是邻接表的改进版本，主要用于有向图：
-
-结合了邻接表和逆邻接表的特点
-每个顶点有一个出边表和一个入边表
-每条边用一个结点表示，同时出现在起点的出边表和终点的入边表中
-
-优点：
-
-容易找到顶点的所有出边和入边
-适合需要频繁查询入度和出度的应用场景
-
-邻接多重表
-邻接多重表主要用于无向图：
-
-每条边只存储一次
-每个顶点有一个边表
-每条边连接到与其关联的两个顶点的边表中
-
-优点：
-
-便于删除和查找特定边
-节省空间
-
-边集数组表示法
-边集数组直接存储图中所有的边：
-
-使用一个一维数组存储所有顶点信息
-使用另一个数组存储所有边的信息（包括起点、终点和权值）
-
-优点：
-
-实现简单
-适合只关注边的操作，如最小生成树的Kruskal算法
-适合稀疏图
-
-缺点：
-
-查找操作效率较低
-不易找到与特定顶点相连的所有边
-
-选择哪种表示方法取决于图的特性（如稠密度）和需要执行的操作类型（如是否需要频繁查询、添加或删除顶点和边）。
-图的遍历方法
-DFS(深度优先搜索)
-深度优先搜索沿着图的深度尽可能远地探索，直到不能再深入为止，然后回溯到前一个节点，继续探索其他路径。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问
-对该顶点的每个未访问的邻接点，递归地应用DFS
-如果当前顶点没有未访问的邻接点，则回溯
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)
-空间复杂度：O(V)
-
-应用场景
-
-拓扑排序
-寻找连通分量
-判断图中是否有环
-寻找路径（如迷宫问题）
-
-BFS(广度优先搜索)
-广度优先搜索是一种按&quot;层次&quot;访问节点的方法，先访问起始顶点的所有邻接点，然后再访问这些邻接点的邻接点，以此类推。
-基本算法步骤
-
-选择一个起始顶点，将其标记为已访问，并放入队列中
-当队列不为空时，执行以下操作：
-
-取出队列中的第一个顶点u
-访问顶点u
-将u的所有未访问过的邻接点标记为已访问并加入队列
-
-
-
-时间复杂度与空间复杂度
-
-时间复杂度：O(V + E)，其中V是顶点数，E是边数
-空间复杂度：O(V)，用于存储访问状态和队列
-
-应用场景
-
-寻找最短路径（无权图）
-网络爬虫
-社交网络中的关系距离（如&quot;六度分隔&quot;理论）
-层次遍历
-
-图的应用
-最小生成树算法
-无向图 G 的生成树是具有 G 的全部顶点，但边数最少的连通子图（连通子图并非连通分量）。一个图的生成树可能有多个。
-Kruskal算法
-
-
-思想：贪心策略，每次选择图中权值最小的边，加入生成树中（前提是不形成环）。
-步骤：
-
-对所有边按照权值进行排序。
-依次从小到大考虑每条边，如果当前边加入后不构成环，则加入生成树。
-重复直到生成树中包含 n−1 条边。
-
-
-特点：适合边比较少的稀疏图，利用并查集来判断是否形成环。
-
-Prim算法
-
-思想：贪心策略，从一个起始顶点开始，每次选择与当前生成树相连的、权值最小的边，将新的顶点加入生成树。
-步骤：
-
-从任一顶点开始，将其加入生成树。
-找出所有与当前生成树相连的边，选择其中权值最小的边，将边的另一端顶点加入生成树。
-重复直到所有顶点都被加入生成树。
-
-
-特点：适合边较多的稠密图，通过优先队列（堆）优化可以达到较高效率。
-
-最短路径算法
-Dijkstra算法
-从起点开始，每次选择当前已知最短距离的顶点，然后更新与它相邻的顶点的距离。
-基本流程
-
-初始化：源点距离设为0，其他顶点距离设为无穷大
-每次选择未访问的距离最小的顶点，标记为已访问
-更新该顶点的邻居顶点的距离
-重复步骤2-3直到所有顶点被访问
-
-算法复杂度
-
-时间复杂度：O(V²)，其中V是顶点数。如果使用优先队列优化，可以降低到O((V+E)logV)，其中E是边数。
-空间复杂度：O(V)
-
-算法的局限性
-
-迪杰斯特拉算法不能处理负权边
-在稠密图中，性能可能不如其他算法（如贝尔曼-福特算法）
-
-应用场景
-
-导航系统
-网络路由协议
-社交网络分析
-电信网络规划
-
-Floyd-Warshall算法
-对于两个顶点i和j之间的最短路径，考虑是否存在一个中间顶点k，使得从i到k再到j的路径比直接从i到j的路径更短。算法通过三重循环遍历所有可能的中间顶点，不断更新距离矩阵。
-基本流程
-
-初始化一个距离矩阵，矩阵中元素dist[i][j]表示从顶点i到j的直接距离。如果i和j之间没有直接连接，则设为无穷大
-对于每一个顶点k，检查所有顶点对(i,j)
-对于每一个顶点对(i,j)，如果dist[i][k] + dist[k][j] &lt; dist[i][j]，则更新dist[i][j]的值
-重复步骤2和3，直到遍历完所有顶点
-
-算法复杂度
-
-时间复杂度：O(V³)，其中V是顶点数
-空间复杂度：O(V²)
-
-与迪杰斯特拉算法的比较
-
-范围不同：迪杰斯特拉是单源最短路径算法，而弗洛伊德是全源最短路径算法
-适用场景：
-
-对于稀疏图，运行V次迪杰斯特拉算法更高效
-对于稠密图，弗洛伊德算法更优
-
-
-负权边处理：弗洛伊德可以处理负权边，但两者都不能处理负权环
-
-算法优势
-
-实现简单，代码简洁
-可以处理有向图和负权边（但不能有负权环）
-一次运行可以得到所有顶点对之间的最短路径
-
-应用场景
-
-网络路由算法
-交通规划
-寻找图中的传递闭包
-计算最大流问题
-
-A*算法
-A*算法是一种启发式搜索算法，常用于路径规划问题。
-
-结合了Dijkstra算法和启发式搜索的优点
-使用估价函数指导搜索方向
-在有好的启发函数时效率很高
-
-基本流程
-
-初始化：起点放入开放列表
-每次从开放列表中选择f值最小的节点n
-如果n是目标节点，算法结束
-否则，将n移到关闭列表，并检查所有邻居节点
-对于每个邻居，计算经过n的路径长度g和估计总长度f=g+h
-更新邻居节点信息并加入开放列表
-重复步骤2-6直到找到目标或开放列表为空
-
-拓扑排序
-拓扑排序是一种对有向无环图 (DAG, Directed Acyclic Graph) 中顶点进行线性排序的算法，使得对于图中的每一条有向边 (u, v)，顶点 u 在排序中都出现在顶点 v 之前。拓扑排序常用于表示具有依赖关系的任务调度问题。
-算法原理
-每次选择入度为0的顶点（即没有前驱顶点的顶点），将其输出，然后删除该顶点及其所有出边，重复此过程直到图为空或无法找到入度为0的顶点。
-时间复杂度与空间复杂度
-
-时间复杂度: O(V + E)，其中V是顶点数，E是边数
-空间复杂度: O(V)，需要存储顶点的访问状态和结果
-
-特性和局限性
-
-唯一性: 拓扑排序的结果通常不唯一，可能有多种合法的排序方式
-环检测: 如果图中存在环，则无法进行拓扑排序
-适用范围: 只适用于有向无环图（DAG）
-初始点要求: 至少有一个顶点的入度为0，否则无法开始排序
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>图论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手撕 Vision Transformer</title>
-    <url>/2025/06/%E6%89%8B%E6%92%95%20Vision%20Transformer/</url>
-    <content><![CDATA[手撕 Vision Transformer
-
-​	之前接触过挺多pytorch框架写的代码的，但是一直没有学过，觉得没啥可学的，上个月看了b站上的一个博主的速成课，感觉确实没啥学的，就是几个函数而已，不过通一下也是很有收获的。我现在准备练习一下代码能力，所以尝试手写一下Vit代码。这也是第一次写除了算法题之外的代码，之前复试结束后联系了一个老师问我写过代码吗，我说没有，也是很尴尬了，最后老师也没要我，嫌我基础太差了，希望能在开学之前把代码能力练好，并且把基础的一些东西弄明白。
-​	根据Gemini给我生成了个提示，手写了一遍，不过中间有好几处错误，目前已经更正，不是很熟练，还需要再练习一下。
-import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# 模块： PatchEmbedding(nn.Module)class PatchEmbedding(nn.Module):    def __init__(self,in_channels,patch_size,embed_dim,image_size):        super().__init__()        self.patch_num=(image_size//patch_size)**2        self.emb=nn.Conv2d(in_channels,embed_dim,kernel_size=patch_size,stride=patch_size)        self.pos_emb=nn.Parameter(torch.randn(1,self.patch_num+1,embed_dim))        self.cls_emb=nn.Parameter(torch.randn(1,1,embed_dim))    def forward(self,x):        x=self.emb(x)        b,d,h,w=x.shape        x=x.permute(0,2,3,1).reshape(b,h*w,d)        cls_emb=self.cls_emb.expand(b,-1,-1)        x=torch.cat((cls_emb,x),dim=1)        out=x+self.pos_emb[:,:1+h*w]        return out# 2. 多头自注意力机制 (Multi-Head Self-Attention, MSA)# 模块： MultiHeadSelfAttention(nn.Module)class MultiHeadSelfAttention(nn.Module):    def __init__(self,embed_dim,num_heads,dropout=0.0):        super().__init__()        self.embed_dim=embed_dim        self.num_heads=num_heads        self.head_dim=embed_dim//num_heads        self.proj_q=nn.Linear(embed_dim,embed_dim)        self.proj_k=nn.Linear(embed_dim,embed_dim)        self.proj_v=nn.Linear(embed_dim,embed_dim)        self.out_proj=nn.Linear(embed_dim,embed_dim)        self.drop=nn.Dropout(dropout)        def forward(self,x):        b,l,_=x.shape        q = self.proj_q(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        k = self.proj_k(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        v = self.proj_v(x).reshape(b, l, self.num_heads, self.head_dim).transpose(1, 2)        atten_score=torch.matmul(q,k.transpose(-2,-1))/self.head_dim**0.5        atten_weight=torch.nn.functional.softmax(atten_score,dim=-1)        atten_weight = self.drop(atten_weight)        atten = torch.matmul(atten_weight, v).transpose(1, 2).reshape(b, l, self.embed_dim)        out=self.out_proj(atten)        out=self.drop(out)        return out# 3. 多层感知机块 (MLP Block)# 模块： MlpBlock(nn.Module)class MlpBlock(nn.Module):    def __init__(self,embed_dim,mlp_dim,out_dim,dropout=0.0):        super().__init__()        self.fc1=nn.Linear(embed_dim,mlp_dim)        self.fc2=nn.Linear(mlp_dim,out_dim)        self.act=nn.GELU()        self.drop=nn.Dropout(dropout)        def forward(self,x):        x=self.fc1(x)        x=self.act(x)        x=self.drop(x)        x=self.fc2(x)        out=self.drop(x)        return out# 4. Transformer 编码器块 (Transformer Encoder Block)# 模块： TransformerEncoderBlock(nn.Module)class TransformerEncoderBlock(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.norm1=nn.LayerNorm(embed_dim)        self.norm2=nn.LayerNorm(embed_dim)        self.mlp = MlpBlock(embed_dim, mlp_dim, embed_dim, dropout)         self.msa = MultiHeadSelfAttention(embed_dim, num_heads, dropout)        def forward(self,x):        norm=self.norm1(x)        msa=self.msa(norm)        res=msa+x        norm=self.norm2(res)        mlp=self.mlp(norm)        out=mlp+res        return out# 5. Transformer 编码器 (Transformer Encoder)# 模块： TransformerEncoder(nn.Module)class TransformerEncoder(nn.Module):    def __init__(self,embed_dim,num_heads,mlp_dim,depth,dropout=0.0):        super().__init__()        self.layers=nn.ModuleList([])        for _ in range(depth):             layer = TransformerEncoderBlock(embed_dim, num_heads, mlp_dim, dropout)            self.layers.append(layer)        self.norm=nn.LayerNorm(embed_dim)    def forward(self,x):        for layer in self.layers:             x = layer(x)         out=self.norm(x)        return out# 6. 完整的 Vision Transformer (ViT) 模型# 模块： VisionTransformer(nn.Module)class VisionTransformer(nn.Module):    def __init__(self,image_size,in_channels,num_classes,patch_size,embed_dim,depth,num_heads,mlp_dim,dropout=0.0):        super().__init__()        self.emb=PatchEmbedding(in_channels,patch_size,embed_dim,image_size)        self.trans=TransformerEncoder(embed_dim,num_heads,mlp_dim,depth,dropout)        self.lin=nn.Linear(embed_dim,num_classes)        def forward(self,x):        emb=self.emb(x)        trans_output=self.trans(emb)        cls_token_output = trans_output[:, 0]        out=self.lin(cls_token_output)        return out
-]]></content>
-      <categories>
-        <category>手撕代码</category>
-        <category>图像分类</category>
-      </categories>
-      <tags>
-        <tag>Vit</tag>
-        <tag>手撕代码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--绪论</title>
-    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
-    <content><![CDATA[绪论
-数据结构
-数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
-逻辑结构
-线性结构
-一般线性表：线性表
-特殊线性表：栈、队列、字符串
-线性表的推广：数组、广义表
-非线性结构
-树结构：树、二叉树
-图结构：有向图、无向图
-集合结构
-存储结构
-顺序存储
-逻辑上连续，物理上连续
-优点：
-
-随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
-内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
-空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
-
-缺点：
-
-插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
-固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
-内存浪费：若预分配空间过大，可能造成内存冗余。
-
-链式存储
-逻辑上不要求连续，物理上⼀定连续
-优点：
-
-动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
-插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
-灵活性强：支持多种衍生结构（如双向链表、循环链表）。
-
-缺点：
-
-
-无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
-
-
-额外空间开销：每个节点需存储指针字段，占用更多内存。
-
-
-内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
-
-
-算法的效率
-算法是为了解决某类问题而规定的一个有限长的操作序列。
-算法时间复杂度
-一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
-算法空间复杂度
-所⽤到的临时空间⼤⼩
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>绪论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基础知识--线性表</title>
-    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
-    <content><![CDATA[线性表
-线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
-顺序存储（顺序表）
-存取
-顺序表随机存取，存取某个元素的时间复杂度为O(1)。
-查找
-平均时间复杂度O(n)
-插入删除
-平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
-链式存储（链表）
-链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
-单链表
-单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
-
-数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
-指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
-
-创建链表
-**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
-**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
-查找
-查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
-插入删除
-在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
-单链表的缺点
-
-访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
-存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
-不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
-
-双链表
-双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
-
-前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
-数据域 (Data):  与单链表相同，用于存储数据元素。
-后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
-
-创建链表
-创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
-查找
-与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
-双链表的优点
-
-双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
-删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
-某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
-
-双链表的缺点
-
-存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
-插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
-访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
-
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>链表</tag>
-        <tag>线性表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>实例判别学习 - Non-Parametric Instance Discrimination精读</title>
-    <url>/2025/11/%E5%AE%9E%E4%BE%8B%E5%88%A4%E5%88%AB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[Unsupervised Feature Learning via Non-Parametric Instance Discrimination
-论文地址：https://arxiv.org/pdf/1805.01978
-代码地址：https://github.com/zhirongw/lemniscate.pytorch
-引言
-实例判别（Instance Discrimination） 是2018年提出的一种无监督特征学习方法，它将对比学习的思想推向极致：将每个图像实例视为一个独立的类别，通过区分不同实例来学习特征表示。这篇论文是MoCo、SimCLR等现代对比学习方法的重要先驱工作。
-论文的核心洞察来自对监督学习的观察：在ImageNet上训练的神经网络，即使没有显式指导，也能自动发现视觉上相似的类别（如leopard和jaguar）之间的关联。作者将这一观察延伸到实例级别：如果能够区分每个实例，那么学习到的特征应该能够捕获实例间的视觉相似性。
-实例判别的核心创新
-将无监督问题转化为监督问题：
-实例判别的天才之处在于一个简单的转换：
-
-传统无监督学习：没有标签，难以定义学习目标
-实例判别：每个图像就是自己的标签，变成N分类问题
-好处：可以直接使用成熟的分类框架和技术
-
-为什么这种方法有效？
-
-
-视觉相似性的自然涌现
-
-虽然每个实例是独立类别，但视觉相似的实例会在特征空间聚集
-原因：它们共享底层视觉模式（边缘、纹理、形状等）
-结果：学到的特征捕获了语义信息
-
-
-
-信息论的解释
-
-区分N个实例需要log(N)比特信息
-模型被迫学习最有效的编码
-这种编码自然对应于语义特征
-
-
-
-避免平凡解
-
-不能简单记住每个实例（泛化要求）
-必须学习可迁移的特征
-数据增强强制学习不变性
-
-
-
-技术挑战与解决方案
-挑战1：计算Softmax的分母
-当有百万级实例时，计算softmax分母需要遍历所有实例，计算成本巨大。
-解决方案：NCE近似
-原始softmax概率：P(i|v) = exp(v·f_i) / Σ_j exp(v·f_j)NCE近似：将其转化为二分类问题（实例i vs 噪声）
-挑战2：存储所有实例的特征
-需要存储所有训练图像的特征表示，内存需求大。
-解决方案：Memory Bank
-
-使用动量更新：新特征 = m×旧特征 + (1-m)×当前特征
-好处：平滑特征变化，提高训练稳定性
-内存需求：128维×100万实例 ≈ 500MB（可接受）
-
-挑战3：负样本采样
-从百万实例中采样负样本，如何保证采样质量？
-解决方案：Proximal Regularization
-
-不是随机采样，而是基于特征相似度
-优先采样相似但不同的实例（困难负样本）
-提高学习效率
-
-核心思想
-基本动机
-关键观察：
-
-监督学习中，模型会自动学习到视觉相似类别之间的关联
-这种相似性不是来自语义标注，而是来自视觉数据本身
-如果将类别级别的监督推向实例级别，能否学到更好的表示？
-
-核心假设：
-
-每个图像实例本身就是一个独特的&quot;类别&quot;
-通过区分不同实例，模型会学习到捕获视觉相似性的特征
-视觉相似的实例在特征空间中应该更接近
-
-方法概述
-将无监督学习问题转化为实例级别的分类问题：
-
-每个训练图像是一个独立的类别
-使用非参数softmax进行分类
-使用NCE（Noise-Contrastive Estimation）解决计算问题
-
-方法详解
-非参数Softmax分类器
-参数化Softmax的问题
-传统的参数化softmax：
-$$
-P(i|v) = \frac{\exp(w_i^T v)}{\sum_{j=1}^{n} \exp(w_j^T v)}
-$$
-其中 $w_j$ 是类别 $j$ 的权重向量。
-问题：
-
-权重向量 $w_j$ 只对训练类别有效，无法泛化到新实例
-权重向量作为类别原型，阻止了实例间的直接比较
-需要存储和更新大量权重参数
-
-非参数Softmax
-将权重向量 $w_j$ 替换为特征向量 $v_j$：
-$$
-P(i|v) = \frac{\exp(v_i^T v / \tau)}{\sum_{j=1}^{n} \exp(v_j^T v / \tau)}
-$$
-其中：
-
-$v_i, v_j$ 是归一化后的特征向量（$||v|| = 1$）
-$\tau$ 是温度参数，控制分布的尖锐程度
-
-优势：
-
-直接比较实例：特征向量直接作为&quot;类别原型&quot;
-泛化能力强：学习到的特征可以应用到任何新实例
-计算高效：无需存储和更新权重参数
-训练测试一致：训练和测试都使用相同的度量空间
-
-Memory Bank机制
-问题：计算 $P(i|v)$ 需要所有实例的特征 ${v_j}$，但每次迭代只更新当前batch的特征。
-解决方案：维护一个Memory Bank $V = {v_j}$ 存储所有实例的特征。
-更新策略：
-
-初始化：Memory Bank中的特征初始化为随机单位向量
-更新：每次迭代后，将当前batch的特征更新到Memory Bank
-使用：计算损失时，从Memory Bank中读取特征
-
-优势：
-
-避免每次重新计算所有特征
-保持特征的历史信息
-计算效率高
-
-Noise-Contrastive Estimation (NCE)
-问题：当实例数量 $n$ 很大（如ImageNet的1.2M）时，计算完整的softmax不可行。
-解决方案：使用NCE将多类分类问题转化为二分类问题。
-NCE原理
-将问题转化为：区分数据样本和噪声样本。
-定义：
-
-数据分布：$P_d(i\mid v) = \frac{\exp(v_i^\top v / \tau)}{Z_i}$，其中 $Z_i = \sum_{j=1}^{n} \exp(v_j^\top v / \tau)$
-噪声分布：$P_n(i) = 1/n$（均匀分布）
-噪声样本频率：$m$ 倍于数据样本
-
-后验概率：
-$$ 
-h(i, v) = P(D=1\mid i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
-$$ 
-损失函数：
-$$ 
-\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v')\sim P_n}[\log\big(1 - h(i, v')\big)]
-$$ 
-归一化常数估计
-计算 $Z_i$ 仍然昂贵，使用蒙特卡洛估计：
-$$ 
-Z_i \approx \frac{n}{m} \sum_{k=1}^{m} \exp\big(v_{j_k}^\top v / \tau\big)
-$$ 
-其中 ${j_k}$ 是随机采样的索引。
-复杂度：从 $O(n)$ 降低到 $O(1)$ 每个样本。
-Proximal Regularization（近端正则化）
-问题：每个&quot;类别&quot;只有一个实例，每个epoch每个类别只访问一次，训练过程振荡严重。
-解决方案：引入近端正则化项，鼓励训练过程的平滑性。
-正则化项：
-$$ 
-\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
-$$ 
-其中：
-
-$v_i^{(t)}$ 是当前迭代的特征
-$v_i^{(t-1)}$ 是Memory Bank中存储的特征（上一迭代）
-
-完整损失：
-$$ 
-\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v')\sim P_n}\Big[\log\big(1 - h(i, v'^{(t-1)})\big)\Big]
-$$ 
-加权k-NN分类器
-测试时分类：
-
-计算特征：$\hat{f} = f_\theta(\hat{x})$
-相似度计算：$s_i = \cos(v_i, \hat{f})$
-k-NN检索：找到top-k最近邻 $N_k$
-加权投票：类别 $c$ 的权重为
-$$
-w_c = \sum_{i \in N_k} \alpha_i \cdot \mathbf{1}(c_i = c)
-$$
-其中 $\alpha_i = \exp(s_i / \tau)$
-
-参数设置：
-
-$k = 200$
-$\tau = 0.07$（与训练时相同）
-
-实验分析
-参数化 vs 非参数化Softmax
-在CIFAR-10上的对比实验：
-
-
-
-方法
-Linear SVM
-k-NN
-
-
-
-
-参数化Softmax
-60.3%
-63.0%
-
-
-非参数化Softmax
-75.4%
-80.8%
-
-
-
-关键发现：
-
-非参数化方法显著优于参数化方法（+18%）
-k-NN性能接近线性SVM，说明学习到的特征度量质量高
-
-NCE近似质量
-不同负样本数量 $m$ 的影响：
-
-
-
-m
-k-NN Accuracy
-
-
-
-
-1
-42.5%
-
-
-10
-63.4%
-
-
-512
-78.4%
-
-
-4096
-80.4%
-
-
-
-结论：随着 $m$ 增加，NCE近似质量提升，$m=4096$ 时接近完整softmax。
-ImageNet分类结果
-不同网络架构的性能：
-
-
-
-方法
-conv5 (Linear)
-k-NN
-特征维度
-
-
-
-
-Random
-14.1%
-3.5%
-10K
-
-
-Split-Brain
-35.2%
-11.8%
-10K
-
-
-Ours (AlexNet)
-35.6%
-31.3%
-128
-
-
-Ours (VGG16)
-39.2%
-33.9%
-128
-
-
-Ours (ResNet-18)
-44.5%
-41.0%
-128
-
-
-Ours (ResNet-50)
-54.0%
-46.5%
-128
-
-
-
-关键发现：
-
-显著超越SOTA：在ImageNet上大幅超越之前的方法
-网络深度优势：从AlexNet到ResNet-50，性能持续提升
-紧凑表示：仅用128维特征就达到优异性能
-存储高效：1.28M图像的特征仅需600MB存储
-
-特征泛化能力
-在Places数据集上的零样本评估（使用ImageNet训练的特征）：
-
-
-
-方法
-ResNet-50 (conv5)
-ResNet-50 (k-NN)
-
-
-
-
-Ours
-45.5%
-41.6%
-
-
-
-结论：学习到的特征具有良好的跨数据集泛化能力。
-训练目标与测试目标的一致性
-关键观察：
-
-训练损失持续下降
-测试准确率同步提升
-无过拟合迹象
-
-意义：说明训练目标（实例判别）与测试目标（语义分类）是一致的，学习到的特征确实捕获了视觉相似性。
-消融实验
-特征维度：
-
-
-
-维度
-Top-1 Accuracy
-
-
-
-
-32
-34.0%
-
-
-64
-38.8%
-
-
-128
-41.0%
-
-
-256
-40.1%
-
-
-
-结论：128维是最优选择，性能在128维达到峰值。
-训练数据量：
-
-
-
-数据比例
-Accuracy
-
-
-
-
-0.1%
-3.9%
-
-
-1%
-10.7%
-
-
-10%
-23.1%
-
-
-30%
-31.7%
-
-
-100%
-41.0%
-
-
-
-结论：性能随训练数据量增加而持续提升，说明方法具有良好的可扩展性。
-半监督学习
-使用不同比例的标注数据进行微调：
-
-
-
-标注比例
-Ours (ResNet)
-Scratch (ResNet)
-Split-Brain (AlexNet)
-
-
-
-
-1%
-48.0%
-38.0%
-35.0%
-
-
-2%
-57.0%
-46.0%
-42.0%
-
-
-4%
-63.0%
-54.0%
-50.0%
-
-
-10%
-70.0%
-65.0%
-62.0%
-
-
-20%
-75.0%
-72.0%
-70.0%
-
-
-
-结论：在少样本场景下优势明显，1%标注数据时领先10%。
-目标检测
-在PASCAL VOC 2007上的检测性能：
-
-
-
-方法
-AlexNet
-VGG16
-ResNet-50
-
-
-
-
-Supervised
-56.8%
-67.3%
-76.2%
-
-
-Ours
-48.1%
-60.5%
-65.4%
-
-
-
-结论：在检测任务上达到无监督方法的SOTA，且随网络加深性能提升。
-代码实现
-核心损失函数实现
-import torchimport torch.nn as nnimport torch.nn.functional as Fclass InstanceDiscriminationLoss(nn.Module):    &quot;&quot;&quot;实例判别损失（使用NCE近似）&quot;&quot;&quot;        def __init__(self, memory_bank, temperature=0.07, m=4096, lambda_reg=10.0):        super().__init__()        self.memory_bank = memory_bank  # [n, dim] 所有实例的特征        self.temperature = temperature        self.m = m  # 负样本数量        self.lambda_reg = lambda_reg  # 正则化系数        def forward(self, features, indices, memory_bank_prev):        &quot;&quot;&quot;        Args:            features: [batch_size, dim] 当前batch的特征            indices: [batch_size] 当前batch的实例索引            memory_bank_prev: [batch_size, dim] Memory Bank中的特征（上一迭代）        &quot;&quot;&quot;        batch_size = features.size(0)        device = features.device                # L2归一化        features = F.normalize(features, p=2, dim=1)                # 从Memory Bank获取正样本特征        pos_features = memory_bank_prev  # [batch_size, dim]                # 随机采样负样本        neg_indices = torch.randint(0, len(self.memory_bank), (batch_size, self.m), device=device)        neg_features = self.memory_bank[neg_indices]  # [batch_size, m, dim]                # 计算相似度        pos_sim = torch.sum(features * pos_features, dim=1, keepdim=True) / self.temperature  # [batch_size, 1]        neg_sim = torch.bmm(            features.unsqueeze(1),  # [batch_size, 1, dim]            neg_features.transpose(1, 2)  # [batch_size, dim, m]        ) / self.temperature  # [batch_size, 1, m]                # 估计归一化常数（蒙特卡洛）        Z_approx = (len(self.memory_bank) / self.m) * torch.sum(torch.exp(neg_sim), dim=2)  # [batch_size, 1]                # 计算概率        pos_prob = torch.exp(pos_sim) / (torch.exp(pos_sim) + self.m * (1.0 / len(self.memory_bank)) * Z_approx)                # NCE损失        nce_loss = -torch.mean(torch.log(pos_prob + 1e-8))                # 近端正则化        reg_loss = self.lambda_reg * torch.mean(torch.sum((features - memory_bank_prev) ** 2, dim=1))                total_loss = nce_loss + reg_loss                return total_loss, nce_loss, reg_loss
-完整训练流程
-import torchimport torch.optim as optimfrom torch.utils.data import DataLoaderclass InstanceDiscriminationTrainer:    def __init__(self, model, memory_bank, dataset_size, temperature=0.07, m=4096):        self.model = model        self.memory_bank = memory_bank  # 初始化为随机单位向量        self.temperature = temperature        self.m = m                # 初始化Memory Bank        self.memory_bank.data = F.normalize(            torch.randn(dataset_size, 128), p=2, dim=1        )        def train_epoch(self, dataloader, optimizer, criterion):        self.model.train()        total_loss = 0                for batch_idx, (images, indices) in enumerate(dataloader):            # 前向传播            features = self.model(images)  # [batch_size, 128]                        # 从Memory Bank获取上一迭代的特征            memory_bank_prev = self.memory_bank[indices].clone()                        # 计算损失            loss, nce_loss, reg_loss = criterion(                features, indices, memory_bank_prev            )                        # 反向传播            optimizer.zero_grad()            loss.backward()            optimizer.step()                        # 更新Memory Bank（动量更新）            with torch.no_grad():                self.memory_bank[indices] = F.normalize(features, p=2, dim=1)                        total_loss += loss.item()                        if batch_idx % 100 == 0:                print(f&#x27;Batch &#123;batch_idx&#125;, Loss: &#123;loss.item():.4f&#125;, &#x27;                      f&#x27;NCE: &#123;nce_loss.item():.4f&#125;, Reg: &#123;reg_loss.item():.4f&#125;&#x27;)                return total_loss / len(dataloader)
-k-NN分类器实现
-def knn_classify(query_features, memory_bank, memory_labels, k=200, temperature=0.07):    &quot;&quot;&quot;    使用k-NN对查询特征进行分类        Args:        query_features: [n_query, dim] 查询特征        memory_bank: [n_memory, dim] Memory Bank中的特征        memory_labels: [n_memory] Memory Bank中的标签        k: 最近邻数量        temperature: 温度参数    &quot;&quot;&quot;    # 计算相似度矩阵    similarity = torch.mm(        F.normalize(query_features, p=2, dim=1),        F.normalize(memory_bank, p=2, dim=1).t()    )  # [n_query, n_memory]        # 找到top-k最近邻    _, topk_indices = torch.topk(similarity, k, dim=1)  # [n_query, k]    topk_similarities = torch.gather(similarity, 1, topk_indices)  # [n_query, k]    topk_labels = memory_labels[topk_indices]  # [n_query, k]        # 加权投票    weights = torch.exp(topk_similarities / temperature)  # [n_query, k]        # 对每个类别求和权重    num_classes = memory_labels.max().item() + 1    class_weights = torch.zeros(query_features.size(0), num_classes, device=query_features.device)        for c in range(num_classes):        mask = (topk_labels == c)  # [n_query, k]        class_weights[:, c] = (weights * mask.float()).sum(dim=1)        # 预测类别    predictions = class_weights.argmax(dim=1)        return predictions
-技术细节
-Memory Bank更新策略
-选项1：直接替换
-memory_bank[indices] = features
-选项2：动量更新
-memory_bank[indices] = momentum * memory_bank[indices] + (1 - momentum) * features
-选项3：仅在训练时更新
-
-训练时：每次迭代更新
-测试时：固定不变
-
-温度参数选择
-
-典型值：0.07（与SimCLR、MoCo相同）
-调优范围：0.05 - 0.15
-影响：控制softmax分布的尖锐程度
-
-NCE负样本数量
-
-最小值：$m = 1$（性能较差）
-推荐值：$m = 4096$（性能接近完整softmax）
-权衡：$m$ 越大，性能越好，但计算成本也越高
-
-近端正则化系数
-
-典型值：$\lambda = 10.0$
-作用：稳定训练，加速收敛
-调优：根据训练稳定性调整
-
-优缺点分析
-优点
-
-概念简单：将无监督学习转化为实例分类问题
-非参数化：特征直接作为&quot;类别原型&quot;，泛化能力强
-存储高效：128维特征，1M图像仅需600MB
-可扩展性好：性能随数据和网络深度提升
-训练测试一致：都使用相同的度量空间
-
-缺点
-
-计算成本：需要大量负样本（NCE）
-Memory Bank维护：需要存储所有实例的特征
-更新延迟：Memory Bank更新有延迟，可能影响性能
-对数据增强依赖：需要合理的数据增强策略
-
-与后续工作的关系
-对MoCo的启发
-
-Memory Bank → 队列：MoCo用队列替代Memory Bank
-直接更新 → 动量更新：MoCo使用动量编码器
-一致性保证：两者都关注特征的一致性
-
-对SimCLR的启发
-
-实例判别思想：SimCLR也使用实例判别
-端到端训练：SimCLR去除了Memory Bank，使用大batch
-数据增强重要性：SimCLR强调了数据增强的关键作用
-
-对SupCon的启发
-
-监督信号融入：SupCon将标签信息融入对比学习
-同类样本作为正样本：SupCon扩展了正样本的定义
+内存空间有限：堆排序
+数据基本有序：插入排序
+数据量特别大且有重复：计数排序/基数排序
 
 总结
-实例判别学习通过将每个图像实例视为独立类别，使用非参数softmax和NCE来学习特征表示。其核心贡献包括：
-
-非参数化设计：特征直接作为类别原型，泛化能力强
-NCE近似：解决了大规模实例分类的计算问题
-Memory Bank机制：高效存储和更新所有实例的特征
-近端正则化：稳定训练过程
-
-虽然后续的MoCo、SimCLR等方法在实现上更加优雅，但实例判别学习奠定了对比学习的基础思想，是这一领域的重要里程碑。
-参考文献
-
-
-Wu, Z., Xiong, Y., Yu, S. X., &amp; Lin, D. (2018). Unsupervised feature learning via non-parametric instance discrimination. CVPR 2018. https://arxiv.org/pdf/1805.01978
-
-
-Gutmann, M., &amp; Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. AISTATS 2010.
-
-
-He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
-
-
-Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
-
-
-思考题
-
-为什么非参数softmax比参数化softmax更适合实例判别任务？
-NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
-Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
-近端正则化为什么能稳定训练？其背后的数学原理是什么？
-实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
-为什么k-NN分类器在测试时表现良好？这说明了什么？
-
-思考题答案
-1. 为什么非参数softmax比参数化softmax更适合实例判别任务？
-参数化softmax的问题：
-
-泛化能力弱：权重向量 $w_j$ 只对训练实例有效，无法应用到新实例
-阻止直接比较：权重向量作为&quot;类别原型&quot;，阻止了实例特征间的直接比较
-参数冗余：需要为每个实例存储一个权重向量，参数量大
-
-非参数softmax的优势：
-
-直接比较实例：特征向量 $v_j$ 直接作为&quot;类别原型&quot;，允许实例间的直接比较
-泛化能力强：学习到的特征可以应用到任何新实例
-参数高效：无需存储权重参数，只需存储特征
-训练测试一致：训练和测试都使用相同的特征度量空间
-
-实验验证：在CIFAR-10上，非参数方法比参数方法性能提升18%，证明了其优势。
-2. NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
-转化过程：
-
-原始问题：区分 $n$ 个类别（实例），需要计算所有类别的概率
-NCE转化：将问题转化为&quot;区分数据样本和噪声样本&quot;的二分类问题
-后验概率：
-$$
-h(i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
-$$
-其中 $P_d$ 是数据分布，$P_n$ 是噪声分布（均匀分布）
-
-为什么有效：
-
-计算效率：从 $O(n)$ 降低到 $O(1)$ 每个样本
-近似质量：当负样本数量 $m$ 足够大时，近似质量接近完整softmax
-理论基础：NCE有坚实的理论保证，是unnormalized模型的标准估计方法
-实践验证：实验表明 $m=4096$ 时性能接近完整softmax
-
-关键洞察：不需要计算所有类别的概率，只需要区分&quot;是正样本&quot;还是&quot;是噪声样本&quot;。
-3. Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
-Memory Bank的优势：
-
-存储所有特征：可以访问训练集中所有实例的特征
-计算高效：避免每次重新计算所有特征
-历史信息：保留特征的历史状态
-
-Memory Bank的局限性：
-
-更新延迟：特征更新有延迟（使用上一迭代的特征）
-内存需求：需要存储所有实例的特征
-一致性挑战：特征可能因为编码器变化而变得不一致
-
-与MoCo队列的区别：
-
-
-
-特性
-Memory Bank
-MoCo队列
-
-
-
-
-大小
-所有训练实例
-固定大小（如65536）
-
-
-更新
-直接替换
-FIFO（先进先出）
-
-
-一致性
-可能不一致
-通过动量编码器保证
-
-
-存储
-所有实例
-仅最近batch的特征
-
-
-
-MoCo的改进：
-
-使用动量编码器保证Key的一致性
-队列大小固定，内存可控
-FIFO更新保证队列中的特征相对新鲜
-
-4. 近端正则化为什么能稳定训练？其背后的数学原理是什么？
-问题背景：
-
-每个&quot;类别&quot;只有一个实例
-每个epoch每个类别只访问一次
-随机采样导致训练过程振荡严重
-
-近端正则化的作用：
-
-平滑性约束：鼓励当前特征 $v_i^{(t)}$ 与上一迭代特征 $v_i^{(t-1)}$ 接近
-减少振荡：防止特征因为随机采样而剧烈变化
-稳定梯度：使梯度更新更加平滑
-
-数学原理：
-近端正则化项：
-$$
-\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
-$$
-这等价于在优化问题中加入平滑性约束：
-
-当 $\lambda \to 0$：退化为原始损失
-当 $\lambda \to \infty$：强制 $v_i^{(t)} = v_i^{(t-1)}$（不更新）
-
-优化视角：
-近端正则化是近端梯度方法的应用，用于优化非光滑或约束优化问题。在这里，它起到了稳定化的作用。
-实验验证：图3显示，加入正则化后训练损失曲线更平滑，收敛更快。
-5. 实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
-共同思想：
-
-实例判别：都将每个实例视为独立类别
-对比学习：通过区分正负样本来学习特征
-特征归一化：都使用L2归一化
-温度参数：都使用温度缩放
-
-主要区别：
-
-
-
-特性
-Instance Discrimination
-MoCo
-SimCLR
-
-
-
-
-负样本来源
-Memory Bank
-队列
-当前batch
-
-
-特征更新
-延迟更新
-动量更新
-实时更新
-
-
-计算方式
-NCE近似
-完整softmax
-完整softmax
-
-
-batch size
-小（256）
-中等（1024）
-大（≥4096）
-
-
-实现复杂度
-中等
-较高
-较低
-
-
-
-演进关系：
-
-Instance Discrimination：提出非参数softmax和Memory Bank
-MoCo：改进Memory Bank为队列，引入动量编码器
-SimCLR：去除Memory Bank，使用大batch和端到端训练
-
-核心改进：
-
-MoCo解决了Memory Bank的一致性问题
-SimCLR简化了实现，但需要更多计算资源
-
-6. 为什么k-NN分类器在测试时表现良好？这说明了什么？
-k-NN表现良好的原因：
-
-训练测试一致：训练和测试都使用相同的特征度量空间
-非参数化设计：特征直接作为&quot;类别原型&quot;，适合k-NN
-度量质量高：学习到的特征确实捕获了视觉相似性
-
-实验证据：
-
-在ImageNet上，k-NN准确率（46.5%）接近线性SVM（54.0%）
-说明学习到的特征度量质量很高
-
-深层含义：
-
-训练目标有效：实例判别目标与语义分类目标一致
-特征质量高：特征空间中的距离确实反映了视觉相似性
-泛化能力强：学习到的表示可以泛化到新任务
-
-对比其他方法：
-
-Split-Brain：k-NN准确率（11.8%）远低于线性SVM（35.2%）
-说明其学习到的特征度量质量较低
-
-结论：k-NN的良好表现证明了实例判别学习的有效性，学习到的特征确实捕获了视觉相似性，而不仅仅是适合特定分类器的表示。
-深入理解与实践思考
-
-实例判别与语义判别的关系：虽然每个实例都被视作一个类别，但模型最终学习到的特征仍然会聚合出语义簇。这一现象说明视觉数据的结构性远强于我们赋予的标签结构。实际操作中可以通过t-SNE/UMAP观察到同类样本自然聚团。
-Memory Bank vs. 队列：Memory Bank提供了全局视角，但需要处理“陈旧”特征的问题。后来MoCo中的动量编码器与固定长度队列，可以被视作对“特征一致性”与“可扩展性”的不同取舍。若业务中GPU显存紧张，可采用分片Memory Bank或结合近邻图的稀疏更新。
-正则化的更广义含义：近端正则化不仅平滑了优化，还暗含“特征轨迹不能跳跃太远”的约束，相当于引入了一个时间维度的Lipschitz限制。这提醒我们，在设计自监督任务时，需要关注优化轨迹是否稳定。
-评价指标的选择：k-NN性能高说明学到的度量空间质量好，但在工业场景往往还需关注召回、延迟等指标。实例判别学习天然适合构建向量检索服务（如图像去重、相似商品推荐）。
-与现代方法的衔接：若希望复现最新SOTA，可在此框架上引入更强的编码器（ViT、ConvNeXt）、更丰富的数据增强（RandAugment、CutMix）以及更加稳定的优化器（AdamW + Cosine）。同时也可以尝试将SupCon的标签约束融入Memory Bank以获得更平滑的语义结构。
-
-开放问题与研究方向
-
-Memory更新策略：能否利用动量更新与自适应权重结合，既保持全局视野又不过度依赖旧特征？
-负样本质量：如何更智能地采样“困难负样本”，避免CNN在易区分的负样本上浪费容量？
-多模态扩展：能否直接在该框架中支持图像-文本或多模态实例判别，减少对比学习与跨模态模型之间的割裂？
-理论解释：实例判别为何能自动恢复语义结构？是否存在可证明的聚类或流形假设支撑？
-增量学习：面对不断新增的数据集，如何无缝扩展Memory Bank并避免遗忘？
-
+每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
 ]]></content>
       <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
+        <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>对比学习</tag>
-        <tag>无监督学习</tag>
-        <tag>实例判别</tag>
+        <tag>数据结构与算法</tag>
+        <tag>排序</tag>
+        <tag>冒泡排序</tag>
+        <tag>选择排序</tag>
+        <tag>插入排序</tag>
+        <tag>快速排序</tag>
+        <tag>归并排序</tag>
+        <tag>堆排序</tag>
       </tags>
   </entry>
   <entry>
@@ -7089,155 +7110,134 @@ SupCon学习到的特征更具判别性和泛化能力
       </tags>
   </entry>
   <entry>
-    <title>基础知识--排序算法</title>
-    <url>/2025/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[排序算法详解
-排序算法是计算机科学中最基础也是最重要的算法之一。本文将详细介绍几种常见的排序算法，包括它们的实现原理、时间复杂度和适用场景。本文所有代码示例使用 C++ 实现，需要包含以下头文件：
-#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;
-1. 冒泡排序 (Bubble Sort)
-冒泡排序是最简单的排序算法之一，它重复地遍历要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
-实现原理
+    <title>基础知识--线性表</title>
+    <url>/2025/02/%E7%BA%BF%E6%80%A7%E8%A1%A8/</url>
+    <content><![CDATA[线性表
+线性表是⼀对⼀的逻辑结构，线性表中除了表头元素每个元素有且仅有唯⼀⼀个前驱元素，除了表尾元素，每个结点都有唯⼀⼀个后继节点。
+顺序存储（顺序表）
+存取
+顺序表随机存取，存取某个元素的时间复杂度为O(1)。
+查找
+平均时间复杂度O(n)
+插入删除
+平均时间复杂度O(n)，删除插⼊元素需要移动⼤量元素。（如果是删除最后⼀个元素或者在最后⼀个节点后⾯插⼊⼀个新的节点，则复杂度为O(1)，因为不需要移动元素）
+链式存储（链表）
+链表因其链状的结构，能方便地删除、插入数据，操作次数是 O(1)。但也因为这样，寻找、读取数据的效率不如数组高，在随机访问数据中的操作次数是 O(n)。
+单链表
+单链表的基本组成单元是节点 (Node)。 每个节点通常包含两个主要部分：
 
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
+数据域 (Data): 用于存储实际的数据元素。 数据域可以是任何数据类型，例如整数、浮点数、字符、字符串，甚至更复杂的数据结构。
+指针域 (Pointer) 或 下一个节点指针 (Next Pointer):  用于存储指向链表中下一个节点的地址（或引用）。  对于单链表，每个节点只有一个指针，指向它后面的节点。  链表的最后一个节点的指针域通常指向一个特殊值，表示链表的末尾，这个特殊值通常是 空指针 (NULL 或 None)。
 
-实现代码
-void bubbleSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    bool swapped;    for(int i = 0; i &lt; n-1; i++) &#123;        swapped = false;        // 每一轮比较        for(int j = 0; j &lt; n-i-1; j++) &#123;            // 相邻元素比较并交换            if(arr[j] &gt; arr[j+1]) &#123;                swap(arr[j], arr[j+1]);                swapped = true;            &#125;        &#125;        // 如果没有发生交换，说明数组已经有序        if(!swapped) break;    &#125;&#125;
-2. 选择排序 (Selection Sort)
-选择排序的工作原理是每次从待排序的数据中选出最小（或最大）的元素，存放在序列的起始位置。
-实现原理
+创建链表
+**头插法：**每次在链表头结点后⾯插⼊新的结点。头插法的元素顺序与插⼊顺序相反，类似于栈。
+**尾插法：**每次在链表的尾结点插⼊新的结点，并且是尾结点更新（使尾指针指向新的尾结点）。尾插法得到的顺序与插⼊顺序相同，类似于队列。
+查找
+查找方式是线性的，平均和最坏情况下的时间复杂度均为 O(n)，其中 n 是链表中的节点数。
+插入删除
+在链表中插入或删除节点，通常只需要修改指针的指向，而不需要像数组那样移动大量的元素（特别是插入和删除中间位置的元素时）。  时间复杂度通常为 O(1) (在已知插入/删除位置的前驱节点的情况下)。
+单链表的缺点
 
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：不稳定
+访问效率较低:  要访问链表中的某个特定节点，必须从头节点开始顺序遍历，直到找到目标节点。  无法像数组那样通过索引直接访问，访问时间复杂度为 O(n)，其中 n 是链表的长度。
+存储开销:  每个节点除了存储数据外，还需要额外的空间存储指针，增加了存储开销。
+不适合随机访问: 由于只能顺序访问，链表不适合需要频繁随机访问的应用场景。
 
-实现代码
-void selectionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 0; i &lt; n-1; i++) &#123;        int min_idx = i;        // 在未排序部分找最小值        for(int j = i+1; j &lt; n; j++) &#123;            if(arr[j] &lt; arr[min_idx]) &#123;                min_idx = j;            &#125;        &#125;        // 将找到的最小值放到已排序序列的末尾        if(min_idx != i) &#123;            swap(arr[i], arr[min_idx]);        &#125;    &#125;&#125;
-3. 插入排序 (Insertion Sort)
-插入排序的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-实现原理
+双链表
+双链表的节点 (Node) 结构在单链表的基础上增加了一个前驱指针：
 
-时间复杂度：O(n²)
-空间复杂度：O(1)
-稳定性：稳定
+前驱指针域 (Previous Pointer):  存储指向链表中前一个节点的地址（或引用）。 链表的头节点 (Head) 的前驱指针通常指向一个特殊值，表示链表头部，这个值通常是 空指针 (NULL 或 None)。
+数据域 (Data):  与单链表相同，用于存储数据元素。
+后继指针域 (Next Pointer):  与单链表相同，存储指向链表中下一个节点的地址（或引用）。 链表的尾节点 (Tail) 的后继指针通常指向一个特殊值，表示链表尾部，这个值通常是 空指针 (NULL 或 None)。
 
-实现代码
-void insertionSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();    for(int i = 1; i &lt; n; i++) &#123;        int key = arr[i];        int j = i - 1;        // 将大于key的元素都向后移动        while(j &gt;= 0 &amp;&amp; arr[j] &gt; key) &#123;            arr[j+1] = arr[j];            j--;        &#125;        arr[j+1] = key;    &#125;&#125;
-4. 快速排序 (Quick Sort)
-快速排序是一种分治算法，它通过选择一个&quot;基准&quot;元素，将数组分成两个子数组，小于基准的元素放在左边，大于基准的元素放在右边。
-实现原理
+创建链表
+创建一个空的双链表，通常将头指针和尾指针都初始化为 NULL。
+查找
+与单链表类似，双链表的查找也是线性的，时间复杂度为 O(n)。
+双链表的优点
 
-时间复杂度：平均 O(nlogn)，最坏 O(n²)
-空间复杂度：O(logn)
-稳定性：不稳定
+双向遍历:  可以从头到尾，也可以从尾到头双向遍历，提高了数据访问的灵活性。
+删除节点更高效:  删除节点时，特别是删除中间节点和尾节点时，由于有前驱指针，可以更方便地找到前一个节点，无需像单链表那样需要从头开始遍历找到前驱节点。 这在某些情况下可以提高删除操作的效率。
+某些操作更方便:  例如，在已知节点指针的情况下，插入和删除操作更加直接，不需要总是从头开始查找前驱节点。
 
-实现代码
-int partition(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    int pivot = arr[high];    // 选择最右边的元素作为基准    int i = low - 1;          // 小于基准的元素的最后一个位置    for(int j = low; j &lt; high; j++) &#123;        // 如果当前元素小于基准，则将其交换到前面        if(arr[j] &lt; pivot) &#123;            i++;            swap(arr[i], arr[j]);        &#125;    &#125;    swap(arr[i + 1], arr[high]);    return i + 1;&#125;void quickSort(vector&lt;int&gt;&amp; arr, int low, int high) &#123;    if(low &lt; high) &#123;        // 获取分区点        int pi = partition(arr, low, high);        // 递归排序左右两部分        quickSort(arr, low, pi - 1);        quickSort(arr, pi + 1, high);    &#125;&#125;// 封装函数，方便调用void quickSort(vector&lt;int&gt;&amp; arr) &#123;    quickSort(arr, 0, arr.size() - 1);&#125;
-5. 归并排序 (Merge Sort)
-归并排序是一种分治算法，它将数组分成两半，递归地排序两半，然后将它们合并起来。
-实现原理
+双链表的缺点
 
-时间复杂度：O(nlogn)
-空间复杂度：O(n)
-稳定性：稳定
+存储开销更大:  每个节点需要额外的空间存储前驱指针，相比单链表，存储相同的数据需要更多的内存。
+插入和删除操作更复杂:  虽然删除操作效率更高，但插入和删除操作的代码逻辑相对单链表来说更复杂，需要维护更多的指针关系（前驱和后继指针都需要更新）。
+访问效率仍然较低:  虽然可以双向遍历，但访问链表中的特定节点仍然需要顺序遍历，随机访问效率仍然不如数组。
 
-实现代码
-void merge(vector&lt;int&gt;&amp; arr, int left, int mid, int right) &#123;    vector&lt;int&gt; temp(right - left + 1);    int i = left, j = mid + 1, k = 0;        // 合并两个有序数组    while(i &lt;= mid &amp;&amp; j &lt;= right) &#123;        if(arr[i] &lt;= arr[j]) &#123;            temp[k++] = arr[i++];        &#125; else &#123;            temp[k++] = arr[j++];        &#125;    &#125;        // 复制剩余元素    while(i &lt;= mid) temp[k++] = arr[i++];    while(j &lt;= right) temp[k++] = arr[j++];        // 将临时数组复制回原数组    for(i = 0; i &lt; k; i++) &#123;        arr[left + i] = temp[i];    &#125;&#125;void mergeSort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;    if(left &lt; right) &#123;        int mid = left + (right - left) / 2;        mergeSort(arr, left, mid);        mergeSort(arr, mid + 1, right);        merge(arr, left, mid, right);    &#125;&#125;// 封装函数，方便调用void mergeSort(vector&lt;int&gt;&amp; arr) &#123;    mergeSort(arr, 0, arr.size() - 1);&#125;
-6. 堆排序 (Heap Sort)
-堆排序是利用堆这种数据结构所设计的一种排序算法。它通过构建最大堆或最小堆来进行排序。
-实现原理
-
-时间复杂度：O(nlogn)
-空间复杂度：O(1)
-稳定性：不稳定
-
-实现代码
-void heapify(vector&lt;int&gt;&amp; arr, int n, int i) &#123;    int largest = i;    int left = 2 * i + 1;    int right = 2 * i + 2;    // 如果左子节点大于根节点    if(left &lt; n &amp;&amp; arr[left] &gt; arr[largest]) &#123;        largest = left;    &#125;        // 如果右子节点大于最大值    if(right &lt; n &amp;&amp; arr[right] &gt; arr[largest]) &#123;        largest = right;    &#125;        // 如果最大值不是根节点    if(largest != i) &#123;        swap(arr[i], arr[largest]);        heapify(arr, n, largest);    &#125;&#125;void heapSort(vector&lt;int&gt;&amp; arr) &#123;    int n = arr.size();        // 构建最大堆    for(int i = n/2-1; i &gt;= 0; i--) &#123;        heapify(arr, n, i);    &#125;        // 一个个从堆顶取出元素    for(int i = n-1; i &gt; 0; i--) &#123;        swap(arr[0], arr[i]);        heapify(arr, i, 0);    &#125;&#125;
-排序算法的比较
-
-
-
-排序算法
-平均时间复杂度
-最坏时间复杂度
-空间复杂度
-稳定性
-
-
-
-
-冒泡排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-选择排序
-O(n²)
-O(n²)
-O(1)
-不稳定
-
-
-插入排序
-O(n²)
-O(n²)
-O(1)
-稳定
-
-
-快速排序
-O(nlogn)
-O(n²)
-O(logn)
-不稳定
-
-
-归并排序
-O(nlogn)
-O(nlogn)
-O(n)
-稳定
-
-
-堆排序
-O(nlogn)
-O(nlogn)
-O(1)
-不稳定
-
-
-
-如何选择排序算法？
-
-数据量小（n &lt; 50）：插入排序
-数据量大：
-
-要求稳定：归并排序
-不要求稳定：快速排序
-
-
-内存空间有限：堆排序
-数据基本有序：插入排序
-数据量特别大且有重复：计数排序/基数排序
-
-总结
-每种排序算法都有其特点和适用场景。在实际应用中，我们需要根据具体情况（数据规模、稳定性要求、空间限制等）来选择合适的排序算法。大多数编程语言的标准库中的排序实现都是一种改进的快速排序，它能够很好地适应各种情况。
 ]]></content>
       <categories>
         <category>数据结构与算法</category>
       </categories>
       <tags>
         <tag>数据结构与算法</tag>
-        <tag>排序</tag>
-        <tag>冒泡排序</tag>
-        <tag>选择排序</tag>
-        <tag>插入排序</tag>
-        <tag>快速排序</tag>
-        <tag>归并排序</tag>
-        <tag>堆排序</tag>
+        <tag>链表</tag>
+        <tag>线性表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基础知识--绪论</title>
+    <url>/2025/02/%E7%BB%AA%E8%AE%BA/</url>
+    <content><![CDATA[绪论
+数据结构
+数据结构是一门研究非数值计算程序设计中的操作对象，以及这些对象之间的关系和操作的学科。
+逻辑结构
+线性结构
+一般线性表：线性表
+特殊线性表：栈、队列、字符串
+线性表的推广：数组、广义表
+非线性结构
+树结构：树、二叉树
+图结构：有向图、无向图
+集合结构
+存储结构
+顺序存储
+逻辑上连续，物理上连续
+优点：
+
+随机访问高效：通过下标可直接访问元素，时间复杂度为 O(1)。
+内存连续，缓存友好：数据连续存放，充分利用 CPU 缓存机制，访问效率高。
+空间开销小：仅需存储数据，无需额外指针字段，内存利用率高。
+
+缺点：
+
+插入/删除效率低：在中间或头部操作时，需移动大量元素，时间复杂度为 O(n)。
+固定容量：需预先分配连续内存空间，扩容需复制全部数据，动态扩展成本高。
+内存浪费：若预分配空间过大，可能造成内存冗余。
+
+链式存储
+逻辑上不要求连续，物理上⼀定连续
+优点：
+
+动态内存分配：无需预先分配固定空间，按需动态扩展，内存利用率高。
+插入/删除高效：仅需修改指针指向，时间复杂度为 O(1)（需先定位到操作位置）。
+灵活性强：支持多种衍生结构（如双向链表、循环链表）。
+
+缺点：
+
+
+无法随机访问：查找元素需从头遍历，时间复杂度为 O(n)。
+
+
+额外空间开销：每个节点需存储指针字段，占用更多内存。
+
+
+内存碎片化：节点非连续存储，缓存命中率低，访问速度较慢。
+
+
+算法的效率
+算法是为了解决某类问题而规定的一个有限长的操作序列。
+算法时间复杂度
+一般情况，算法中基本语句重复执行的次数是问题规模n的某个函数f(n)，算法的时间量记作: T(n)=O(f(n))
+算法空间复杂度
+所⽤到的临时空间⼤⼩
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>绪论</tag>
       </tags>
   </entry>
 </search>

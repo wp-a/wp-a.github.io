@@ -377,8 +377,40 @@ body.dark-mode .contact-list span {
 /* Main Content */
 .main-content {
     margin-left: calc(var(--sidebar-width) + 40px);
-    padding: 120px 60px 60px;
-    max-width: var(--content-max-width);
+    padding: 120px 40px 60px;
+    /* 减少左右 padding */
+    max-width: 1400px;
+    /* 增加最大宽度 */
+}
+
+/* About Section Layout */
+#about {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+#about-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+#skill-galaxy-container {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    /* 限制技能云最大宽度 */
+    height: 400px !important;
+    /* 增加高度 */
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    padding: 20px;
+    box-shadow: var(--shadow-glass);
+    margin-top: 0 !important;
+    /* 移除内联样式的 margin */
 }
 
 /* Section Styling */
