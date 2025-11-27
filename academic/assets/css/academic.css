@@ -55,14 +55,37 @@ html {
 
 body {
     font-family: var(--font-main);
-    background: var(--bg-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
-    line-height: 1.75;
+    line-height: 1.6;
     letter-spacing: -0.015em;
     display: flex;
     min-height: 100vh;
     transition: background-color 0.5s ease, color 0.5s ease;
     overflow-x: hidden;
+    /* 防止水平滚动 */
+}
+
+/* Responsive Design for Laptop/Tablet */
+@media (max-width: 1200px) {
+    :root {
+        --sidebar-width: 240px;
+        /* 减小侧边栏宽度 */
+    }
+
+    .main-content {
+        padding: 100px 30px 40px;
+        /* 减小内边距 */
+    }
+
+    .sidebar {
+        padding: 30px 20px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
 }
 
 /* Background Animation Blobs */
