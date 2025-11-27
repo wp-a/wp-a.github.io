@@ -3,14 +3,35 @@
 
 
     <url>
-        <loc>https://wp-a.github.io/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
-        <lastmod>2025-11-24T15:30:52.705Z</lastmod>
+        <loc>https://wp-a.github.io/tags/%E6%80%9D%E8%80%83/</loc>
+        <lastmod>2025-11-27T08:38:23.734Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/</loc>
+        <lastmod>2025-11-27T08:38:23.734Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
+        <lastmod>2025-11-27T08:38:23.734Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2025-11-27T08:38:23.734Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2025-11-24T15:30:52.705Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
