@@ -1,0 +1,151 @@
+/* Medium-like Typography for Butterfly Theme */
+
+/* 引入 Google Fonts (可选，如果本地没有 Charter) */
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap'); */
+
+:root {
+    --medium-text-color: rgba(0, 0, 0, 0.84);
+    --medium-bg-color: #ffffff;
+    --medium-font-serif: "Charter", "Bitstream Charter", "Sitka Text", "Cambria", "Georgia", "Songti SC", "SimSun", serif;
+    --medium-font-sans: "Söhne", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --medium-font-mono: "JetBrains Mono", "Consolas", "Monaco", "Andale Mono", monospace;
+}
+
+/* 文章容器样式 */
+#article-container {
+    color: var(--medium-text-color);
+    font-family: var(--medium-font-serif);
+    font-size: 20px;
+    /* Medium 正文通常很大 */
+    line-height: 1.6;
+    letter-spacing: -0.003em;
+    /* 微调字间距 */
+}
+
+/* 段落样式 */
+#article-container p {
+    margin-bottom: 32px;
+    /* 增加段落间距 */
+    margin-top: 0;
+}
+
+/* 标题样式 - 使用无衬线体 */
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+    font-family: var(--medium-font-sans);
+    font-weight: 700;
+    color: #242424;
+    /* 标题颜色略深 */
+    margin-top: 56px;
+    margin-bottom: 16px;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+
+#article-container h1 {
+    font-size: 42px;
+}
+
+#article-container h2 {
+    font-size: 32px;
+    border-bottom: none;
+    /* 去掉 Butterfly 默认的下划线 */
+}
+
+#article-container h3 {
+    font-size: 26px;
+}
+
+#article-container h4 {
+    font-size: 22px;
+}
+
+/* 列表样式 */
+#article-container ul,
+#article-container ol {
+    margin-bottom: 32px;
+    padding-left: 40px;
+}
+
+#article-container li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+/* 引用样式 */
+#article-container blockquote {
+    border-left: 3px solid #242424;
+    /* Medium 风格是黑色细线 */
+    margin: 32px 0;
+    padding-left: 20px;
+    color: rgba(0, 0, 0, 0.6);
+    /* 引用文字颜色稍浅 */
+    font-style: italic;
+    font-family: var(--medium-font-serif);
+    background-color: transparent;
+    /* 去掉背景色 */
+}
+
+/* 代码块样式 */
+#article-container code {
+    font-family: var(--medium-font-mono);
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: #242424;
+}
+
+#article-container figure.highlight {
+    margin: 40px 0;
+    border-radius: 0;
+    /* Medium 代码块通常没有圆角 */
+    background: #f9f9f9;
+    /* 浅色背景 */
+}
+
+/* 图片样式 */
+#article-container img {
+    margin: 40px auto;
+    display: block;
+    max-width: 100%;
+}
+
+/* 链接样式 */
+#article-container a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 0, 0, 0.84);
+    text-decoration-thickness: 1px;
+    transition: all 0.2s;
+}
+
+#article-container a:hover {
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration-color: rgba(0, 0, 0, 0.6);
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    #article-container {
+        font-size: 18px;
+        /* 移动端字号稍小 */
+        line-height: 1.58;
+    }
+
+    #article-container h1 {
+        font-size: 32px;
+    }
+
+    #article-container h2 {
+        font-size: 26px;
+    }
+
+    #article-container h3 {
+        font-size: 22px;
+    }
+}
