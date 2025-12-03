@@ -9,22 +9,50 @@
 
 
     <url>
-        <loc>https://wp-a.github.io/categories/%25E5%25AD%25A6%25E6%259C%25AF%25E6%2580%259D%25E8%2580%2583/</loc>
-        <lastmod>2025-11-27T08:38:23.734Z</lastmod>
+        <loc>https://wp-a.github.io/categories/%25E7%2594%259F%25E6%25B4%25BB%25E8%25AE%25B0%25E5%25BD%2595/</loc>
+        <lastmod>2025-12-03T12:46:34.353Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/categories/%25E7%25AE%2597%25E6%25B3%2595%25E8%25A7%25A3%25E6%259E%2590/</loc>
+        <lastmod>2025-12-03T11:56:26.325Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/categories/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584%25E4%25B8%258E%25E7%25AE%2597%25E6%25B3%2595/</loc>
+        <lastmod>2025-12-03T11:35:25.908Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/categories/%25E8%25AE%25BA%25E6%2596%2587%25E7%25B2%25BE%25E8%25AF%25BB/%25E8%25AE%25A1%25E7%25AE%2597%25E6%259C%25BA%25E8%25A7%2586%25E8%25A7%2589/</loc>
-        <lastmod>2025-11-24T15:30:52.705Z</lastmod>
+        <lastmod>2025-12-03T08:36:40.792Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://wp-a.github.io/categories/%25E8%25AE%25BA%25E6%2596%2587%25E7%25B2%25BE%25E8%25AF%25BB/</loc>
-        <lastmod>2025-11-24T15:30:52.705Z</lastmod>
+        <lastmod>2025-12-03T08:36:40.792Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/categories/%25E5%25AD%25A6%25E6%259C%25AF%25E7%25AC%2594%25E8%25AE%25B0/</loc>
+        <lastmod>2025-12-03T07:48:50.235Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/categories/%25E5%25AD%25A6%25E6%259C%25AF%25E6%2580%259D%25E8%2580%2583/</loc>
+        <lastmod>2025-11-27T08:38:23.734Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -60,13 +88,6 @@
     <url>
         <loc>https://wp-a.github.io/categories/%25E6%2589%258B%25E6%2592%2595%25E4%25BB%25A3%25E7%25A0%2581/</loc>
         <lastmod>2025-11-23T14:27:02.907Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/categories/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584%25E4%25B8%258E%25E7%25AE%2597%25E6%25B3%2595/</loc>
-        <lastmod>2025-11-23T14:26:48.247Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
