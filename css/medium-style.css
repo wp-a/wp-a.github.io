@@ -103,27 +103,41 @@
 
 #article-container figure.highlight {
     margin: 40px 0;
-    border-radius: 0;
-    /* 强制深色背景，修复半黑半白问题 */
+    border-radius: 8px;
+    /* 圆角 */
     background-color: #282c34;
     width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    /* 更柔和的阴影 */
+    overflow: hidden;
+    /* 确保圆角不被子元素溢出遮挡 */
 }
 
 #article-container figure.highlight table {
     width: 100%;
     display: table;
+    border-spacing: 0;
 }
 
 #article-container figure.highlight .gutter {
     background-color: #282c34;
-    color: rgba(255, 255, 255, 0.5);
+    color: #5c6370;
+    /* 更淡的行号颜色 */
+    padding-right: 15px;
+    /* 增加行号右侧间距 */
+    padding-left: 15px;
+    text-align: right;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* 分隔线 */
 }
 
 #article-container figure.highlight .code {
     background-color: #282c34;
     border: none;
-    padding: 0;
+    padding: 10px 15px;
+    /* 代码区域内边距 */
     vertical-align: top;
+    width: 100%;
 }
 
 #article-container figure.highlight pre {
@@ -132,6 +146,45 @@
     margin: 0;
     padding: 0;
     border: none;
+    font-family: "JetBrains Mono", "Consolas", monospace;
+    font-size: 14px;
+    /* 调整字号 */
+    line-height: 1.6;
+    /* 调整行高 */
+}
+
+/* macOS 风格工具栏美化 */
+#article-container figure.highlight .highlight-tools {
+    background: #21252b !important;
+    /* 标题栏深色背景 */
+    height: 32px;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #181a1f;
+    padding: 0 10px;
+}
+
+#article-container figure.highlight .highlight-tools .code-lang {
+    color: #abb2bf;
+    font-weight: bold;
+    font-size: 13px;
+    font-family: var(--medium-font-sans);
+    text-transform: uppercase;
+    /* 语言大写 */
+}
+
+#article-container figure.highlight .highlight-tools .copy-button {
+    color: #5c6370;
+    transition: color 0.2s;
+}
+
+#article-container figure.highlight .highlight-tools .copy-button:hover {
+    color: #fff;
+}
+
+/* 调整三个点（macStyle）的位置和大小，如果 Butterfly 生成了它们 */
+#article-container figure.highlight .highlight-tools::after {
+    /* 这里假设 Butterfly 使用伪元素生成点，或者我们可以微调 .mac-sign */
+    /* 如果 Butterfly 默认样式已经不错，可以忽略这里，或者根据实际情况调整 */
 }
 
 /* 图片样式 */
