@@ -2,6 +2,56 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
+    <url>/2025/02/11day/</url>
+    <content><![CDATA[二叉树
+完全二叉树的节点个数
+题目链接：222. 完全二叉树的节点个数
+迭代法：
+class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
+平衡二叉树
+题目链接：110. 平衡二叉树
+class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
+二叉树的所有路径
+题目链接：257. 二叉树的所有路径
+回溯和递归是一一对应的，有一个递归，就要有一个回溯
+class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
+class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
+左叶子之和
+题目链接：404. 左叶子之和
+感觉还是迭代法简单好想
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
+找树左下角的值
+题目链接：513. 找树左下角的值
+迭代法
+class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
+路径总和
+题目链接：112. 路径总和
+迭代法
+这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
+版本一
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
+版本二
+class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
+递归法
+路径总和 II
+题目链接：113. 路径总和 II
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
     <url>/2025/02/10day/</url>
     <content><![CDATA[二叉树层序遍历
 二叉树层序遍历的模板
@@ -84,56 +134,6 @@ class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#
       </tags>
   </entry>
   <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/11day/</url>
-    <content><![CDATA[二叉树
-完全二叉树的节点个数
-题目链接：222. 完全二叉树的节点个数
-迭代法：
-class Solution &#123;public:    int countNodes(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=1;                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;        &#125;        return sum;    &#125;&#125;;
-平衡二叉树
-题目链接：110. 平衡二叉树
-class Solution &#123;    int get_height(TreeNode* node)&#123;        if(node==NULL) return 0;        int left=get_height(node-&gt;left);        if(left==-1) return -1;        int right=get_height(node-&gt;right);        if(right==-1 || abs(left-right)&gt;1) return -1;        return max(left,right)+1;    &#125;public:     bool isBalanced(TreeNode* root) &#123;        return get_height(root) != -1;    &#125;&#125;;
-二叉树的所有路径
-题目链接：257. 二叉树的所有路径
-回溯和递归是一一对应的，有一个递归，就要有一个回溯
-class Solution &#123;private:    void traversal(TreeNode* cur, string path, vector&lt;string&gt;&amp; result) &#123;        path += to_string(cur-&gt;val); // 中        if (cur-&gt;left == NULL &amp;&amp; cur-&gt;right == NULL) &#123;            result.push_back(path);            return;        &#125;        if (cur-&gt;left) traversal(cur-&gt;left, path + &quot;-&gt;&quot;, result); // 左        if (cur-&gt;right) traversal(cur-&gt;right, path + &quot;-&gt;&quot;, result); // 右    &#125;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        vector&lt;string&gt; result;        string path;        if (root == NULL) return result;        traversal(root, path, result);        return result;    &#125;&#125;;
-class Solution &#123;public:    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; treeSt;         stack&lt;string&gt; path;        vector&lt;string&gt; ans;        if(root!=NULL) treeSt.push(root);        path.push(to_string(root-&gt;val));        while(!treeSt.empty())&#123;            TreeNode* node=treeSt.top();            treeSt.pop();            string p=path.top();            path.pop();            if(node-&gt;right==NULL &amp;&amp; node-&gt;left==NULL) ans.push_back(p);            if(node-&gt;left)&#123;                treeSt.push(node-&gt;left);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;left-&gt;val));            &#125;            if(node-&gt;right)&#123;                treeSt.push(node-&gt;right);                path.push(p+&quot;-&gt;&quot;+to_string(node-&gt;right-&gt;val));            &#125;        &#125;        return ans;    &#125;&#125;;
-左叶子之和
-题目链接：404. 左叶子之和
-感觉还是迭代法简单好想
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        stack&lt;TreeNode*&gt; s;        if(root!=NULL) s.push(root);        int sum=0;        while(!s.empty())&#123;            TreeNode* node=s.top();            s.pop();            if(node-&gt;left &amp;&amp; node-&gt;left-&gt;left==NULL &amp;&amp; node-&gt;left-&gt;right==NULL) sum+=node-&gt;left-&gt;val;            if(node-&gt;left) s.push(node-&gt;left);            if(node-&gt;right) s.push(node-&gt;right);        &#125;        return sum;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    int sumOfLeftLeaves(TreeNode* root) &#123;        if (root == NULL) return 0;        if (root-&gt;left == NULL &amp;&amp; root-&gt;right== NULL) return 0;        int leftValue = sumOfLeftLeaves(root-&gt;left);    // 左        if (root-&gt;left &amp;&amp; !root-&gt;left-&gt;left &amp;&amp; !root-&gt;left-&gt;right) &#123; // 左子树就是一个左叶子的情况            leftValue = root-&gt;left-&gt;val;        &#125;        int rightValue = sumOfLeftLeaves(root-&gt;right);  // 右        int sum = leftValue + rightValue;               // 中        return sum;    &#125;&#125;;
-找树左下角的值
-题目链接：513. 找树左下角的值
-迭代法
-class Solution &#123;public:    int findBottomLeftValue(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        int ans=0;        if(root!=NULL) q.push(root);        while(!q.empty())&#123;            int s=q.size();            for(int i=0;i&lt;s;i++)            &#123;                TreeNode* node = q.front();                q.pop();                if(i==0) ans=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;        &#125;        return ans;    &#125;&#125;;
-路径总和
-题目链接：112. 路径总和
-迭代法
-这题和二叉树的所有路径很像，就是把存储路径改成存储路径和。
-版本一
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        stack&lt;TreeNode*&gt; s;        stack&lt;int&gt; sums;  // 用来存储每个节点的路径和        if (root != NULL) &#123;            s.push(root);  // 将根节点压入栈            sums.push(root-&gt;val);  // 将根节点的值作为初始路径和压入路径和栈        &#125;          while (!s.empty()) &#123;            TreeNode* node = s.top();            int sum = sums.top();  // 获取当前节点的路径和            s.pop();            sums.pop();                        // 判断是否是叶子节点并且路径和等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; sum == targetSum) &#123;                return true;            &#125;                        // 继续将左右子节点和更新后的路径和压入栈中            if (node-&gt;right) &#123;                s.push(node-&gt;right);                sums.push(sum + node-&gt;right-&gt;val);            &#125;            if (node-&gt;left) &#123;                s.push(node-&gt;left);                sums.push(sum + node-&gt;left-&gt;val);            &#125;        &#125;                return false;    &#125;&#125;;
-版本二
-class Solution &#123;public:    bool hasPathSum(TreeNode* root, int targetSum) &#123;        if (root == NULL) return false;               stack&lt;pair&lt;TreeNode*, int&gt;&gt; s; // 使用栈存储节点和当前的路径和        s.push(&#123;root, root-&gt;val&#125;); // 初始化，根节点和它的值              while (!s.empty()) &#123;            TreeNode* node = s.top().first;            int currentSum = s.top().second;            s.pop();               // 判断是否是叶子节点，并且路径和是否等于目标值            if (node-&gt;left == NULL &amp;&amp; node-&gt;right == NULL &amp;&amp; currentSum == targetSum) &#123;                return true;            &#125;                   // 将子节点和更新后的路径和压入栈中            if (node-&gt;right) s.push(&#123;node-&gt;right, currentSum + node-&gt;right-&gt;val&#125;);            if (node-&gt;left) s.push(&#123;node-&gt;left, currentSum + node-&gt;left-&gt;val&#125;);        &#125;             return false;    &#125;&#125;;
-递归法
-路径总和 II
-题目链接：113. 路径总和 II
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码随想录--回溯算法</title>
     <url>/2025/03/12day/</url>
     <content><![CDATA[回溯
@@ -174,44 +174,6 @@ class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&
         <tag>递归</tag>
         <tag>回溯</tag>
         <tag>剪枝</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--动态规划</title>
-    <url>/2025/03/14day/</url>
-    <content><![CDATA[动态规划
-动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
-斐波那契数
-题目链接：509. 斐波那契数
-前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
-class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
-爬楼梯
-题目链接：70. 爬楼梯
-按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
-class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
-使用最小花费爬楼梯
-题目链接：746. 使用最小花费爬楼梯
-class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
-不同路径
-题目链接：62. 不同路径
-class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
-比特位计数
-题目链接：LCR 003. 比特位计数
-除以2
-如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
-如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
-位运算
-进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
-class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -314,6 +276,44 @@ class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt
         <tag>二分查找</tag>
         <tag>双指针</tag>
         <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--动态规划</title>
+    <url>/2025/03/14day/</url>
+    <content><![CDATA[动态规划
+动态规划，英文：Dynamic Programming，简称DP，如果某一问题有很多重叠子问题，使用动态规划是最有效的。所以动态规划中每一个状态一定是由上一个状态推导出来的，这一点就区分于贪心，贪心没有状态推导，而是从局部直接选最优的。
+斐波那契数
+题目链接：509. 斐波那契数
+前几天做过一个斐波那契用递归超时，动态规划感觉就是递归加剪枝。
+class Solution &#123;public:    int fib(int N) &#123;        if (N &lt;= 1) return N;        int dp[2];        dp[0] = 0;        dp[1] = 1;        for (int i = 2; i &lt;= N; i++) &#123;            int sum = dp[0] + dp[1];            dp[0] = dp[1];            dp[1] = sum;        &#125;        return dp[1];    &#125;&#125;;
+爬楼梯
+题目链接：70. 爬楼梯
+按照题意，要上楼梯的话，第一步只有两种上法，要么走一级台阶要么走两级台阶，走了一级台阶之后，等于是还要上一个n-1级台阶的楼梯，同理，走了两级台阶的话就等于是还要上一个n-2级台阶的楼梯，以此类推这样动态规划的思想就体现出来了。
+class Solution &#123;public:    int climbStairs(int n) &#123;        if (n &lt;= 1) return n;        int dp[3];        dp[1] = 1;        dp[2] = 2;        for (int i = 3; i &lt;= n; i++) &#123;            int sum = dp[1] + dp[2];            dp[1] = dp[2];            dp[2] = sum;        &#125;        return dp[2];    &#125;&#125;;
+使用最小花费爬楼梯
+题目链接：746. 使用最小花费爬楼梯
+class Solution &#123;public:    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;        vector&lt;int&gt; dp(cost.size()+1);        for(int i=2;i&lt;=cost.size();i++)        &#123;            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);        &#125;        return dp[cost.size()];    &#125;&#125;;
+不同路径
+题目链接：62. 不同路径
+class Solution &#123;public:    int uniquePaths(int m, int n) &#123;        vector f(m + 1, vector&lt;int&gt;(n + 1));        f[0][1] = 1;        for (int i = 0; i &lt; m; i++) &#123;            for (int j = 0; j &lt; n; j++) &#123;                f[i + 1][j + 1] = f[i][j + 1] + f[i + 1][j];            &#125;        &#125;        return f[m][n];    &#125;&#125;;
+比特位计数
+题目链接：LCR 003. 比特位计数
+除以2
+如果 i 是偶数，那么 i 的二进制表示中 1 的个数与 i / 2 的二进制表示中 1 的个数相同。
+如果 i 是奇数，那么 i 的二进制表示中 1 的个数比 i / 2 的二进制表示中 1 的个数多 1。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            if (i % 2 == 0) &#123;                ans[i] = ans[i / 2];            &#125; else &#123;                ans[i] = ans[i / 2] + 1;            &#125;        &#125;        return ans;    &#125;&#125;;
+位运算
+进行按位与运算 i &amp; (i - 1) 后，从最右边的 1 开始的所有位都会变成 0，而其左边的位保持不变。因此，i &amp; (i - 1) 的结果就是将 i 最右边的 1 去掉后得到的数字。
+class Solution &#123;public:    vector&lt;int&gt; countBits(int n) &#123;        vector&lt;int&gt; ans(n + 1);        ans[0] = 0;        for (int i = 1; i &lt;= n; ++i) &#123;            ans[i] = ans[i &amp; (i - 1)] + 1;        &#125;        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -468,52 +468,6 @@ class Solution &#123;public:    ListNode *detectCycle(ListNode *head) &#123;    
   </entry>
   <entry>
     <title>代码随想录--哈希表</title>
-    <url>/2025/02/6day/</url>
-    <content><![CDATA[哈希表
-​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
-四数相加Ⅱ
-题目链接：454. 四数相加 II
-题目思路：我刚开始的思路是for四次，但是算了一下，可能有点超时，然后就直接看题解了。将四个数组两两分成一组进行处理，时间复杂度就是O(n*n)。
-
-首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
-遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
-定义int变量count，用来统计 a+b+c+d = 0 出现的次数。
-再遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
-最后返回统计值 count 就可以了
-
-class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        unordered_map&lt;int,int&gt; umap;        for(int a : nums1) for(int b:nums2) umap[a+b]++;        int count=0;        for(int c:nums3) for(int d:nums4) if(umap.find(0-(c+d))!=umap.end()) count+=umap[0-(c+d)];        return count;    &#125;&#125;;
-救赎金
-题目链接：383. 赎金信
-题目思路：秒了，这和 242. 有效的字母异位词 几乎差不多。
-class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int n=magazine.size(),m=ransomNote.size();        int j[26]=&#123;0&#125;;        for(int i=0;i&lt;n;i++) j[magazine[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) j[ransomNote[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(j[i]&lt;0) return false;         return true;    &#125;&#125;;
-三数之和
-题目链接：15. 三数之和
-题目思路1：感觉这题最不好处理的地方就是去重。三次循环，意料之中的超时了，当锻炼一下代码熟练度了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                for(int k=j+1;k&lt;nums.size();k++)                &#123;                    if((nums[i]+nums[j]+nums[k])==0)                     result.push_back(&#123;nums[i], nums[j], nums[k]&#125;);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
-题目思路2：改了一下上一种方法，用哈希表进行处理。虽然可以通过，但是还是很慢。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            if (nums[i] &gt; 0) break;            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;            unordered_set&lt;int&gt; set;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                int target = 0 - (nums[i] + nums[j]);                if (set.find(target) != set.end()) &#123;                    result.push_back(&#123;nums[i], target, nums[j]&#125;);                       set.erase(target);                &#125;                else &#123;                    set.insert(nums[j]);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
-双指针：代码随想录的那个代码，感觉很多地方可以优化，所以就去找了一个优化完的代码。首先先将数组排序，我们只需要输出加和等于0的元素就可以，不用管次序。排序之后就可以从两端开始操作了，先创造一个大循环，用来固定住第一个数，然后再用双指针取操作另外两个数。
-优化一：当最小的三个数的和大于0时，就可以直接退出循环了。
-优化二：当最大的两个数加最小的那个数，还是小于0，就可以向前移动到再大的数了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        ranges::sort(nums);        vector&lt;vector&lt;int&gt;&gt; ans;        int n = nums.size();        for (int i = 0; i &lt; n - 2; i++) &#123;            int x = nums[i];            if (i &amp;&amp; x == nums[i - 1]) continue; // 跳过重复数字            if (x + nums[i + 1] + nums[i + 2] &gt; 0) break; // 优化一            if (x + nums[n - 2] + nums[n - 1] &lt; 0) continue; // 优化二            int j = i + 1, k = n - 1;            while (j &lt; k) &#123;                int s = x + nums[j] + nums[k];                if (s &gt; 0) &#123;                    k--;                &#125; else if (s &lt; 0) &#123;                    j++;                &#125; else &#123; // 三数之和为 0                    ans.push_back(&#123;x, nums[j], nums[k]&#125;);                    for (j++; j &lt; k &amp;&amp; nums[j] == nums[j - 1]; j++); // 跳过重复数字                    for (k--; k &gt; j &amp;&amp; nums[k] == nums[k + 1]; k--); // 跳过重复数字                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
-四数之和
-题目链接：18. 四数之和
-我的思路：做了半个小时，好几个小问题，思路和上一题一样，用同样的方法，只不过多了一层循环，需要多判断一下重复条件，那几个相加超范围不太会如何处理，chatgpt让它给的方案。看了一下代码随想录的思路，差不多，它加了两行剪枝代码，但是它的代码性能有点慢，加了也不如我的这个性能高，我也在代码中加上了那两行剪枝代码。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) &#123;        int n=nums.size();        sort(nums.begin(),nums.end());        vector&lt;vector&lt;int&gt;&gt; ans;        for(int i=0;i&lt;n-3;i++)            if(i&gt;0 &amp;&amp; nums[i]==nums[i-1]) continue;            if (nums[i] &gt; target &amp;&amp; nums[i] &gt;= 0) break; //             for(int j=i+1;j&lt;n-2;j++)            &#123;                if(j&gt;i+1 &amp;&amp; nums[j]==nums[j-1]) continue;                if(nums[i]+nums[j] &gt; target &amp;&amp; nums[i]+nums[j] &gt;= 0) break; //                int c=j+1,d=n-1;                if((long long)nums[i]+nums[j]+nums[j+1]+nums[j+2]&gt;target) break;                if((long long)nums[i]+nums[j]+nums[n-1]+nums[n-2]&lt;target) continue;                while(c&lt;d)&#123;                    long long sum=(long long)nums[i]+nums[j]+nums[c]+nums[d];                    if(sum&gt;target) d--;                    else if(sum&lt;target) c++;                    else&#123;                        ans.push_back(vector&lt;int&gt; &#123;nums[i],nums[j],nums[c],nums[d]&#125;);                        while(c&lt;d &amp;&amp; nums[c]==nums[c+1]) c++;                        while(c&lt;d &amp;&amp; nums[d]==nums[d-1]) d--;                        c++;                        d--;                    &#125;                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>双指针</tag>
-        <tag>哈希表</tag>
-        <tag>map</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--哈希表</title>
     <url>/2025/02/5day/</url>
     <content><![CDATA[哈希表
 ​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。
@@ -571,9 +525,55 @@ class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; 
       <tags>
         <tag>数据结构与算法</tag>
         <tag>哈希表</tag>
-        <tag>map</tag>
         <tag>查找</tag>
         <tag>set</tag>
+        <tag>map</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--哈希表</title>
+    <url>/2025/02/6day/</url>
+    <content><![CDATA[哈希表
+​	查询一个元素是否出现过，或者一个元素是否在集合里的时候，就要第一时间想到哈希法。一种以关键码的值**「key-value」而直接进行访问的数据结构**。总结
+四数相加Ⅱ
+题目链接：454. 四数相加 II
+题目思路：我刚开始的思路是for四次，但是算了一下，可能有点超时，然后就直接看题解了。将四个数组两两分成一组进行处理，时间复杂度就是O(n*n)。
+
+首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
+遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
+定义int变量count，用来统计 a+b+c+d = 0 出现的次数。
+再遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
+最后返回统计值 count 就可以了
+
+class Solution &#123;public:    int fourSumCount(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2, vector&lt;int&gt;&amp; nums3, vector&lt;int&gt;&amp; nums4) &#123;        unordered_map&lt;int,int&gt; umap;        for(int a : nums1) for(int b:nums2) umap[a+b]++;        int count=0;        for(int c:nums3) for(int d:nums4) if(umap.find(0-(c+d))!=umap.end()) count+=umap[0-(c+d)];        return count;    &#125;&#125;;
+救赎金
+题目链接：383. 赎金信
+题目思路：秒了，这和 242. 有效的字母异位词 几乎差不多。
+class Solution &#123;public:    bool canConstruct(string ransomNote, string magazine) &#123;        int n=magazine.size(),m=ransomNote.size();        int j[26]=&#123;0&#125;;        for(int i=0;i&lt;n;i++) j[magazine[i]-&#x27;a&#x27;]++;        for(int i=0;i&lt;m;i++) j[ransomNote[i]-&#x27;a&#x27;]--;        for(int i=0;i&lt;26;i++) if(j[i]&lt;0) return false;         return true;    &#125;&#125;;
+三数之和
+题目链接：15. 三数之和
+题目思路1：感觉这题最不好处理的地方就是去重。三次循环，意料之中的超时了，当锻炼一下代码熟练度了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                for(int k=j+1;k&lt;nums.size();k++)                &#123;                    if((nums[i]+nums[j]+nums[k])==0)                     result.push_back(&#123;nums[i], nums[j], nums[k]&#125;);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
+题目思路2：改了一下上一种方法，用哈希表进行处理。虽然可以通过，但是还是很慢。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        sort(nums.begin(),nums.end());        for(int i=0;i&lt;nums.size();i++)        &#123;            if (nums[i] &gt; 0) break;            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) continue;            unordered_set&lt;int&gt; set;            for(int j=i+1;j&lt;nums.size();j++)            &#123;                int target = 0 - (nums[i] + nums[j]);                if (set.find(target) != set.end()) &#123;                    result.push_back(&#123;nums[i], target, nums[j]&#125;);                       set.erase(target);                &#125;                else &#123;                    set.insert(nums[j]);                &#125;            &#125;        &#125;        set&lt;vector&lt;int&gt;&gt; unique_nums(result.begin(), result.end());        vector&lt;vector&lt;int&gt;&gt; result_vector(unique_nums.begin(), unique_nums.end());        return result_vector;    &#125;&#125;;
+双指针：代码随想录的那个代码，感觉很多地方可以优化，所以就去找了一个优化完的代码。首先先将数组排序，我们只需要输出加和等于0的元素就可以，不用管次序。排序之后就可以从两端开始操作了，先创造一个大循环，用来固定住第一个数，然后再用双指针取操作另外两个数。
+优化一：当最小的三个数的和大于0时，就可以直接退出循环了。
+优化二：当最大的两个数加最小的那个数，还是小于0，就可以向前移动到再大的数了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) &#123;        ranges::sort(nums);        vector&lt;vector&lt;int&gt;&gt; ans;        int n = nums.size();        for (int i = 0; i &lt; n - 2; i++) &#123;            int x = nums[i];            if (i &amp;&amp; x == nums[i - 1]) continue; // 跳过重复数字            if (x + nums[i + 1] + nums[i + 2] &gt; 0) break; // 优化一            if (x + nums[n - 2] + nums[n - 1] &lt; 0) continue; // 优化二            int j = i + 1, k = n - 1;            while (j &lt; k) &#123;                int s = x + nums[j] + nums[k];                if (s &gt; 0) &#123;                    k--;                &#125; else if (s &lt; 0) &#123;                    j++;                &#125; else &#123; // 三数之和为 0                    ans.push_back(&#123;x, nums[j], nums[k]&#125;);                    for (j++; j &lt; k &amp;&amp; nums[j] == nums[j - 1]; j++); // 跳过重复数字                    for (k--; k &gt; j &amp;&amp; nums[k] == nums[k + 1]; k--); // 跳过重复数字                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
+四数之和
+题目链接：18. 四数之和
+我的思路：做了半个小时，好几个小问题，思路和上一题一样，用同样的方法，只不过多了一层循环，需要多判断一下重复条件，那几个相加超范围不太会如何处理，chatgpt让它给的方案。看了一下代码随想录的思路，差不多，它加了两行剪枝代码，但是它的代码性能有点慢，加了也不如我的这个性能高，我也在代码中加上了那两行剪枝代码。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;&amp; nums, int target) &#123;        int n=nums.size();        sort(nums.begin(),nums.end());        vector&lt;vector&lt;int&gt;&gt; ans;        for(int i=0;i&lt;n-3;i++)            if(i&gt;0 &amp;&amp; nums[i]==nums[i-1]) continue;            if (nums[i] &gt; target &amp;&amp; nums[i] &gt;= 0) break; //             for(int j=i+1;j&lt;n-2;j++)            &#123;                if(j&gt;i+1 &amp;&amp; nums[j]==nums[j-1]) continue;                if(nums[i]+nums[j] &gt; target &amp;&amp; nums[i]+nums[j] &gt;= 0) break; //                int c=j+1,d=n-1;                if((long long)nums[i]+nums[j]+nums[j+1]+nums[j+2]&gt;target) break;                if((long long)nums[i]+nums[j]+nums[n-1]+nums[n-2]&lt;target) continue;                while(c&lt;d)&#123;                    long long sum=(long long)nums[i]+nums[j]+nums[c]+nums[d];                    if(sum&gt;target) d--;                    else if(sum&lt;target) c++;                    else&#123;                        ans.push_back(vector&lt;int&gt; &#123;nums[i],nums[j],nums[c],nums[d]&#125;);                        while(c&lt;d &amp;&amp; nums[c]==nums[c+1]) c++;                        while(c&lt;d &amp;&amp; nums[d]==nums[d-1]) d--;                        c++;                        d--;                    &#125;                &#125;            &#125;        &#125;        return ans;    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>双指针</tag>
+        <tag>哈希表</tag>
+        <tag>map</tag>
       </tags>
   </entry>
   <entry>
@@ -3409,8 +3409,8 @@ reserve(n)
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>map</tag>
         <tag>set</tag>
+        <tag>map</tag>
         <tag>queue</tag>
         <tag>stack</tag>
         <tag>deque</tag>
@@ -3419,6 +3419,28 @@ reserve(n)
         <tag>string</tag>
         <tag>algorithm</tag>
         <tag>priority_queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -3479,28 +3501,6 @@ reserve(n)
         <tag>链表</tag>
         <tag>哈希表</tag>
         <tag>查找</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -4657,6 +4657,801 @@ lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较
       </tags>
   </entry>
   <entry>
+    <title>实例判别学习 - Non-Parametric Instance Discrimination精读</title>
+    <url>/2025/11/%E5%AE%9E%E4%BE%8B%E5%88%A4%E5%88%AB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[Unsupervised Feature Learning via Non-Parametric Instance Discrimination
+论文地址：https://arxiv.org/pdf/1805.01978
+代码地址：https://github.com/zhirongw/lemniscate.pytorch
+引言
+实例判别（Instance Discrimination） 是2018年提出的一种无监督特征学习方法，它将对比学习的思想推向极致：将每个图像实例视为一个独立的类别，通过区分不同实例来学习特征表示。这篇论文是MoCo、SimCLR等现代对比学习方法的重要先驱工作。
+论文的核心洞察来自对监督学习的观察：在ImageNet上训练的神经网络，即使没有显式指导，也能自动发现视觉上相似的类别（如leopard和jaguar）之间的关联。作者将这一观察延伸到实例级别：如果能够区分每个实例，那么学习到的特征应该能够捕获实例间的视觉相似性。
+实例判别的核心创新
+将无监督问题转化为监督问题：
+实例判别的天才之处在于一个简单的转换：
+
+传统无监督学习：没有标签，难以定义学习目标
+实例判别：每个图像就是自己的标签，变成N分类问题
+好处：可以直接使用成熟的分类框架和技术
+
+为什么这种方法有效？
+
+
+视觉相似性的自然涌现
+
+虽然每个实例是独立类别，但视觉相似的实例会在特征空间聚集
+原因：它们共享底层视觉模式（边缘、纹理、形状等）
+结果：学到的特征捕获了语义信息
+
+
+
+信息论的解释
+
+区分N个实例需要log(N)比特信息
+模型被迫学习最有效的编码
+这种编码自然对应于语义特征
+
+
+
+避免平凡解
+
+不能简单记住每个实例（泛化要求）
+必须学习可迁移的特征
+数据增强强制学习不变性
+
+
+
+技术挑战与解决方案
+挑战1：计算Softmax的分母
+当有百万级实例时，计算softmax分母需要遍历所有实例，计算成本巨大。
+解决方案：NCE近似
+原始softmax概率：P(i|v) = exp(v·f_i) / Σ_j exp(v·f_j)NCE近似：将其转化为二分类问题（实例i vs 噪声）
+挑战2：存储所有实例的特征
+需要存储所有训练图像的特征表示，内存需求大。
+解决方案：Memory Bank
+
+使用动量更新：新特征 = m×旧特征 + (1-m)×当前特征
+好处：平滑特征变化，提高训练稳定性
+内存需求：128维×100万实例 ≈ 500MB（可接受）
+
+挑战3：负样本采样
+从百万实例中采样负样本，如何保证采样质量？
+解决方案：Proximal Regularization
+
+不是随机采样，而是基于特征相似度
+优先采样相似但不同的实例（困难负样本）
+提高学习效率
+
+核心思想
+基本动机
+关键观察：
+
+监督学习中，模型会自动学习到视觉相似类别之间的关联
+这种相似性不是来自语义标注，而是来自视觉数据本身
+如果将类别级别的监督推向实例级别，能否学到更好的表示？
+
+核心假设：
+
+每个图像实例本身就是一个独特的&quot;类别&quot;
+通过区分不同实例，模型会学习到捕获视觉相似性的特征
+视觉相似的实例在特征空间中应该更接近
+
+方法概述
+将无监督学习问题转化为实例级别的分类问题：
+
+每个训练图像是一个独立的类别
+使用非参数softmax进行分类
+使用NCE（Noise-Contrastive Estimation）解决计算问题
+
+方法详解
+非参数Softmax分类器
+参数化Softmax的问题
+传统的参数化softmax：
+$$
+P(i|v) = \frac{\exp(w_i^T v)}{\sum_{j=1}^{n} \exp(w_j^T v)}
+$$
+其中 $w_j$ 是类别 $j$ 的权重向量。
+问题：
+
+权重向量 $w_j$ 只对训练类别有效，无法泛化到新实例
+权重向量作为类别原型，阻止了实例间的直接比较
+需要存储和更新大量权重参数
+
+非参数Softmax
+将权重向量 $w_j$ 替换为特征向量 $v_j$：
+$$
+P(i|v) = \frac{\exp(v_i^T v / \tau)}{\sum_{j=1}^{n} \exp(v_j^T v / \tau)}
+$$
+其中：
+
+$v_i, v_j$ 是归一化后的特征向量（$||v|| = 1$）
+$\tau$ 是温度参数，控制分布的尖锐程度
+
+优势：
+
+直接比较实例：特征向量直接作为&quot;类别原型&quot;
+泛化能力强：学习到的特征可以应用到任何新实例
+计算高效：无需存储和更新权重参数
+训练测试一致：训练和测试都使用相同的度量空间
+
+Memory Bank机制
+问题：计算 $P(i|v)$ 需要所有实例的特征 ${v_j}$，但每次迭代只更新当前batch的特征。
+解决方案：维护一个Memory Bank $V = {v_j}$ 存储所有实例的特征。
+更新策略：
+
+初始化：Memory Bank中的特征初始化为随机单位向量
+更新：每次迭代后，将当前batch的特征更新到Memory Bank
+使用：计算损失时，从Memory Bank中读取特征
+
+优势：
+
+避免每次重新计算所有特征
+保持特征的历史信息
+计算效率高
+
+Noise-Contrastive Estimation (NCE)
+问题：当实例数量 $n$ 很大（如ImageNet的1.2M）时，计算完整的softmax不可行。
+解决方案：使用NCE将多类分类问题转化为二分类问题。
+NCE原理
+将问题转化为：区分数据样本和噪声样本。
+定义：
+
+数据分布：$P_d(i\mid v) = \frac{\exp(v_i^\top v / \tau)}{Z_i}$，其中 $Z_i = \sum_{j=1}^{n} \exp(v_j^\top v / \tau)$
+噪声分布：$P_n(i) = 1/n$（均匀分布）
+噪声样本频率：$m$ 倍于数据样本
+
+后验概率：
+$$ 
+h(i, v) = P(D=1\mid i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
+$$ 
+损失函数：
+$$ 
+\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v')\sim P_n}[\log\big(1 - h(i, v')\big)]
+$$ 
+归一化常数估计
+计算 $Z_i$ 仍然昂贵，使用蒙特卡洛估计：
+$$ 
+Z_i \approx \frac{n}{m} \sum_{k=1}^{m} \exp\big(v_{j_k}^\top v / \tau\big)
+$$ 
+其中 ${j_k}$ 是随机采样的索引。
+复杂度：从 $O(n)$ 降低到 $O(1)$ 每个样本。
+Proximal Regularization（近端正则化）
+问题：每个&quot;类别&quot;只有一个实例，每个epoch每个类别只访问一次，训练过程振荡严重。
+解决方案：引入近端正则化项，鼓励训练过程的平滑性。
+正则化项：
+$$ 
+\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
+$$ 
+其中：
+
+$v_i^{(t)}$ 是当前迭代的特征
+$v_i^{(t-1)}$ 是Memory Bank中存储的特征（上一迭代）
+
+完整损失：
+$$ 
+\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v')\sim P_n}\Big[\log\big(1 - h(i, v'^{(t-1)})\big)\Big]
+$$ 
+加权k-NN分类器
+测试时分类：
+
+计算特征：$\hat{f} = f_\theta(\hat{x})$
+相似度计算：$s_i = \cos(v_i, \hat{f})$
+k-NN检索：找到top-k最近邻 $N_k$
+加权投票：类别 $c$ 的权重为
+$$
+w_c = \sum_{i \in N_k} \alpha_i \cdot \mathbf{1}(c_i = c)
+$$
+其中 $\alpha_i = \exp(s_i / \tau)$
+
+参数设置：
+
+$k = 200$
+$\tau = 0.07$（与训练时相同）
+
+实验分析
+参数化 vs 非参数化Softmax
+在CIFAR-10上的对比实验：
+
+
+
+方法
+Linear SVM
+k-NN
+
+
+
+
+参数化Softmax
+60.3%
+63.0%
+
+
+非参数化Softmax
+75.4%
+80.8%
+
+
+
+关键发现：
+
+非参数化方法显著优于参数化方法（+18%）
+k-NN性能接近线性SVM，说明学习到的特征度量质量高
+
+NCE近似质量
+不同负样本数量 $m$ 的影响：
+
+
+
+m
+k-NN Accuracy
+
+
+
+
+1
+42.5%
+
+
+10
+63.4%
+
+
+512
+78.4%
+
+
+4096
+80.4%
+
+
+
+结论：随着 $m$ 增加，NCE近似质量提升，$m=4096$ 时接近完整softmax。
+ImageNet分类结果
+不同网络架构的性能：
+
+
+
+方法
+conv5 (Linear)
+k-NN
+特征维度
+
+
+
+
+Random
+14.1%
+3.5%
+10K
+
+
+Split-Brain
+35.2%
+11.8%
+10K
+
+
+Ours (AlexNet)
+35.6%
+31.3%
+128
+
+
+Ours (VGG16)
+39.2%
+33.9%
+128
+
+
+Ours (ResNet-18)
+44.5%
+41.0%
+128
+
+
+Ours (ResNet-50)
+54.0%
+46.5%
+128
+
+
+
+关键发现：
+
+显著超越SOTA：在ImageNet上大幅超越之前的方法
+网络深度优势：从AlexNet到ResNet-50，性能持续提升
+紧凑表示：仅用128维特征就达到优异性能
+存储高效：1.28M图像的特征仅需600MB存储
+
+特征泛化能力
+在Places数据集上的零样本评估（使用ImageNet训练的特征）：
+
+
+
+方法
+ResNet-50 (conv5)
+ResNet-50 (k-NN)
+
+
+
+
+Ours
+45.5%
+41.6%
+
+
+
+结论：学习到的特征具有良好的跨数据集泛化能力。
+训练目标与测试目标的一致性
+关键观察：
+
+训练损失持续下降
+测试准确率同步提升
+无过拟合迹象
+
+意义：说明训练目标（实例判别）与测试目标（语义分类）是一致的，学习到的特征确实捕获了视觉相似性。
+消融实验
+特征维度：
+
+
+
+维度
+Top-1 Accuracy
+
+
+
+
+32
+34.0%
+
+
+64
+38.8%
+
+
+128
+41.0%
+
+
+256
+40.1%
+
+
+
+结论：128维是最优选择，性能在128维达到峰值。
+训练数据量：
+
+
+
+数据比例
+Accuracy
+
+
+
+
+0.1%
+3.9%
+
+
+1%
+10.7%
+
+
+10%
+23.1%
+
+
+30%
+31.7%
+
+
+100%
+41.0%
+
+
+
+结论：性能随训练数据量增加而持续提升，说明方法具有良好的可扩展性。
+半监督学习
+使用不同比例的标注数据进行微调：
+
+
+
+标注比例
+Ours (ResNet)
+Scratch (ResNet)
+Split-Brain (AlexNet)
+
+
+
+
+1%
+48.0%
+38.0%
+35.0%
+
+
+2%
+57.0%
+46.0%
+42.0%
+
+
+4%
+63.0%
+54.0%
+50.0%
+
+
+10%
+70.0%
+65.0%
+62.0%
+
+
+20%
+75.0%
+72.0%
+70.0%
+
+
+
+结论：在少样本场景下优势明显，1%标注数据时领先10%。
+目标检测
+在PASCAL VOC 2007上的检测性能：
+
+
+
+方法
+AlexNet
+VGG16
+ResNet-50
+
+
+
+
+Supervised
+56.8%
+67.3%
+76.2%
+
+
+Ours
+48.1%
+60.5%
+65.4%
+
+
+
+结论：在检测任务上达到无监督方法的SOTA，且随网络加深性能提升。
+代码实现
+核心损失函数实现
+import torchimport torch.nn as nnimport torch.nn.functional as Fclass InstanceDiscriminationLoss(nn.Module):    &quot;&quot;&quot;实例判别损失（使用NCE近似）&quot;&quot;&quot;        def __init__(self, memory_bank, temperature=0.07, m=4096, lambda_reg=10.0):        super().__init__()        self.memory_bank = memory_bank  # [n, dim] 所有实例的特征        self.temperature = temperature        self.m = m  # 负样本数量        self.lambda_reg = lambda_reg  # 正则化系数        def forward(self, features, indices, memory_bank_prev):        &quot;&quot;&quot;        Args:            features: [batch_size, dim] 当前batch的特征            indices: [batch_size] 当前batch的实例索引            memory_bank_prev: [batch_size, dim] Memory Bank中的特征（上一迭代）        &quot;&quot;&quot;        batch_size = features.size(0)        device = features.device                # L2归一化        features = F.normalize(features, p=2, dim=1)                # 从Memory Bank获取正样本特征        pos_features = memory_bank_prev  # [batch_size, dim]                # 随机采样负样本        neg_indices = torch.randint(0, len(self.memory_bank), (batch_size, self.m), device=device)        neg_features = self.memory_bank[neg_indices]  # [batch_size, m, dim]                # 计算相似度        pos_sim = torch.sum(features * pos_features, dim=1, keepdim=True) / self.temperature  # [batch_size, 1]        neg_sim = torch.bmm(            features.unsqueeze(1),  # [batch_size, 1, dim]            neg_features.transpose(1, 2)  # [batch_size, dim, m]        ) / self.temperature  # [batch_size, 1, m]                # 估计归一化常数（蒙特卡洛）        Z_approx = (len(self.memory_bank) / self.m) * torch.sum(torch.exp(neg_sim), dim=2)  # [batch_size, 1]                # 计算概率        pos_prob = torch.exp(pos_sim) / (torch.exp(pos_sim) + self.m * (1.0 / len(self.memory_bank)) * Z_approx)                # NCE损失        nce_loss = -torch.mean(torch.log(pos_prob + 1e-8))                # 近端正则化        reg_loss = self.lambda_reg * torch.mean(torch.sum((features - memory_bank_prev) ** 2, dim=1))                total_loss = nce_loss + reg_loss                return total_loss, nce_loss, reg_loss
+完整训练流程
+import torchimport torch.optim as optimfrom torch.utils.data import DataLoaderclass InstanceDiscriminationTrainer:    def __init__(self, model, memory_bank, dataset_size, temperature=0.07, m=4096):        self.model = model        self.memory_bank = memory_bank  # 初始化为随机单位向量        self.temperature = temperature        self.m = m                # 初始化Memory Bank        self.memory_bank.data = F.normalize(            torch.randn(dataset_size, 128), p=2, dim=1        )        def train_epoch(self, dataloader, optimizer, criterion):        self.model.train()        total_loss = 0                for batch_idx, (images, indices) in enumerate(dataloader):            # 前向传播            features = self.model(images)  # [batch_size, 128]                        # 从Memory Bank获取上一迭代的特征            memory_bank_prev = self.memory_bank[indices].clone()                        # 计算损失            loss, nce_loss, reg_loss = criterion(                features, indices, memory_bank_prev            )                        # 反向传播            optimizer.zero_grad()            loss.backward()            optimizer.step()                        # 更新Memory Bank（动量更新）            with torch.no_grad():                self.memory_bank[indices] = F.normalize(features, p=2, dim=1)                        total_loss += loss.item()                        if batch_idx % 100 == 0:                print(f&#x27;Batch &#123;batch_idx&#125;, Loss: &#123;loss.item():.4f&#125;, &#x27;                      f&#x27;NCE: &#123;nce_loss.item():.4f&#125;, Reg: &#123;reg_loss.item():.4f&#125;&#x27;)                return total_loss / len(dataloader)
+k-NN分类器实现
+def knn_classify(query_features, memory_bank, memory_labels, k=200, temperature=0.07):    &quot;&quot;&quot;    使用k-NN对查询特征进行分类        Args:        query_features: [n_query, dim] 查询特征        memory_bank: [n_memory, dim] Memory Bank中的特征        memory_labels: [n_memory] Memory Bank中的标签        k: 最近邻数量        temperature: 温度参数    &quot;&quot;&quot;    # 计算相似度矩阵    similarity = torch.mm(        F.normalize(query_features, p=2, dim=1),        F.normalize(memory_bank, p=2, dim=1).t()    )  # [n_query, n_memory]        # 找到top-k最近邻    _, topk_indices = torch.topk(similarity, k, dim=1)  # [n_query, k]    topk_similarities = torch.gather(similarity, 1, topk_indices)  # [n_query, k]    topk_labels = memory_labels[topk_indices]  # [n_query, k]        # 加权投票    weights = torch.exp(topk_similarities / temperature)  # [n_query, k]        # 对每个类别求和权重    num_classes = memory_labels.max().item() + 1    class_weights = torch.zeros(query_features.size(0), num_classes, device=query_features.device)        for c in range(num_classes):        mask = (topk_labels == c)  # [n_query, k]        class_weights[:, c] = (weights * mask.float()).sum(dim=1)        # 预测类别    predictions = class_weights.argmax(dim=1)        return predictions
+技术细节
+Memory Bank更新策略
+选项1：直接替换
+memory_bank[indices] = features
+选项2：动量更新
+memory_bank[indices] = momentum * memory_bank[indices] + (1 - momentum) * features
+选项3：仅在训练时更新
+
+训练时：每次迭代更新
+测试时：固定不变
+
+温度参数选择
+
+典型值：0.07（与SimCLR、MoCo相同）
+调优范围：0.05 - 0.15
+影响：控制softmax分布的尖锐程度
+
+NCE负样本数量
+
+最小值：$m = 1$（性能较差）
+推荐值：$m = 4096$（性能接近完整softmax）
+权衡：$m$ 越大，性能越好，但计算成本也越高
+
+近端正则化系数
+
+典型值：$\lambda = 10.0$
+作用：稳定训练，加速收敛
+调优：根据训练稳定性调整
+
+优缺点分析
+优点
+
+概念简单：将无监督学习转化为实例分类问题
+非参数化：特征直接作为&quot;类别原型&quot;，泛化能力强
+存储高效：128维特征，1M图像仅需600MB
+可扩展性好：性能随数据和网络深度提升
+训练测试一致：都使用相同的度量空间
+
+缺点
+
+计算成本：需要大量负样本（NCE）
+Memory Bank维护：需要存储所有实例的特征
+更新延迟：Memory Bank更新有延迟，可能影响性能
+对数据增强依赖：需要合理的数据增强策略
+
+与后续工作的关系
+对MoCo的启发
+
+Memory Bank → 队列：MoCo用队列替代Memory Bank
+直接更新 → 动量更新：MoCo使用动量编码器
+一致性保证：两者都关注特征的一致性
+
+对SimCLR的启发
+
+实例判别思想：SimCLR也使用实例判别
+端到端训练：SimCLR去除了Memory Bank，使用大batch
+数据增强重要性：SimCLR强调了数据增强的关键作用
+
+对SupCon的启发
+
+监督信号融入：SupCon将标签信息融入对比学习
+同类样本作为正样本：SupCon扩展了正样本的定义
+
+总结
+实例判别学习通过将每个图像实例视为独立类别，使用非参数softmax和NCE来学习特征表示。其核心贡献包括：
+
+非参数化设计：特征直接作为类别原型，泛化能力强
+NCE近似：解决了大规模实例分类的计算问题
+Memory Bank机制：高效存储和更新所有实例的特征
+近端正则化：稳定训练过程
+
+虽然后续的MoCo、SimCLR等方法在实现上更加优雅，但实例判别学习奠定了对比学习的基础思想，是这一领域的重要里程碑。
+参考文献
+
+
+Wu, Z., Xiong, Y., Yu, S. X., &amp; Lin, D. (2018). Unsupervised feature learning via non-parametric instance discrimination. CVPR 2018. https://arxiv.org/pdf/1805.01978
+
+
+Gutmann, M., &amp; Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. AISTATS 2010.
+
+
+He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
+
+
+Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
+
+
+思考题
+
+为什么非参数softmax比参数化softmax更适合实例判别任务？
+NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
+Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
+近端正则化为什么能稳定训练？其背后的数学原理是什么？
+实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
+为什么k-NN分类器在测试时表现良好？这说明了什么？
+
+思考题答案
+1. 为什么非参数softmax比参数化softmax更适合实例判别任务？
+参数化softmax的问题：
+
+泛化能力弱：权重向量 $w_j$ 只对训练实例有效，无法应用到新实例
+阻止直接比较：权重向量作为&quot;类别原型&quot;，阻止了实例特征间的直接比较
+参数冗余：需要为每个实例存储一个权重向量，参数量大
+
+非参数softmax的优势：
+
+直接比较实例：特征向量 $v_j$ 直接作为&quot;类别原型&quot;，允许实例间的直接比较
+泛化能力强：学习到的特征可以应用到任何新实例
+参数高效：无需存储权重参数，只需存储特征
+训练测试一致：训练和测试都使用相同的特征度量空间
+
+实验验证：在CIFAR-10上，非参数方法比参数方法性能提升18%，证明了其优势。
+2. NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
+转化过程：
+
+原始问题：区分 $n$ 个类别（实例），需要计算所有类别的概率
+NCE转化：将问题转化为&quot;区分数据样本和噪声样本&quot;的二分类问题
+后验概率：
+$$
+h(i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
+$$
+其中 $P_d$ 是数据分布，$P_n$ 是噪声分布（均匀分布）
+
+为什么有效：
+
+计算效率：从 $O(n)$ 降低到 $O(1)$ 每个样本
+近似质量：当负样本数量 $m$ 足够大时，近似质量接近完整softmax
+理论基础：NCE有坚实的理论保证，是unnormalized模型的标准估计方法
+实践验证：实验表明 $m=4096$ 时性能接近完整softmax
+
+关键洞察：不需要计算所有类别的概率，只需要区分&quot;是正样本&quot;还是&quot;是噪声样本&quot;。
+3. Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
+Memory Bank的优势：
+
+存储所有特征：可以访问训练集中所有实例的特征
+计算高效：避免每次重新计算所有特征
+历史信息：保留特征的历史状态
+
+Memory Bank的局限性：
+
+更新延迟：特征更新有延迟（使用上一迭代的特征）
+内存需求：需要存储所有实例的特征
+一致性挑战：特征可能因为编码器变化而变得不一致
+
+与MoCo队列的区别：
+
+
+
+特性
+Memory Bank
+MoCo队列
+
+
+
+
+大小
+所有训练实例
+固定大小（如65536）
+
+
+更新
+直接替换
+FIFO（先进先出）
+
+
+一致性
+可能不一致
+通过动量编码器保证
+
+
+存储
+所有实例
+仅最近batch的特征
+
+
+
+MoCo的改进：
+
+使用动量编码器保证Key的一致性
+队列大小固定，内存可控
+FIFO更新保证队列中的特征相对新鲜
+
+4. 近端正则化为什么能稳定训练？其背后的数学原理是什么？
+问题背景：
+
+每个&quot;类别&quot;只有一个实例
+每个epoch每个类别只访问一次
+随机采样导致训练过程振荡严重
+
+近端正则化的作用：
+
+平滑性约束：鼓励当前特征 $v_i^{(t)}$ 与上一迭代特征 $v_i^{(t-1)}$ 接近
+减少振荡：防止特征因为随机采样而剧烈变化
+稳定梯度：使梯度更新更加平滑
+
+数学原理：
+近端正则化项：
+$$
+\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
+$$
+这等价于在优化问题中加入平滑性约束：
+
+当 $\lambda \to 0$：退化为原始损失
+当 $\lambda \to \infty$：强制 $v_i^{(t)} = v_i^{(t-1)}$（不更新）
+
+优化视角：
+近端正则化是近端梯度方法的应用，用于优化非光滑或约束优化问题。在这里，它起到了稳定化的作用。
+实验验证：图3显示，加入正则化后训练损失曲线更平滑，收敛更快。
+5. 实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
+共同思想：
+
+实例判别：都将每个实例视为独立类别
+对比学习：通过区分正负样本来学习特征
+特征归一化：都使用L2归一化
+温度参数：都使用温度缩放
+
+主要区别：
+
+
+
+特性
+Instance Discrimination
+MoCo
+SimCLR
+
+
+
+
+负样本来源
+Memory Bank
+队列
+当前batch
+
+
+特征更新
+延迟更新
+动量更新
+实时更新
+
+
+计算方式
+NCE近似
+完整softmax
+完整softmax
+
+
+batch size
+小（256）
+中等（1024）
+大（≥4096）
+
+
+实现复杂度
+中等
+较高
+较低
+
+
+
+演进关系：
+
+Instance Discrimination：提出非参数softmax和Memory Bank
+MoCo：改进Memory Bank为队列，引入动量编码器
+SimCLR：去除Memory Bank，使用大batch和端到端训练
+
+核心改进：
+
+MoCo解决了Memory Bank的一致性问题
+SimCLR简化了实现，但需要更多计算资源
+
+6. 为什么k-NN分类器在测试时表现良好？这说明了什么？
+k-NN表现良好的原因：
+
+训练测试一致：训练和测试都使用相同的特征度量空间
+非参数化设计：特征直接作为&quot;类别原型&quot;，适合k-NN
+度量质量高：学习到的特征确实捕获了视觉相似性
+
+实验证据：
+
+在ImageNet上，k-NN准确率（46.5%）接近线性SVM（54.0%）
+说明学习到的特征度量质量很高
+
+深层含义：
+
+训练目标有效：实例判别目标与语义分类目标一致
+特征质量高：特征空间中的距离确实反映了视觉相似性
+泛化能力强：学习到的表示可以泛化到新任务
+
+对比其他方法：
+
+Split-Brain：k-NN准确率（11.8%）远低于线性SVM（35.2%）
+说明其学习到的特征度量质量较低
+
+结论：k-NN的良好表现证明了实例判别学习的有效性，学习到的特征确实捕获了视觉相似性，而不仅仅是适合特定分类器的表示。
+深入理解与实践思考
+
+实例判别与语义判别的关系：虽然每个实例都被视作一个类别，但模型最终学习到的特征仍然会聚合出语义簇。这一现象说明视觉数据的结构性远强于我们赋予的标签结构。实际操作中可以通过t-SNE/UMAP观察到同类样本自然聚团。
+Memory Bank vs. 队列：Memory Bank提供了全局视角，但需要处理“陈旧”特征的问题。后来MoCo中的动量编码器与固定长度队列，可以被视作对“特征一致性”与“可扩展性”的不同取舍。若业务中GPU显存紧张，可采用分片Memory Bank或结合近邻图的稀疏更新。
+正则化的更广义含义：近端正则化不仅平滑了优化，还暗含“特征轨迹不能跳跃太远”的约束，相当于引入了一个时间维度的Lipschitz限制。这提醒我们，在设计自监督任务时，需要关注优化轨迹是否稳定。
+评价指标的选择：k-NN性能高说明学到的度量空间质量好，但在工业场景往往还需关注召回、延迟等指标。实例判别学习天然适合构建向量检索服务（如图像去重、相似商品推荐）。
+与现代方法的衔接：若希望复现最新SOTA，可在此框架上引入更强的编码器（ViT、ConvNeXt）、更丰富的数据增强（RandAugment、CutMix）以及更加稳定的优化器（AdamW + Cosine）。同时也可以尝试将SupCon的标签约束融入Memory Bank以获得更平滑的语义结构。
+
+开放问题与研究方向
+
+Memory更新策略：能否利用动量更新与自适应权重结合，既保持全局视野又不过度依赖旧特征？
+负样本质量：如何更智能地采样“困难负样本”，避免CNN在易区分的负样本上浪费容量？
+多模态扩展：能否直接在该框架中支持图像-文本或多模态实例判别，减少对比学习与跨模态模型之间的割裂？
+理论解释：实例判别为何能自动恢复语义结构？是否存在可证明的聚类或流形假设支撑？
+增量学习：面对不断新增的数据集，如何无缝扩展Memory Bank并避免遗忘？
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>对比学习</tag>
+        <tag>实例判别</tag>
+        <tag>无监督学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>对比学习综述</title>
     <url>/2025/11/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</url>
     <content><![CDATA[对比学习综述：从理论到实践全面解析
@@ -5566,801 +6361,6 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
         <tag>生活</tag>
         <tag>随笔</tag>
         <tag>研究生生活</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>实例判别学习 - Non-Parametric Instance Discrimination精读</title>
-    <url>/2025/11/%E5%AE%9E%E4%BE%8B%E5%88%A4%E5%88%AB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[Unsupervised Feature Learning via Non-Parametric Instance Discrimination
-论文地址：https://arxiv.org/pdf/1805.01978
-代码地址：https://github.com/zhirongw/lemniscate.pytorch
-引言
-实例判别（Instance Discrimination） 是2018年提出的一种无监督特征学习方法，它将对比学习的思想推向极致：将每个图像实例视为一个独立的类别，通过区分不同实例来学习特征表示。这篇论文是MoCo、SimCLR等现代对比学习方法的重要先驱工作。
-论文的核心洞察来自对监督学习的观察：在ImageNet上训练的神经网络，即使没有显式指导，也能自动发现视觉上相似的类别（如leopard和jaguar）之间的关联。作者将这一观察延伸到实例级别：如果能够区分每个实例，那么学习到的特征应该能够捕获实例间的视觉相似性。
-实例判别的核心创新
-将无监督问题转化为监督问题：
-实例判别的天才之处在于一个简单的转换：
-
-传统无监督学习：没有标签，难以定义学习目标
-实例判别：每个图像就是自己的标签，变成N分类问题
-好处：可以直接使用成熟的分类框架和技术
-
-为什么这种方法有效？
-
-
-视觉相似性的自然涌现
-
-虽然每个实例是独立类别，但视觉相似的实例会在特征空间聚集
-原因：它们共享底层视觉模式（边缘、纹理、形状等）
-结果：学到的特征捕获了语义信息
-
-
-
-信息论的解释
-
-区分N个实例需要log(N)比特信息
-模型被迫学习最有效的编码
-这种编码自然对应于语义特征
-
-
-
-避免平凡解
-
-不能简单记住每个实例（泛化要求）
-必须学习可迁移的特征
-数据增强强制学习不变性
-
-
-
-技术挑战与解决方案
-挑战1：计算Softmax的分母
-当有百万级实例时，计算softmax分母需要遍历所有实例，计算成本巨大。
-解决方案：NCE近似
-原始softmax概率：P(i|v) = exp(v·f_i) / Σ_j exp(v·f_j)NCE近似：将其转化为二分类问题（实例i vs 噪声）
-挑战2：存储所有实例的特征
-需要存储所有训练图像的特征表示，内存需求大。
-解决方案：Memory Bank
-
-使用动量更新：新特征 = m×旧特征 + (1-m)×当前特征
-好处：平滑特征变化，提高训练稳定性
-内存需求：128维×100万实例 ≈ 500MB（可接受）
-
-挑战3：负样本采样
-从百万实例中采样负样本，如何保证采样质量？
-解决方案：Proximal Regularization
-
-不是随机采样，而是基于特征相似度
-优先采样相似但不同的实例（困难负样本）
-提高学习效率
-
-核心思想
-基本动机
-关键观察：
-
-监督学习中，模型会自动学习到视觉相似类别之间的关联
-这种相似性不是来自语义标注，而是来自视觉数据本身
-如果将类别级别的监督推向实例级别，能否学到更好的表示？
-
-核心假设：
-
-每个图像实例本身就是一个独特的&quot;类别&quot;
-通过区分不同实例，模型会学习到捕获视觉相似性的特征
-视觉相似的实例在特征空间中应该更接近
-
-方法概述
-将无监督学习问题转化为实例级别的分类问题：
-
-每个训练图像是一个独立的类别
-使用非参数softmax进行分类
-使用NCE（Noise-Contrastive Estimation）解决计算问题
-
-方法详解
-非参数Softmax分类器
-参数化Softmax的问题
-传统的参数化softmax：
-$$
-P(i|v) = \frac{\exp(w_i^T v)}{\sum_{j=1}^{n} \exp(w_j^T v)}
-$$
-其中 $w_j$ 是类别 $j$ 的权重向量。
-问题：
-
-权重向量 $w_j$ 只对训练类别有效，无法泛化到新实例
-权重向量作为类别原型，阻止了实例间的直接比较
-需要存储和更新大量权重参数
-
-非参数Softmax
-将权重向量 $w_j$ 替换为特征向量 $v_j$：
-$$
-P(i|v) = \frac{\exp(v_i^T v / \tau)}{\sum_{j=1}^{n} \exp(v_j^T v / \tau)}
-$$
-其中：
-
-$v_i, v_j$ 是归一化后的特征向量（$||v|| = 1$）
-$\tau$ 是温度参数，控制分布的尖锐程度
-
-优势：
-
-直接比较实例：特征向量直接作为&quot;类别原型&quot;
-泛化能力强：学习到的特征可以应用到任何新实例
-计算高效：无需存储和更新权重参数
-训练测试一致：训练和测试都使用相同的度量空间
-
-Memory Bank机制
-问题：计算 $P(i|v)$ 需要所有实例的特征 ${v_j}$，但每次迭代只更新当前batch的特征。
-解决方案：维护一个Memory Bank $V = {v_j}$ 存储所有实例的特征。
-更新策略：
-
-初始化：Memory Bank中的特征初始化为随机单位向量
-更新：每次迭代后，将当前batch的特征更新到Memory Bank
-使用：计算损失时，从Memory Bank中读取特征
-
-优势：
-
-避免每次重新计算所有特征
-保持特征的历史信息
-计算效率高
-
-Noise-Contrastive Estimation (NCE)
-问题：当实例数量 $n$ 很大（如ImageNet的1.2M）时，计算完整的softmax不可行。
-解决方案：使用NCE将多类分类问题转化为二分类问题。
-NCE原理
-将问题转化为：区分数据样本和噪声样本。
-定义：
-
-数据分布：$P_d(i\mid v) = \frac{\exp(v_i^\top v / \tau)}{Z_i}$，其中 $Z_i = \sum_{j=1}^{n} \exp(v_j^\top v / \tau)$
-噪声分布：$P_n(i) = 1/n$（均匀分布）
-噪声样本频率：$m$ 倍于数据样本
-
-后验概率：
-$$ 
-h(i, v) = P(D=1\mid i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
-$$ 
-损失函数：
-$$ 
-\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v')\sim P_n}[\log\big(1 - h(i, v')\big)]
-$$ 
-归一化常数估计
-计算 $Z_i$ 仍然昂贵，使用蒙特卡洛估计：
-$$ 
-Z_i \approx \frac{n}{m} \sum_{k=1}^{m} \exp\big(v_{j_k}^\top v / \tau\big)
-$$ 
-其中 ${j_k}$ 是随机采样的索引。
-复杂度：从 $O(n)$ 降低到 $O(1)$ 每个样本。
-Proximal Regularization（近端正则化）
-问题：每个&quot;类别&quot;只有一个实例，每个epoch每个类别只访问一次，训练过程振荡严重。
-解决方案：引入近端正则化项，鼓励训练过程的平滑性。
-正则化项：
-$$ 
-\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
-$$ 
-其中：
-
-$v_i^{(t)}$ 是当前迭代的特征
-$v_i^{(t-1)}$ 是Memory Bank中存储的特征（上一迭代）
-
-完整损失：
-$$ 
-\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v')\sim P_n}\Big[\log\big(1 - h(i, v'^{(t-1)})\big)\Big]
-$$ 
-加权k-NN分类器
-测试时分类：
-
-计算特征：$\hat{f} = f_\theta(\hat{x})$
-相似度计算：$s_i = \cos(v_i, \hat{f})$
-k-NN检索：找到top-k最近邻 $N_k$
-加权投票：类别 $c$ 的权重为
-$$
-w_c = \sum_{i \in N_k} \alpha_i \cdot \mathbf{1}(c_i = c)
-$$
-其中 $\alpha_i = \exp(s_i / \tau)$
-
-参数设置：
-
-$k = 200$
-$\tau = 0.07$（与训练时相同）
-
-实验分析
-参数化 vs 非参数化Softmax
-在CIFAR-10上的对比实验：
-
-
-
-方法
-Linear SVM
-k-NN
-
-
-
-
-参数化Softmax
-60.3%
-63.0%
-
-
-非参数化Softmax
-75.4%
-80.8%
-
-
-
-关键发现：
-
-非参数化方法显著优于参数化方法（+18%）
-k-NN性能接近线性SVM，说明学习到的特征度量质量高
-
-NCE近似质量
-不同负样本数量 $m$ 的影响：
-
-
-
-m
-k-NN Accuracy
-
-
-
-
-1
-42.5%
-
-
-10
-63.4%
-
-
-512
-78.4%
-
-
-4096
-80.4%
-
-
-
-结论：随着 $m$ 增加，NCE近似质量提升，$m=4096$ 时接近完整softmax。
-ImageNet分类结果
-不同网络架构的性能：
-
-
-
-方法
-conv5 (Linear)
-k-NN
-特征维度
-
-
-
-
-Random
-14.1%
-3.5%
-10K
-
-
-Split-Brain
-35.2%
-11.8%
-10K
-
-
-Ours (AlexNet)
-35.6%
-31.3%
-128
-
-
-Ours (VGG16)
-39.2%
-33.9%
-128
-
-
-Ours (ResNet-18)
-44.5%
-41.0%
-128
-
-
-Ours (ResNet-50)
-54.0%
-46.5%
-128
-
-
-
-关键发现：
-
-显著超越SOTA：在ImageNet上大幅超越之前的方法
-网络深度优势：从AlexNet到ResNet-50，性能持续提升
-紧凑表示：仅用128维特征就达到优异性能
-存储高效：1.28M图像的特征仅需600MB存储
-
-特征泛化能力
-在Places数据集上的零样本评估（使用ImageNet训练的特征）：
-
-
-
-方法
-ResNet-50 (conv5)
-ResNet-50 (k-NN)
-
-
-
-
-Ours
-45.5%
-41.6%
-
-
-
-结论：学习到的特征具有良好的跨数据集泛化能力。
-训练目标与测试目标的一致性
-关键观察：
-
-训练损失持续下降
-测试准确率同步提升
-无过拟合迹象
-
-意义：说明训练目标（实例判别）与测试目标（语义分类）是一致的，学习到的特征确实捕获了视觉相似性。
-消融实验
-特征维度：
-
-
-
-维度
-Top-1 Accuracy
-
-
-
-
-32
-34.0%
-
-
-64
-38.8%
-
-
-128
-41.0%
-
-
-256
-40.1%
-
-
-
-结论：128维是最优选择，性能在128维达到峰值。
-训练数据量：
-
-
-
-数据比例
-Accuracy
-
-
-
-
-0.1%
-3.9%
-
-
-1%
-10.7%
-
-
-10%
-23.1%
-
-
-30%
-31.7%
-
-
-100%
-41.0%
-
-
-
-结论：性能随训练数据量增加而持续提升，说明方法具有良好的可扩展性。
-半监督学习
-使用不同比例的标注数据进行微调：
-
-
-
-标注比例
-Ours (ResNet)
-Scratch (ResNet)
-Split-Brain (AlexNet)
-
-
-
-
-1%
-48.0%
-38.0%
-35.0%
-
-
-2%
-57.0%
-46.0%
-42.0%
-
-
-4%
-63.0%
-54.0%
-50.0%
-
-
-10%
-70.0%
-65.0%
-62.0%
-
-
-20%
-75.0%
-72.0%
-70.0%
-
-
-
-结论：在少样本场景下优势明显，1%标注数据时领先10%。
-目标检测
-在PASCAL VOC 2007上的检测性能：
-
-
-
-方法
-AlexNet
-VGG16
-ResNet-50
-
-
-
-
-Supervised
-56.8%
-67.3%
-76.2%
-
-
-Ours
-48.1%
-60.5%
-65.4%
-
-
-
-结论：在检测任务上达到无监督方法的SOTA，且随网络加深性能提升。
-代码实现
-核心损失函数实现
-import torchimport torch.nn as nnimport torch.nn.functional as Fclass InstanceDiscriminationLoss(nn.Module):    &quot;&quot;&quot;实例判别损失（使用NCE近似）&quot;&quot;&quot;        def __init__(self, memory_bank, temperature=0.07, m=4096, lambda_reg=10.0):        super().__init__()        self.memory_bank = memory_bank  # [n, dim] 所有实例的特征        self.temperature = temperature        self.m = m  # 负样本数量        self.lambda_reg = lambda_reg  # 正则化系数        def forward(self, features, indices, memory_bank_prev):        &quot;&quot;&quot;        Args:            features: [batch_size, dim] 当前batch的特征            indices: [batch_size] 当前batch的实例索引            memory_bank_prev: [batch_size, dim] Memory Bank中的特征（上一迭代）        &quot;&quot;&quot;        batch_size = features.size(0)        device = features.device                # L2归一化        features = F.normalize(features, p=2, dim=1)                # 从Memory Bank获取正样本特征        pos_features = memory_bank_prev  # [batch_size, dim]                # 随机采样负样本        neg_indices = torch.randint(0, len(self.memory_bank), (batch_size, self.m), device=device)        neg_features = self.memory_bank[neg_indices]  # [batch_size, m, dim]                # 计算相似度        pos_sim = torch.sum(features * pos_features, dim=1, keepdim=True) / self.temperature  # [batch_size, 1]        neg_sim = torch.bmm(            features.unsqueeze(1),  # [batch_size, 1, dim]            neg_features.transpose(1, 2)  # [batch_size, dim, m]        ) / self.temperature  # [batch_size, 1, m]                # 估计归一化常数（蒙特卡洛）        Z_approx = (len(self.memory_bank) / self.m) * torch.sum(torch.exp(neg_sim), dim=2)  # [batch_size, 1]                # 计算概率        pos_prob = torch.exp(pos_sim) / (torch.exp(pos_sim) + self.m * (1.0 / len(self.memory_bank)) * Z_approx)                # NCE损失        nce_loss = -torch.mean(torch.log(pos_prob + 1e-8))                # 近端正则化        reg_loss = self.lambda_reg * torch.mean(torch.sum((features - memory_bank_prev) ** 2, dim=1))                total_loss = nce_loss + reg_loss                return total_loss, nce_loss, reg_loss
-完整训练流程
-import torchimport torch.optim as optimfrom torch.utils.data import DataLoaderclass InstanceDiscriminationTrainer:    def __init__(self, model, memory_bank, dataset_size, temperature=0.07, m=4096):        self.model = model        self.memory_bank = memory_bank  # 初始化为随机单位向量        self.temperature = temperature        self.m = m                # 初始化Memory Bank        self.memory_bank.data = F.normalize(            torch.randn(dataset_size, 128), p=2, dim=1        )        def train_epoch(self, dataloader, optimizer, criterion):        self.model.train()        total_loss = 0                for batch_idx, (images, indices) in enumerate(dataloader):            # 前向传播            features = self.model(images)  # [batch_size, 128]                        # 从Memory Bank获取上一迭代的特征            memory_bank_prev = self.memory_bank[indices].clone()                        # 计算损失            loss, nce_loss, reg_loss = criterion(                features, indices, memory_bank_prev            )                        # 反向传播            optimizer.zero_grad()            loss.backward()            optimizer.step()                        # 更新Memory Bank（动量更新）            with torch.no_grad():                self.memory_bank[indices] = F.normalize(features, p=2, dim=1)                        total_loss += loss.item()                        if batch_idx % 100 == 0:                print(f&#x27;Batch &#123;batch_idx&#125;, Loss: &#123;loss.item():.4f&#125;, &#x27;                      f&#x27;NCE: &#123;nce_loss.item():.4f&#125;, Reg: &#123;reg_loss.item():.4f&#125;&#x27;)                return total_loss / len(dataloader)
-k-NN分类器实现
-def knn_classify(query_features, memory_bank, memory_labels, k=200, temperature=0.07):    &quot;&quot;&quot;    使用k-NN对查询特征进行分类        Args:        query_features: [n_query, dim] 查询特征        memory_bank: [n_memory, dim] Memory Bank中的特征        memory_labels: [n_memory] Memory Bank中的标签        k: 最近邻数量        temperature: 温度参数    &quot;&quot;&quot;    # 计算相似度矩阵    similarity = torch.mm(        F.normalize(query_features, p=2, dim=1),        F.normalize(memory_bank, p=2, dim=1).t()    )  # [n_query, n_memory]        # 找到top-k最近邻    _, topk_indices = torch.topk(similarity, k, dim=1)  # [n_query, k]    topk_similarities = torch.gather(similarity, 1, topk_indices)  # [n_query, k]    topk_labels = memory_labels[topk_indices]  # [n_query, k]        # 加权投票    weights = torch.exp(topk_similarities / temperature)  # [n_query, k]        # 对每个类别求和权重    num_classes = memory_labels.max().item() + 1    class_weights = torch.zeros(query_features.size(0), num_classes, device=query_features.device)        for c in range(num_classes):        mask = (topk_labels == c)  # [n_query, k]        class_weights[:, c] = (weights * mask.float()).sum(dim=1)        # 预测类别    predictions = class_weights.argmax(dim=1)        return predictions
-技术细节
-Memory Bank更新策略
-选项1：直接替换
-memory_bank[indices] = features
-选项2：动量更新
-memory_bank[indices] = momentum * memory_bank[indices] + (1 - momentum) * features
-选项3：仅在训练时更新
-
-训练时：每次迭代更新
-测试时：固定不变
-
-温度参数选择
-
-典型值：0.07（与SimCLR、MoCo相同）
-调优范围：0.05 - 0.15
-影响：控制softmax分布的尖锐程度
-
-NCE负样本数量
-
-最小值：$m = 1$（性能较差）
-推荐值：$m = 4096$（性能接近完整softmax）
-权衡：$m$ 越大，性能越好，但计算成本也越高
-
-近端正则化系数
-
-典型值：$\lambda = 10.0$
-作用：稳定训练，加速收敛
-调优：根据训练稳定性调整
-
-优缺点分析
-优点
-
-概念简单：将无监督学习转化为实例分类问题
-非参数化：特征直接作为&quot;类别原型&quot;，泛化能力强
-存储高效：128维特征，1M图像仅需600MB
-可扩展性好：性能随数据和网络深度提升
-训练测试一致：都使用相同的度量空间
-
-缺点
-
-计算成本：需要大量负样本（NCE）
-Memory Bank维护：需要存储所有实例的特征
-更新延迟：Memory Bank更新有延迟，可能影响性能
-对数据增强依赖：需要合理的数据增强策略
-
-与后续工作的关系
-对MoCo的启发
-
-Memory Bank → 队列：MoCo用队列替代Memory Bank
-直接更新 → 动量更新：MoCo使用动量编码器
-一致性保证：两者都关注特征的一致性
-
-对SimCLR的启发
-
-实例判别思想：SimCLR也使用实例判别
-端到端训练：SimCLR去除了Memory Bank，使用大batch
-数据增强重要性：SimCLR强调了数据增强的关键作用
-
-对SupCon的启发
-
-监督信号融入：SupCon将标签信息融入对比学习
-同类样本作为正样本：SupCon扩展了正样本的定义
-
-总结
-实例判别学习通过将每个图像实例视为独立类别，使用非参数softmax和NCE来学习特征表示。其核心贡献包括：
-
-非参数化设计：特征直接作为类别原型，泛化能力强
-NCE近似：解决了大规模实例分类的计算问题
-Memory Bank机制：高效存储和更新所有实例的特征
-近端正则化：稳定训练过程
-
-虽然后续的MoCo、SimCLR等方法在实现上更加优雅，但实例判别学习奠定了对比学习的基础思想，是这一领域的重要里程碑。
-参考文献
-
-
-Wu, Z., Xiong, Y., Yu, S. X., &amp; Lin, D. (2018). Unsupervised feature learning via non-parametric instance discrimination. CVPR 2018. https://arxiv.org/pdf/1805.01978
-
-
-Gutmann, M., &amp; Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. AISTATS 2010.
-
-
-He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
-
-
-Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
-
-
-思考题
-
-为什么非参数softmax比参数化softmax更适合实例判别任务？
-NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
-Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
-近端正则化为什么能稳定训练？其背后的数学原理是什么？
-实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
-为什么k-NN分类器在测试时表现良好？这说明了什么？
-
-思考题答案
-1. 为什么非参数softmax比参数化softmax更适合实例判别任务？
-参数化softmax的问题：
-
-泛化能力弱：权重向量 $w_j$ 只对训练实例有效，无法应用到新实例
-阻止直接比较：权重向量作为&quot;类别原型&quot;，阻止了实例特征间的直接比较
-参数冗余：需要为每个实例存储一个权重向量，参数量大
-
-非参数softmax的优势：
-
-直接比较实例：特征向量 $v_j$ 直接作为&quot;类别原型&quot;，允许实例间的直接比较
-泛化能力强：学习到的特征可以应用到任何新实例
-参数高效：无需存储权重参数，只需存储特征
-训练测试一致：训练和测试都使用相同的特征度量空间
-
-实验验证：在CIFAR-10上，非参数方法比参数方法性能提升18%，证明了其优势。
-2. NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
-转化过程：
-
-原始问题：区分 $n$ 个类别（实例），需要计算所有类别的概率
-NCE转化：将问题转化为&quot;区分数据样本和噪声样本&quot;的二分类问题
-后验概率：
-$$
-h(i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
-$$
-其中 $P_d$ 是数据分布，$P_n$ 是噪声分布（均匀分布）
-
-为什么有效：
-
-计算效率：从 $O(n)$ 降低到 $O(1)$ 每个样本
-近似质量：当负样本数量 $m$ 足够大时，近似质量接近完整softmax
-理论基础：NCE有坚实的理论保证，是unnormalized模型的标准估计方法
-实践验证：实验表明 $m=4096$ 时性能接近完整softmax
-
-关键洞察：不需要计算所有类别的概率，只需要区分&quot;是正样本&quot;还是&quot;是噪声样本&quot;。
-3. Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
-Memory Bank的优势：
-
-存储所有特征：可以访问训练集中所有实例的特征
-计算高效：避免每次重新计算所有特征
-历史信息：保留特征的历史状态
-
-Memory Bank的局限性：
-
-更新延迟：特征更新有延迟（使用上一迭代的特征）
-内存需求：需要存储所有实例的特征
-一致性挑战：特征可能因为编码器变化而变得不一致
-
-与MoCo队列的区别：
-
-
-
-特性
-Memory Bank
-MoCo队列
-
-
-
-
-大小
-所有训练实例
-固定大小（如65536）
-
-
-更新
-直接替换
-FIFO（先进先出）
-
-
-一致性
-可能不一致
-通过动量编码器保证
-
-
-存储
-所有实例
-仅最近batch的特征
-
-
-
-MoCo的改进：
-
-使用动量编码器保证Key的一致性
-队列大小固定，内存可控
-FIFO更新保证队列中的特征相对新鲜
-
-4. 近端正则化为什么能稳定训练？其背后的数学原理是什么？
-问题背景：
-
-每个&quot;类别&quot;只有一个实例
-每个epoch每个类别只访问一次
-随机采样导致训练过程振荡严重
-
-近端正则化的作用：
-
-平滑性约束：鼓励当前特征 $v_i^{(t)}$ 与上一迭代特征 $v_i^{(t-1)}$ 接近
-减少振荡：防止特征因为随机采样而剧烈变化
-稳定梯度：使梯度更新更加平滑
-
-数学原理：
-近端正则化项：
-$$
-\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
-$$
-这等价于在优化问题中加入平滑性约束：
-
-当 $\lambda \to 0$：退化为原始损失
-当 $\lambda \to \infty$：强制 $v_i^{(t)} = v_i^{(t-1)}$（不更新）
-
-优化视角：
-近端正则化是近端梯度方法的应用，用于优化非光滑或约束优化问题。在这里，它起到了稳定化的作用。
-实验验证：图3显示，加入正则化后训练损失曲线更平滑，收敛更快。
-5. 实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
-共同思想：
-
-实例判别：都将每个实例视为独立类别
-对比学习：通过区分正负样本来学习特征
-特征归一化：都使用L2归一化
-温度参数：都使用温度缩放
-
-主要区别：
-
-
-
-特性
-Instance Discrimination
-MoCo
-SimCLR
-
-
-
-
-负样本来源
-Memory Bank
-队列
-当前batch
-
-
-特征更新
-延迟更新
-动量更新
-实时更新
-
-
-计算方式
-NCE近似
-完整softmax
-完整softmax
-
-
-batch size
-小（256）
-中等（1024）
-大（≥4096）
-
-
-实现复杂度
-中等
-较高
-较低
-
-
-
-演进关系：
-
-Instance Discrimination：提出非参数softmax和Memory Bank
-MoCo：改进Memory Bank为队列，引入动量编码器
-SimCLR：去除Memory Bank，使用大batch和端到端训练
-
-核心改进：
-
-MoCo解决了Memory Bank的一致性问题
-SimCLR简化了实现，但需要更多计算资源
-
-6. 为什么k-NN分类器在测试时表现良好？这说明了什么？
-k-NN表现良好的原因：
-
-训练测试一致：训练和测试都使用相同的特征度量空间
-非参数化设计：特征直接作为&quot;类别原型&quot;，适合k-NN
-度量质量高：学习到的特征确实捕获了视觉相似性
-
-实验证据：
-
-在ImageNet上，k-NN准确率（46.5%）接近线性SVM（54.0%）
-说明学习到的特征度量质量很高
-
-深层含义：
-
-训练目标有效：实例判别目标与语义分类目标一致
-特征质量高：特征空间中的距离确实反映了视觉相似性
-泛化能力强：学习到的表示可以泛化到新任务
-
-对比其他方法：
-
-Split-Brain：k-NN准确率（11.8%）远低于线性SVM（35.2%）
-说明其学习到的特征度量质量较低
-
-结论：k-NN的良好表现证明了实例判别学习的有效性，学习到的特征确实捕获了视觉相似性，而不仅仅是适合特定分类器的表示。
-深入理解与实践思考
-
-实例判别与语义判别的关系：虽然每个实例都被视作一个类别，但模型最终学习到的特征仍然会聚合出语义簇。这一现象说明视觉数据的结构性远强于我们赋予的标签结构。实际操作中可以通过t-SNE/UMAP观察到同类样本自然聚团。
-Memory Bank vs. 队列：Memory Bank提供了全局视角，但需要处理“陈旧”特征的问题。后来MoCo中的动量编码器与固定长度队列，可以被视作对“特征一致性”与“可扩展性”的不同取舍。若业务中GPU显存紧张，可采用分片Memory Bank或结合近邻图的稀疏更新。
-正则化的更广义含义：近端正则化不仅平滑了优化，还暗含“特征轨迹不能跳跃太远”的约束，相当于引入了一个时间维度的Lipschitz限制。这提醒我们，在设计自监督任务时，需要关注优化轨迹是否稳定。
-评价指标的选择：k-NN性能高说明学到的度量空间质量好，但在工业场景往往还需关注召回、延迟等指标。实例判别学习天然适合构建向量检索服务（如图像去重、相似商品推荐）。
-与现代方法的衔接：若希望复现最新SOTA，可在此框架上引入更强的编码器（ViT、ConvNeXt）、更丰富的数据增强（RandAugment、CutMix）以及更加稳定的优化器（AdamW + Cosine）。同时也可以尝试将SupCon的标签约束融入Memory Bank以获得更平滑的语义结构。
-
-开放问题与研究方向
-
-Memory更新策略：能否利用动量更新与自适应权重结合，既保持全局视野又不过度依赖旧特征？
-负样本质量：如何更智能地采样“困难负样本”，避免CNN在易区分的负样本上浪费容量？
-多模态扩展：能否直接在该框架中支持图像-文本或多模态实例判别，减少对比学习与跨模态模型之间的割裂？
-理论解释：实例判别为何能自动恢复语义结构？是否存在可证明的聚类或流形假设支撑？
-增量学习：面对不断新增的数据集，如何无缝扩展Memory Bank并避免遗忘？
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>对比学习</tag>
-        <tag>无监督学习</tag>
-        <tag>实例判别</tag>
       </tags>
   </entry>
   <entry>
@@ -7557,93 +7557,6 @@ SupCon学习到的特征更具判别性和泛化能力
       <tags>
         <tag>数据结构与算法</tag>
         <tag>绪论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>视觉表征学习综述：从像素到因果的认知飞跃</title>
-    <url>/2025/12/%E8%A7%86%E8%A7%89%E8%A1%A8%E5%BE%81%E5%AD%A6%E4%B9%A0%E7%BB%BC%E8%BF%B0/</url>
-    <content><![CDATA[在计算机视觉领域，表征学习 (Representation Learning) 始终是核心问题。如何将原始的像素信息 (Pixels) 转换为具有高层语义的特征向量 (Features)，决定了下游任务（如分类、检测、分割）的性能上限。一个强大的视觉表征能够消除数据冗余，凸显语义信息，从而支持高级认知任务。高级视觉表征必须能够编码时空动态和因果关系，而非仅限于对静态对象身份的识别。
-本文将结合最新的学术进展，全面梳理视觉表征学习的评估、演进、应用及未来挑战。
-1. 视觉表征的评估体系
-如何定义一个“好”的表征？通常通过下游任务的性能来量化：
-
-目标检测 (Object Detection)：在 COCO 或 Pascal VOC 数据集上评估 mAP (mean Average Precision)，衡量检测准确度和定位精度。
-图像分割 (Image Segmentation)：在 ADE20K 等数据集上评估 mIoU (mean Intersection over Union)，衡量像素级的边界贴合度和精度。
-通用特征质量 (General Feature Quality)：通过 Linear Probing（冻结骨干网络，仅训练线性分类器）或 Fine-tuning 来评估。这衡量了特征的可迁移性 (Transferability) 和内在的语义可分性。
-
-2. 迁移学习与特征泛化
-视觉表征的真正价值，不在于其在训练数据上的表现，而在于其泛化能力。
-迁移学习 (Transfer Learning) 是解决特定任务中标注数据稀缺的关键。一个高度鲁棒的表征必须能够封装广泛适用的知识，使得在各种领域和任务中只需进行最少的微调。研究表明，利用 ViTs 和 CNNs 进行的迁移学习能够高效提取特征，即使在极具挑战性的少样本 (Few-shot) 场景中，也能准确估计几何变换。
-3. 主流范式演进
-3.1 监督与自监督
-
-监督学习：以 ResNet 为代表，依赖大规模标注数据。
-自监督学习 (SSL)：
-
-对比学习 (SimCLR, MoCo)：学习实例判别和不变性。
-掩码图像建模 (MAE, BEiT)：学习上下文重建和完备性。
-
-
-
-3.2 拓展维度：时空与因果
-
-时空表征：VideoMAE 等方法证明了在视频中进行高比例掩码重建是高效的时空特征学习器。
-因果表征：旨在发现数据背后的因果结构变量，提升模型在分布外 (OOD) 数据上的鲁棒性。
-
-4. 高影响力应用场景
-强大的视觉表征是推动现代 AI 应用突破的核心动力。
-4.1 核心视觉任务
-基于 CNNs 和 Transformer 的架构支持了自动驾驶的环境感知、机器人的复杂导航以及安全系统的威胁识别。目标检测不仅分类，还能精确定位，是这些系统的基石。
-4.2 跨模态系统与检索
-视觉语言模型 (VLMs) 桥接了文本和视觉数据，支持跨模态检索和视觉问答 (VQA)。这种能力使系统能够像人类一样，同时理解和关联不同形式的信息。
-4.3 医疗影像与健康 (Medical Imaging)
-多模态大语言模型 (MLLMs) 正在彻底改变放射学。
-
-应用：结合 2D X射线、3D CT/MRI 和临床文本，自动生成放射学报告、进行 VQA 和交互式诊断支持。
-挑战：在高风险临床环境中，仅有准确性是不够的。MLLMs 面临**“幻觉” (Hallucination)** 风险、决策缺乏透明度以及高计算需求等挑战。
-方向：未来的重点是区域定位推理 (Region-grounded Reasoning)，即将模型输出明确链接到图像中的特定区域，以提高临床信任度。
-
-5. 当前挑战
-尽管进步巨大，但仍存在关键瓶颈：
-
-效率与可扩展性：向大型基础模型 (Foundation Models) 的转变带来了巨大的计算需求，限制了其在实时检索等场景的部署。随着 ViTs 取代 CNNs，开发参数高效 (Parameter-efficient) 的学习方法至关重要。
-数据与标注鸿沟：收集和标注均衡的多模态数据（包含文本、图像、视频）极其困难，且主观因素（如情绪判断）使标注更加复杂。
-迁移能力限制：在一个数据类型上训练的模型，在面对不同模态输入时性能可能下降。
-
-6. 未来趋势与战略建议
-6.1 通用基础模型 (Universal Representation)
-受 GPT-4 启发，视觉领域正探索通用感知表征。
-
-Vision Bridge 等框架旨在通过基于流的建模，将图像块标记与基础视觉任务（分类、检测、分割、深度估计）连接起来。
-目标：实现任务无关 (Task-agnostic) 的表征学习，无需引入外部数据即可实现强大的跨领域零样本迁移。
-
-6.2 战略建议
-
-架构权衡：
-
-大规模数据 &amp; 全局理解：优先选择 Vision Transformers (ViT)。
-资源受限 &amp; 小数据集：利用 CNNs 的强归纳偏置，或采用混合自监督策略（如 AC-MAE），融合对比损失以增强 ViT 在低数据量下的性能。
-
-
-效率优化：重点设计更有效的训练方法，优化多模态数据融合技术（早期、晚期及混合融合）。
-临床集成：在医疗领域，必须将重点放在增强透明度和可信度上，通过区域定位推理确保安全集成。
-
-
-
-结语
-视觉表征学习正处于从“单任务模型”向“通用基础模型”转型的关键时期。未来的表征将更加通用、高效，并能安全地服务于医疗等关键领域。
-
-]]></content>
-      <categories>
-        <category>学术笔记</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-        <tag>计算机视觉</tag>
-        <tag>表征学习</tag>
-        <tag>迁移学习</tag>
-        <tag>多模态</tag>
-        <tag>医疗AI</tag>
       </tags>
   </entry>
 </search>
