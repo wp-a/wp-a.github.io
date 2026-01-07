@@ -18,7 +18,7 @@ class GeminiDirectClient {
     }
 
     // 直接调用 Gemini API
-    async callAPI({ image, prompt, model = 'gemini-1.5-flash', config = {} }) {
+    async callAPI({ image, prompt, model = 'gemini-2.0-flash', config = {} }) {
         if (!this.apiKey) {
             throw new Error('请先设置 API 密钥');
         }
@@ -171,7 +171,7 @@ class GeminiDirectClient {
             const result = await this.callAPI({
                 image: testImage,
                 prompt: '请简单描述这张图片',
-                model: 'gemini-1.5-flash'
+                model: 'gemini-2.0-flash'
             });
 
             return {
