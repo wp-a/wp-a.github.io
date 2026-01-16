@@ -25,9 +25,14 @@
     padding: 0 !important;
   }
 
-  /* 3. 减少动画 */
+}
+
+/* 3. 尊重系统减少动态设置 */
+@media (prefers-reduced-motion: reduce) {
   * {
-    animation-duration: 0s !important;
-    transition-duration: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

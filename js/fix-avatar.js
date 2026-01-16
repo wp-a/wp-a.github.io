@@ -1,19 +1,55 @@
 // 修复 Valine 头像加载失败，替换为 Cravatar 国内源
-const observer = new MutationObserver((mutationsList) => {
-  mutationsList.forEach((mutation) => {
-    if (mutation.type === 'childList') {
-      const imgs = document.querySelectorAll('.vimg');
-      imgs.forEach((img) => {
-        // 检查是否是 gravatar 且未被替换过
-        if (img.src.includes('gravatar.com')) {
-          img.src = img.src.replace('gravatar.com', 'cravatar.cn');
-        }
-      });
-    }
-  });
-});
+(function () {
+  'use strict';
 
-const targetNode = document.querySelector('body');
-if (targetNode) {
-  observer.observe(targetNode, { childList: true, subtree: true });
-}
+  const replaceAvatar = (img) => {
+    if (!img || !img.src) return;
+    if (img.src.includes('gravatar.com')) {
+      img.src = img.src.replace('gravatar.com', 'cravatar.cn');
+    }
+  };
+
+  const scan = (root) => {
+    if (!root || !root.querySelectorAll) return;
+    root.querySelectorAll('.vimg').forEach(replaceAvatar);
+  };
+
+  const handleNode = (node) => {
+    if (!node || node.nodeType !== 1) return;
+    if (node.classList && node.classList.contains('vimg')) {
+      replaceAvatar(node);
+      return;
+    }
+    scan(node);
+  };
+
+  let observer;
+
+  const startObserver = () => {
+    const target = document.getElementById('vcomment') || document.querySelector('.v') || document.body;
+    if (!target) return;
+
+    scan(target);
+
+    if (!observer) {
+      observer = new MutationObserver((mutationsList) => {
+        mutationsList.forEach((mutation) => {
+          if (mutation.type !== 'childList') return;
+          mutation.addedNodes.forEach(handleNode);
+        });
+      });
+    } else {
+      observer.disconnect();
+    }
+
+    observer.observe(target, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserver);
+  } else {
+    startObserver();
+  }
+
+  document.addEventListener('pjax:complete', startObserver);
+})();

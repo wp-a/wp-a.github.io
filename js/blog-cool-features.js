@@ -132,7 +132,7 @@ function handleBlogCommand(cmd, output, inputLine) {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // 延迟执行，等待 jQuery 和 DOM 就绪
+    // 延迟执行，等待 DOM 就绪
     setTimeout(() => {
         initBlogTerminal();
     }, 1000);

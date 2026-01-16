@@ -751,34 +751,53 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('所有统计图表初始化完成');
   }
   
+  const ECHARTS_URL = 'https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js';
+
   // 加载ECharts库然后初始化图表
   function loadEChartsAndInit() {
-    if (typeof echarts === 'undefined') {
-      console.log('找不到echarts库，正在尝试加载...');
-      
-      // 尝试动态加载echarts
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js';
-      script.onload = function() {
-        console.log('echarts库加载成功，初始化图表');
-        initAllCharts();
-      };
-      script.onerror = function() {
-        console.error('echarts库加载失败');
-        // 显示错误消息
-        const container = document.getElementById('article-statistics-container');
-        if (container) {
-          container.innerHTML = '<div class="error-message">图表库加载失败，请刷新页面重试</div>';
-        }
-      };
-      document.head.appendChild(script);
-    } else {
+    if (typeof echarts !== 'undefined') {
       console.log('echarts库已加载，正在初始化图表');
       initAllCharts();
+      return;
     }
+
+    console.log('找不到echarts库，正在尝试加载...');
+
+    const showError = () => {
+      console.error('echarts库加载失败');
+      const container = document.getElementById('article-statistics-container');
+      if (container) {
+        container.innerHTML = '<div class="error-message">图表库加载失败，请刷新页面重试</div>';
+      }
+    };
+
+    const existingScript = document.querySelector(`script[src="${ECHARTS_URL}"]`);
+    if (existingScript) {
+      existingScript.addEventListener('load', initAllCharts, { once: true });
+      existingScript.addEventListener('error', showError, { once: true });
+      return;
+    }
+
+    if (window.btf && typeof window.btf.getScript === 'function') {
+      window.btf.getScript(ECHARTS_URL).then(initAllCharts).catch(showError);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = ECHARTS_URL;
+    script.async = true;
+    script.onload = function () {
+      console.log('echarts库加载成功，初始化图表');
+      initAllCharts();
+    };
+    script.onerror = showError;
+    document.head.appendChild(script);
   }
-  
+
   // 等待页面完全加载后初始化
-  // 延迟一小段时间确保DOM已完全准备好
-  setTimeout(loadEChartsAndInit, 1000);
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(loadEChartsAndInit, { timeout: 1500 });
+  } else {
+    setTimeout(loadEChartsAndInit, 300);
+  }
 });

@@ -4,28 +4,39 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap'); */
 
 :root {
-    --medium-text-color: rgba(0, 0, 0, 0.84);
+    --medium-text-color: rgba(15, 23, 42, 0.92);
     --medium-bg-color: #ffffff;
     --medium-font-serif: "Charter", "Bitstream Charter", "Sitka Text", "Cambria", "Georgia", "Songti SC", "SimSun", serif;
-    --medium-font-sans: "Söhne", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --medium-font-sans: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     --medium-font-mono: "JetBrains Mono", "Consolas", "Monaco", "Andale Mono", monospace;
+    --wp-text-base: clamp(17px, 1.1vw + 14px, 20px);
+    --wp-text-small: clamp(14px, 0.7vw + 12px, 16px);
+    --wp-text-muted: rgba(15, 23, 42, 0.6);
+    --wp-heading-color: #111827;
+    --wp-leading: 1.68;
+    --wp-tracking-tight: -0.012em;
+    --wp-tracking-wide: 0.01em;
+    --wp-space-1: clamp(6px, 0.5vw, 10px);
+    --wp-space-2: clamp(12px, 1vw, 16px);
+    --wp-space-3: clamp(18px, 1.6vw, 24px);
+    --wp-space-4: clamp(24px, 2vw, 32px);
+    --wp-space-5: clamp(32px, 3vw, 48px);
+    --wp-space-6: clamp(44px, 4vw, 64px);
 }
 
 /* 文章容器样式 */
 #article-container {
     color: var(--medium-text-color);
     font-family: var(--medium-font-serif);
-    font-size: 20px;
-    /* Medium 正文通常很大 */
-    line-height: 1.6;
-    letter-spacing: -0.003em;
-    /* 微调字间距 */
+    font-size: var(--wp-text-base);
+    line-height: var(--wp-leading);
+    letter-spacing: var(--wp-tracking-tight);
+    text-rendering: optimizeLegibility;
 }
 
 /* 段落样式 */
 #article-container p {
-    margin-bottom: 32px;
-    /* 增加段落间距 */
+    margin-bottom: var(--wp-space-4);
     margin-top: 0;
 }
 
@@ -37,53 +48,53 @@
 #article-container h5,
 #article-container h6 {
     font-family: var(--medium-font-sans);
-    font-weight: 700;
-    color: #242424;
-    /* 标题颜色略深 */
-    margin-top: 56px;
-    margin-bottom: 16px;
+    font-weight: 600;
+    color: var(--wp-heading-color);
+    margin-bottom: var(--wp-space-2);
     line-height: 1.25;
-    letter-spacing: -0.015em;
+    letter-spacing: var(--wp-tracking-tight);
 }
 
 #article-container h1 {
-    font-size: 42px;
+    font-size: clamp(2.1rem, 2.8vw + 1.2rem, 3.2rem);
+    margin-top: var(--wp-space-6);
 }
 
 #article-container h2 {
-    font-size: 32px;
+    font-size: clamp(1.7rem, 2.1vw + 1rem, 2.5rem);
     border-bottom: none;
     /* 去掉 Butterfly 默认的下划线 */
+    margin-top: var(--wp-space-5);
 }
 
 #article-container h3 {
-    font-size: 26px;
+    font-size: clamp(1.4rem, 1.6vw + 0.9rem, 2rem);
+    margin-top: var(--wp-space-4);
 }
 
 #article-container h4 {
-    font-size: 22px;
+    font-size: clamp(1.2rem, 1.2vw + 0.8rem, 1.6rem);
+    margin-top: var(--wp-space-3);
 }
 
 /* 列表样式 */
 #article-container ul,
 #article-container ol {
-    margin-bottom: 32px;
-    padding-left: 40px;
+    margin-bottom: var(--wp-space-3);
+    padding-left: clamp(28px, 2.4vw, 40px);
 }
 
 #article-container li {
-    margin-bottom: 12px;
-    line-height: 1.6;
+    margin-bottom: var(--wp-space-1);
+    line-height: var(--wp-leading);
 }
 
 /* 引用样式 */
 #article-container blockquote {
-    border-left: 3px solid #242424;
-    /* Medium 风格是黑色细线 */
-    margin: 32px 0;
-    padding-left: 20px;
-    color: rgba(0, 0, 0, 0.6);
-    /* 引用文字颜色稍浅 */
+    border-left: 3px solid rgba(15, 23, 42, 0.2);
+    margin: var(--wp-space-4) 0;
+    padding-left: var(--wp-space-2);
+    color: var(--wp-text-muted);
     font-style: italic;
     font-family: var(--medium-font-serif);
     background-color: transparent;
@@ -94,21 +105,19 @@
 #article-container p code,
 #article-container li code {
     font-family: var(--medium-font-mono);
-    background-color: rgba(0, 0, 0, 0.05);
-    padding: 2px 4px;
-    border-radius: 4px;
+    background-color: rgba(15, 23, 42, 0.06);
+    padding: 2px 6px;
+    border-radius: 6px;
     font-size: 0.85em;
-    color: #242424;
+    color: var(--wp-heading-color);
 }
 
 #article-container figure.highlight {
-    margin: 40px 0;
-    border-radius: 8px;
-    /* 圆角 */
+    margin: var(--wp-space-5) 0;
+    border-radius: var(--wp-radius-lg);
     background-color: #282c34;
     width: 100%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    /* 更柔和的阴影 */
+    box-shadow: var(--wp-shadow-soft);
     overflow: hidden;
     /* 确保圆角不被子元素溢出遮挡 */
 }
@@ -147,8 +156,7 @@
     padding: 0;
     border: none;
     font-family: "JetBrains Mono", "Consolas", monospace;
-    font-size: 14px;
-    /* 调整字号 */
+    font-size: 0.9em;
     line-height: 1.6;
     /* 调整行高 */
 }
@@ -158,7 +166,7 @@
     background: #21252b !important;
     /* 标题栏深色背景 */
     height: 32px;
-    border-radius: 8px 8px 0 0;
+    border-radius: var(--wp-radius-lg) var(--wp-radius-lg) 0 0;
     border-bottom: 1px solid #181a1f;
     padding: 0 10px;
 }
@@ -189,42 +197,45 @@
 
 /* 图片样式 */
 #article-container img {
-    margin: 40px auto;
+    margin: var(--wp-space-5) auto;
     display: block;
     max-width: 100%;
+    border-radius: var(--wp-radius-md);
+    box-shadow: var(--wp-shadow-soft);
 }
 
 /* 链接样式 */
 #article-container a {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: rgba(0, 0, 0, 0.84);
+    text-decoration-color: rgba(15, 23, 42, 0.7);
     text-decoration-thickness: 1px;
-    transition: all 0.2s;
+    text-underline-offset: 0.2em;
+    transition: color var(--wp-dur-fast) var(--wp-ease-standard),
+                text-decoration-color var(--wp-dur-fast) var(--wp-ease-standard);
 }
 
 #article-container a:hover {
-    color: rgba(0, 0, 0, 0.6);
-    text-decoration-color: rgba(0, 0, 0, 0.6);
+    color: rgba(15, 23, 42, 0.72);
+    text-decoration-color: rgba(15, 23, 42, 0.35);
 }
 
 /* 移动端适配 */
 @media screen and (max-width: 768px) {
     #article-container {
-        font-size: 18px;
-        /* 移动端字号稍小 */
-        line-height: 1.58;
+        font-size: clamp(16px, 3vw, 18px);
+        line-height: 1.6;
     }
 
     #article-container h1 {
-        font-size: 32px;
+        font-size: clamp(1.9rem, 5vw, 2.4rem);
     }
 
     #article-container h2 {
-        font-size: 26px;
+        font-size: clamp(1.5rem, 4vw, 2rem);
     }
 
     #article-container h3 {
-        font-size: 22px;
+        font-size: clamp(1.25rem, 3.5vw, 1.6rem);
     }
 }

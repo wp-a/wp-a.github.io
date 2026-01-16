@@ -10,6 +10,15 @@
     
     
     <url>
+        <loc>https://wp-a.github.io/charts/</loc>
+        <lastmod>2026-01-16T05:39:14.129Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
         <loc>https://wp-a.github.io/construction-detection/</loc>
         <lastmod>2026-01-07T07:46:55.649Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -39,15 +48,6 @@
     <url>
         <loc>https://wp-a.github.io/tags/</loc>
         <lastmod>2025-08-14T06:00:48.157Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/charts/</loc>
-        <lastmod>2025-08-14T06:00:47.860Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>

@@ -18,10 +18,26 @@
     --main-bg-color: 255, 255, 255; /* 主要背景颜色 (白色) */
     --post-bg-alpha: 1;          /* 文章页背景透明度 */
     --page-bg-alpha: 0.5;          /* 通用页面背景透明度 */
-    --card-bg-alpha: 0.8;          /* 侧边栏卡片背景透明度 */
+    --card-bg-alpha: 0.85;          /* 侧边栏卡片背景透明度 */
     --footer-bg-alpha: 0.2;        /* 页脚背景透明度 */
     --code-bg-color: #2d2d2d;     /* 代码块背景颜色 */
     --code-text-color: #f8f8f2;   /* 代码块文本颜色 */
+    --card-bg: rgba(var(--main-bg-color), var(--card-bg-alpha));
+    --wp-radius-sm: 8px;
+    --wp-radius-md: 12px;
+    --wp-radius-lg: 18px;
+    --wp-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --wp-shadow-hover: 0 18px 45px rgba(15, 23, 42, 0.16);
+    --wp-ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --wp-ease-overshoot: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    --wp-dur-fast: 180ms;
+    --wp-dur-medium: 320ms;
+    --wp-dur-slow: 520ms;
+    --card-box-shadow: var(--wp-shadow-soft);
+}
+
+[data-theme="dark"] {
+    --card-box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
 /* 文章页背景 */
@@ -39,16 +55,14 @@
 /* .layout_post>#page,  如果需要分别控制 #page 和 #post，请取消注释这一行 */
 .read-mode .layout_post > #post {
     background: rgba(var(--main-bg-color), var(--page-bg-alpha));
+    border-radius: var(--wp-radius-lg);
+    box-shadow: var(--card-box-shadow);
      /* 可选：毛玻璃效果 */
     /* backdrop-filter: blur(10px); */
 }
 
 /* 侧边卡片的透明度 (使用已定义的变量，保持一致) */
-:root {
-  --card-bg: rgba(var(--main-bg-color), var(--card-bg-alpha));
-     /* 可选：毛玻璃效果 */
-    /* --card-bg-filter: blur(10px); */
-}
+/* --card-bg-filter: blur(10px); */
 
 /* 页脚透明 */
 #footer {
@@ -61,7 +75,7 @@
 pre {
     background-color: var(--code-bg-color);
     padding: 15px;
-    border-radius: 5px;
+    border-radius: var(--wp-radius-md);
     overflow: auto;
 }
 

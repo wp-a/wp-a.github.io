@@ -3,18 +3,19 @@
 /* 1. 主容器卡片化 */
 #vcomment {
     padding: 20px;
-    border-radius: 12px;
+    border-radius: var(--wp-radius-lg);
     background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
+    box-shadow: var(--wp-shadow-soft);
+    transition: box-shadow var(--wp-dur-medium) var(--wp-ease-standard);
 }
 
 /* 2. 输入框美化 */
 .v .vwrap {
     border: 2px dashed #dedede !important;
-    border-radius: 12px !important;
+    border-radius: var(--wp-radius-md) !important;
     padding: 10px !important;
-    transition: all 0.3s;
+    transition: border-color var(--wp-dur-fast) var(--wp-ease-standard),
+                box-shadow var(--wp-dur-fast) var(--wp-ease-standard);
     position: relative;
 }
 
@@ -56,12 +57,13 @@
 /* 3. 按钮美化 */
 .v .vbtn {
     border: none !important;
-    border-radius: 8px !important;
+    border-radius: var(--wp-radius-md) !important;
     background: linear-gradient(to right, #49b1f5, #00c4b6) !important;
     color: #fff !important;
     padding: 8px 24px !important;
     font-weight: bold;
-    transition: all 0.3s !important;
+    transition: transform var(--wp-dur-fast) var(--wp-ease-overshoot),
+                box-shadow var(--wp-dur-fast) var(--wp-ease-standard) !important;
 }
 
 .v .vbtn:hover {
@@ -78,7 +80,7 @@
     border: 2px solid #fff !important;
     border-radius: 50% !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: transform 0.5s !important;
+    transition: transform var(--wp-dur-slow) var(--wp-ease-overshoot) !important;
 }
 
 .v .vimg:hover {
@@ -89,9 +91,10 @@
 .v .vlist .vcard {
     padding: 15px !important;
     margin-bottom: 10px;
-    border-radius: 8px;
+    border-radius: var(--wp-radius-md);
     border-bottom: 1px dashed #eee !important;
-    transition: all 0.3s;
+    transition: background var(--wp-dur-fast) var(--wp-ease-standard),
+                box-shadow var(--wp-dur-fast) var(--wp-ease-standard);
 }
 
 .v .vlist .vcard:hover {
