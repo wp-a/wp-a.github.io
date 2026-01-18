@@ -307,12 +307,22 @@ function renderGlobe() {
 
 
 // Initialize all
+// Initialize all
 document.addEventListener('DOMContentLoaded', () => {
-    // 延迟执行，等待 jQuery 和 DOM 就绪
-    setTimeout(() => {
+    // Use requestIdleCallback for non-critical tasks to improve TTI
+    const initTasks = () => {
         initNeuralBackground();
         initTerminal();
         initSkillGalaxy();
-        initVisitorGlobe(); // 现在只是注册观察者
-    }, 1000);
+        initVisitorGlobe();
+    };
+
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+            initTasks();
+        }, { timeout: 2000 });
+    } else {
+        // Fallback for browsers that don't support requestIdleCallback
+        setTimeout(initTasks, 1000);
+    }
 });
