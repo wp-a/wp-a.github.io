@@ -10,62 +10,8 @@
     
     
     <url>
-        <loc>https://wp-a.github.io/charts/</loc>
-        <lastmod>2026-01-16T05:39:14.129Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/construction-detection/</loc>
-        <lastmod>2026-01-07T07:46:55.649Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/about/</loc>
-        <lastmod>2025-11-24T03:29:35.716Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/construction-detection-github.html</loc>
-        <lastmod>2025-09-20T01:30:34.425Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
         <loc>https://wp-a.github.io/tags/</loc>
-        <lastmod>2025-08-14T06:00:48.157Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/messageboard/</loc>
-        <lastmod>2025-08-14T06:00:47.686Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/categories/</loc>
-        <lastmod>2025-08-14T06:00:47.393Z</lastmod>
+        <lastmod>2026-02-09T09:36:33.108Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -74,7 +20,61 @@
     
     <url>
         <loc>https://wp-a.github.io/link/</loc>
-        <lastmod>2025-08-14T06:00:46.440Z</lastmod>
+        <lastmod>2026-02-09T09:36:33.107Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/messageboard/</loc>
+        <lastmod>2026-02-09T09:36:33.107Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/construction-detection-github.html</loc>
+        <lastmod>2026-02-09T09:36:33.106Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/categories/</loc>
+        <lastmod>2026-02-09T09:36:33.106Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/construction-detection/</loc>
+        <lastmod>2026-02-09T09:36:33.106Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/charts/</loc>
+        <lastmod>2026-02-09T09:36:33.106Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/about/</loc>
+        <lastmod>2026-02-09T09:36:33.090Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>

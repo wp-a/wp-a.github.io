@@ -2,6 +2,89 @@
 <search>
   <entry>
     <title>代码随想录--二叉树</title>
+    <url>/2025/02/10day/</url>
+    <content><![CDATA[二叉树层序遍历
+二叉树层序遍历的模板
+
+第一种方法看了一遍代码+写 花了16分钟，挺简单的，递归法就先不看了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node = q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        return res;    &#125;&#125;;
+# 递归法class Solution &#123;public:    void order(TreeNode* cur, vector&lt;vector&lt;int&gt;&gt;&amp; result, int depth)    &#123;        if (cur == nullptr) return;        if (result.size() == depth) result.push_back(vector&lt;int&gt;());        result[depth].push_back(cur-&gt;val);        order(cur-&gt;left, result, depth + 1);        order(cur-&gt;right, result, depth + 1);    &#125;    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        int depth = 0;        order(root, result, depth);        return result;    &#125;&#125;;
+二叉树的层序遍历 II
+题目链接：107. 二叉树的层序遍历 II
+五分钟结束战斗，就是上一个代码翻一下。但是性能有点慢，又交了一次时间也是超100%了。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)&#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
+二叉树的右视图
+题目链接：199. 二叉树的右视图
+四分钟解决战斗，思考了不到一分钟。
+class Solution &#123;public:    vector&lt;int&gt; rightSideView(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                 //代码随想录 if (i == (size - 1)) result.push_back(node-&gt;val);                 if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re[size-1]);        &#125;        return res;    &#125;&#125;;
+二叉树的层平均值
+题目链接：637. 二叉树的层平均值
+出了一点小插曲，花了五分钟，前边写的q后边写成p了，double第一次用的int忘了改。
+class Solution &#123;public:    vector&lt;double&gt; averageOfLevels(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;double&gt; res;        while(!q.empty())&#123;            int s=q.size();            double sum=0;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(sum/s);        &#125;        return res;    &#125;&#125;;
+N 叉树的层序遍历
+题目链接：429. N 叉树的层序遍历
+乍一看以为是第一题，看了一下不太明白孩子是啥意思，就直接看的题解，其实也没多大区别。
+class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(Node* root) &#123;        queue&lt;Node*&gt; que;        if (root != NULL) que.push(root);        vector&lt;vector&lt;int&gt;&gt; result;        while (!que.empty()) &#123;            int size = que.size();            vector&lt;int&gt; vec;            for (int i = 0; i &lt; size; i++) &#123;                Node* node = que.front();                que.pop();                vec.push_back(node-&gt;val);                for (int i = 0; i &lt; node-&gt;children.size(); i++) &#123; // 将节点孩子加入队列                    if (node-&gt;children[i]) que.push(node-&gt;children[i]);                &#125;            &#125;            result.push_back(vec);        &#125;        return result;    &#125;&#125;;
+在每个树行中找最大值
+题目链接：515. 在每个树行中找最大值
+花了8分钟，因为INT_MIN不知道如何操作，本来用的int，然后改成long long一点一点试的。
+class Solution &#123;public:    vector&lt;int&gt; largestValues(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int s=q.size();            long long m=-1e14;   //int maxValue = INT_MIN; // 取每一层的最大值            for(int i=0;i&lt;s;i++)            &#123;            TreeNode* node=q.front();            q.pop();            if(node-&gt;val&gt;m) m=node-&gt;val;            if(node-&gt;left) q.push(node-&gt;left);            if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(m);        &#125;        return res;    &#125;&#125;;
+填充每个节点的下一个右侧节点指针
+题目链接：116. 填充每个节点的下一个右侧节点指针
+这题没想明白怎么处理，我是应该新建一个什么类型的vector，用int,char,Node类型都不行，然后就直接看题解了。
+class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
+利用next指针逐层处理（优化）
+class Solution &#123;public:    Node* connect(Node* root) &#123;        if (!root) return nullptr;        Node* leftmost = root; // 当前层的最左节点        while (leftmost-&gt;left) &#123; // 直到叶子层            Node* curr = leftmost;            while (curr) &#123;                // 连接左子节点和右子节点                curr-&gt;left-&gt;next = curr-&gt;right;                // 连接右子节点和相邻节点的左子节点                if (curr-&gt;next) &#123;                    curr-&gt;right-&gt;next = curr-&gt;next-&gt;left;                &#125;                curr = curr-&gt;next; // 移动到同层下一节点            &#125;            leftmost = leftmost-&gt;left; // 移到下一层最左        &#125;        return root;    &#125;&#125;;
+填充每个节点的下一个右侧节点指针 II
+题目链接：117. 填充每个节点的下一个右侧节点指针 II
+class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
+二叉树的最大深度
+题目链接：104. 二叉树的最大深度
+虽然简单，但是用这个方法有种高射炮打蚊子的感觉，感觉应该有更简单的方法。
+class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            sum=sum+1;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;                &#125;        return sum;    &#125;&#125;;
+递归方法：后序遍历（DFS）
+class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        if (root == nullptr) return 0;        return max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;    &#125;&#125;;
+二叉树的最小深度
+题目链接：111. 二叉树的最小深度
+找第一个没有左右子树的节点的深度。
+class Solution &#123;public:    int minDepth(TreeNode* root) &#123;        if (root == NULL) return 0;        int depth = 0;        queue&lt;TreeNode*&gt; que;        que.push(root);        while(!que.empty()) &#123;            int size = que.size();            depth++; // 记录最小深度            for (int i = 0; i &lt; size; i++) &#123;                TreeNode* node = que.front();                que.pop();                if (node-&gt;left) que.push(node-&gt;left);                if (node-&gt;right) que.push(node-&gt;right);                if (!node-&gt;left &amp;&amp; !node-&gt;right) &#123; // 当左右孩子都为空的时候，说明是最低点的一层了，退出                    return depth;                &#125;            &#125;        &#125;        return depth;    &#125;&#125;;
+递归
+如果 node 是空节点，由于没有节点，返回 0。
+如果 node 没有右儿子，那么深度就是左子树的深度加一，即 dfs(node)=dfs(node.left)+1。
+如果 node 没有左儿子，那么深度就是右子树的深度加一，即 dfs(node)=dfs(node.right)+1。
+如果 node 左右儿子都有，那么分别递归计算左子树的深度，以及右子树的深度，二者取最小值再加一，即 dfs(node)=min(dfs(node.left),dfs(node.right))+1
+
+class Solution &#123;public:    int minDepth(TreeNode *root) &#123;        if (root == nullptr) return 0;        if (root-&gt;right == nullptr) return minDepth(root-&gt;left) + 1;        if (root-&gt;left == nullptr) return minDepth(root-&gt;right) + 1;        return min(minDepth(root-&gt;left), minDepth(root-&gt;right)) + 1;    &#125;&#125;;
+翻转二叉树
+题目链接：226. 翻转二叉树
+迭代法：深度优先遍历
+class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == nullptr) return nullptr;        queue&lt;TreeNode*&gt; q;        q.push(root);        while (!q.empty()) &#123;            TreeNode* node = q.front();            q.pop();            // 使用临时变量交换左右子节点            TreeNode* temp = node-&gt;left;            node-&gt;left = node-&gt;right;            node-&gt;right = temp;            // 如果左右子节点不为空，则加入队列            if (node-&gt;left) q.push(node-&gt;left);            if (node-&gt;right) q.push(node-&gt;right);        &#125;        return root;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == NULL) return root;        swap(root-&gt;left, root-&gt;right);  // 中        invertTree(root-&gt;left);         // 左        invertTree(root-&gt;right);        // 右        return root;    &#125;&#125;;
+对称二叉树
+题目链接：101. 对称二叉树
+
+迭代队列法：
+class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        queue&lt;TreeNode*&gt; que;        que.push(root-&gt;left);   // 将左子树头结点加入队列        que.push(root-&gt;right);  // 将右子树头结点加入队列                while (!que.empty()) &#123;  // 接下来就要判断这两个树是否相互翻转            TreeNode* leftNode = que.front(); que.pop();            TreeNode* rightNode = que.front(); que.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;  // 左节点为空、右节点为空，此时说明是对称的                continue;            &#125;            // 左右一个节点不为空，或者都不为空但数值不相同，返回false            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            que.push(leftNode-&gt;left);   // 加入左节点左孩子            que.push(rightNode-&gt;right); // 加入右节点右孩子            que.push(leftNode-&gt;right);  // 加入左节点右孩子            que.push(rightNode-&gt;left);  // 加入右节点左孩子        &#125;        return true;    &#125;&#125;;
+迭代栈法：
+class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        stack&lt;TreeNode*&gt; st; // 这里改成了栈        st.push(root-&gt;left);        st.push(root-&gt;right);        while (!st.empty()) &#123;            TreeNode* rightNode = st.top(); st.pop();            TreeNode* leftNode = st.top(); st.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;                continue;            &#125;            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            st.push(leftNode-&gt;left);            st.push(rightNode-&gt;right);            st.push(leftNode-&gt;right);            st.push(rightNode-&gt;left);        &#125;        return true;    &#125;&#125;;
+递归法：
+class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#123;        // 首先排除空节点的情况        if (left == NULL &amp;&amp; right != NULL) return false;        else if (left != NULL &amp;&amp; right == NULL) return false;        else if (left == NULL &amp;&amp; right == NULL) return true;        // 排除了空节点，再排除数值不相同的情况        else if (left-&gt;val != right-&gt;val) return false;        // 此时就是：左右节点都不为空，且数值相同的情况        // 此时才做递归，做下一层的判断        bool outside = compare(left-&gt;left, right-&gt;right);   // 左子树：左、 右子树：右        bool inside = compare(left-&gt;right, right-&gt;left);    // 左子树：右、 右子树：左        bool isSame = outside &amp;&amp; inside;                    // 左子树：中、 右子树：中 （逻辑处理）        return isSame;    &#125;    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        return compare(root-&gt;left, root-&gt;right);    &#125;&#125;;
+]]></content>
+      <categories>
+        <category>算法刷题</category>
+        <category>代码随想录</category>
+      </categories>
+      <tags>
+        <tag>数据结构与算法</tag>
+        <tag>二叉树</tag>
+        <tag>二叉树遍历</tag>
+        <tag>递归</tag>
+        <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码随想录--二叉树</title>
     <url>/2025/02/11day/</url>
     <content><![CDATA[二叉树
 完全二叉树的节点个数
@@ -91,89 +174,6 @@ class Solution &#123;private:    vector&lt;vector&lt;int&gt;&gt; ans;    vector&
         <tag>递归</tag>
         <tag>回溯</tag>
         <tag>剪枝</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码随想录--二叉树</title>
-    <url>/2025/02/10day/</url>
-    <content><![CDATA[二叉树层序遍历
-二叉树层序遍历的模板
-
-第一种方法看了一遍代码+写 花了16分钟，挺简单的，递归法就先不看了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node = q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        return res;    &#125;&#125;;
-# 递归法class Solution &#123;public:    void order(TreeNode* cur, vector&lt;vector&lt;int&gt;&gt;&amp; result, int depth)    &#123;        if (cur == nullptr) return;        if (result.size() == depth) result.push_back(vector&lt;int&gt;());        result[depth].push_back(cur-&gt;val);        order(cur-&gt;left, result, depth + 1);        order(cur-&gt;right, result, depth + 1);    &#125;    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) &#123;        vector&lt;vector&lt;int&gt;&gt; result;        int depth = 0;        order(root, result, depth);        return result;    &#125;&#125;;
-二叉树的层序遍历 II
-题目链接：107. 二叉树的层序遍历 II
-五分钟结束战斗，就是上一个代码翻一下。但是性能有点慢，又交了一次时间也是超100%了。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;vector&lt;int&gt;&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)&#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re);        &#125;        reverse(res.begin(),res.end());        return res;    &#125;&#125;;
-二叉树的右视图
-题目链接：199. 二叉树的右视图
-四分钟解决战斗，思考了不到一分钟。
-class Solution &#123;public:    vector&lt;int&gt; rightSideView(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int size=q.size();            vector&lt;int&gt; re;            for(int i=0;i&lt;size;i++)            &#123;                TreeNode* node=q.front();                q.pop();                re.push_back(node-&gt;val);                 //代码随想录 if (i == (size - 1)) result.push_back(node-&gt;val);                 if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(re[size-1]);        &#125;        return res;    &#125;&#125;;
-二叉树的层平均值
-题目链接：637. 二叉树的层平均值
-出了一点小插曲，花了五分钟，前边写的q后边写成p了，double第一次用的int忘了改。
-class Solution &#123;public:    vector&lt;double&gt; averageOfLevels(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;double&gt; res;        while(!q.empty())&#123;            int s=q.size();            double sum=0;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                sum+=node-&gt;val;                if(node-&gt;left) q.push(node-&gt;left);                if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(sum/s);        &#125;        return res;    &#125;&#125;;
-N 叉树的层序遍历
-题目链接：429. N 叉树的层序遍历
-乍一看以为是第一题，看了一下不太明白孩子是啥意思，就直接看的题解，其实也没多大区别。
-class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; levelOrder(Node* root) &#123;        queue&lt;Node*&gt; que;        if (root != NULL) que.push(root);        vector&lt;vector&lt;int&gt;&gt; result;        while (!que.empty()) &#123;            int size = que.size();            vector&lt;int&gt; vec;            for (int i = 0; i &lt; size; i++) &#123;                Node* node = que.front();                que.pop();                vec.push_back(node-&gt;val);                for (int i = 0; i &lt; node-&gt;children.size(); i++) &#123; // 将节点孩子加入队列                    if (node-&gt;children[i]) que.push(node-&gt;children[i]);                &#125;            &#125;            result.push_back(vec);        &#125;        return result;    &#125;&#125;;
-在每个树行中找最大值
-题目链接：515. 在每个树行中找最大值
-花了8分钟，因为INT_MIN不知道如何操作，本来用的int，然后改成long long一点一点试的。
-class Solution &#123;public:    vector&lt;int&gt; largestValues(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        vector&lt;int&gt; res;        while(!q.empty())&#123;            int s=q.size();            long long m=-1e14;   //int maxValue = INT_MIN; // 取每一层的最大值            for(int i=0;i&lt;s;i++)            &#123;            TreeNode* node=q.front();            q.pop();            if(node-&gt;val&gt;m) m=node-&gt;val;            if(node-&gt;left) q.push(node-&gt;left);            if(node-&gt;right) q.push(node-&gt;right);            &#125;            res.push_back(m);        &#125;        return res;    &#125;&#125;;
-填充每个节点的下一个右侧节点指针
-题目链接：116. 填充每个节点的下一个右侧节点指针
-这题没想明白怎么处理，我是应该新建一个什么类型的vector，用int,char,Node类型都不行，然后就直接看题解了。
-class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
-利用next指针逐层处理（优化）
-class Solution &#123;public:    Node* connect(Node* root) &#123;        if (!root) return nullptr;        Node* leftmost = root; // 当前层的最左节点        while (leftmost-&gt;left) &#123; // 直到叶子层            Node* curr = leftmost;            while (curr) &#123;                // 连接左子节点和右子节点                curr-&gt;left-&gt;next = curr-&gt;right;                // 连接右子节点和相邻节点的左子节点                if (curr-&gt;next) &#123;                    curr-&gt;right-&gt;next = curr-&gt;next-&gt;left;                &#125;                curr = curr-&gt;next; // 移动到同层下一节点            &#125;            leftmost = leftmost-&gt;left; // 移到下一层最左        &#125;        return root;    &#125;&#125;;
-填充每个节点的下一个右侧节点指针 II
-题目链接：117. 填充每个节点的下一个右侧节点指针 II
-class Solution &#123;public:    Node* connect(Node* root) &#123;        if (root == NULL) return NULL;        queue&lt;Node*&gt; q;        q.push(root);        while (!q.empty()) &#123;            int size = q.size();            Node* prev = NULL;  // 用来保存当前层级的前一个节点            for (int i = 0; i &lt; size; ++i) &#123;                Node* current = q.front();                q.pop();                // 连接前一个节点的next指针指向当前节点                if (prev != NULL) prev-&gt;next = current;                // 更新prev为当前节点                prev = current;                // 将左子树和右子树加入队列                if (current-&gt;left) q.push(current-&gt;left);                if (current-&gt;right) q.push(current-&gt;right);            &#125;            // 将当前层级最后一个节点的next指针设置为NULL            prev-&gt;next = NULL;        &#125;        return root;    &#125;&#125;;
-二叉树的最大深度
-题目链接：104. 二叉树的最大深度
-虽然简单，但是用这个方法有种高射炮打蚊子的感觉，感觉应该有更简单的方法。
-class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        queue&lt;TreeNode*&gt; q;        if(root!=NULL) q.push(root);        int sum=0;        while(!q.empty())&#123;            int s=q.size();            sum=sum+1;            for(int i=0;i&lt;s;i++)&#123;                TreeNode* node=q.front();                q.pop();                if(node-&gt;right) q.push(node-&gt;right);                if(node-&gt;left) q.push(node-&gt;left);            &#125;                &#125;        return sum;    &#125;&#125;;
-递归方法：后序遍历（DFS）
-class Solution &#123;public:    int maxDepth(TreeNode* root) &#123;        if (root == nullptr) return 0;        return max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + 1;    &#125;&#125;;
-二叉树的最小深度
-题目链接：111. 二叉树的最小深度
-找第一个没有左右子树的节点的深度。
-class Solution &#123;public:    int minDepth(TreeNode* root) &#123;        if (root == NULL) return 0;        int depth = 0;        queue&lt;TreeNode*&gt; que;        que.push(root);        while(!que.empty()) &#123;            int size = que.size();            depth++; // 记录最小深度            for (int i = 0; i &lt; size; i++) &#123;                TreeNode* node = que.front();                que.pop();                if (node-&gt;left) que.push(node-&gt;left);                if (node-&gt;right) que.push(node-&gt;right);                if (!node-&gt;left &amp;&amp; !node-&gt;right) &#123; // 当左右孩子都为空的时候，说明是最低点的一层了，退出                    return depth;                &#125;            &#125;        &#125;        return depth;    &#125;&#125;;
-递归
-如果 node 是空节点，由于没有节点，返回 0。
-如果 node 没有右儿子，那么深度就是左子树的深度加一，即 dfs(node)=dfs(node.left)+1。
-如果 node 没有左儿子，那么深度就是右子树的深度加一，即 dfs(node)=dfs(node.right)+1。
-如果 node 左右儿子都有，那么分别递归计算左子树的深度，以及右子树的深度，二者取最小值再加一，即 dfs(node)=min(dfs(node.left),dfs(node.right))+1
-
-class Solution &#123;public:    int minDepth(TreeNode *root) &#123;        if (root == nullptr) return 0;        if (root-&gt;right == nullptr) return minDepth(root-&gt;left) + 1;        if (root-&gt;left == nullptr) return minDepth(root-&gt;right) + 1;        return min(minDepth(root-&gt;left), minDepth(root-&gt;right)) + 1;    &#125;&#125;;
-翻转二叉树
-题目链接：226. 翻转二叉树
-迭代法：深度优先遍历
-class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == nullptr) return nullptr;        queue&lt;TreeNode*&gt; q;        q.push(root);        while (!q.empty()) &#123;            TreeNode* node = q.front();            q.pop();            // 使用临时变量交换左右子节点            TreeNode* temp = node-&gt;left;            node-&gt;left = node-&gt;right;            node-&gt;right = temp;            // 如果左右子节点不为空，则加入队列            if (node-&gt;left) q.push(node-&gt;left);            if (node-&gt;right) q.push(node-&gt;right);        &#125;        return root;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    TreeNode* invertTree(TreeNode* root) &#123;        if (root == NULL) return root;        swap(root-&gt;left, root-&gt;right);  // 中        invertTree(root-&gt;left);         // 左        invertTree(root-&gt;right);        // 右        return root;    &#125;&#125;;
-对称二叉树
-题目链接：101. 对称二叉树
-
-迭代队列法：
-class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        queue&lt;TreeNode*&gt; que;        que.push(root-&gt;left);   // 将左子树头结点加入队列        que.push(root-&gt;right);  // 将右子树头结点加入队列                while (!que.empty()) &#123;  // 接下来就要判断这两个树是否相互翻转            TreeNode* leftNode = que.front(); que.pop();            TreeNode* rightNode = que.front(); que.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;  // 左节点为空、右节点为空，此时说明是对称的                continue;            &#125;            // 左右一个节点不为空，或者都不为空但数值不相同，返回false            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            que.push(leftNode-&gt;left);   // 加入左节点左孩子            que.push(rightNode-&gt;right); // 加入右节点右孩子            que.push(leftNode-&gt;right);  // 加入左节点右孩子            que.push(rightNode-&gt;left);  // 加入右节点左孩子        &#125;        return true;    &#125;&#125;;
-迭代栈法：
-class Solution &#123;public:    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        stack&lt;TreeNode*&gt; st; // 这里改成了栈        st.push(root-&gt;left);        st.push(root-&gt;right);        while (!st.empty()) &#123;            TreeNode* rightNode = st.top(); st.pop();            TreeNode* leftNode = st.top(); st.pop();            if (!leftNode &amp;&amp; !rightNode) &#123;                continue;            &#125;            if ((!leftNode || !rightNode || (leftNode-&gt;val != rightNode-&gt;val))) &#123;                return false;            &#125;            st.push(leftNode-&gt;left);            st.push(rightNode-&gt;right);            st.push(leftNode-&gt;right);            st.push(rightNode-&gt;left);        &#125;        return true;    &#125;&#125;;
-递归法：
-class Solution &#123;public:    bool compare(TreeNode* left, TreeNode* right) &#123;        // 首先排除空节点的情况        if (left == NULL &amp;&amp; right != NULL) return false;        else if (left != NULL &amp;&amp; right == NULL) return false;        else if (left == NULL &amp;&amp; right == NULL) return true;        // 排除了空节点，再排除数值不相同的情况        else if (left-&gt;val != right-&gt;val) return false;        // 此时就是：左右节点都不为空，且数值相同的情况        // 此时才做递归，做下一层的判断        bool outside = compare(left-&gt;left, right-&gt;right);   // 左子树：左、 右子树：右        bool inside = compare(left-&gt;right, right-&gt;left);    // 左子树：右、 右子树：左        bool isSame = outside &amp;&amp; inside;                    // 左子树：中、 右子树：中 （逻辑处理）        return isSame;    &#125;    bool isSymmetric(TreeNode* root) &#123;        if (root == NULL) return true;        return compare(root-&gt;left, root-&gt;right);    &#125;&#125;;
-]]></content>
-      <categories>
-        <category>算法刷题</category>
-        <category>代码随想录</category>
-      </categories>
-      <tags>
-        <tag>数据结构与算法</tag>
-        <tag>二叉树</tag>
-        <tag>二叉树遍历</tag>
-        <tag>递归</tag>
-        <tag>迭代</tag>
       </tags>
   </entry>
   <entry>
@@ -863,6 +863,338 @@ class Solution &#123;public:    vector&lt;int&gt; postorderTraversal(TreeNode* r
         <tag>二叉树遍历</tag>
         <tag>递归</tag>
         <tag>迭代</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Agentic RL：PG Loss 组件详解（PPO-clip / Dual-Clip / Entropy / KL / 聚合）</title>
+    <url>/2026/02/Agentic%20RL%EF%BC%9APG%20Loss%20%E7%BB%84%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[这篇文章把「Agentic RL / LLM-RL 训练里常见的 Policy Gradient (PG) loss 到底由哪些组件拼起来」讲清楚，重点解释：
+
+PPO-clip：为什么要 clip、clip 住了哪些情况、什么时候梯度为 0
+Dual-clip：它在 PPO-clip 基础上到底“多 clip 了什么”，解决什么不稳定
+Entropy / KL：为什么要加正则、权重怎么理解
+聚合（aggregate）：token/sequence/group 维度的 sum/mean 会如何改变梯度尺度
+
+本文偏“工程视角”：你看完应该能把这些项在代码里正确实现出来，并能解释训练曲线为什么会那样。
+补充说明：下面不少“实现细节/监控指标/聚合模式”的表述，我会刻意对齐 verl 生态里常见写法。
+
+0. 背景：我们在优化什么
+强化学习（policy gradient）最朴素的目标是最大化期望回报：
+$$
+\max_\theta \ \mathbb{E}{\tau \sim \pi\theta} [R(\tau)]
+$$
+但直接对回报做梯度很难，于是我们引入可优化的代理目标（surrogate objective），用“概率比 + 优势函数”把“回报最大化”转成可微的 loss。
+当你训练的是 LLM（token 级动作）或 Agent（工具调用/检索/规划动作），形式几乎一样，只是：
+
+动作可能是 token，也可能是工具调用、检索 query、规划步骤
+优势可能来自 reward model、对比评分器、规则评测、人工偏好、任务成功率等
+
+
+1. 记号与核心中间量（非常重要）
+一条轨迹里第 $t$ 步：
+
+状态：$s_t$（例如 prompt + history）
+动作：$a_t$（token / 工具调用 / 选择哪个候选等）
+新策略：$\pi_\theta(a_t|s_t)$
+旧策略：$\pi_{\text{old}}(a_t|s_t)$
+优势：$A_t$（“这步动作比平均水平好多少”）
+
+重要采样比（importance ratio）：
+$$
+r_t = \frac{\pi_\theta(a_t|s_t)}{\pi_{\text{old}}(a_t|s_t)}
+= \exp(\log \pi_\theta(a_t|s_t) - \log \pi_{\text{old}}(a_t|s_t))
+$$
+为什么要 ratio？
+
+你的数据通常是用旧策略采样的（rollout 时的策略），但你想更新新策略
+ratio 允许你在“旧数据”上估计“新策略”目标（近似、但有效）
+
+
+2. Vanilla Policy Gradient（从这里出发）
+最常见的一种 PG 代理目标（最大化形式）：
+$$
+L_{\text{PG}}(\theta) = \mathbb{E}[\log \pi_\theta(a_t|s_t) \cdot A_t]
+$$
+工程里我们一般写成“最小化 loss”，所以常见写法是取负号：
+$$
+\text{loss}{\text{PG}} = -\mathbb{E}[\log \pi\theta(a_t|s_t) \cdot A_t]
+$$
+问题是：如果你直接这么做，更新会非常不稳定。
+原因直观上是：$\log \pi_\theta$ 的梯度可能会推动策略一步跨得很大，尤其当 $A_t$ 大、或某些动作在旧策略里概率极小导致 ratio 爆炸时。
+
+3. PPO-clip：用 clip 做“近似 trust region”
+PPO 的核心代理目标（最大化形式）：
+$$
+L_{\text{clip}}(\theta)=
+\mathbb{E}\big[\min\big(r_t A_t,\ \text{clip}(r_t, 1-\epsilon, 1+\epsilon)A_t\big)\big]
+$$
+其中 $\epsilon$ 通常是 0.1 或 0.2。
+在工程实现里，你几乎一定会看到最小化 loss 的等价写法（HF PPO / verl 常用）：
+$$
+L^{\text{PPO}} = \mathbb{E}_t[\max(-r_t\hat A_t,\ -\text{clip}(r_t,1-\epsilon,1+\epsilon)\hat A_t)]
+$$
+它就是上面 maximize 版本取负号后，把 min 翻转成 max 得到的。
+3.1 直觉：限制“新策略相对旧策略”的变化幅度
+
+$r_t$ 表示“新策略把这个动作概率放大/缩小了多少”
+clip 把 $r_t$ 限制在 $[1-\epsilon, 1+\epsilon]$
+
+所以 PPO-clip 做的事情是：你可以变，但别变太猛。
+3.2 什么时候 clip 会“生效”（梯度变 0 或被截断）
+把情况按 $A_t$ 的符号拆开看最清楚：
+
+当 $A_t &gt; 0$（这个动作是“好动作”，我们希望提升概率）
+
+如果 $r_t &gt; 1+\epsilon$：提升得太猛了，会被 clip，等价于“这部分梯度被截掉”
+
+
+当 $A_t &lt; 0$（这个动作是“坏动作”，我们希望降低概率）
+
+如果 $r_t &lt; 1-\epsilon$：降低得太猛了，会被 clip
+
+
+
+你会发现：PPO 的 clip 本质是在限制“朝着对优势有利的方向”更新过头。
+3.3 训练时看什么：reward 曲线优先，其次看这些“稳定性指标”
+PPO-clip 的 loss 是 surrogate objective，不一定和“任务真的变好”单调对应；实践里更应该关注 rewards curve（你定义的任务 reward / RM reward / success rate 等），loss curve 只当作辅助信号。
+除了 reward 曲线，建议至少监控这些量（很多训练框架会直接给出）：
+
+actor entropy：熵太快掉到很低，常见是探索不足/模式塌缩的前兆。
+KL（对 reference / SFT / old policy 的偏离）：漂移过大常见会让输出质量崩。
+clip fraction：被 clip 的样本比例（token-level 或 seq-level，看实现）。
+advantage 的统计量：均值/方差/分位数，尤其注意优势刻度突然变大或分布漂移。
+
+clip fraction 怎么解读？
+
+直觉：被裁剪的样本通常“不给有效梯度”，等价于 有效 batch 变小。clip fraction 越高，更新越被少数未裁剪样本主导，学习容易停滞或变得不稳定。
+实践经验：0.1-0.4 往往是比较常见的区间（不是硬规则，取决于任务/优势刻度/学习率等）。
+
+clip fraction 和 KL 的耦合（非常实用的排查思路）
+
+clip fraction 高 + KL 也高：常见是步子太猛（学习率大、PPO epoch 多、优势刻度过大、reward 过陡等）。
+clip fraction 高但 KL 不高：常见是对同一批数据复用太多（epoch 太多 / 复用过度），把 $r_t$ 推到边界但整体分布偏离并不大。
+clip fraction 长期接近 0：常见是步子太小（学习率小、优势过小、KL/entropy 系数过大把更新压住）。
+
+3.4 policy_loss 曲线怎么看（注意符号约定）
+不同代码对 policy_loss 的符号约定不完全一致：有的记录“要最小化的 loss”（常见为负），有的记录“maximize 的 surrogate”（常见为正）。
+一个可操作的解读方式是：
+
+如果 policy_loss（最小化形式）长期非常负：通常意味着优势项在推动策略快速提升，但也可能是 critic 跟不上 actor（critic 低估，adv 偏大），容易引入不稳定。
+如果 policy_loss（最小化形式）长期为较大的正：通常是“坏动作占比大/优势为负占主导”，策略在变差或学不到东西的信号。
+更理想的趋势：在 0 附近上下震荡，说明 actor/critic 在互相追赶并逐步稳定。
+
+
+4. Dual-clip：为什么 PPO-clip 还不够
+在实践里，很多人会再加一个 dual-clip，主要解决这样一种现象：
+
+当 $A_t &lt; 0$（坏动作），但 $r_t$ 可能非常大（新策略反而大幅提高了坏动作的概率）时，PPO-clip 在某些写法下对这块的“保护”不够，loss/梯度可能会被放大，导致训练震荡。
+
+你可以把 dual-clip 理解成：对某些极端 case 再加一道上限/下限，避免目标函数在异常 ratio 下过度放大。
+4.1 Verl/HF 常见写法（最小化 loss 形式，对齐更容易）
+先把 PPO 写成最小化 loss（忽略期望符号，只写单个样本/单个 token 的形式）：
+$$
+L^{\text{PPO}}=\max(-r_t\hat A_t,\ -\text{clip}(r_t,1-\epsilon,1+\epsilon)\hat A_t)
+$$
+Dual-clip（常见引用：arXiv:1912.09729）在很多实现里会对负优势样本再加一道“上界保护”：
+$$
+L^{\text{dual-clip}}=\min(L^{\text{PPO}},\ -c\cdot \hat A_t), \quad c&gt;1
+$$
+直觉解释：
+
+当 $\hat A_t &lt; 0$ 时，$-c\hat A_t$ 是正数，它会把某些极端情况下的巨大正 loss 截住（避免 ratio 异常大导致 loss/梯度过度放大）。
+当 $\hat A_t \ge 0$ 时，这个额外项通常不启用或不会改变结果（不同代码会用条件分支实现）。
+
+4.2 参数 $c$ 怎么选
+经验上很多实现会用 2 到 5 的量级（比如 3）。它不是越大越好：
+
+$c$ 太小：保护太强，学习可能变慢
+$c$ 太大：保护太弱，起不到稳定作用
+
+
+5. Entropy：为什么要鼓励“更随机”
+entropy bonus 常见形式（加入到最小化 loss）：
+$$
+\text{loss} \leftarrow \text{loss} - \beta \cdot H(\pi_\theta)
+$$
+5.1 从 logits 计算 token-level entropy（verl 常见写法）
+很多实现会直接从 logits 计算每个 token 的熵（注意输出仍然是 $[B,T]$，后面要走 agg_loss 聚合）：
+$$
+H = \log\sum \exp(\text{logits}) - \sum p\cdot \text{logits}, \quad p=\text{softmax}(\text{logits})
+$$
+import torchdef entropy_from_logits(logits: torch.Tensor):    pd = torch.nn.functional.softmax(logits, dim=-1)    entropy = torch.logsumexp(logits, dim=-1) - torch.sum(pd * logits, dim=-1)    return entropy  # [B, T]
+直觉：
+
+在早期训练，鼓励探索（别过早塌缩到某一种输出模式）
+在 LLM 训练里，entropy 太低会导致输出变得呆板，甚至出现 mode collapse
+
+怎么调参：
+
+$\beta$ 太大：模型“太随机”，reward 上不去
+$\beta$ 太小：容易塌缩或过拟合到奖励漏洞
+
+
+6. KL：为什么用 KL 约束，而不是 JS
+很多 LLM-RL（尤其 RLHF / RLAIF / 各种 agentic RL 变体）都会加 KL 正则，典型是约束当前策略别偏离参考策略 $\pi_{\text{ref}}$（常见是 SFT 模型或某个 frozen baseline）：
+$$
+\text{loss} \leftarrow \text{loss} + \beta \cdot \text{KL}(\pi_\theta ;||; \pi_{\text{ref}})
+$$
+6.1 KL 在工程上“很好算”
+在 token-level 的实现里，你往往只需要：
+$$
+\text{KL} \approx \mathbb{E}[\log \pi_\theta(a|s) - \log \pi_{\text{ref}}(a|s)]
+$$
+（实际会有更精细的估计方式，但核心是：你只要能拿到 logprob 就行）
+而 JS 散度需要混合分布：
+$$
+\text{JS}(P||Q) = \tfrac{1}{2}\text{KL}(P||M) + \tfrac{1}{2}\text{KL}(Q||M),\ \ M=\tfrac{1}{2}(P+Q)
+$$
+这意味着你要显式构造/评估 $M$，工程上更麻烦、也更贵。
+6.2 KL 更符合“单向约束”的需求
+在 RLHF 里，你常见的真实需求是：
+
+“在提高 reward 的同时，别偏离 reference 太远。”
+
+这本质是一个单向的、带约束的优化问题，KL 非常自然。
+JS 虽然对称、有界，但它的对称性并不一定是你想要的，而且在高维动作空间（比如大词表）里，JS 的数值/梯度性质也未必更稳定。
+6.3 更重要的一点：PPO/TRPO 的理论也经常围绕 KL
+TRPO 的 trust region 约束是直接写 KL 的；PPO 也是在用 clip 近似这个约束。
+所以当你把 PPO-clip + KL penalty 放在一起看，会发现它们在做同一类事情：
+
+PPO-clip：约束“这一步更新别太大”
+KL penalty：约束“整体别偏离 reference 太远”
+
+6.4 KL 放在 reward 里 vs 放在 loss 里（RLHF/LLM-RL 很常见）
+在 LLM-RL 里，KL 有两种非常常见的“落点”：
+
+加在 loss 里：policy_loss += kl_loss * kl_coef（verl/HF 里常见）。
+写进 token-level reward（reward shaping）：把 KL 看成一个“密集惩罚”，例如常见形式
+
+$$
+r_t = r_{\text{RM}} - \beta \log\frac{\pi_\theta(a_t|s_t)}{\pi_{\text{SFT/ref}}(a_t|s_t)}
+$$
+其中 $r_{\text{RM}}$ 往往只在序列最后一个 token 非零（或以序列级 reward 形式给出），而 KL 惩罚是 token 级的“每步都扣分”。两者目标一致：限制偏离，但优化动态、日志解读、以及和 advantage/GAE 的耦合会有差异。
+
+7. 聚合（Aggregate）：token / sequence / group 的差别
+LLM 的 logprob、advantage 很多时候都是 token-level 的张量（形状 $[B, T]$）。
+你最终需要把它聚合成一个标量 loss 才能 backward()。常见聚合方式：
+
+token mean：对所有有效 token 取平均
+sequence mean：先对每个序列求平均，再对 batch 平均
+token sum：对 token 求和（注意会放大梯度尺度）
+group mean（GRPO 常见）：先在 group 内聚合，再在 group 间聚合
+
+核心结论：聚合方式会改变梯度的等效尺度，从而影响你对学习率、clip、KL 系数等超参的感受。
+如果你把 mean 换成 sum，很多时候你会发现“同样的超参突然不稳定了”，原因往往就是梯度整体变大了。
+7.1 常见 loss_agg_mode 的数学定义（带 mask）
+设 loss 矩阵 $L\in\mathbb{R}^{B\times T}$，mask $M\in{0,1}^{B\times T}$（为 1 的位置计入损失）：
+
+token-mean
+
+$$\mathcal{L}=\frac{\sum_{i=1}^{B}\sum_{j=1}^{T}L_{i,j}M_{i,j}}{\sum_{i=1}^{B}\sum_{j=1}^{T}M_{i,j}}$$
+
+
+seq-mean-token-sum
+
+$$\mathcal{L}=\frac{1}{B}\sum_{i=1}^{B}\Big(\sum_{j=1}^{T}L_{i,j}M_{i,j}\Big)$$
+
+
+seq-mean-token-mean（很多论文把它当成“sample-level loss”）
+
+$$\mathcal{L}=\frac{1}{B}\sum_{i=1}^{B}\Big(\frac{\sum_{j=1}^{T}L_{i,j}M_{i,j}}{\sum_{j=1}^{T}M_{i,j}}\Big)$$
+
+
+seq-mean-token-sum-norm（一种“按长度做归一化”的 token-sum）
+
+$$\mathcal{L}=\frac{\sum_{i=1}^{B}\sum_{j=1}^{T}L_{i,j}M_{i,j}}{T}$$
+
+
+
+7.2 和 GRPO / DAPO / DrGRPO 的对应（为什么会影响长 CoT 稳定性）
+以 verl 文档/实现里的口径总结（不同实现会有细微差异，但核心直觉一致）：
+
+GRPO 原始论文常用 seq-mean-token-mean（sample-level），在长 CoT 场景可能更不稳定。
+DrGRPO 倾向使用 seq-mean-token-sum-norm（降低长度偏置/数值不稳）。
+DAPO 倾向使用 token-mean（直接在 token 维度平均，梯度尺度更直观）。
+
+如果你的任务输出长度差异很大（例如 deep research 报告长短不一），聚合方式几乎一定会影响训练是否稳定，甚至会直接改变“模型更偏好长输出还是短输出”（长度偏置）。
+7.3 GSPO/GRPO：序列级 ratio、长度偏置与 stop-gradient trick
+很多 LLM-RL 的不稳定来自两个因素叠加：
+
+token-wise ratio 在长序列上更容易数值爆炸/塌缩
+长序列天然贡献更多 token，导致“长输出占更多梯度份额”（长度偏置）
+
+以 GSPO 的一种常见写法为例，会先定义序列级的归一化 ratio：
+$$
+s_i(\theta)=\Big(\frac{\pi_\theta(y_i|x)}{\pi_{\text{old}}(y_i|x)}\Big)^{1/|y_i|}
+=\exp\Big[\frac{1}{|y_i|}\sum_t \log\frac{\pi_\theta(y_{i,t}|x,y_{i,&lt;t})}{\pi_{\text{old}}(y_{i,t}|x,y_{i,&lt;t})}\Big]
+$$
+再把它“分摊回 token 级”，并用 stop_gradient（记作 sg[·]）避免破坏梯度结构：
+$$
+\log s_{i,t}(\theta)=\text{sg}[\log s_i(\theta)] + \log\pi_\theta(y_{i,t}|\cdot) - \text{sg}[\log\pi_\theta(y_{i,t}|\cdot)]
+$$
+直觉：让每个样本（序列）在 ratio 上先被长度归一化，再决定 token 级梯度怎么分配，从而缓解长度偏置和 token-wise 数值问题。
+
+9. PyTorch 伪代码：把这些项拼起来（可直接对照你用的框架）
+下面给一个“最常见”的结构示例，假设你已经有：
+
+logp_new: 当前策略对采样动作的 logprob，形状 [B, T]
+logp_old: rollout 时旧策略 logprob（需要 detach），形状 [B, T]
+advantages: 优势（需要 detach），形状 [B, T]
+mask: 有效 token mask（padding 位置为 0），形状 [B, T]
+entropy: 可选，形状 [B, T]
+logp_ref: 参考策略 logprob（可选），形状 [B, T]
+
+import torchdef masked_mean(x, mask, eps=1e-8):    return (x * mask).sum() / (mask.sum() + eps)def ppo_pg_loss(    logp_new, logp_old, advantages, mask,    clip_eps=0.2,    dual_clip=None,        # e.g. 3.0    ent_coef=0.0,    entropy=None,    kl_coef=0.0,    logp_ref=None,):    # ratio = exp(log pi_new - log pi_old)    ratio = torch.exp(logp_new - logp_old)    # PPO clipped surrogate (minimize loss)    pg1 = -advantages * ratio    pg2 = -advantages * torch.clamp(ratio, 1.0 - clip_eps, 1.0 + clip_eps)    pg = torch.max(pg1, pg2)  # because we minimize negative of the &quot;min&quot; objective    # Dual-clip: cap extreme loss on negative-adv samples    # Note: different codebases implement slightly different variants.    if dual_clip is not None:        # Common (verl-like) form: for advantages &lt; 0, cap the loss by min(L_ppo, -c * A)        cap = (-dual_clip) * advantages        pg = torch.where(advantages &lt; 0, torch.min(pg, cap), pg)    loss = masked_mean(pg, mask)    # Entropy bonus (encourage exploration)    if ent_coef != 0.0:        assert entropy is not None        loss = loss - ent_coef * masked_mean(entropy, mask)    # KL penalty (keep close to reference)    if kl_coef != 0.0:        assert logp_ref is not None        kl = (logp_new - logp_ref)  # common estimator on sampled actions        loss = loss + kl_coef * masked_mean(kl, mask)    return loss
+9.1 读代码时最容易踩坑的点
+
+最大化 vs 最小化：论文写 maximize，代码写 minimize；min/max 会翻转。
+advantages / logp_old 要 detach：它们是“常数”，不应对它们反传。
+mask 一定要做：padding token 不能算进 loss。
+聚合方式会改变梯度尺度：mean/sum 会影响你对 lr/clip/kl 的直觉。
+
+
+9.2 如果你用的是 verl：如何“真的改到代码里”
+modern_genai_bilibili 的笔记里给了一个很实用的路线图（这里总结成可执行的 checklist）：
+
+全局搜 .backward()，先找到训练主循环真正反传的 loss（通常是 loss.backward()）。
+在 core_algos.py（或同名文件）里找 compute_policy_loss，它通常是 “PG loss 的注册中心”。
+通过类似 @register_policy_loss(&quot;xxx&quot;) 的注册机制添加新的 pg_loss 变体（例如把 entropy/KL/特殊 ratio 写法组合进去）。
+如果你要改的是 training logic（比如动态采样、rollout 管理、异步 agent loop），通常需要自定义 Trainer（笔记里提到的 RayDAPOTrainer 就属于这类）。
+
+
+10. 这和 Agentic RL / Deep Research 有什么关系
+如果你做的是“deep research agent”（检索 + 阅读 + 归纳 + 写作），你不一定要微调 LLM 本体。
+更现实的路线是：
+
+LLM 用 API（当成 black-box policy 或 planner）
+你训练的是 agent 的决策层：何时检索、检索什么、读哪些文档、如何分解任务、如何分配预算
+reward 来自任务指标：答案质量、引用覆盖、事实一致性、时间/成本、用户满意度等
+
+这时 PPO/GRPO 这些 loss 仍然是核心工具，只是动作空间从“token”扩展到了“工具与策略”。
+如果你具体做的是“deep research 报告型任务”，建议尽早把评测闭环定下来：
+
+RACE：评估报告质量（覆盖度/洞察/指令遵循/可读性），并用相对评分避免“打分膨胀”。
+FACT：逐条核查“每一个引用是否支撑对应陈述”，把 citation trustworthiness 从纯生成质量里拆出来单独评。
+
+
+11. 小结
+
+PPO-clip 的本质：用 ratio + clip 做稳定的 surrogate objective
+dual-clip 的本质：对极端 case 再加一道保护，减少震荡
+entropy/KL 的本质：一个防塌缩，一个防漂移
+aggregate 的本质：改变梯度尺度，影响所有超参的手感
+
+]]></content>
+      <categories>
+        <category>算法解析</category>
+        <category>强化学习</category>
+      </categories>
+      <tags>
+        <tag>强化学习</tag>
+        <tag>PPO</tag>
+        <tag>Agentic RL</tag>
+        <tag>LLM</tag>
+        <tag>RLHF</tag>
       </tags>
   </entry>
   <entry>
@@ -2849,28 +3181,6 @@ NCE loss（noise contrastive estimation ）：将超级多分类转为二分类�
       </tags>
   </entry>
   <entry>
-    <title>Transformer</title>
-    <url>/2025/04/Transformer/</url>
-    <content><![CDATA[Attention Is All You Need
-个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
-Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
-RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
-CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
-Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
-注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
-
-
-]]></content>
-      <categories>
-        <category>论文精读</category>
-        <category>自然语言处理</category>
-      </categories>
-      <tags>
-        <tag>论文精读</tag>
-        <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基础知识--STL</title>
     <url>/2025/02/STL/</url>
     <content><![CDATA[标准模板库（STL）
@@ -3441,6 +3751,28 @@ reserve(n)
         <tag>string</tag>
         <tag>algorithm</tag>
         <tag>priority_queue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Transformer</title>
+    <url>/2025/04/Transformer/</url>
+    <content><![CDATA[Attention Is All You Need
+个人理解 transformer 编码器是把人能理解的东西转化成计算机能理解的东西。对比与论文写作的这个过程来说，位置编码就是作者写这篇论文的顺序，反复打磨论文这个过程就对应着这个n个编码器，第一遍的初稿相当于第一个编码器，可能效果不尽人意。把人能理解的东西编码成论文。到读者来说就是解码的过程，每一次读论文就是一次解码的过程，你必须多次解码才能对这个论文理解的更加透彻，还要时刻注意mask操作，写作时要时刻注意读者理解到什么地步，读者的阅读是按顺序进行的。q就是你感兴趣的地方，k就是论文中的关键点。
+Transformer 是一种基于注意力机制（Attention Mechanism）的深度学习模型，摒弃了传统的循环神经网络（RNN）和卷积神经网络（CNN），完全依赖注意力机制处理序列数据。
+RNN处理长序列时容易出现梯度消失或梯度爆炸的问题，健达来说就是就像一个记性不好的老人，处理长内容时，前面的内容记不住，后面又容易混淆。
+CNN虽然在提取局部特征上表现出色，但对长距离依赖关系的捕捉能力欠佳，就好比只盯着眼前的局部风景，而忽略了远方的整体美景。
+Transformer则巧妙地摒弃了RNN的顺序处理方式和CNN的局部处理局限，引入了自注意力机制，这就像是给大模型装上了一个“全局扫描雷达”，能够同时关注输入序列中的各个位置，极大地提升了对长序列的处理能力，完美解决了上述两个难题。
+注意力机制通过注意力汇聚将查询（自主性提示）和键（非自主性提示）结合在一起，实现对值（感官输入）的选择倾向，这是与 CNN 等模型的关键区别。
+
+
+]]></content>
+      <categories>
+        <category>论文精读</category>
+        <category>自然语言处理</category>
+      </categories>
+      <tags>
+        <tag>论文精读</tag>
+        <tag>transformer</tag>
       </tags>
   </entry>
   <entry>
@@ -4657,46 +4989,798 @@ lr_decay_epoch和epoch：即学习率梯度为1e-3,1e-4,1e-5,1e-6，可以有较
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2025/12/%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84%20+%20%E5%88%86%E5%B8%83%E5%BB%BA%E6%A8%A1%20+%20%E5%8E%9F%E5%9E%8B%E6%BC%94%E5%8C%96/</url>
-    <content><![CDATA[原型=动态演化的语义锚点
-原型的关键作用
-1. 类级表示
-经过层级学习、去噪后的特征，更纯净、更有代表性
-2. 对比学习的监督信号
-不只是&quot;拉近同类&quot;，而是&quot;拉向类中心&quot;
+    <title>实例判别学习 - Non-Parametric Instance Discrimination精读</title>
+    <url>/2025/11/%E5%AE%9E%E4%BE%8B%E5%88%A4%E5%88%AB%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[Unsupervised Feature Learning via Non-Parametric Instance Discrimination
+论文地址：https://arxiv.org/pdf/1805.01978
+代码地址：https://github.com/zhirongw/lemniscate.pytorch
+引言
+实例判别（Instance Discrimination） 是2018年提出的一种无监督特征学习方法，它将对比学习的思想推向极致：将每个图像实例视为一个独立的类别，通过区分不同实例来学习特征表示。这篇论文是MoCo、SimCLR等现代对比学习方法的重要先驱工作。
+论文的核心洞察来自对监督学习的观察：在ImageNet上训练的神经网络，即使没有显式指导，也能自动发现视觉上相似的类别（如leopard和jaguar）之间的关联。作者将这一观察延伸到实例级别：如果能够区分每个实例，那么学习到的特征应该能够捕获实例间的视觉相似性。
+实例判别的核心创新
+将无监督问题转化为监督问题：
+实例判别的天才之处在于一个简单的转换：
 
-语义信息：
-原型包含了这个类的核心特征
-例如：猫原型 = “有毛” + “四条腿” + “小体型”
-辅助分类：
-新样本可以和各类原型对比
-与哪个原型最接近，就属于哪一类
-知识迁移：
-原型可以在不同任务间共享
+传统无监督学习：没有标签，难以定义学习目标
+实例判别：每个图像就是自己的标签，变成N分类问题
+好处：可以直接使用成熟的分类框架和技术
 
-]]></content>
-  </entry>
-  <entry>
-    <title>开学三个月小记</title>
-    <url>/2025/12/%E5%BC%80%E5%AD%A6%E4%B8%89%E4%B8%AA%E6%9C%88%E5%B0%8F%E8%AE%B0/</url>
-    <content><![CDATA[时光飞逝，转眼间开学已经三个月了。如果一直这么下去就又荒废了三年。
-第一没有输入，感觉三个月没有什么知识输入，输出也没有，因为基础太差了，感觉陷入了一个恶性循环，没有时间学习，好吧，其实是不知道学啥，也不想学，静不下心来去学习，需要补的基础的东西太多了，不知道从哪里开始。
-第二过度依赖AI，用AI写的博客基本上也没认真看，AI虽然好用，但是现在完全没有发挥出它的作用帮我在能力上有所提升。
-第三生活比较混乱，主要是没有平衡好每天该做什么，又回到高中大学那种天天想干啥就干啥的状态了，课也基本上都不用去上，其实从高中开始就经常逃课，晚自习不上，大学疫情更是如此了，自由习惯了，很难再改变。每天过的倒是挺自由，也快一个月没开过组会了，也不知道要汇报啥。倒是偶尔健身，健身一个多月了，虽然也是三天打鱼两天晒网，但是确实是有效果的。
-上边三点的解决方法是现在急需制定一个切实可行的大体方案，每天按照计划去做，但是经常会忘记去看每日计划，效果一般，可以每天记录反思一下做了什么，这样应该可以，单独创建一个记事本，正好今天下载了一个新的笔记管理软件，尝试每天记录一下。其实就和我当时创建网站的目的一样，当时是为了监督我复试学习，每天记录一下做了什么，以防像第一年复试笔试没准备完，面试和机试一点没准备，以初试第三被刷掉。对于AI的话，如果用AI进行学习的话，还是很不错的，不需要繁琐的信息检索，可以达到及时反馈修改错误直觉的作用。
+为什么这种方法有效？
 
 
-“生活不是等待暴风雨过去，而是学会在雨中跳舞。”
+视觉相似性的自然涌现
+
+虽然每个实例是独立类别，但视觉相似的实例会在特征空间聚集
+原因：它们共享底层视觉模式（边缘、纹理、形状等）
+结果：学到的特征捕获了语义信息
+
+
+
+信息论的解释
+
+区分N个实例需要log(N)比特信息
+模型被迫学习最有效的编码
+这种编码自然对应于语义特征
+
+
+
+避免平凡解
+
+不能简单记住每个实例（泛化要求）
+必须学习可迁移的特征
+数据增强强制学习不变性
+
+
+
+技术挑战与解决方案
+挑战1：计算Softmax的分母
+当有百万级实例时，计算softmax分母需要遍历所有实例，计算成本巨大。
+解决方案：NCE近似
+原始softmax概率：P(i|v) = exp(v·f_i) / Σ_j exp(v·f_j)NCE近似：将其转化为二分类问题（实例i vs 噪声）
+挑战2：存储所有实例的特征
+需要存储所有训练图像的特征表示，内存需求大。
+解决方案：Memory Bank
+
+使用动量更新：新特征 = m×旧特征 + (1-m)×当前特征
+好处：平滑特征变化，提高训练稳定性
+内存需求：128维×100万实例 ≈ 500MB（可接受）
+
+挑战3：负样本采样
+从百万实例中采样负样本，如何保证采样质量？
+解决方案：Proximal Regularization
+
+不是随机采样，而是基于特征相似度
+优先采样相似但不同的实例（困难负样本）
+提高学习效率
+
+核心思想
+基本动机
+关键观察：
+
+监督学习中，模型会自动学习到视觉相似类别之间的关联
+这种相似性不是来自语义标注，而是来自视觉数据本身
+如果将类别级别的监督推向实例级别，能否学到更好的表示？
+
+核心假设：
+
+每个图像实例本身就是一个独特的&quot;类别&quot;
+通过区分不同实例，模型会学习到捕获视觉相似性的特征
+视觉相似的实例在特征空间中应该更接近
+
+方法概述
+将无监督学习问题转化为实例级别的分类问题：
+
+每个训练图像是一个独立的类别
+使用非参数softmax进行分类
+使用NCE（Noise-Contrastive Estimation）解决计算问题
+
+方法详解
+非参数Softmax分类器
+参数化Softmax的问题
+传统的参数化softmax：
+$$
+P(i|v) = \frac{\exp(w_i^T v)}{\sum_{j=1}^{n} \exp(w_j^T v)}
+$$
+其中 $w_j$ 是类别 $j$ 的权重向量。
+问题：
+
+权重向量 $w_j$ 只对训练类别有效，无法泛化到新实例
+权重向量作为类别原型，阻止了实例间的直接比较
+需要存储和更新大量权重参数
+
+非参数Softmax
+将权重向量 $w_j$ 替换为特征向量 $v_j$：
+$$
+P(i|v) = \frac{\exp(v_i^T v / \tau)}{\sum_{j=1}^{n} \exp(v_j^T v / \tau)}
+$$
+其中：
+
+$v_i, v_j$ 是归一化后的特征向量（$||v|| = 1$）
+$\tau$ 是温度参数，控制分布的尖锐程度
+
+优势：
+
+直接比较实例：特征向量直接作为&quot;类别原型&quot;
+泛化能力强：学习到的特征可以应用到任何新实例
+计算高效：无需存储和更新权重参数
+训练测试一致：训练和测试都使用相同的度量空间
+
+Memory Bank机制
+问题：计算 $P(i|v)$ 需要所有实例的特征 ${v_j}$，但每次迭代只更新当前batch的特征。
+解决方案：维护一个Memory Bank $V = {v_j}$ 存储所有实例的特征。
+更新策略：
+
+初始化：Memory Bank中的特征初始化为随机单位向量
+更新：每次迭代后，将当前batch的特征更新到Memory Bank
+使用：计算损失时，从Memory Bank中读取特征
+
+优势：
+
+避免每次重新计算所有特征
+保持特征的历史信息
+计算效率高
+
+Noise-Contrastive Estimation (NCE)
+问题：当实例数量 $n$ 很大（如ImageNet的1.2M）时，计算完整的softmax不可行。
+解决方案：使用NCE将多类分类问题转化为二分类问题。
+NCE原理
+将问题转化为：区分数据样本和噪声样本。
+定义：
+
+数据分布：$P_d(i\mid v) = \frac{\exp(v_i^\top v / \tau)}{Z_i}$，其中 $Z_i = \sum_{j=1}^{n} \exp(v_j^\top v / \tau)$
+噪声分布：$P_n(i) = 1/n$（均匀分布）
+噪声样本频率：$m$ 倍于数据样本
+
+后验概率：
+$$ 
+h(i, v) = P(D=1\mid i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
+$$ 
+损失函数：
+$$ 
+\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v')\sim P_n}[\log\big(1 - h(i, v')\big)]
+$$ 
+归一化常数估计
+计算 $Z_i$ 仍然昂贵，使用蒙特卡洛估计：
+$$ 
+Z_i \approx \frac{n}{m} \sum_{k=1}^{m} \exp\big(v_{j_k}^\top v / \tau\big)
+$$ 
+其中 ${j_k}$ 是随机采样的索引。
+复杂度：从 $O(n)$ 降低到 $O(1)$ 每个样本。
+Proximal Regularization（近端正则化）
+问题：每个&quot;类别&quot;只有一个实例，每个epoch每个类别只访问一次，训练过程振荡严重。
+解决方案：引入近端正则化项，鼓励训练过程的平滑性。
+正则化项：
+$$ 
+\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
+$$ 
+其中：
+
+$v_i^{(t)}$ 是当前迭代的特征
+$v_i^{(t-1)}$ 是Memory Bank中存储的特征（上一迭代）
+
+完整损失：
+$$ 
+\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v')\sim P_n}\Big[\log\big(1 - h(i, v'^{(t-1)})\big)\Big]
+$$ 
+加权k-NN分类器
+测试时分类：
+
+计算特征：$\hat{f} = f_\theta(\hat{x})$
+相似度计算：$s_i = \cos(v_i, \hat{f})$
+k-NN检索：找到top-k最近邻 $N_k$
+加权投票：类别 $c$ 的权重为
+$$
+w_c = \sum_{i \in N_k} \alpha_i \cdot \mathbf{1}(c_i = c)
+$$
+其中 $\alpha_i = \exp(s_i / \tau)$
+
+参数设置：
+
+$k = 200$
+$\tau = 0.07$（与训练时相同）
+
+实验分析
+参数化 vs 非参数化Softmax
+在CIFAR-10上的对比实验：
+
+
+
+方法
+Linear SVM
+k-NN
+
+
+
+
+参数化Softmax
+60.3%
+63.0%
+
+
+非参数化Softmax
+75.4%
+80.8%
+
+
+
+关键发现：
+
+非参数化方法显著优于参数化方法（+18%）
+k-NN性能接近线性SVM，说明学习到的特征度量质量高
+
+NCE近似质量
+不同负样本数量 $m$ 的影响：
+
+
+
+m
+k-NN Accuracy
+
+
+
+
+1
+42.5%
+
+
+10
+63.4%
+
+
+512
+78.4%
+
+
+4096
+80.4%
+
+
+
+结论：随着 $m$ 增加，NCE近似质量提升，$m=4096$ 时接近完整softmax。
+ImageNet分类结果
+不同网络架构的性能：
+
+
+
+方法
+conv5 (Linear)
+k-NN
+特征维度
+
+
+
+
+Random
+14.1%
+3.5%
+10K
+
+
+Split-Brain
+35.2%
+11.8%
+10K
+
+
+Ours (AlexNet)
+35.6%
+31.3%
+128
+
+
+Ours (VGG16)
+39.2%
+33.9%
+128
+
+
+Ours (ResNet-18)
+44.5%
+41.0%
+128
+
+
+Ours (ResNet-50)
+54.0%
+46.5%
+128
+
+
+
+关键发现：
+
+显著超越SOTA：在ImageNet上大幅超越之前的方法
+网络深度优势：从AlexNet到ResNet-50，性能持续提升
+紧凑表示：仅用128维特征就达到优异性能
+存储高效：1.28M图像的特征仅需600MB存储
+
+特征泛化能力
+在Places数据集上的零样本评估（使用ImageNet训练的特征）：
+
+
+
+方法
+ResNet-50 (conv5)
+ResNet-50 (k-NN)
+
+
+
+
+Ours
+45.5%
+41.6%
+
+
+
+结论：学习到的特征具有良好的跨数据集泛化能力。
+训练目标与测试目标的一致性
+关键观察：
+
+训练损失持续下降
+测试准确率同步提升
+无过拟合迹象
+
+意义：说明训练目标（实例判别）与测试目标（语义分类）是一致的，学习到的特征确实捕获了视觉相似性。
+消融实验
+特征维度：
+
+
+
+维度
+Top-1 Accuracy
+
+
+
+
+32
+34.0%
+
+
+64
+38.8%
+
+
+128
+41.0%
+
+
+256
+40.1%
+
+
+
+结论：128维是最优选择，性能在128维达到峰值。
+训练数据量：
+
+
+
+数据比例
+Accuracy
+
+
+
+
+0.1%
+3.9%
+
+
+1%
+10.7%
+
+
+10%
+23.1%
+
+
+30%
+31.7%
+
+
+100%
+41.0%
+
+
+
+结论：性能随训练数据量增加而持续提升，说明方法具有良好的可扩展性。
+半监督学习
+使用不同比例的标注数据进行微调：
+
+
+
+标注比例
+Ours (ResNet)
+Scratch (ResNet)
+Split-Brain (AlexNet)
+
+
+
+
+1%
+48.0%
+38.0%
+35.0%
+
+
+2%
+57.0%
+46.0%
+42.0%
+
+
+4%
+63.0%
+54.0%
+50.0%
+
+
+10%
+70.0%
+65.0%
+62.0%
+
+
+20%
+75.0%
+72.0%
+70.0%
+
+
+
+结论：在少样本场景下优势明显，1%标注数据时领先10%。
+目标检测
+在PASCAL VOC 2007上的检测性能：
+
+
+
+方法
+AlexNet
+VGG16
+ResNet-50
+
+
+
+
+Supervised
+56.8%
+67.3%
+76.2%
+
+
+Ours
+48.1%
+60.5%
+65.4%
+
+
+
+结论：在检测任务上达到无监督方法的SOTA，且随网络加深性能提升。
+代码实现
+核心损失函数实现
+import torchimport torch.nn as nnimport torch.nn.functional as Fclass InstanceDiscriminationLoss(nn.Module):    &quot;&quot;&quot;实例判别损失（使用NCE近似）&quot;&quot;&quot;        def __init__(self, memory_bank, temperature=0.07, m=4096, lambda_reg=10.0):        super().__init__()        self.memory_bank = memory_bank  # [n, dim] 所有实例的特征        self.temperature = temperature        self.m = m  # 负样本数量        self.lambda_reg = lambda_reg  # 正则化系数        def forward(self, features, indices, memory_bank_prev):        &quot;&quot;&quot;        Args:            features: [batch_size, dim] 当前batch的特征            indices: [batch_size] 当前batch的实例索引            memory_bank_prev: [batch_size, dim] Memory Bank中的特征（上一迭代）        &quot;&quot;&quot;        batch_size = features.size(0)        device = features.device                # L2归一化        features = F.normalize(features, p=2, dim=1)                # 从Memory Bank获取正样本特征        pos_features = memory_bank_prev  # [batch_size, dim]                # 随机采样负样本        neg_indices = torch.randint(0, len(self.memory_bank), (batch_size, self.m), device=device)        neg_features = self.memory_bank[neg_indices]  # [batch_size, m, dim]                # 计算相似度        pos_sim = torch.sum(features * pos_features, dim=1, keepdim=True) / self.temperature  # [batch_size, 1]        neg_sim = torch.bmm(            features.unsqueeze(1),  # [batch_size, 1, dim]            neg_features.transpose(1, 2)  # [batch_size, dim, m]        ) / self.temperature  # [batch_size, 1, m]                # 估计归一化常数（蒙特卡洛）        Z_approx = (len(self.memory_bank) / self.m) * torch.sum(torch.exp(neg_sim), dim=2)  # [batch_size, 1]                # 计算概率        pos_prob = torch.exp(pos_sim) / (torch.exp(pos_sim) + self.m * (1.0 / len(self.memory_bank)) * Z_approx)                # NCE损失        nce_loss = -torch.mean(torch.log(pos_prob + 1e-8))                # 近端正则化        reg_loss = self.lambda_reg * torch.mean(torch.sum((features - memory_bank_prev) ** 2, dim=1))                total_loss = nce_loss + reg_loss                return total_loss, nce_loss, reg_loss
+完整训练流程
+import torchimport torch.optim as optimfrom torch.utils.data import DataLoaderclass InstanceDiscriminationTrainer:    def __init__(self, model, memory_bank, dataset_size, temperature=0.07, m=4096):        self.model = model        self.memory_bank = memory_bank  # 初始化为随机单位向量        self.temperature = temperature        self.m = m                # 初始化Memory Bank        self.memory_bank.data = F.normalize(            torch.randn(dataset_size, 128), p=2, dim=1        )        def train_epoch(self, dataloader, optimizer, criterion):        self.model.train()        total_loss = 0                for batch_idx, (images, indices) in enumerate(dataloader):            # 前向传播            features = self.model(images)  # [batch_size, 128]                        # 从Memory Bank获取上一迭代的特征            memory_bank_prev = self.memory_bank[indices].clone()                        # 计算损失            loss, nce_loss, reg_loss = criterion(                features, indices, memory_bank_prev            )                        # 反向传播            optimizer.zero_grad()            loss.backward()            optimizer.step()                        # 更新Memory Bank（动量更新）            with torch.no_grad():                self.memory_bank[indices] = F.normalize(features, p=2, dim=1)                        total_loss += loss.item()                        if batch_idx % 100 == 0:                print(f&#x27;Batch &#123;batch_idx&#125;, Loss: &#123;loss.item():.4f&#125;, &#x27;                      f&#x27;NCE: &#123;nce_loss.item():.4f&#125;, Reg: &#123;reg_loss.item():.4f&#125;&#x27;)                return total_loss / len(dataloader)
+k-NN分类器实现
+def knn_classify(query_features, memory_bank, memory_labels, k=200, temperature=0.07):    &quot;&quot;&quot;    使用k-NN对查询特征进行分类        Args:        query_features: [n_query, dim] 查询特征        memory_bank: [n_memory, dim] Memory Bank中的特征        memory_labels: [n_memory] Memory Bank中的标签        k: 最近邻数量        temperature: 温度参数    &quot;&quot;&quot;    # 计算相似度矩阵    similarity = torch.mm(        F.normalize(query_features, p=2, dim=1),        F.normalize(memory_bank, p=2, dim=1).t()    )  # [n_query, n_memory]        # 找到top-k最近邻    _, topk_indices = torch.topk(similarity, k, dim=1)  # [n_query, k]    topk_similarities = torch.gather(similarity, 1, topk_indices)  # [n_query, k]    topk_labels = memory_labels[topk_indices]  # [n_query, k]        # 加权投票    weights = torch.exp(topk_similarities / temperature)  # [n_query, k]        # 对每个类别求和权重    num_classes = memory_labels.max().item() + 1    class_weights = torch.zeros(query_features.size(0), num_classes, device=query_features.device)        for c in range(num_classes):        mask = (topk_labels == c)  # [n_query, k]        class_weights[:, c] = (weights * mask.float()).sum(dim=1)        # 预测类别    predictions = class_weights.argmax(dim=1)        return predictions
+技术细节
+Memory Bank更新策略
+选项1：直接替换
+memory_bank[indices] = features
+选项2：动量更新
+memory_bank[indices] = momentum * memory_bank[indices] + (1 - momentum) * features
+选项3：仅在训练时更新
+
+训练时：每次迭代更新
+测试时：固定不变
+
+温度参数选择
+
+典型值：0.07（与SimCLR、MoCo相同）
+调优范围：0.05 - 0.15
+影响：控制softmax分布的尖锐程度
+
+NCE负样本数量
+
+最小值：$m = 1$（性能较差）
+推荐值：$m = 4096$（性能接近完整softmax）
+权衡：$m$ 越大，性能越好，但计算成本也越高
+
+近端正则化系数
+
+典型值：$\lambda = 10.0$
+作用：稳定训练，加速收敛
+调优：根据训练稳定性调整
+
+优缺点分析
+优点
+
+概念简单：将无监督学习转化为实例分类问题
+非参数化：特征直接作为&quot;类别原型&quot;，泛化能力强
+存储高效：128维特征，1M图像仅需600MB
+可扩展性好：性能随数据和网络深度提升
+训练测试一致：都使用相同的度量空间
+
+缺点
+
+计算成本：需要大量负样本（NCE）
+Memory Bank维护：需要存储所有实例的特征
+更新延迟：Memory Bank更新有延迟，可能影响性能
+对数据增强依赖：需要合理的数据增强策略
+
+与后续工作的关系
+对MoCo的启发
+
+Memory Bank → 队列：MoCo用队列替代Memory Bank
+直接更新 → 动量更新：MoCo使用动量编码器
+一致性保证：两者都关注特征的一致性
+
+对SimCLR的启发
+
+实例判别思想：SimCLR也使用实例判别
+端到端训练：SimCLR去除了Memory Bank，使用大batch
+数据增强重要性：SimCLR强调了数据增强的关键作用
+
+对SupCon的启发
+
+监督信号融入：SupCon将标签信息融入对比学习
+同类样本作为正样本：SupCon扩展了正样本的定义
+
+总结
+实例判别学习通过将每个图像实例视为独立类别，使用非参数softmax和NCE来学习特征表示。其核心贡献包括：
+
+非参数化设计：特征直接作为类别原型，泛化能力强
+NCE近似：解决了大规模实例分类的计算问题
+Memory Bank机制：高效存储和更新所有实例的特征
+近端正则化：稳定训练过程
+
+虽然后续的MoCo、SimCLR等方法在实现上更加优雅，但实例判别学习奠定了对比学习的基础思想，是这一领域的重要里程碑。
+参考文献
+
+
+Wu, Z., Xiong, Y., Yu, S. X., &amp; Lin, D. (2018). Unsupervised feature learning via non-parametric instance discrimination. CVPR 2018. https://arxiv.org/pdf/1805.01978
+
+
+Gutmann, M., &amp; Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. AISTATS 2010.
+
+
+He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
+
+
+Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
+
+
+思考题
+
+为什么非参数softmax比参数化softmax更适合实例判别任务？
+NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
+Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
+近端正则化为什么能稳定训练？其背后的数学原理是什么？
+实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
+为什么k-NN分类器在测试时表现良好？这说明了什么？
+
+思考题答案
+1. 为什么非参数softmax比参数化softmax更适合实例判别任务？
+参数化softmax的问题：
+
+泛化能力弱：权重向量 $w_j$ 只对训练实例有效，无法应用到新实例
+阻止直接比较：权重向量作为&quot;类别原型&quot;，阻止了实例特征间的直接比较
+参数冗余：需要为每个实例存储一个权重向量，参数量大
+
+非参数softmax的优势：
+
+直接比较实例：特征向量 $v_j$ 直接作为&quot;类别原型&quot;，允许实例间的直接比较
+泛化能力强：学习到的特征可以应用到任何新实例
+参数高效：无需存储权重参数，只需存储特征
+训练测试一致：训练和测试都使用相同的特征度量空间
+
+实验验证：在CIFAR-10上，非参数方法比参数方法性能提升18%，证明了其优势。
+2. NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
+转化过程：
+
+原始问题：区分 $n$ 个类别（实例），需要计算所有类别的概率
+NCE转化：将问题转化为&quot;区分数据样本和噪声样本&quot;的二分类问题
+后验概率：
+$$
+h(i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
+$$
+其中 $P_d$ 是数据分布，$P_n$ 是噪声分布（均匀分布）
+
+为什么有效：
+
+计算效率：从 $O(n)$ 降低到 $O(1)$ 每个样本
+近似质量：当负样本数量 $m$ 足够大时，近似质量接近完整softmax
+理论基础：NCE有坚实的理论保证，是unnormalized模型的标准估计方法
+实践验证：实验表明 $m=4096$ 时性能接近完整softmax
+
+关键洞察：不需要计算所有类别的概率，只需要区分&quot;是正样本&quot;还是&quot;是噪声样本&quot;。
+3. Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
+Memory Bank的优势：
+
+存储所有特征：可以访问训练集中所有实例的特征
+计算高效：避免每次重新计算所有特征
+历史信息：保留特征的历史状态
+
+Memory Bank的局限性：
+
+更新延迟：特征更新有延迟（使用上一迭代的特征）
+内存需求：需要存储所有实例的特征
+一致性挑战：特征可能因为编码器变化而变得不一致
+
+与MoCo队列的区别：
+
+
+
+特性
+Memory Bank
+MoCo队列
+
+
+
+
+大小
+所有训练实例
+固定大小（如65536）
+
+
+更新
+直接替换
+FIFO（先进先出）
+
+
+一致性
+可能不一致
+通过动量编码器保证
+
+
+存储
+所有实例
+仅最近batch的特征
+
+
+
+MoCo的改进：
+
+使用动量编码器保证Key的一致性
+队列大小固定，内存可控
+FIFO更新保证队列中的特征相对新鲜
+
+4. 近端正则化为什么能稳定训练？其背后的数学原理是什么？
+问题背景：
+
+每个&quot;类别&quot;只有一个实例
+每个epoch每个类别只访问一次
+随机采样导致训练过程振荡严重
+
+近端正则化的作用：
+
+平滑性约束：鼓励当前特征 $v_i^{(t)}$ 与上一迭代特征 $v_i^{(t-1)}$ 接近
+减少振荡：防止特征因为随机采样而剧烈变化
+稳定梯度：使梯度更新更加平滑
+
+数学原理：
+近端正则化项：
+$$
+\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
+$$
+这等价于在优化问题中加入平滑性约束：
+
+当 $\lambda \to 0$：退化为原始损失
+当 $\lambda \to \infty$：强制 $v_i^{(t)} = v_i^{(t-1)}$（不更新）
+
+优化视角：
+近端正则化是近端梯度方法的应用，用于优化非光滑或约束优化问题。在这里，它起到了稳定化的作用。
+实验验证：图3显示，加入正则化后训练损失曲线更平滑，收敛更快。
+5. 实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
+共同思想：
+
+实例判别：都将每个实例视为独立类别
+对比学习：通过区分正负样本来学习特征
+特征归一化：都使用L2归一化
+温度参数：都使用温度缩放
+
+主要区别：
+
+
+
+特性
+Instance Discrimination
+MoCo
+SimCLR
+
+
+
+
+负样本来源
+Memory Bank
+队列
+当前batch
+
+
+特征更新
+延迟更新
+动量更新
+实时更新
+
+
+计算方式
+NCE近似
+完整softmax
+完整softmax
+
+
+batch size
+小（256）
+中等（1024）
+大（≥4096）
+
+
+实现复杂度
+中等
+较高
+较低
+
+
+
+演进关系：
+
+Instance Discrimination：提出非参数softmax和Memory Bank
+MoCo：改进Memory Bank为队列，引入动量编码器
+SimCLR：去除Memory Bank，使用大batch和端到端训练
+
+核心改进：
+
+MoCo解决了Memory Bank的一致性问题
+SimCLR简化了实现，但需要更多计算资源
+
+6. 为什么k-NN分类器在测试时表现良好？这说明了什么？
+k-NN表现良好的原因：
+
+训练测试一致：训练和测试都使用相同的特征度量空间
+非参数化设计：特征直接作为&quot;类别原型&quot;，适合k-NN
+度量质量高：学习到的特征确实捕获了视觉相似性
+
+实验证据：
+
+在ImageNet上，k-NN准确率（46.5%）接近线性SVM（54.0%）
+说明学习到的特征度量质量很高
+
+深层含义：
+
+训练目标有效：实例判别目标与语义分类目标一致
+特征质量高：特征空间中的距离确实反映了视觉相似性
+泛化能力强：学习到的表示可以泛化到新任务
+
+对比其他方法：
+
+Split-Brain：k-NN准确率（11.8%）远低于线性SVM（35.2%）
+说明其学习到的特征度量质量较低
+
+结论：k-NN的良好表现证明了实例判别学习的有效性，学习到的特征确实捕获了视觉相似性，而不仅仅是适合特定分类器的表示。
+深入理解与实践思考
+
+实例判别与语义判别的关系：虽然每个实例都被视作一个类别，但模型最终学习到的特征仍然会聚合出语义簇。这一现象说明视觉数据的结构性远强于我们赋予的标签结构。实际操作中可以通过t-SNE/UMAP观察到同类样本自然聚团。
+Memory Bank vs. 队列：Memory Bank提供了全局视角，但需要处理“陈旧”特征的问题。后来MoCo中的动量编码器与固定长度队列，可以被视作对“特征一致性”与“可扩展性”的不同取舍。若业务中GPU显存紧张，可采用分片Memory Bank或结合近邻图的稀疏更新。
+正则化的更广义含义：近端正则化不仅平滑了优化，还暗含“特征轨迹不能跳跃太远”的约束，相当于引入了一个时间维度的Lipschitz限制。这提醒我们，在设计自监督任务时，需要关注优化轨迹是否稳定。
+评价指标的选择：k-NN性能高说明学到的度量空间质量好，但在工业场景往往还需关注召回、延迟等指标。实例判别学习天然适合构建向量检索服务（如图像去重、相似商品推荐）。
+与现代方法的衔接：若希望复现最新SOTA，可在此框架上引入更强的编码器（ViT、ConvNeXt）、更丰富的数据增强（RandAugment、CutMix）以及更加稳定的优化器（AdamW + Cosine）。同时也可以尝试将SupCon的标签约束融入Memory Bank以获得更平滑的语义结构。
+
+开放问题与研究方向
+
+Memory更新策略：能否利用动量更新与自适应权重结合，既保持全局视野又不过度依赖旧特征？
+负样本质量：如何更智能地采样“困难负样本”，避免CNN在易区分的负样本上浪费容量？
+多模态扩展：能否直接在该框架中支持图像-文本或多模态实例判别，减少对比学习与跨模态模型之间的割裂？
+理论解释：实例判别为何能自动恢复语义结构？是否存在可证明的聚类或流形假设支撑？
+增量学习：面对不断新增的数据集，如何无缝扩展Memory Bank并避免遗忘？
 
 ]]></content>
       <categories>
-        <category>生活记录</category>
+        <category>论文精读</category>
+        <category>计算机视觉</category>
       </categories>
       <tags>
-        <tag>生活</tag>
-        <tag>随笔</tag>
-        <tag>研究生生活</tag>
+        <tag>论文精读</tag>
+        <tag>对比学习</tag>
+        <tag>实例判别</tag>
+        <tag>无监督学习</tag>
       </tags>
   </entry>
   <entry>
@@ -5590,806 +6674,47 @@ InfoNCE作为下界：InfoNCE提供了互信息的可计算下界。下界松紧
       </tags>
   </entry>
   <entry>
-    <title>实例判别学习 - Non-Parametric Instance Discrimination精读</title>
-    <url>/2025/11/%E5%AE%9E%E4%BE%8B%E5%88%A4%E5%88%AB%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[Unsupervised Feature Learning via Non-Parametric Instance Discrimination
-论文地址：https://arxiv.org/pdf/1805.01978
-代码地址：https://github.com/zhirongw/lemniscate.pytorch
-引言
-实例判别（Instance Discrimination） 是2018年提出的一种无监督特征学习方法，它将对比学习的思想推向极致：将每个图像实例视为一个独立的类别，通过区分不同实例来学习特征表示。这篇论文是MoCo、SimCLR等现代对比学习方法的重要先驱工作。
-论文的核心洞察来自对监督学习的观察：在ImageNet上训练的神经网络，即使没有显式指导，也能自动发现视觉上相似的类别（如leopard和jaguar）之间的关联。作者将这一观察延伸到实例级别：如果能够区分每个实例，那么学习到的特征应该能够捕获实例间的视觉相似性。
-实例判别的核心创新
-将无监督问题转化为监督问题：
-实例判别的天才之处在于一个简单的转换：
-
-传统无监督学习：没有标签，难以定义学习目标
-实例判别：每个图像就是自己的标签，变成N分类问题
-好处：可以直接使用成熟的分类框架和技术
-
-为什么这种方法有效？
-
-
-视觉相似性的自然涌现
-
-虽然每个实例是独立类别，但视觉相似的实例会在特征空间聚集
-原因：它们共享底层视觉模式（边缘、纹理、形状等）
-结果：学到的特征捕获了语义信息
-
-
-
-信息论的解释
-
-区分N个实例需要log(N)比特信息
-模型被迫学习最有效的编码
-这种编码自然对应于语义特征
-
-
-
-避免平凡解
-
-不能简单记住每个实例（泛化要求）
-必须学习可迁移的特征
-数据增强强制学习不变性
-
-
-
-技术挑战与解决方案
-挑战1：计算Softmax的分母
-当有百万级实例时，计算softmax分母需要遍历所有实例，计算成本巨大。
-解决方案：NCE近似
-原始softmax概率：P(i|v) = exp(v·f_i) / Σ_j exp(v·f_j)NCE近似：将其转化为二分类问题（实例i vs 噪声）
-挑战2：存储所有实例的特征
-需要存储所有训练图像的特征表示，内存需求大。
-解决方案：Memory Bank
-
-使用动量更新：新特征 = m×旧特征 + (1-m)×当前特征
-好处：平滑特征变化，提高训练稳定性
-内存需求：128维×100万实例 ≈ 500MB（可接受）
-
-挑战3：负样本采样
-从百万实例中采样负样本，如何保证采样质量？
-解决方案：Proximal Regularization
-
-不是随机采样，而是基于特征相似度
-优先采样相似但不同的实例（困难负样本）
-提高学习效率
-
-核心思想
-基本动机
-关键观察：
-
-监督学习中，模型会自动学习到视觉相似类别之间的关联
-这种相似性不是来自语义标注，而是来自视觉数据本身
-如果将类别级别的监督推向实例级别，能否学到更好的表示？
-
-核心假设：
-
-每个图像实例本身就是一个独特的&quot;类别&quot;
-通过区分不同实例，模型会学习到捕获视觉相似性的特征
-视觉相似的实例在特征空间中应该更接近
-
-方法概述
-将无监督学习问题转化为实例级别的分类问题：
-
-每个训练图像是一个独立的类别
-使用非参数softmax进行分类
-使用NCE（Noise-Contrastive Estimation）解决计算问题
-
-方法详解
-非参数Softmax分类器
-参数化Softmax的问题
-传统的参数化softmax：
-$$
-P(i|v) = \frac{\exp(w_i^T v)}{\sum_{j=1}^{n} \exp(w_j^T v)}
-$$
-其中 $w_j$ 是类别 $j$ 的权重向量。
-问题：
-
-权重向量 $w_j$ 只对训练类别有效，无法泛化到新实例
-权重向量作为类别原型，阻止了实例间的直接比较
-需要存储和更新大量权重参数
-
-非参数Softmax
-将权重向量 $w_j$ 替换为特征向量 $v_j$：
-$$
-P(i|v) = \frac{\exp(v_i^T v / \tau)}{\sum_{j=1}^{n} \exp(v_j^T v / \tau)}
-$$
-其中：
-
-$v_i, v_j$ 是归一化后的特征向量（$||v|| = 1$）
-$\tau$ 是温度参数，控制分布的尖锐程度
-
-优势：
-
-直接比较实例：特征向量直接作为&quot;类别原型&quot;
-泛化能力强：学习到的特征可以应用到任何新实例
-计算高效：无需存储和更新权重参数
-训练测试一致：训练和测试都使用相同的度量空间
-
-Memory Bank机制
-问题：计算 $P(i|v)$ 需要所有实例的特征 ${v_j}$，但每次迭代只更新当前batch的特征。
-解决方案：维护一个Memory Bank $V = {v_j}$ 存储所有实例的特征。
-更新策略：
-
-初始化：Memory Bank中的特征初始化为随机单位向量
-更新：每次迭代后，将当前batch的特征更新到Memory Bank
-使用：计算损失时，从Memory Bank中读取特征
-
-优势：
-
-避免每次重新计算所有特征
-保持特征的历史信息
-计算效率高
-
-Noise-Contrastive Estimation (NCE)
-问题：当实例数量 $n$ 很大（如ImageNet的1.2M）时，计算完整的softmax不可行。
-解决方案：使用NCE将多类分类问题转化为二分类问题。
-NCE原理
-将问题转化为：区分数据样本和噪声样本。
-定义：
-
-数据分布：$P_d(i\mid v) = \frac{\exp(v_i^\top v / \tau)}{Z_i}$，其中 $Z_i = \sum_{j=1}^{n} \exp(v_j^\top v / \tau)$
-噪声分布：$P_n(i) = 1/n$（均匀分布）
-噪声样本频率：$m$ 倍于数据样本
-
-后验概率：
-$$ 
-h(i, v) = P(D=1\mid i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
-$$ 
-损失函数：
-$$ 
-\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}[\log h(i, v)] - m \cdot \mathbb{E}_{(i,v')\sim P_n}[\log\big(1 - h(i, v')\big)]
-$$ 
-归一化常数估计
-计算 $Z_i$ 仍然昂贵，使用蒙特卡洛估计：
-$$ 
-Z_i \approx \frac{n}{m} \sum_{k=1}^{m} \exp\big(v_{j_k}^\top v / \tau\big)
-$$ 
-其中 ${j_k}$ 是随机采样的索引。
-复杂度：从 $O(n)$ 降低到 $O(1)$ 每个样本。
-Proximal Regularization（近端正则化）
-问题：每个&quot;类别&quot;只有一个实例，每个epoch每个类别只访问一次，训练过程振荡严重。
-解决方案：引入近端正则化项，鼓励训练过程的平滑性。
-正则化项：
-$$ 
-\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
-$$ 
-其中：
-
-$v_i^{(t)}$ 是当前迭代的特征
-$v_i^{(t-1)}$ 是Memory Bank中存储的特征（上一迭代）
-
-完整损失：
-$$ 
-\mathcal{L}_{\text{NCE}}(\theta) = -\mathbb{E}_{(i,v)\sim P_d}\Big[\log h\big(i, v_i^{(t-1)}\big) - \lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2\Big] - m \cdot \mathbb{E}_{(i,v')\sim P_n}\Big[\log\big(1 - h(i, v'^{(t-1)})\big)\Big]
-$$ 
-加权k-NN分类器
-测试时分类：
-
-计算特征：$\hat{f} = f_\theta(\hat{x})$
-相似度计算：$s_i = \cos(v_i, \hat{f})$
-k-NN检索：找到top-k最近邻 $N_k$
-加权投票：类别 $c$ 的权重为
-$$
-w_c = \sum_{i \in N_k} \alpha_i \cdot \mathbf{1}(c_i = c)
-$$
-其中 $\alpha_i = \exp(s_i / \tau)$
-
-参数设置：
-
-$k = 200$
-$\tau = 0.07$（与训练时相同）
-
-实验分析
-参数化 vs 非参数化Softmax
-在CIFAR-10上的对比实验：
-
-
-
-方法
-Linear SVM
-k-NN
-
-
-
-
-参数化Softmax
-60.3%
-63.0%
-
-
-非参数化Softmax
-75.4%
-80.8%
-
-
-
-关键发现：
-
-非参数化方法显著优于参数化方法（+18%）
-k-NN性能接近线性SVM，说明学习到的特征度量质量高
-
-NCE近似质量
-不同负样本数量 $m$ 的影响：
-
-
-
-m
-k-NN Accuracy
-
-
-
-
-1
-42.5%
-
-
-10
-63.4%
-
-
-512
-78.4%
-
-
-4096
-80.4%
-
-
-
-结论：随着 $m$ 增加，NCE近似质量提升，$m=4096$ 时接近完整softmax。
-ImageNet分类结果
-不同网络架构的性能：
-
-
-
-方法
-conv5 (Linear)
-k-NN
-特征维度
-
-
-
-
-Random
-14.1%
-3.5%
-10K
-
-
-Split-Brain
-35.2%
-11.8%
-10K
-
-
-Ours (AlexNet)
-35.6%
-31.3%
-128
-
-
-Ours (VGG16)
-39.2%
-33.9%
-128
-
-
-Ours (ResNet-18)
-44.5%
-41.0%
-128
-
-
-Ours (ResNet-50)
-54.0%
-46.5%
-128
-
-
-
-关键发现：
-
-显著超越SOTA：在ImageNet上大幅超越之前的方法
-网络深度优势：从AlexNet到ResNet-50，性能持续提升
-紧凑表示：仅用128维特征就达到优异性能
-存储高效：1.28M图像的特征仅需600MB存储
-
-特征泛化能力
-在Places数据集上的零样本评估（使用ImageNet训练的特征）：
-
-
-
-方法
-ResNet-50 (conv5)
-ResNet-50 (k-NN)
-
-
-
-
-Ours
-45.5%
-41.6%
-
-
-
-结论：学习到的特征具有良好的跨数据集泛化能力。
-训练目标与测试目标的一致性
-关键观察：
-
-训练损失持续下降
-测试准确率同步提升
-无过拟合迹象
-
-意义：说明训练目标（实例判别）与测试目标（语义分类）是一致的，学习到的特征确实捕获了视觉相似性。
-消融实验
-特征维度：
-
-
-
-维度
-Top-1 Accuracy
-
-
-
-
-32
-34.0%
-
-
-64
-38.8%
-
-
-128
-41.0%
-
-
-256
-40.1%
-
-
-
-结论：128维是最优选择，性能在128维达到峰值。
-训练数据量：
-
-
-
-数据比例
-Accuracy
-
-
-
-
-0.1%
-3.9%
-
-
-1%
-10.7%
-
-
-10%
-23.1%
-
-
-30%
-31.7%
-
-
-100%
-41.0%
-
-
-
-结论：性能随训练数据量增加而持续提升，说明方法具有良好的可扩展性。
-半监督学习
-使用不同比例的标注数据进行微调：
-
-
-
-标注比例
-Ours (ResNet)
-Scratch (ResNet)
-Split-Brain (AlexNet)
-
-
-
-
-1%
-48.0%
-38.0%
-35.0%
-
-
-2%
-57.0%
-46.0%
-42.0%
-
-
-4%
-63.0%
-54.0%
-50.0%
-
-
-10%
-70.0%
-65.0%
-62.0%
-
-
-20%
-75.0%
-72.0%
-70.0%
-
-
-
-结论：在少样本场景下优势明显，1%标注数据时领先10%。
-目标检测
-在PASCAL VOC 2007上的检测性能：
-
-
-
-方法
-AlexNet
-VGG16
-ResNet-50
-
-
-
-
-Supervised
-56.8%
-67.3%
-76.2%
-
-
-Ours
-48.1%
-60.5%
-65.4%
-
-
-
-结论：在检测任务上达到无监督方法的SOTA，且随网络加深性能提升。
-代码实现
-核心损失函数实现
-import torchimport torch.nn as nnimport torch.nn.functional as Fclass InstanceDiscriminationLoss(nn.Module):    &quot;&quot;&quot;实例判别损失（使用NCE近似）&quot;&quot;&quot;        def __init__(self, memory_bank, temperature=0.07, m=4096, lambda_reg=10.0):        super().__init__()        self.memory_bank = memory_bank  # [n, dim] 所有实例的特征        self.temperature = temperature        self.m = m  # 负样本数量        self.lambda_reg = lambda_reg  # 正则化系数        def forward(self, features, indices, memory_bank_prev):        &quot;&quot;&quot;        Args:            features: [batch_size, dim] 当前batch的特征            indices: [batch_size] 当前batch的实例索引            memory_bank_prev: [batch_size, dim] Memory Bank中的特征（上一迭代）        &quot;&quot;&quot;        batch_size = features.size(0)        device = features.device                # L2归一化        features = F.normalize(features, p=2, dim=1)                # 从Memory Bank获取正样本特征        pos_features = memory_bank_prev  # [batch_size, dim]                # 随机采样负样本        neg_indices = torch.randint(0, len(self.memory_bank), (batch_size, self.m), device=device)        neg_features = self.memory_bank[neg_indices]  # [batch_size, m, dim]                # 计算相似度        pos_sim = torch.sum(features * pos_features, dim=1, keepdim=True) / self.temperature  # [batch_size, 1]        neg_sim = torch.bmm(            features.unsqueeze(1),  # [batch_size, 1, dim]            neg_features.transpose(1, 2)  # [batch_size, dim, m]        ) / self.temperature  # [batch_size, 1, m]                # 估计归一化常数（蒙特卡洛）        Z_approx = (len(self.memory_bank) / self.m) * torch.sum(torch.exp(neg_sim), dim=2)  # [batch_size, 1]                # 计算概率        pos_prob = torch.exp(pos_sim) / (torch.exp(pos_sim) + self.m * (1.0 / len(self.memory_bank)) * Z_approx)                # NCE损失        nce_loss = -torch.mean(torch.log(pos_prob + 1e-8))                # 近端正则化        reg_loss = self.lambda_reg * torch.mean(torch.sum((features - memory_bank_prev) ** 2, dim=1))                total_loss = nce_loss + reg_loss                return total_loss, nce_loss, reg_loss
-完整训练流程
-import torchimport torch.optim as optimfrom torch.utils.data import DataLoaderclass InstanceDiscriminationTrainer:    def __init__(self, model, memory_bank, dataset_size, temperature=0.07, m=4096):        self.model = model        self.memory_bank = memory_bank  # 初始化为随机单位向量        self.temperature = temperature        self.m = m                # 初始化Memory Bank        self.memory_bank.data = F.normalize(            torch.randn(dataset_size, 128), p=2, dim=1        )        def train_epoch(self, dataloader, optimizer, criterion):        self.model.train()        total_loss = 0                for batch_idx, (images, indices) in enumerate(dataloader):            # 前向传播            features = self.model(images)  # [batch_size, 128]                        # 从Memory Bank获取上一迭代的特征            memory_bank_prev = self.memory_bank[indices].clone()                        # 计算损失            loss, nce_loss, reg_loss = criterion(                features, indices, memory_bank_prev            )                        # 反向传播            optimizer.zero_grad()            loss.backward()            optimizer.step()                        # 更新Memory Bank（动量更新）            with torch.no_grad():                self.memory_bank[indices] = F.normalize(features, p=2, dim=1)                        total_loss += loss.item()                        if batch_idx % 100 == 0:                print(f&#x27;Batch &#123;batch_idx&#125;, Loss: &#123;loss.item():.4f&#125;, &#x27;                      f&#x27;NCE: &#123;nce_loss.item():.4f&#125;, Reg: &#123;reg_loss.item():.4f&#125;&#x27;)                return total_loss / len(dataloader)
-k-NN分类器实现
-def knn_classify(query_features, memory_bank, memory_labels, k=200, temperature=0.07):    &quot;&quot;&quot;    使用k-NN对查询特征进行分类        Args:        query_features: [n_query, dim] 查询特征        memory_bank: [n_memory, dim] Memory Bank中的特征        memory_labels: [n_memory] Memory Bank中的标签        k: 最近邻数量        temperature: 温度参数    &quot;&quot;&quot;    # 计算相似度矩阵    similarity = torch.mm(        F.normalize(query_features, p=2, dim=1),        F.normalize(memory_bank, p=2, dim=1).t()    )  # [n_query, n_memory]        # 找到top-k最近邻    _, topk_indices = torch.topk(similarity, k, dim=1)  # [n_query, k]    topk_similarities = torch.gather(similarity, 1, topk_indices)  # [n_query, k]    topk_labels = memory_labels[topk_indices]  # [n_query, k]        # 加权投票    weights = torch.exp(topk_similarities / temperature)  # [n_query, k]        # 对每个类别求和权重    num_classes = memory_labels.max().item() + 1    class_weights = torch.zeros(query_features.size(0), num_classes, device=query_features.device)        for c in range(num_classes):        mask = (topk_labels == c)  # [n_query, k]        class_weights[:, c] = (weights * mask.float()).sum(dim=1)        # 预测类别    predictions = class_weights.argmax(dim=1)        return predictions
-技术细节
-Memory Bank更新策略
-选项1：直接替换
-memory_bank[indices] = features
-选项2：动量更新
-memory_bank[indices] = momentum * memory_bank[indices] + (1 - momentum) * features
-选项3：仅在训练时更新
-
-训练时：每次迭代更新
-测试时：固定不变
-
-温度参数选择
-
-典型值：0.07（与SimCLR、MoCo相同）
-调优范围：0.05 - 0.15
-影响：控制softmax分布的尖锐程度
-
-NCE负样本数量
-
-最小值：$m = 1$（性能较差）
-推荐值：$m = 4096$（性能接近完整softmax）
-权衡：$m$ 越大，性能越好，但计算成本也越高
-
-近端正则化系数
-
-典型值：$\lambda = 10.0$
-作用：稳定训练，加速收敛
-调优：根据训练稳定性调整
-
-优缺点分析
-优点
-
-概念简单：将无监督学习转化为实例分类问题
-非参数化：特征直接作为&quot;类别原型&quot;，泛化能力强
-存储高效：128维特征，1M图像仅需600MB
-可扩展性好：性能随数据和网络深度提升
-训练测试一致：都使用相同的度量空间
-
-缺点
-
-计算成本：需要大量负样本（NCE）
-Memory Bank维护：需要存储所有实例的特征
-更新延迟：Memory Bank更新有延迟，可能影响性能
-对数据增强依赖：需要合理的数据增强策略
-
-与后续工作的关系
-对MoCo的启发
-
-Memory Bank → 队列：MoCo用队列替代Memory Bank
-直接更新 → 动量更新：MoCo使用动量编码器
-一致性保证：两者都关注特征的一致性
-
-对SimCLR的启发
-
-实例判别思想：SimCLR也使用实例判别
-端到端训练：SimCLR去除了Memory Bank，使用大batch
-数据增强重要性：SimCLR强调了数据增强的关键作用
-
-对SupCon的启发
-
-监督信号融入：SupCon将标签信息融入对比学习
-同类样本作为正样本：SupCon扩展了正样本的定义
-
-总结
-实例判别学习通过将每个图像实例视为独立类别，使用非参数softmax和NCE来学习特征表示。其核心贡献包括：
-
-非参数化设计：特征直接作为类别原型，泛化能力强
-NCE近似：解决了大规模实例分类的计算问题
-Memory Bank机制：高效存储和更新所有实例的特征
-近端正则化：稳定训练过程
-
-虽然后续的MoCo、SimCLR等方法在实现上更加优雅，但实例判别学习奠定了对比学习的基础思想，是这一领域的重要里程碑。
-参考文献
-
-
-Wu, Z., Xiong, Y., Yu, S. X., &amp; Lin, D. (2018). Unsupervised feature learning via non-parametric instance discrimination. CVPR 2018. https://arxiv.org/pdf/1805.01978
-
-
-Gutmann, M., &amp; Hyvärinen, A. (2010). Noise-contrastive estimation: A new estimation principle for unnormalized statistical models. AISTATS 2010.
-
-
-He, K., et al. (2020). Momentum Contrast for Unsupervised Visual Representation Learning. CVPR 2020.
-
-
-Chen, T., et al. (2020). A Simple Framework for Contrastive Learning of Visual Representations. ICML 2020.
-
-
-思考题
-
-为什么非参数softmax比参数化softmax更适合实例判别任务？
-NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
-Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
-近端正则化为什么能稳定训练？其背后的数学原理是什么？
-实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
-为什么k-NN分类器在测试时表现良好？这说明了什么？
-
-思考题答案
-1. 为什么非参数softmax比参数化softmax更适合实例判别任务？
-参数化softmax的问题：
-
-泛化能力弱：权重向量 $w_j$ 只对训练实例有效，无法应用到新实例
-阻止直接比较：权重向量作为&quot;类别原型&quot;，阻止了实例特征间的直接比较
-参数冗余：需要为每个实例存储一个权重向量，参数量大
-
-非参数softmax的优势：
-
-直接比较实例：特征向量 $v_j$ 直接作为&quot;类别原型&quot;，允许实例间的直接比较
-泛化能力强：学习到的特征可以应用到任何新实例
-参数高效：无需存储权重参数，只需存储特征
-训练测试一致：训练和测试都使用相同的特征度量空间
-
-实验验证：在CIFAR-10上，非参数方法比参数方法性能提升18%，证明了其优势。
-2. NCE如何将多类分类问题转化为二分类问题？为什么这样有效？
-转化过程：
-
-原始问题：区分 $n$ 个类别（实例），需要计算所有类别的概率
-NCE转化：将问题转化为&quot;区分数据样本和噪声样本&quot;的二分类问题
-后验概率：
-$$
-h(i, v) = \frac{P_d(i\mid v)}{P_d(i\mid v) + m \cdot P_n(i)}
-$$
-其中 $P_d$ 是数据分布，$P_n$ 是噪声分布（均匀分布）
-
-为什么有效：
-
-计算效率：从 $O(n)$ 降低到 $O(1)$ 每个样本
-近似质量：当负样本数量 $m$ 足够大时，近似质量接近完整softmax
-理论基础：NCE有坚实的理论保证，是unnormalized模型的标准估计方法
-实践验证：实验表明 $m=4096$ 时性能接近完整softmax
-
-关键洞察：不需要计算所有类别的概率，只需要区分&quot;是正样本&quot;还是&quot;是噪声样本&quot;。
-3. Memory Bank机制的优势和局限性是什么？与MoCo的队列机制有何区别？
-Memory Bank的优势：
-
-存储所有特征：可以访问训练集中所有实例的特征
-计算高效：避免每次重新计算所有特征
-历史信息：保留特征的历史状态
-
-Memory Bank的局限性：
-
-更新延迟：特征更新有延迟（使用上一迭代的特征）
-内存需求：需要存储所有实例的特征
-一致性挑战：特征可能因为编码器变化而变得不一致
-
-与MoCo队列的区别：
-
-
-
-特性
-Memory Bank
-MoCo队列
-
-
-
-
-大小
-所有训练实例
-固定大小（如65536）
-
-
-更新
-直接替换
-FIFO（先进先出）
-
-
-一致性
-可能不一致
-通过动量编码器保证
-
-
-存储
-所有实例
-仅最近batch的特征
-
-
-
-MoCo的改进：
-
-使用动量编码器保证Key的一致性
-队列大小固定，内存可控
-FIFO更新保证队列中的特征相对新鲜
-
-4. 近端正则化为什么能稳定训练？其背后的数学原理是什么？
-问题背景：
-
-每个&quot;类别&quot;只有一个实例
-每个epoch每个类别只访问一次
-随机采样导致训练过程振荡严重
-
-近端正则化的作用：
-
-平滑性约束：鼓励当前特征 $v_i^{(t)}$ 与上一迭代特征 $v_i^{(t-1)}$ 接近
-减少振荡：防止特征因为随机采样而剧烈变化
-稳定梯度：使梯度更新更加平滑
-
-数学原理：
-近端正则化项：
-$$
-\lambda \big\lVert v_i^{(t)} - v_i^{(t-1)} \big\rVert_2^2
-$$
-这等价于在优化问题中加入平滑性约束：
-
-当 $\lambda \to 0$：退化为原始损失
-当 $\lambda \to \infty$：强制 $v_i^{(t)} = v_i^{(t-1)}$（不更新）
-
-优化视角：
-近端正则化是近端梯度方法的应用，用于优化非光滑或约束优化问题。在这里，它起到了稳定化的作用。
-实验验证：图3显示，加入正则化后训练损失曲线更平滑，收敛更快。
-5. 实例判别学习与后续的MoCo、SimCLR在思想上有何联系和区别？
-共同思想：
-
-实例判别：都将每个实例视为独立类别
-对比学习：通过区分正负样本来学习特征
-特征归一化：都使用L2归一化
-温度参数：都使用温度缩放
-
-主要区别：
-
-
-
-特性
-Instance Discrimination
-MoCo
-SimCLR
-
-
-
-
-负样本来源
-Memory Bank
-队列
-当前batch
-
-
-特征更新
-延迟更新
-动量更新
-实时更新
-
-
-计算方式
-NCE近似
-完整softmax
-完整softmax
-
-
-batch size
-小（256）
-中等（1024）
-大（≥4096）
-
-
-实现复杂度
-中等
-较高
-较低
-
-
-
-演进关系：
-
-Instance Discrimination：提出非参数softmax和Memory Bank
-MoCo：改进Memory Bank为队列，引入动量编码器
-SimCLR：去除Memory Bank，使用大batch和端到端训练
-
-核心改进：
-
-MoCo解决了Memory Bank的一致性问题
-SimCLR简化了实现，但需要更多计算资源
-
-6. 为什么k-NN分类器在测试时表现良好？这说明了什么？
-k-NN表现良好的原因：
-
-训练测试一致：训练和测试都使用相同的特征度量空间
-非参数化设计：特征直接作为&quot;类别原型&quot;，适合k-NN
-度量质量高：学习到的特征确实捕获了视觉相似性
-
-实验证据：
-
-在ImageNet上，k-NN准确率（46.5%）接近线性SVM（54.0%）
-说明学习到的特征度量质量很高
-
-深层含义：
-
-训练目标有效：实例判别目标与语义分类目标一致
-特征质量高：特征空间中的距离确实反映了视觉相似性
-泛化能力强：学习到的表示可以泛化到新任务
-
-对比其他方法：
-
-Split-Brain：k-NN准确率（11.8%）远低于线性SVM（35.2%）
-说明其学习到的特征度量质量较低
-
-结论：k-NN的良好表现证明了实例判别学习的有效性，学习到的特征确实捕获了视觉相似性，而不仅仅是适合特定分类器的表示。
-深入理解与实践思考
-
-实例判别与语义判别的关系：虽然每个实例都被视作一个类别，但模型最终学习到的特征仍然会聚合出语义簇。这一现象说明视觉数据的结构性远强于我们赋予的标签结构。实际操作中可以通过t-SNE/UMAP观察到同类样本自然聚团。
-Memory Bank vs. 队列：Memory Bank提供了全局视角，但需要处理“陈旧”特征的问题。后来MoCo中的动量编码器与固定长度队列，可以被视作对“特征一致性”与“可扩展性”的不同取舍。若业务中GPU显存紧张，可采用分片Memory Bank或结合近邻图的稀疏更新。
-正则化的更广义含义：近端正则化不仅平滑了优化，还暗含“特征轨迹不能跳跃太远”的约束，相当于引入了一个时间维度的Lipschitz限制。这提醒我们，在设计自监督任务时，需要关注优化轨迹是否稳定。
-评价指标的选择：k-NN性能高说明学到的度量空间质量好，但在工业场景往往还需关注召回、延迟等指标。实例判别学习天然适合构建向量检索服务（如图像去重、相似商品推荐）。
-与现代方法的衔接：若希望复现最新SOTA，可在此框架上引入更强的编码器（ViT、ConvNeXt）、更丰富的数据增强（RandAugment、CutMix）以及更加稳定的优化器（AdamW + Cosine）。同时也可以尝试将SupCon的标签约束融入Memory Bank以获得更平滑的语义结构。
-
-开放问题与研究方向
-
-Memory更新策略：能否利用动量更新与自适应权重结合，既保持全局视野又不过度依赖旧特征？
-负样本质量：如何更智能地采样“困难负样本”，避免CNN在易区分的负样本上浪费容量？
-多模态扩展：能否直接在该框架中支持图像-文本或多模态实例判别，减少对比学习与跨模态模型之间的割裂？
-理论解释：实例判别为何能自动恢复语义结构？是否存在可证明的聚类或流形假设支撑？
-增量学习：面对不断新增的数据集，如何无缝扩展Memory Bank并避免遗忘？
+    <title></title>
+    <url>/2026/02/%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84%20+%20%E5%88%86%E5%B8%83%E5%BB%BA%E6%A8%A1%20+%20%E5%8E%9F%E5%9E%8B%E6%BC%94%E5%8C%96/</url>
+    <content><![CDATA[原型=动态演化的语义锚点
+原型的关键作用
+1. 类级表示
+经过层级学习、去噪后的特征，更纯净、更有代表性
+2. 对比学习的监督信号
+不只是&quot;拉近同类&quot;，而是&quot;拉向类中心&quot;
+
+语义信息：
+原型包含了这个类的核心特征
+例如：猫原型 = “有毛” + “四条腿” + “小体型”
+辅助分类：
+新样本可以和各类原型对比
+与哪个原型最接近，就属于哪一类
+知识迁移：
+原型可以在不同任务间共享
+
+]]></content>
+  </entry>
+  <entry>
+    <title>开学三个月小记</title>
+    <url>/2025/12/%E5%BC%80%E5%AD%A6%E4%B8%89%E4%B8%AA%E6%9C%88%E5%B0%8F%E8%AE%B0/</url>
+    <content><![CDATA[时光飞逝，转眼间开学已经三个月了。如果一直这么下去就又荒废了三年。
+第一没有输入，感觉三个月没有什么知识输入，输出也没有，因为基础太差了，感觉陷入了一个恶性循环，没有时间学习，好吧，其实是不知道学啥，也不想学，静不下心来去学习，需要补的基础的东西太多了，不知道从哪里开始。
+第二过度依赖AI，用AI写的博客基本上也没认真看，AI虽然好用，但是现在完全没有发挥出它的作用帮我在能力上有所提升。
+第三生活比较混乱，主要是没有平衡好每天该做什么，又回到高中大学那种天天想干啥就干啥的状态了，课也基本上都不用去上，其实从高中开始就经常逃课，晚自习不上，大学疫情更是如此了，自由习惯了，很难再改变。每天过的倒是挺自由，也快一个月没开过组会了，也不知道要汇报啥。倒是偶尔健身，健身一个多月了，虽然也是三天打鱼两天晒网，但是确实是有效果的。
+上边三点的解决方法是现在急需制定一个切实可行的大体方案，每天按照计划去做，但是经常会忘记去看每日计划，效果一般，可以每天记录反思一下做了什么，这样应该可以，单独创建一个记事本，正好今天下载了一个新的笔记管理软件，尝试每天记录一下。其实就和我当时创建网站的目的一样，当时是为了监督我复试学习，每天记录一下做了什么，以防像第一年复试笔试没准备完，面试和机试一点没准备，以初试第三被刷掉。对于AI的话，如果用AI进行学习的话，还是很不错的，不需要繁琐的信息检索，可以达到及时反馈修改错误直觉的作用。
+
+
+“生活不是等待暴风雨过去，而是学会在雨中跳舞。”
 
 ]]></content>
       <categories>
-        <category>论文精读</category>
-        <category>计算机视觉</category>
+        <category>生活记录</category>
       </categories>
       <tags>
-        <tag>论文精读</tag>
-        <tag>对比学习</tag>
-        <tag>无监督学习</tag>
-        <tag>实例判别</tag>
+        <tag>生活</tag>
+        <tag>随笔</tag>
+        <tag>研究生生活</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>扩散模型</title>
-    <url>/2025/12/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[扩散模型是一种特殊的VAE，其灵感来自于热力学：一个分布可以通过不断地添加噪声变成另一个分布。放到图像生成任务里，就是来自训练集的图像可以通过不断添加噪声变成符合标准正态分布的图像。
-图像生成网络会学习如何把一个向量映射成一幅图像。设计网络架构时，最重要的是设计学习目标，让网络生成的图像和给定数据集里的图像相似。VAE的做法是使用两个网络，一个学习把图像编码成向量，另一个学习把向量解码回图像，它们的目标是让复原图像和原图像尽可能相似。学习完毕后，解码器就是图像生成网络。扩散模型是一种更具体的VAE。它把编码过程固定为加噪声，并让解码器学习怎么样消除之前添加的每一步噪声。
-]]></content>
   </entry>
   <entry>
     <title>手撕 Vision Transformer</title>
@@ -6407,6 +6732,147 @@ import torchimport torch.nn as nn# 1. 图像分块与嵌入 (Patch Embedding)# �
       <tags>
         <tag>Vit</tag>
         <tag>手撕代码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>扩散模型</title>
+    <url>/2025/12/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[扩散模型是一种特殊的VAE，其灵感来自于热力学：一个分布可以通过不断地添加噪声变成另一个分布。放到图像生成任务里，就是来自训练集的图像可以通过不断添加噪声变成符合标准正态分布的图像。
+图像生成网络会学习如何把一个向量映射成一幅图像。设计网络架构时，最重要的是设计学习目标，让网络生成的图像和给定数据集里的图像相似。VAE的做法是使用两个网络，一个学习把图像编码成向量，另一个学习把向量解码回图像，它们的目标是让复原图像和原图像尽可能相似。学习完毕后，解码器就是图像生成网络。扩散模型是一种更具体的VAE。它把编码过程固定为加噪声，并让解码器学习怎么样消除之前添加的每一步噪声。
+]]></content>
+  </entry>
+  <entry>
+    <title>深度学习优化器全家桶：从 SGD 到 AdamW 及未来</title>
+    <url>/2025/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BC%98%E5%8C%96%E5%99%A8/</url>
+    <content><![CDATA[在深度学习的训练过程中，优化器 (Optimizer) 扮演着至关重要的角色。它决定了网络参数更新的方式，直接影响模型的收敛速度和最终性能。本文将深入剖析深度学习中常见的优化器，从最基础的 SGD 到目前最流行的 AdamW，以及一些前沿的变体。
+1. 梯度下降家族 (Gradient Descent Variants)
+1.1 BGD, SGD 与 Mini-batch SGD
+
+BGD (Batch Gradient Descent)：每次迭代使用全部样本计算梯度。
+
+优点：梯度准确，收敛稳定。
+缺点：计算量大，内存无法承受，无法在线更新。
+
+
+SGD (Stochastic Gradient Descent)：每次迭代使用一个样本。
+
+优点：计算快，引入噪声有助于跳出局部最优。
+缺点：震荡剧烈，收敛慢，无法利用向量化加速。
+
+
+Mini-batch SGD：折中方案，每次使用一批样本（如 32, 64）。这是实际中最常用的形式。
+$$ w_{t+1} = w_t - \eta \cdot \nabla L(w_t) $$
+
+1.2 Momentum (动量法)
+为了抑制 SGD 的震荡（特别是在峡谷地形），引入了物理学中的动量概念。
+$$ v_t = \gamma v_{t-1} + \eta \nabla L(w_t) $$
+$$ w_{t+1} = w_t - v_t $$
+
+核心：参数更新方向不仅取决于当前梯度，还保留了之前的速度 $v_{t-1}$。
+效果：在梯度方向一致的维度加速，在梯度方向改变的维度减速（抑制震荡）。
+
+1.3 NAG (Nesterov Accelerated Gradient)
+Momentum 是“盲目”的冲刺，NAG 则是“先看一眼再走”。
+$$ v_t = \gamma v_{t-1} + \eta \nabla L(w_t - \gamma v_{t-1}) $$
+$$ w_{t+1} = w_t - v_t $$
+
+区别：NAG 先按动量走一步，计算那个位置的梯度，再修正。这使得 NAG 收敛更快，震荡更小。
+
+2. 自适应学习率家族 (Adaptive Learning Rate)
+SGD 系列对所有参数使用相同的学习率，这在稀疏数据或特征频率差异大时效果不佳。
+2.1 AdaGrad
+$$ G_t = G_{t-1} + g_t^2 $$
+$$ w_{t+1} = w_t - \frac{\eta}{\sqrt{G_t + \epsilon}} g_t $$
+
+机制：累积历史梯度的平方和 $G_t$ 作为分母。梯度大的参数，学习率衰减快；梯度小的参数，学习率衰减慢。
+缺点：$G_t$ 单调递增，导致学习率过早衰减至 0，训练提前停止。
+
+2.2 RMSProp
+为了解决 AdaGrad 的问题，Geoff Hinton 提出了 RMSProp（在 Coursera 课程中提出，未发表论文）。
+$$ E[g^2]t = \beta E[g^2]{t-1} + (1-\beta) g_t^2 $$
+$$ w_{t+1} = w_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} g_t $$
+
+机制：使用指数加权移动平均来计算梯度平方和。它只关注“最近”的梯度，解决了学习率过早消失的问题。适合 RNN 等变长序列任务。
+
+2.3 Adadelta
+Adadelta 也是为了解决 AdaGrad 学习率递减问题，它甚至不需要设置全局学习率 $\eta$，而是维护一个更新量的移动平均。
+3. 集大成者：Adam 及其变体
+3.1 Adam (Adaptive Moment Estimation)
+Adam = Momentum + RMSProp。它同时利用了一阶矩（均值）和二阶矩（方差）。
+
+计算梯度 $g_t$
+更新一阶矩：$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t$
+更新二阶矩：$v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2$
+偏差修正：$\hat{m}_t = m_t / (1-\beta_1^t)$, $\hat{v}_t = v_t / (1-\beta_2^t)$
+更新参数：$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$
+
+
+特点：收敛快，对超参数不敏感，是目前的默认选择。
+
+3.2 AdaMax
+Adam 中 $v_t$ 是基于 $L_2$ 范数的，AdaMax 将其推广到 $L_\infty$ 范数，更加稳定。
+3.3 Nadam
+Nadam = NAG + Adam。将 Nesterov 动量引入 Adam，理论上收敛速度更快。
+4. 现代优化器：修正与进化
+4.1 AdamW (Decoupled Weight Decay)
+这是目前 Transformer (BERT, ViT, GPT) 的标配。
+
+问题：在 Adam 中，L2 正则化通常直接加在梯度上。但在自适应学习率算法中，这样做会导致正则化效果被学习率缩放，变得不均匀。
+解决：AdamW 将权重衰减 (Weight Decay) 从梯度更新中剥离，直接作用于权重：
+$$ w_{t+1} = w_t - \eta (\dots) - \eta \lambda w_t $$
+
+4.2 RAdam (Rectified Adam)
+Adam 在训练初期，由于样本少，二阶矩估计方差大，导致学习率激增，模型发散。RAdam 通过引入“整流器”机制，在初期自动降低学习率（起到 Warmup 的作用），后期恢复正常。
+4.3 Lookahead
+被称为“优化器的优化器”。它维护两组权重：快权重 (Fast Weights) 和慢权重 (Slow Weights)。快权重由标准优化器（如 Adam）更新 k 次，然后慢权重向快权重方向迈一步。这大大提高了收敛稳定性。
+5. 总结与选型指南
+
+
+
+优化器
+特点
+适用场景
+
+
+
+
+SGD + Momentum
+收敛慢但稳，泛化性好
+CV (ResNet, VGG)，对精度要求极高的任务
+
+
+Adam
+收敛快，自适应
+NLP, RL，快速原型开发
+
+
+AdamW
+修正了权重衰减，训练更稳定
+Transformer (BERT, ViT)，生成模型
+
+
+RMSProp
+适合非平稳目标
+RNN, LSTM
+
+
+
+一句话建议：
+
+搞 CV，先试 SGD + Momentum，再试 AdamW。
+搞 NLP/Transformer，无脑上 AdamW。
+搞 新手入门，用 Adam。
+
+]]></content>
+      <categories>
+        <category>算法解析</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+        <tag>优化器</tag>
+        <tag>SGD</tag>
+        <tag>Adam</tag>
+        <tag>算法详解</tag>
       </tags>
   </entry>
   <entry>
@@ -6559,228 +7025,6 @@ O(1)
         <tag>快速排序</tag>
         <tag>归并排序</tag>
         <tag>堆排序</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深度学习损失函数：从 MSE 到 Focal Loss</title>
-    <url>/2025/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[在深度学习中，损失函数 (Loss Function) 是连接模型预测与真实标签的桥梁，它定义了模型的优化目标。选择合适的损失函数往往能起到事半功倍的效果。本文将对深度学习中常见的损失函数进行梳理，从基础的回归/分类到进阶的难例挖掘和度量学习。
-1. 回归任务 (Regression)
-回归任务的目标是预测连续值。
-1.1 MSE (L2 Loss)
-均方误差 (Mean Squared Error)：
-$$ L = (y - \hat{y})^2 $$
-
-特点：收敛快，但对异常值 (Outliers) 非常敏感（因为误差被平方放大了）。
-
-1.2 MAE (L1 Loss)
-平均绝对误差 (Mean Absolute Error)：
-$$ L = |y - \hat{y}| $$
-
-特点：对异常值鲁棒，但在 0 点处不可导，梯度恒定可能导致收敛困难。
-
-1.3 Smooth L1 Loss
-结合了 L1 和 L2 的优点：
-
-在误差较小时（$|x| &lt; 1$）使用 L2（平滑，可导）。
-在误差较大时（$|x| \ge 1$）使用 L1（梯度恒定，防止梯度爆炸）。
-应用：Faster R-CNN 的边界框回归。
-
-2. 分类任务 (Classification)
-2.1 Cross Entropy (CE)
-交叉熵损失是分类任务的标准配置：
-$$ CE = - \sum y \log(p) $$
-
-本质：衡量两个概率分布的距离（KL 散度）。
-局限：对噪声标签敏感，且容易导致模型过度自信 (Over-confidence)。
-
-2.2 Label Smoothing
-为了解决 CE 的过度自信，Label Smoothing 将 One-hot 标签软化：
-$$ y_{new} = (1 - \epsilon) y + \epsilon / K $$
-
-作用：防止模型在训练集上过拟合，提升泛化能力。
-
-3. 进阶：解决不平衡与难例
-当数据存在严重的类别不平衡或大量简单负样本时，标准 CE 往往失效。
-3.1 Focal Loss
-最初用于目标检测 (RetinaNet)，旨在解决 One-stage 检测器中极端的正负样本失衡。
-
-公式：$FL(p_t) = -\alpha_t (1 - p_t)^\gamma \log(p_t)$
-核心机制：
-
-$\gamma$ (Focusing Parameter)：降低易分样本（$p_t \approx 1$）的权重，迫使模型关注难分样本。
-$\alpha$ (Balancing Parameter)：平衡正负样本比例。
-
-
-价值：不仅用于检测，在长尾分类任务中也非常有效。
-
-# Focal Loss PyTorch 实现class FocalLoss(nn.Module):    def __init__(self, alpha=1, gamma=2):        super().__init__()        self.alpha = alpha        self.gamma = gamma            def forward(self, inputs, targets):        ce_loss = F.cross_entropy(inputs, targets, reduction=&#x27;none&#x27;)        pt = torch.exp(-ce_loss)        focal_loss = self.alpha * (1 - pt) ** self.gamma * ce_loss        return focal_loss.mean()
-4. 进阶：度量学习 (Metric Learning)
-目标是学习一个特征空间，使得同类样本距离近，异类样本距离远。
-4.1 Triplet Loss
-$$ L = \max(d(a, p) - d(a, n) + margin, 0) $$
-
-输入：三元组 (Anchor, Positive, Negative)。
-难点：需要复杂的三元组挖掘 (Triplet Mining) 策略，否则训练效率极低。
-
-4.2 InfoNCE (Contrastive Loss)
-自监督学习（如 SimCLR, MoCo）的核心。
-
-思想：将 Triplet 扩展到 N 个负样本，转化为一个 N+1 类的分类问题。
-优势：利用大量负样本，学习到的特征更具判别性。
-
-
-
-总结
-
-回归：首选 Smooth L1 或 MSE。
-分类：首选 Cross Entropy，配合 Label Smoothing。
-不平衡/难例：必选 Focal Loss。
-特征学习：尝试 InfoNCE 或 Triplet Loss。
-
-
-]]></content>
-      <categories>
-        <category>算法解析</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-        <tag>损失函数</tag>
-        <tag>基础理论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深度学习优化器全家桶：从 SGD 到 AdamW 及未来</title>
-    <url>/2025/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BC%98%E5%8C%96%E5%99%A8/</url>
-    <content><![CDATA[在深度学习的训练过程中，优化器 (Optimizer) 扮演着至关重要的角色。它决定了网络参数更新的方式，直接影响模型的收敛速度和最终性能。本文将深入剖析深度学习中常见的优化器，从最基础的 SGD 到目前最流行的 AdamW，以及一些前沿的变体。
-1. 梯度下降家族 (Gradient Descent Variants)
-1.1 BGD, SGD 与 Mini-batch SGD
-
-BGD (Batch Gradient Descent)：每次迭代使用全部样本计算梯度。
-
-优点：梯度准确，收敛稳定。
-缺点：计算量大，内存无法承受，无法在线更新。
-
-
-SGD (Stochastic Gradient Descent)：每次迭代使用一个样本。
-
-优点：计算快，引入噪声有助于跳出局部最优。
-缺点：震荡剧烈，收敛慢，无法利用向量化加速。
-
-
-Mini-batch SGD：折中方案，每次使用一批样本（如 32, 64）。这是实际中最常用的形式。
-$$ w_{t+1} = w_t - \eta \cdot \nabla L(w_t) $$
-
-1.2 Momentum (动量法)
-为了抑制 SGD 的震荡（特别是在峡谷地形），引入了物理学中的动量概念。
-$$ v_t = \gamma v_{t-1} + \eta \nabla L(w_t) $$
-$$ w_{t+1} = w_t - v_t $$
-
-核心：参数更新方向不仅取决于当前梯度，还保留了之前的速度 $v_{t-1}$。
-效果：在梯度方向一致的维度加速，在梯度方向改变的维度减速（抑制震荡）。
-
-1.3 NAG (Nesterov Accelerated Gradient)
-Momentum 是“盲目”的冲刺，NAG 则是“先看一眼再走”。
-$$ v_t = \gamma v_{t-1} + \eta \nabla L(w_t - \gamma v_{t-1}) $$
-$$ w_{t+1} = w_t - v_t $$
-
-区别：NAG 先按动量走一步，计算那个位置的梯度，再修正。这使得 NAG 收敛更快，震荡更小。
-
-2. 自适应学习率家族 (Adaptive Learning Rate)
-SGD 系列对所有参数使用相同的学习率，这在稀疏数据或特征频率差异大时效果不佳。
-2.1 AdaGrad
-$$ G_t = G_{t-1} + g_t^2 $$
-$$ w_{t+1} = w_t - \frac{\eta}{\sqrt{G_t + \epsilon}} g_t $$
-
-机制：累积历史梯度的平方和 $G_t$ 作为分母。梯度大的参数，学习率衰减快；梯度小的参数，学习率衰减慢。
-缺点：$G_t$ 单调递增，导致学习率过早衰减至 0，训练提前停止。
-
-2.2 RMSProp
-为了解决 AdaGrad 的问题，Geoff Hinton 提出了 RMSProp（在 Coursera 课程中提出，未发表论文）。
-$$ E[g^2]t = \beta E[g^2]{t-1} + (1-\beta) g_t^2 $$
-$$ w_{t+1} = w_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} g_t $$
-
-机制：使用指数加权移动平均来计算梯度平方和。它只关注“最近”的梯度，解决了学习率过早消失的问题。适合 RNN 等变长序列任务。
-
-2.3 Adadelta
-Adadelta 也是为了解决 AdaGrad 学习率递减问题，它甚至不需要设置全局学习率 $\eta$，而是维护一个更新量的移动平均。
-3. 集大成者：Adam 及其变体
-3.1 Adam (Adaptive Moment Estimation)
-Adam = Momentum + RMSProp。它同时利用了一阶矩（均值）和二阶矩（方差）。
-
-计算梯度 $g_t$
-更新一阶矩：$m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t$
-更新二阶矩：$v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2$
-偏差修正：$\hat{m}_t = m_t / (1-\beta_1^t)$, $\hat{v}_t = v_t / (1-\beta_2^t)$
-更新参数：$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t$
-
-
-特点：收敛快，对超参数不敏感，是目前的默认选择。
-
-3.2 AdaMax
-Adam 中 $v_t$ 是基于 $L_2$ 范数的，AdaMax 将其推广到 $L_\infty$ 范数，更加稳定。
-3.3 Nadam
-Nadam = NAG + Adam。将 Nesterov 动量引入 Adam，理论上收敛速度更快。
-4. 现代优化器：修正与进化
-4.1 AdamW (Decoupled Weight Decay)
-这是目前 Transformer (BERT, ViT, GPT) 的标配。
-
-问题：在 Adam 中，L2 正则化通常直接加在梯度上。但在自适应学习率算法中，这样做会导致正则化效果被学习率缩放，变得不均匀。
-解决：AdamW 将权重衰减 (Weight Decay) 从梯度更新中剥离，直接作用于权重：
-$$ w_{t+1} = w_t - \eta (\dots) - \eta \lambda w_t $$
-
-4.2 RAdam (Rectified Adam)
-Adam 在训练初期，由于样本少，二阶矩估计方差大，导致学习率激增，模型发散。RAdam 通过引入“整流器”机制，在初期自动降低学习率（起到 Warmup 的作用），后期恢复正常。
-4.3 Lookahead
-被称为“优化器的优化器”。它维护两组权重：快权重 (Fast Weights) 和慢权重 (Slow Weights)。快权重由标准优化器（如 Adam）更新 k 次，然后慢权重向快权重方向迈一步。这大大提高了收敛稳定性。
-5. 总结与选型指南
-
-
-
-优化器
-特点
-适用场景
-
-
-
-
-SGD + Momentum
-收敛慢但稳，泛化性好
-CV (ResNet, VGG)，对精度要求极高的任务
-
-
-Adam
-收敛快，自适应
-NLP, RL，快速原型开发
-
-
-AdamW
-修正了权重衰减，训练更稳定
-Transformer (BERT, ViT)，生成模型
-
-
-RMSProp
-适合非平稳目标
-RNN, LSTM
-
-
-
-一句话建议：
-
-搞 CV，先试 SGD + Momentum，再试 AdamW。
-搞 NLP/Transformer，无脑上 AdamW。
-搞 新手入门，用 Adam。
-
-]]></content>
-      <categories>
-        <category>算法解析</category>
-      </categories>
-      <tags>
-        <tag>深度学习</tag>
-        <tag>优化器</tag>
-        <tag>SGD</tag>
-        <tag>Adam</tag>
-        <tag>算法详解</tag>
       </tags>
   </entry>
   <entry>
@@ -7520,6 +7764,94 @@ SupCon学习到的特征更具判别性和泛化能力
         <tag>数据结构与算法</tag>
         <tag>链表</tag>
         <tag>线性表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习损失函数：从 MSE 到 Focal Loss</title>
+    <url>/2025/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[在深度学习中，损失函数 (Loss Function) 是连接模型预测与真实标签的桥梁，它定义了模型的优化目标。选择合适的损失函数往往能起到事半功倍的效果。本文将对深度学习中常见的损失函数进行梳理，从基础的回归/分类到进阶的难例挖掘和度量学习。
+1. 回归任务 (Regression)
+回归任务的目标是预测连续值。
+1.1 MSE (L2 Loss)
+均方误差 (Mean Squared Error)：
+$$ L = (y - \hat{y})^2 $$
+
+特点：收敛快，但对异常值 (Outliers) 非常敏感（因为误差被平方放大了）。
+
+1.2 MAE (L1 Loss)
+平均绝对误差 (Mean Absolute Error)：
+$$ L = |y - \hat{y}| $$
+
+特点：对异常值鲁棒，但在 0 点处不可导，梯度恒定可能导致收敛困难。
+
+1.3 Smooth L1 Loss
+结合了 L1 和 L2 的优点：
+
+在误差较小时（$|x| &lt; 1$）使用 L2（平滑，可导）。
+在误差较大时（$|x| \ge 1$）使用 L1（梯度恒定，防止梯度爆炸）。
+应用：Faster R-CNN 的边界框回归。
+
+2. 分类任务 (Classification)
+2.1 Cross Entropy (CE)
+交叉熵损失是分类任务的标准配置：
+$$ CE = - \sum y \log(p) $$
+
+本质：衡量两个概率分布的距离（KL 散度）。
+局限：对噪声标签敏感，且容易导致模型过度自信 (Over-confidence)。
+
+2.2 Label Smoothing
+为了解决 CE 的过度自信，Label Smoothing 将 One-hot 标签软化：
+$$ y_{new} = (1 - \epsilon) y + \epsilon / K $$
+
+作用：防止模型在训练集上过拟合，提升泛化能力。
+
+3. 进阶：解决不平衡与难例
+当数据存在严重的类别不平衡或大量简单负样本时，标准 CE 往往失效。
+3.1 Focal Loss
+最初用于目标检测 (RetinaNet)，旨在解决 One-stage 检测器中极端的正负样本失衡。
+
+公式：$FL(p_t) = -\alpha_t (1 - p_t)^\gamma \log(p_t)$
+核心机制：
+
+$\gamma$ (Focusing Parameter)：降低易分样本（$p_t \approx 1$）的权重，迫使模型关注难分样本。
+$\alpha$ (Balancing Parameter)：平衡正负样本比例。
+
+
+价值：不仅用于检测，在长尾分类任务中也非常有效。
+
+# Focal Loss PyTorch 实现class FocalLoss(nn.Module):    def __init__(self, alpha=1, gamma=2):        super().__init__()        self.alpha = alpha        self.gamma = gamma            def forward(self, inputs, targets):        ce_loss = F.cross_entropy(inputs, targets, reduction=&#x27;none&#x27;)        pt = torch.exp(-ce_loss)        focal_loss = self.alpha * (1 - pt) ** self.gamma * ce_loss        return focal_loss.mean()
+4. 进阶：度量学习 (Metric Learning)
+目标是学习一个特征空间，使得同类样本距离近，异类样本距离远。
+4.1 Triplet Loss
+$$ L = \max(d(a, p) - d(a, n) + margin, 0) $$
+
+输入：三元组 (Anchor, Positive, Negative)。
+难点：需要复杂的三元组挖掘 (Triplet Mining) 策略，否则训练效率极低。
+
+4.2 InfoNCE (Contrastive Loss)
+自监督学习（如 SimCLR, MoCo）的核心。
+
+思想：将 Triplet 扩展到 N 个负样本，转化为一个 N+1 类的分类问题。
+优势：利用大量负样本，学习到的特征更具判别性。
+
+
+
+总结
+
+回归：首选 Smooth L1 或 MSE。
+分类：首选 Cross Entropy，配合 Label Smoothing。
+不平衡/难例：必选 Focal Loss。
+特征学习：尝试 InfoNCE 或 Triplet Loss。
+
+
+]]></content>
+      <categories>
+        <category>算法解析</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+        <tag>损失函数</tag>
+        <tag>基础理论</tag>
       </tags>
   </entry>
   <entry>
