@@ -9,8 +9,32 @@
 
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/06_Stochastic_Approximation/</loc>
-        <lastmod>2026-03-09T14:07:15.586Z</lastmod>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/08_Value_Function_Approximation/</loc>
+        <lastmod>2026-03-09T14:29:08.806Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/10_Actor_Critic/</loc>
+        <lastmod>2026-03-09T14:29:08.806Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/09_Policy_Gradient/</loc>
+        <lastmod>2026-03-09T14:29:08.806Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/02_Bellman_Equation/</loc>
+        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -18,7 +42,7 @@
 
     <url>
         <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
-        <lastmod>2026-03-09T14:07:15.585Z</lastmod>
+        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -26,7 +50,55 @@
 
     <url>
         <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/04_Value_Policy_Iteration/</loc>
-        <lastmod>2026-03-09T14:07:15.585Z</lastmod>
+        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/06_Stochastic_Approximation/</loc>
+        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/05_Monte_Carlo/</loc>
+        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/07_Temporal_Difference/</loc>
+        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Course_Introduction/</loc>
+        <lastmod>2026-03-09T14:29:08.804Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Math_Foundation/</loc>
+        <lastmod>2026-03-09T14:29:08.804Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/01_Basic_Concepts/</loc>
+        <lastmod>2026-03-09T14:29:08.804Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -35,14 +107,6 @@
     <url>
         <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9A%E4%BB%A3%E7%A0%81%E4%BC%98%E5%85%88%EF%BC%8C%E7%90%86%E8%AE%BA%E8%BE%85%E5%8A%A9%E7%9A%84%E5%AE%9E%E6%88%98%E6%B3%95/</loc>
         <lastmod>2026-02-26T01:54:12.111Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/02_Bellman_Equation/</loc>
-        <lastmod>2026-02-26T01:41:38.744Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -97,40 +161,8 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/07_Temporal_Difference/</loc>
-        <lastmod>2026-02-09T14:34:55.085Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9APG%20Loss%20%E7%BB%84%E4%BB%B6%E8%AF%A6%E8%A7%A3/</loc>
         <lastmod>2026-02-09T14:31:40.931Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Math_Foundation/</loc>
-        <lastmod>2026-02-09T14:28:54.226Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Course_Introduction/</loc>
-        <lastmod>2026-02-09T14:28:50.189Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/10_Actor_Critic/</loc>
-        <lastmod>2026-02-09T14:24:26.174Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -145,24 +177,8 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/09_Policy_Gradient/</loc>
-        <lastmod>2026-02-09T14:17:04.186Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9AREINFORCE%204%20LLM%EF%BC%88Reward%20%E8%AE%BE%E8%AE%A1%E4%B8%8E%20PG-KL%20Loss%20%E7%BB%86%E8%8A%82%EF%BC%89/</loc>
         <lastmod>2026-02-09T14:16:33.482Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/08_Value_Function_Approximation/</loc>
-        <lastmod>2026-02-09T14:13:22.927Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -195,14 +211,6 @@
     <url>
         <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9ATokenizer%20%E7%BC%96%E8%A7%A3%E7%A0%81%E9%9D%9E%E5%AF%B9%E7%A7%B0%E6%80%A7%E4%B8%8E%20Token-in-Token-out%EF%BC%88RL%20%E8%AE%AD%E7%BB%83%E5%B4%A9%E6%BA%83%E7%9A%84%E6%A0%B9%E5%9B%A0%EF%BC%89/</loc>
         <lastmod>2026-02-09T14:08:38.910Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/05_Monte_Carlo/</loc>
-        <lastmod>2026-02-09T14:06:22.658Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -251,14 +259,6 @@
     <url>
         <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9A%E4%BB%8E%20PG%20%E5%88%B0%20TRPO%20%E5%88%B0%20PPO-Clip%EF%BC%88%E6%8E%A8%E5%AF%BC%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%AF%B9%E9%BD%90%EF%BC%89/</loc>
         <lastmod>2026-02-09T13:45:56.903Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/01_Basic_Concepts/</loc>
-        <lastmod>2026-02-09T13:29:04.429Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
