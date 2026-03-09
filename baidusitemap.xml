@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/06_Stochastic_Approximation/</loc>
+    <lastmod>2026-03-09</lastmod>
+  </url>
+  <url>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
+    <lastmod>2026-03-09</lastmod>
+  </url>
+  <url>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/04_Value_Policy_Iteration/</loc>
+    <lastmod>2026-03-09</lastmod>
+  </url>
+  <url>
     <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9A%E4%BB%A3%E7%A0%81%E4%BC%98%E5%85%88%EF%BC%8C%E7%90%86%E8%AE%BA%E8%BE%85%E5%8A%A9%E7%9A%84%E5%AE%9E%E6%88%98%E6%B3%95/</loc>
     <lastmod>2026-02-26</lastmod>
   </url>
@@ -21,14 +33,6 @@
     <lastmod>2026-02-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/04_Value_Policy_Iteration/</loc>
-    <lastmod>2026-02-09</lastmod>
-  </url>
-  <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
-    <lastmod>2026-02-09</lastmod>
-  </url>
-  <url>
     <loc>https://wp-a.github.io/2026/02/Agentic%20RL%EF%BC%9AveRL%20Infra%20AgentLoop%EF%BC%88AgentLoopManager%E3%80%81Async%20Rollout%20%E4%B8%8E%20Hybrid%20%E6%8E%A8%E8%AE%AD%EF%BC%89/</loc>
     <lastmod>2026-02-09</lastmod>
   </url>
@@ -42,10 +46,6 @@
   </url>
   <url>
     <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/07_Temporal_Difference/</loc>
-    <lastmod>2026-02-09</lastmod>
-  </url>
-  <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/06_Stochastic_Approximation/</loc>
     <lastmod>2026-02-09</lastmod>
   </url>
   <url>
