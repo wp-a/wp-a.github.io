@@ -13679,28 +13679,28 @@ w ← w + α (	ext{Target} - w)
 这个公式是怎么来的？为什么它能收敛？这背后的数学原理就是 Robbins-Monro 算法。
 
 2. 均值估计：从批量到增量
-假设我们想求随机变量 X 的期望 w = ℕ[X]。
+假设我们想求随机变量 X 的期望 w = \mathbb{E}[X]。
 我们可以采样 x_1, x_2, …, x_k。
 2.1 批量计算 (Batch)
-w_k = rac{1}{k} ∑_{i=1}^k x_i
+w_k = \frac{1}{k} \sum_{i=1}^k x_i
 缺点：每次都要把所有数加起来除以 k，或者保存所有数。
 2.2 增量计算 (Incremental)
 我们可以推导出递推公式：
-w_{k+1} = w_k + rac{1}{k+1} (x_{k+1} - w_k)
+w_{k+1} = w_k + \frac{1}{k+1} (x_{k+1} - w_k)
 这就是最简单的随机近似！
 
 w_k: 当前的估计值。
 x_{k+1}: 新的样本。
 (x_{k+1} - w_k): 误差 (Error)。
-rac{1}{k+1}: 步长 (Step Size)，通常记为 α_k。
+\frac{1}{k+1}: 步长 (Step Size)，通常记为 α_k。
 
 
 3. Robbins-Monro (RM) 算法
 RM 算法解决更通用的问题：求解方程 g(w) = 0。
 难点在于：我们不知道 g(w) 的具体解析式，而且我们每次观测 g(w) 时都带有噪声 η。
-rig(w) = g(w) + η
+\tilde{g}(w) = g(w) + \eta
 RM 更新公式:
-w_{k+1} = w_k - a_k rig(w_k)
+w_{k+1} = w_k - a_k \tilde{g}(w_k)
 收敛条件:
 只要步长序列 {a_k} 满足：
 
@@ -13776,11 +13776,9 @@ rig(w) 就是 V(S_t) - (R + γ V(S_{t+1}))（预测误差）。
 
 2. 蒙特卡洛估算 (MC Prediction)
 2.1 核心思想：大数定律
-我们想求 $v_
-ps(s) = [G_t | S_t = s]$。
+我们想求 v_\pi(s) = \mathbb{E}[G_t \mid S_t = s]。
 根据大数定律，如果我们能生成很多条从状态 s 出发的轨迹（Episodes），并记录每一条的回报 G，那么它们的平均值就会收敛于期望。
-v_
-ps(s) r rac{1}{N} sum_{i=1}^N G_i
+v_\pi(s) \approx \frac{1}{N} \sum_{i=1}^N G_i
 2.2 两种采样方式
 
 First-visit MC: 在一个 Episode 中，如果多次经过 s，只计算第一次访问后的回报。
@@ -13793,16 +13791,13 @@ Every-visit MC: 只要经过 s，就计算一次回报。
 
 如果只有 v(s)，即便我知道当前状态值多少钱，我也不知道该做哪个动作，因为我没有 P 矩阵来算下一步去哪。
 
-解决方案: 直接估计 动作价值 $q_
-ps(s, a)$。
-有了每个动作的 Q 值，我就能通过 max 直接改进策略。
+解决方案: 直接估计 动作价值 q_\pi(s, a)。
+有了每个动作的 Q 值，我就能通过 \arg\max 直接改进策略。
 3.1 MC Basic 算法
 这是最原始的无模型算法逻辑：
 
-评估: 通过大量采样，算出当前策略 $
-ps的Q(s, a)$ 表。
-改进: $
-ps_{new}(s) = max_a Q(s, a)$。
+评估: 通过大量采样，算出当前策略 \pi 的 Q(s, a) 表。
+改进: \pi_{new}(s) = \arg\max_a Q(s, a)。
 重复直到收敛。
 
 3.2 探索性初始化 (Exploring Starts)
@@ -13810,15 +13805,17 @@ ps_{new}(s) = max_a Q(s, a)$。
 Exploring Starts: 强制要求采样时，每一对 (s, a) 都要有一定概率作为起始点。但这在现实中很难（比如自动驾驶，你不能强制让它从“撞墙”动作开始）。
 
 4. 探索与利用 (Exploration vs Exploitation)
-为了在不依赖 Exploring Starts 的情况下保持探索，我们引入了著名的 -greedy 策略。
+为了在不依赖 Exploring Starts 的情况下保持探索，我们引入了著名的 \varepsilon-greedy 策略。
 
-Exploitation (利用): 以 1- 的概率选择当前最优动作（榨取已知信息）。
-Exploration (探索): 以  的概率随机选一个动作（寻找潜在可能）。
+Exploitation (利用): 以 1-\varepsilon 的概率选择当前最优动作（榨取已知信息）。
+Exploration (探索): 以 \varepsilon 的概率随机选一个动作（寻找潜在可能）。
 
-ps(a|s) = egin{cases} 1 -  + rac{}{||} & 	ext{if } a = a^* \ rac{}{||} & 	ext{if } a 
-e a^* 
-u}
-视频中赵老师强调：-greedy 是一种折中，它虽然可能导致我们在已知最优的情况下偶尔“乱走”，但它保证了我们不会错过更好的世界。
+\pi(a|s) =
+\begin{cases}
+1 - \varepsilon + \frac{\varepsilon}{|\mathcal{A}|} & \text{if } a = a^* \\
+\frac{\varepsilon}{|\mathcal{A}|} & \text{if } a \ne a^*
+\end{cases}
+视频中赵老师强调：\varepsilon-greedy 是一种折中，它虽然可能导致我们在已知最优的情况下偶尔“乱走”，但它保证了我们不会错过更好的世界。
 
 5. Python 代码实战：MC 价值估算
 在这个例子中，我们不再需要 P 矩阵，而是需要一个可以 env.step() 的环境。
@@ -13860,87 +13857,92 @@ import numpy as npfrom collections import defaultdictdef mc_prediction(env, poli
     <content><![CDATA[1. TD：结合 MC 与 DP 的艺术
 时序差分 (TD) 是强化学习中最核心、最独特、最优雅的思想。它不需要像 DP 那样已知模型，也不需要像 MC 那样等到 Episode 结束。它边走边学 (Bootstrapping from Experience)。
 核心公式 (TD(0)):
-V(S_t) < V(S_t) + α [  R_{t+1} + γ V(S_{t+1})  - V(S_t) ]  
-$$ 
+V(S_t) \leftarrow V(S_t) + \alpha [ R_{t+1} + \gamma V(S_{t+1}) - V(S_t) ]
+直观解释：
 
-**直观解释**：
-*   **Target**: 我走了这一步，拿到了 $R_{t+1}$，加上我对下一步状态价值的预估 $γ V(S_{t+1})$，我觉得这才是更靠谱的价值。
-*   **Error**: 那个 Target 和我原来的估计 $V(S_t)$ 之间的差，就是惊讶程度 (TD Error)。
-*   **Update**: 用这个差乘以学习率 $α$ 来修正我的观念。
+Target: 我走了这一步，拿到了 R_{t+1}，加上我对下一步状态价值的预估 γ V(S_{t+1})，我觉得这才是更靠谱的价值。
+Error: 那个 Target 和我原来的估计 V(S_t) 之间的差，就是惊讶程度 (TD Error)。
+Update: 用这个差乘以学习率 α 来修正我的观念。
 
----
 
-## 2. Sarsa: On-policy 的稳健派
-
-### 2.1 算法流程 (State-Action-Reward-State-Action)
-Sarsa 之所以叫 Sarsa，是因为它一次更新需要的数据五元组是 $(S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})$。
-
-$$ Q(S_t, A_t) < Q(S_t, A_t) + α [ R_{t+1} + γ Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t) ] 
-$$ 
-
-**关键点**：$A_{t+1}$ 是 Agent **实际**将在下一步执行的动作（通常由 $ε$-greedy 选出）。这意味着 Sarsa 在优化的是它**正在执行的那个策略**（On-policy）。如果策略比较“浪”（$ε$ 很大），Sarsa 就会学得比较保守，远离悬崖。
-
-### 2.2 Python 实现 (Sarsa)
+2. Sarsa: On-policy 的稳健派
+2.1 算法流程 (State-Action-Reward-State-Action)
+Sarsa 之所以叫 Sarsa，是因为它一次更新需要的数据五元组是 (S_t, A_t, R_{t+1}, S_{t+1}, A_{t+1})。
+Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [ R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t) ]
+关键点：A_{t+1} 是 Agent 实际将在下一步执行的动作（通常由 ε-greedy 选出）。这意味着 Sarsa 在优化的是它正在执行的那个策略（On-policy）。如果策略比较“浪”（ε 很大），Sarsa 就会学得比较保守，远离悬崖。
+2.2 Python 实现 (Sarsa)
 def sarsa(env, num_episodes, alpha=0.1, gamma=0.9, epsilon=0.1):    Q = defaultdict(lambda: np.zeros(env.action_space.n))        for i in range(num_episodes):        state = env.reset()        action = epsilon_greedy(Q, state, epsilon) # 选动作 A                while True:            next_state, reward, done = env.step(action)            next_action = epsilon_greedy(Q, next_state, epsilon) # 选动作 A&#x27;                        # Sarsa 更新            td_target = reward + gamma * Q[next_state][next_action] * (not done)            Q[state][action] += alpha * (td_target - Q[state][action])                        if done: break            state, action = next_state, next_action                return Q
 
----
-
-## 3. Q-learning: Off-policy 的激进派
-
-### 3.1 算法流程
+3. Q-learning: Off-policy 的激进派
+3.1 算法流程
 Q-learning 的更新公式只有一点点不同，但引起了质变：
+Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [ R_{t+1} + \gamma \max_a Q(S_{t+1}, a) - Q(S_t, A_t) ]
+关键点：不管下一步实际做什么，我在计算 Target 时都假设我下一步会做最好的动作（\max_a Q(S_{t+1}, a)）。
+这意味着 Q-learning 学习的是最优策略 (Off-policy)，哪怕它实际行为策略是在乱走。
+3.2 Sarsa vs Q-learning (悬崖漫步例子)
+视频中经典的 Cliff Walking 例子完美展示了区别：
 
-$$ Q(S_t, A_t) < Q(S_t, A_t) + α [ R_{t+1} + γ     Q(S_{t+1}, a) - Q(S_t, A_t) ] 
-$$ 
+环境: 走到悬崖边掉下去会得 -100 分。
+Q-learning: 学出一条紧贴悬崖边的最短路径（它假设自己是最优的，不会手滑）。但在训练时（因为有 ε），它经常掉下去。
+Sarsa: 学出一条远离悬崖的安全路径。因为它知道自己有 ε 的概率乱走，走悬崖边太危险了。
 
-**关键点**：不管下一步实际做什么，我在计算 Target 时都假设我下一步会做**最好**的动作 ($    Q$ )。
-这意味着 Q-learning 学习的是**最优策略** (Off-policy)，哪怕它实际行为策略是在乱走。
-
-### 3.2 Sarsa vs Q-learning (悬崖漫步例子)
-视频中经典的 **Cliff Walking** 例子完美展示了区别：
-*   **环境**: 走到悬崖边掉下去会得 -100 分。
-*   **Q-learning**: 学出一条紧贴悬崖边的最短路径（它假设自己是最优的，不会手滑）。但在训练时（因为有 $ε$），它经常掉下去。
-*   **Sarsa**: 学出一条远离悬崖的安全路径。因为它知道自己有 $ε$ 的概率乱走，走悬崖边太危险了。
-
-### 3.3 Python 实现 (Q-learning)
+3.3 Python 实现 (Q-learning)
 def q_learning(env, num_episodes, alpha=0.1, gamma=0.9, epsilon=0.1):    Q = defaultdict(lambda: np.zeros(env.action_space.n))        for i in range(num_episodes):        state = env.reset()                while True:            action = epsilon_greedy(Q, state, epsilon) # 行为策略            next_state, reward, done = env.step(action)                        # Q-learning 更新：直接取 max，无视 next_action            best_next_action = np.argmax(Q[next_state])            td_target = reward + gamma * Q[next_state][best_next_action] * (not done)                        Q[state][action] += alpha * (td_target - Q[state][action])                        if done: break            state = next_state                return Q
 
----
-
-## 4. 统一视角
-
+4. 统一视角
 我们可以把 MDP 中的各种算法看作是同一公式的不同变体：
-$$ 	ext{NewEstimate} < 	ext{OldEstimate} + 	ext{StepSize} 	imes [	ext{Target} - 	ext{OldEstimate}] 
-$$ 
+\text{NewEstimate} \leftarrow \text{OldEstimate} + \text{StepSize} \times [\text{Target} - \text{OldEstimate}]
 
-| 算法 | Target 是什么？ | 样本来源 | 
-| :--- | :--- | :--- |
-| **MC** | $G_t$ (真实回报) | 一整条 Episode |
-| **DP (VI)** | $[R + γ V(S')]$ | 遍历所有 $S'$ (模型计算) |
-| **Sarsa** | $R + γ Q(S', A')$ | 采样一步 $(S, A, R, S', A')$ |
-| **Q-learning** | $R + \gamma \max Q(S', a)$ | 采样一步 $(S, A, R, S')$ |
 
----
 
-## 5. 深度思考：偏差与方差的权衡 (Bias-Variance Trade-off)
+算法
+Target 是什么？
+样本来源
 
-为什么我们要发明 TD？为什么不直接用 MC？这就涉及机器学习核心的**偏差 (Bias)** 与 **方差 (Variance)** 权衡。
 
-### 5.1 MC (Monte Carlo)
-*   Target: $G_t$ (真实回报)。
-*   **无偏差 (Unbiased)**: $G_t$ 是 $v_\pi(s)$ 的无偏估计。
-*   **高方差 (High Variance)**: $G_t$ 依赖于从 $t$ 到结束的所有随机转移和奖励。路途越长，随机因素积累越多，波动越大。
-*   **后果**: 即使数据很多，训练也很震荡，收敛慢。
 
-### 5.2 TD (Temporal Difference)
-*   Target: $R + \gamma V(S')$ (估计值)。
-*   **有偏差 (Biased)**: 我们用了**估计值** $V(S')$ 来更新 $V(S)$。如果 $V(S')$ 估计错了，Target 也就错了。
-*   **低方差 (Low Variance)**: Target 只依赖一步的随机性 $R_{t+1}$ 和 $S_{t+1}$。后面的随机性被 $V(S')$ 概括了。
-*   **后果**: 收敛快，但初始阶段可能跑偏（因为信了错误的估计）。
 
-### 5.3 n-step TD：最佳平衡点
-我们可以折中一下，看 $n$ 步再截断：
-$$ G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})
+MC
+G_t (真实回报)
+一整条 Episode
+
+
+DP (VI)
+\mathbb{E}[R + \gamma V(S')]
+遍历所有 S' (模型计算)
+
+
+Sarsa
+R + γ Q(S', A')
+采样一步 (S, A, R, S', A')
+
+
+Q-learning
+R + \gamma \max Q(S', a)
+采样一步 (S, A, R, S')
+
+
+
+
+5. 深度思考：偏差与方差的权衡 (Bias-Variance Trade-off)
+为什么我们要发明 TD？为什么不直接用 MC？这就涉及机器学习核心的偏差 (Bias) 与 方差 (Variance) 权衡。
+5.1 MC (Monte Carlo)
+
+Target: G_t (真实回报)。
+无偏差 (Unbiased): G_t 是 v_\pi(s) 的无偏估计。
+高方差 (High Variance): G_t 依赖于从 t 到结束的所有随机转移和奖励。路途越长，随机因素积累越多，波动越大。
+后果: 即使数据很多，训练也很震荡，收敛慢。
+
+5.2 TD (Temporal Difference)
+
+Target: R + \gamma V(S') (估计值)。
+有偏差 (Biased): 我们用了估计值 V(S') 来更新 V(S)。如果 V(S') 估计错了，Target 也就错了。
+低方差 (Low Variance): Target 只依赖一步的随机性 R_{t+1} 和 S_{t+1}。后面的随机性被 V(S') 概括了。
+后果: 收敛快，但初始阶段可能跑偏（因为信了错误的估计）。
+
+5.3 n-step TD：最佳平衡点
+我们可以折中一下，看 n 步再截断：
+G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})
 
 n=1: TD(0)，低方差，高偏差。
 n=\infty: MC，高方差，无偏差。

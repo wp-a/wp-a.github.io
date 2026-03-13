@@ -3,6 +3,76 @@
 
 
     <url>
+        <loc>https://wp-a.github.io/tags/Q-learning/</loc>
+        <lastmod>2026-03-13T14:59:01.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Sarsa/</loc>
+        <lastmod>2026-03-13T14:59:01.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/TD-Learning/</loc>
+        <lastmod>2026-03-13T14:59:01.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Python/</loc>
+        <lastmod>2026-03-13T14:59:01.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Reinforcement-Learning/</loc>
+        <lastmod>2026-03-13T14:59:01.632Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Model-free/</loc>
+        <lastmod>2026-03-13T14:59:01.631Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Monte-Carlo/</loc>
+        <lastmod>2026-03-13T14:59:01.631Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Robbins-Monro/</loc>
+        <lastmod>2026-03-13T14:58:06.471Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/Math/</loc>
+        <lastmod>2026-03-13T14:58:06.471Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://wp-a.github.io/tags/SGD/</loc>
+        <lastmod>2026-03-13T14:58:06.471Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://wp-a.github.io/tags/PyTorch/</loc>
         <lastmod>2026-03-09T14:29:08.806Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -45,20 +115,6 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/tags/Python/</loc>
-        <lastmod>2026-03-09T14:29:08.806Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Reinforcement-Learning/</loc>
-        <lastmod>2026-03-09T14:29:08.806Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://wp-a.github.io/tags/Policy-Gradient/</loc>
         <lastmod>2026-03-09T14:29:08.806Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -68,48 +124,6 @@
     <url>
         <loc>https://wp-a.github.io/tags/REINFORCE/</loc>
         <lastmod>2026-03-09T14:29:08.806Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Q-learning/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Sarsa/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/TD-Learning/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Model-free/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Monte-Carlo/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Robbins-Monro/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -137,20 +151,6 @@
 
     <url>
         <loc>https://wp-a.github.io/tags/Bellman-Equation/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/Math/</loc>
-        <lastmod>2026-03-09T14:29:08.805Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://wp-a.github.io/tags/SGD/</loc>
         <lastmod>2026-03-09T14:29:08.805Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
