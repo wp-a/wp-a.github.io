@@ -11,7 +11,7 @@
     
     <url>
         <loc>https://wp-a.github.io/tags/</loc>
-        <lastmod>2026-04-17T16:38:24.806Z</lastmod>
+        <lastmod>2026-04-17T19:01:15.341Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -20,7 +20,7 @@
     
     <url>
         <loc>https://wp-a.github.io/link/</loc>
-        <lastmod>2026-04-17T16:38:24.805Z</lastmod>
+        <lastmod>2026-04-17T19:01:15.336Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -29,7 +29,7 @@
     
     <url>
         <loc>https://wp-a.github.io/messageboard/</loc>
-        <lastmod>2026-04-17T16:38:24.805Z</lastmod>
+        <lastmod>2026-04-17T19:01:15.336Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -38,25 +38,7 @@
     
     <url>
         <loc>https://wp-a.github.io/construction-detection-github.html</loc>
-        <lastmod>2026-04-17T16:38:24.803Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/categories/</loc>
-        <lastmod>2026-04-17T16:38:24.803Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://wp-a.github.io/charts/</loc>
-        <lastmod>2026-04-17T16:38:24.803Z</lastmod>
+        <lastmod>2026-04-17T19:01:15.334Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -65,7 +47,25 @@
     
     <url>
         <loc>https://wp-a.github.io/construction-detection/</loc>
-        <lastmod>2026-04-17T16:38:24.803Z</lastmod>
+        <lastmod>2026-04-17T19:01:15.334Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/categories/</loc>
+        <lastmod>2026-04-17T19:01:15.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://wp-a.github.io/charts/</loc>
+        <lastmod>2026-04-17T19:01:15.333Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -74,7 +74,7 @@
     
     <url>
         <loc>https://wp-a.github.io/about/</loc>
-        <lastmod>2026-04-17T16:38:24.790Z</lastmod>
+        <lastmod>2026-04-17T19:01:15.317Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
