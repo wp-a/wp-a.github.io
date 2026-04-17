@@ -18,21 +18,26 @@
   <meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png">
   <meta property="og:url" content="https://wpironman.top/academic/">
 
-  <link rel="icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png">
+  <link rel="icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png">
 
   <!-- FontAwesome & Google Fonts (Inter + Noto Sans SC) -->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
-    rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet">
+  </noscript>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/academic.css">
 
   <!-- Data Configuration -->
-  <script src="academic-data.js"></script>
+  <script src="academic-data.js" defer></script>
 </head>
 
 <body>
@@ -46,8 +51,8 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <img id="avatar" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png" alt="Avatar"
-      class="avatar">
+    <img id="avatar" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png?x-oss-process=image/resize,w_320/quality,q_75" alt="Avatar"
+      class="avatar" decoding="async" fetchpriority="high">
     <div id="author-name" class="author-name"></div>
     <div id="author-title" class="author-title"></div>
     <div id="author-desc" class="author-desc"></div>
@@ -194,8 +199,8 @@
   </div>
 
   <!-- Custom Scripts -->
-  <script src="assets/js/academic-render.js"></script>
-  <script src="assets/js/cool-features.js"></script>
+  <script src="assets/js/academic-render.js" defer></script>
+  <script src="assets/js/cool-features.js" defer></script>
 
   <!-- Scroll Animation Script -->
   <script>

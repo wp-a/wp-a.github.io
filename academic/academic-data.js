@@ -13,7 +13,7 @@ const academicData = {
       zh: "研究方向：<strong>视觉表征</strong>。<br>关注<strong>计算机视觉</strong>、<strong>深度学习</strong>与<strong>多模态学习</strong>前沿技术。<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>",
       en: "Research Focus: <strong>Visual Representation</strong>.<br>Interested in <strong>Computer Vision</strong>, <strong>Deep Learning</strong>, and <strong>Multimodal Learning</strong>.<br><em>\"Your time is limited, so don't waste it living someone else's life.\"</em>"
     },
-    avatar: "https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png",
+    avatar: "https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png?x-oss-process=image/resize,w_320/quality,q_75",
     location: "Shandong, China",
     email: "2829624376@qq.com",
     github: "https://github.com/wp-a",

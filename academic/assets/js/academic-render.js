@@ -66,7 +66,7 @@ function renderContent() {
         div.innerHTML = `
       <div class="paper-img-box">
         <div class="conf-badge ${paper.venueClass}">${paper.venue.split(',')[0]}</div>
-        <img src="${paper.image}" alt="Paper Thumbnail">
+        <img src="${paper.image}" alt="Paper Thumbnail" loading="lazy" decoding="async">
       </div>
       <div class="paper-info">
         <div class="paper-title">${paper.title}</div>
