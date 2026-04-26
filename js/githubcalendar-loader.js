@@ -14,6 +14,7 @@
 
   const pending = [];
   let loading = false;
+  let scheduled = false;
 
   const flushQueue = () => {
     while (pending.length) {
@@ -37,9 +38,37 @@
     document.head.appendChild(script);
   };
 
+  const scheduleLoad = () => {
+    if (loading || scheduled) return;
+    scheduled = true;
+
+    const observeAndLoad = () => {
+      const target = document.getElementById('github_container') || document.getElementById('recent-posts');
+      if (!target || !('IntersectionObserver' in window)) {
+        loadCalendarScript();
+        return;
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        observer.disconnect();
+        loadCalendarScript();
+      }, { rootMargin: '240px 0px' });
+
+      observer.observe(target);
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(observeAndLoad, { timeout: 1500 });
+      return;
+    }
+
+    setTimeout(observeAndLoad, 600);
+  };
+
   window.GithubCalendar = function () {
     if (!shouldLoad()) return;
     pending.push(Array.from(arguments));
-    loadCalendarScript();
+    scheduleLoad();
   };
 })();

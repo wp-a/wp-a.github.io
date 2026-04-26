@@ -1,0 +1,93 @@
+<svg width="1400" height="760" viewBox="0 0 1400 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="loopBg" x1="220" y1="70" x2="1170" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#08111A"/>
+      <stop offset="1" stop-color="#04080F"/>
+    </linearGradient>
+    <linearGradient id="loopStroke" x1="292" y1="154" x2="1087" y2="615" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DAB986" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#637A92" stop-opacity="0.28"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1400" height="760" rx="30" fill="url(#loopBg)"/>
+  <g opacity="0.08" stroke="#A0AFBF">
+    <path d="M0 126H1400"/>
+    <path d="M0 252H1400"/>
+    <path d="M0 378H1400"/>
+    <path d="M0 504H1400"/>
+    <path d="M0 630H1400"/>
+    <path d="M200 0V760"/>
+    <path d="M400 0V760"/>
+    <path d="M600 0V760"/>
+    <path d="M800 0V760"/>
+    <path d="M1000 0V760"/>
+    <path d="M1200 0V760"/>
+  </g>
+
+  <text x="84" y="102" fill="#E7ECF1" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">AI research loop</text>
+  <text x="84" y="142" fill="#94A5B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20">Turn scattered work into a stateful, inspectable system.</text>
+
+  <path d="M295 210C430 100 645 92 795 176C934 253 1004 402 986 540C968 646 894 690 804 670" stroke="url(#loopStroke)" stroke-width="3"/>
+  <path d="M808 667L830 650" stroke="#DAB986" stroke-width="3" stroke-linecap="round"/>
+  <path d="M808 667L818 642" stroke="#DAB986" stroke-width="3" stroke-linecap="round"/>
+
+  <path d="M826 624C670 706 462 690 335 588C199 478 174 294 278 192" stroke="url(#loopStroke)" stroke-width="3"/>
+  <path d="M284 189L307 198" stroke="#DAB986" stroke-width="3" stroke-linecap="round"/>
+  <path d="M284 189L291 213" stroke="#DAB986" stroke-width="3" stroke-linecap="round"/>
+
+  <g>
+    <rect x="184" y="168" width="238" height="120" rx="24" fill="#0D1722" stroke="#26384B"/>
+    <text x="220" y="214" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="3">INPUT LAYER</text>
+    <text x="220" y="256" fill="#F8F5EE" font-family="Georgia, Times New Roman, serif" font-size="34">Deep Research</text>
+    <text x="220" y="286" fill="#95A6B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">papers, baselines, sources</text>
+  </g>
+
+  <g>
+    <rect x="506" y="104" width="250" height="120" rx="24" fill="#0D1722" stroke="#26384B"/>
+    <text x="542" y="150" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="3">BRIDGE</text>
+    <text x="542" y="192" fill="#F8F5EE" font-family="Georgia, Times New Roman, serif" font-size="34">Experiment Contract</text>
+    <text x="542" y="222" fill="#95A6B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">scope, matrix, stop rules</text>
+  </g>
+
+  <g>
+    <rect x="876" y="196" width="248" height="120" rx="24" fill="#0D1722" stroke="#26384B"/>
+    <text x="912" y="242" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="3">EXECUTION</text>
+    <text x="912" y="284" fill="#F8F5EE" font-family="Georgia, Times New Roman, serif" font-size="34">Codex on Server</text>
+    <text x="912" y="314" fill="#95A6B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">env, smoke test, full runs</text>
+  </g>
+
+  <g>
+    <rect x="926" y="424" width="228" height="120" rx="24" fill="#0D1722" stroke="#26384B"/>
+    <text x="962" y="470" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="3">OBSERVE</text>
+    <text x="962" y="512" fill="#F8F5EE" font-family="Georgia, Times New Roman, serif" font-size="34">Heartbeat</text>
+    <text x="962" y="542" fill="#95A6B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">status, alerts, restart</text>
+  </g>
+
+  <g>
+    <rect x="606" y="530" width="236" height="120" rx="24" fill="#0D1722" stroke="#26384B"/>
+    <text x="642" y="576" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="3">EVIDENCE</text>
+    <text x="642" y="618" fill="#F8F5EE" font-family="Georgia, Times New Roman, serif" font-size="34">Evidence Table</text>
+    <text x="642" y="648" fill="#95A6B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">claim, run, metric, figure</text>
+  </g>
+
+  <g>
+    <rect x="272" y="478" width="234" height="120" rx="24" fill="#0D1722" stroke="#26384B"/>
+    <text x="308" y="524" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="3">WRITE</text>
+    <text x="308" y="566" fill="#F8F5EE" font-family="Georgia, Times New Roman, serif" font-size="34">Paper Skill</text>
+    <text x="308" y="596" fill="#95A6B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">draft from repo + evidence</text>
+  </g>
+
+  <g fill="#DAB986">
+    <circle cx="298" cy="232" r="6"/>
+    <circle cx="546" cy="166" r="6"/>
+    <circle cx="912" cy="258" r="6"/>
+    <circle cx="962" cy="484" r="6"/>
+    <circle cx="642" cy="590" r="6"/>
+    <circle cx="308" cy="548" r="6"/>
+  </g>
+
+  <text x="70" y="700" fill="#8194A7" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">
+    Principle: automate execution and observation, but keep scientific judgment and claim approval with the researcher.
+  </text>
+</svg>

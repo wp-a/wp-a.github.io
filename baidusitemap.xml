@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://wp-a.github.io/2026/04/ai-autonomous-research-codex-workflow/</loc>
+    <lastmod>2026-04-26</lastmod>
+  </url>
+  <url>
+    <loc>https://wp-a.github.io/2026/04/%E6%88%91%E5%81%9A%E4%BA%86%E4%B8%80%E4%B8%AA%E5%AD%A6%E6%9C%AF%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%8A%A9%E6%89%8B%EF%BC%9A%E6%8A%8A%E9%80%89%E5%88%8A%E3%80%81%E5%89%8D%E6%B2%BF%E8%B7%9F%E8%B8%AA%E5%92%8C%20AI%20%E9%A2%84%E5%AE%A1%E4%B8%B2%E8%B5%B7%E6%9D%A5/</loc>
+    <lastmod>2026-04-17</lastmod>
+  </url>
+  <url>
+    <loc>https://wp-a.github.io/2026/04/%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84%20+%20%E5%88%86%E5%B8%83%E5%BB%BA%E6%A8%A1%20+%20%E5%8E%9F%E5%9E%8B%E6%BC%94%E5%8C%96/</loc>
+    <lastmod>2026-04-17</lastmod>
+  </url>
+  <url>
     <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/06_Stochastic_Approximation/</loc>
     <lastmod>2026-03-26</lastmod>
   </url>
@@ -17,11 +29,11 @@
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/10_Actor_Critic/</loc>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/09_Policy_Gradient/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/09_Policy_Gradient/</loc>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/10_Actor_Critic/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
@@ -29,11 +41,11 @@
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/04_Value_Policy_Iteration/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/04_Value_Policy_Iteration/</loc>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
@@ -41,11 +53,11 @@
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Math_Foundation/</loc>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/01_Basic_Concepts/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
-    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/01_Basic_Concepts/</loc>
+    <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Math_Foundation/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
   <url>
@@ -135,10 +147,6 @@
   <url>
     <loc>https://wp-a.github.io/2025/12/%E9%97%A8%E6%8E%A7%E6%B3%A8%E6%84%8F%E5%8A%9B/</loc>
     <lastmod>2025-12-11</lastmod>
-  </url>
-  <url>
-    <loc>https://wp-a.github.io/2025/12/%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84%20+%20%E5%88%86%E5%B8%83%E5%BB%BA%E6%A8%A1%20+%20%E5%8E%9F%E5%9E%8B%E6%BC%94%E5%8C%96/</loc>
-    <lastmod>2025-12-10</lastmod>
   </url>
   <url>
     <loc>https://wp-a.github.io/2025/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BC%98%E5%8C%96%E5%99%A8/</loc>

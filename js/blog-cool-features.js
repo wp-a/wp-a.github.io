@@ -2,6 +2,15 @@
  * Cool Features for Hexo Blog (Butterfly Theme)
  */
 
+function runWhenIdle(task, timeout = 1500) {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => task(), { timeout });
+        return;
+    }
+
+    setTimeout(task, 700);
+}
+
 // 2. Terminal Easter Egg (Simplified for Blog)
 function initBlogTerminal() {
     // 复用之前的终端逻辑，但样式可能需要微调以适应博客主题
@@ -132,15 +141,14 @@ function handleBlogCommand(cmd, output, inputLine) {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // 延迟执行，等待 DOM 就绪
-    setTimeout(() => {
+    runWhenIdle(() => {
         initBlogTerminal();
-    }, 1000);
+    });
 
     // Pjax 支持 (如果博客使用了 Pjax)
     document.addEventListener('pjax:complete', () => {
-        setTimeout(() => {
+        runWhenIdle(() => {
             // initSidebarTagCloud(); // Removed
-        }, 500);
+        }, 1000);
     });
 });

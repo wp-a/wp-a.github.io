@@ -2,19 +2,68 @@
  * Cool Features for Academic Homepage
  * 1. 3D Neural Network Background (Vanta.js)
  * 2. Terminal Easter Egg
- * 3. Interactive Skill Galaxy (Three.js)
+ * 3. Interactive Skill Galaxy (TagCanvas)
  * 4. Visitor Globe (Globe.gl)
  */
 
-// --- 1. 3D Neural Network Background (Vanta.js) ---
-// --- 1. 3D Neural Network Background (Vanta.js) ---
+const scriptLoaders = new Map();
 let vantaEffect = null;
 
-function initNeuralBackground() {
-    // 检查是否是移动端，移动端为了性能不加载复杂3D背景
-    if (window.innerWidth < 768) return;
+function loadScriptOnce(src) {
+    if (scriptLoaders.has(src)) {
+        return scriptLoaders.get(src);
+    }
 
-    // 确保 Vanta 已加载
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+        const existingPromise = Promise.resolve();
+        scriptLoaders.set(src, existingPromise);
+        return existingPromise;
+    }
+
+    const promise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+        document.head.appendChild(script);
+    });
+
+    scriptLoaders.set(src, promise);
+    return promise;
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function shouldAvoidHeavyEffects() {
+    return window.innerWidth < 768 || prefersReducedMotion() || navigator.connection?.saveData;
+}
+
+function scheduleIdleTask(task, timeout = 2000) {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => task(), { timeout });
+        return;
+    }
+
+    setTimeout(task, 1000);
+}
+
+async function ensureVantaAssets() {
+    await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js');
+    await loadScriptOnce('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js');
+}
+
+async function ensureSkillGalaxyAssets() {
+    await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js');
+    await loadScriptOnce('assets/js/jquery.tagcanvas.min.js');
+}
+
+function initNeuralBackground() {
+    if (shouldAvoidHeavyEffects()) return;
+
     if (typeof VANTA === 'undefined') {
         console.warn('Vanta.js not loaded');
         return;
@@ -69,7 +118,6 @@ function updateVantaTheme(isDark) {
 // 暴露给全局以便在 toggleDarkMode 中调用
 window.updateVantaTheme = updateVantaTheme;
 
-// --- 2. Terminal Easter Egg ---
 function initTerminal() {
     const terminalBtn = document.createElement('div');
     terminalBtn.className = 'terminal-trigger';
@@ -191,14 +239,7 @@ function handleCommand(cmd, output) {
     }
 }
 
-// --- 3. Interactive Skill Galaxy (TagCanvas) ---
 function initSkillGalaxy() {
-    // 检查是否是移动端，移动端可以简化或不显示
-    if (window.innerWidth < 768) {
-        // 移动端可以选择不显示，或者显示静态列表
-        // 这里我们尝试显示，但参数调优
-    }
-
     const container = document.getElementById('skill-galaxy-container');
     if (!container) return;
 
@@ -236,8 +277,27 @@ function initSkillGalaxy() {
     }
 }
 
-// --- 4. Visitor Globe (Globe.gl) ---
-// --- 4. Visitor Globe (Globe.gl) - Lazy Loaded ---
+function observeSkillGalaxy() {
+    const container = document.getElementById('skill-galaxy-container');
+    if (!container || shouldAvoidHeavyEffects()) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+
+        observer.disconnect();
+        scheduleIdleTask(async () => {
+            try {
+                await ensureSkillGalaxyAssets();
+                initSkillGalaxy();
+            } catch (error) {
+                console.error('Failed to load skill galaxy assets:', error);
+            }
+        }, 1000);
+    }, { rootMargin: '200px 0px', threshold: 0.01 });
+
+    observer.observe(container);
+}
+
 function initVisitorGlobe() {
     const container = document.getElementById('visitor-globe');
     if (!container) return;
@@ -260,12 +320,13 @@ function loadGlobeScript() {
     }
 
     console.log('Lazy loading Globe.gl...');
-    const script = document.createElement('script');
-    script.src = '//unpkg.com/globe.gl';
-    script.onload = () => {
-        renderGlobe();
-    };
-    document.head.appendChild(script);
+    loadScriptOnce('https://unpkg.com/globe.gl')
+        .then(() => {
+            renderGlobe();
+        })
+        .catch((error) => {
+            console.error('Failed to load Globe.gl:', error);
+        });
 }
 
 function renderGlobe() {
@@ -305,24 +366,21 @@ function renderGlobe() {
     }
 }
 
+function bootNeuralBackground() {
+    if (shouldAvoidHeavyEffects()) return;
 
-// Initialize all
-// Initialize all
+    ensureVantaAssets()
+        .then(() => {
+            initNeuralBackground();
+        })
+        .catch((error) => {
+            console.error('Failed to load neural background assets:', error);
+        });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Use requestIdleCallback for non-critical tasks to improve TTI
-    const initTasks = () => {
-        initNeuralBackground();
-        initTerminal();
-        initSkillGalaxy();
-        initVisitorGlobe();
-    };
-
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            initTasks();
-        }, { timeout: 2000 });
-    } else {
-        // Fallback for browsers that don't support requestIdleCallback
-        setTimeout(initTasks, 1000);
-    }
+    initTerminal();
+    observeSkillGalaxy();
+    initVisitorGlobe();
+    scheduleIdleTask(bootNeuralBackground, 2000);
 });
