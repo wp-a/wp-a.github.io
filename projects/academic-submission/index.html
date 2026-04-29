@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Submission Assistant</title>
+  <meta name="description" content="面向研究生和科研作者的 Academic Submission Assistant：期刊会议检索、前沿论文跟踪、投稿记录和 AI 预审工作台。">
+  <link rel="stylesheet" href="../../css/local-fonts.css?v=20260428-icons">
+  <link rel="stylesheet" href="../../css/fa-subset.css?v=20260428-icons">
+  <link rel="stylesheet" href="assets/academic-submission.css?v=20260428-product">
+</head>
+
+<body>
+  <div class="workspace-shell">
+    <header class="page-hero">
+      <div class="hero-frame">
+        <div class="hero-copy">
+          <div class="hero-breadcrumb">
+            <a href="/">WPIRONMAN</a>
+            <span>/</span>
+            <span>Academic Submission</span>
+          </div>
+
+          <p class="hero-kicker">Research Workflow Studio</p>
+          <h1>给科研作者的一体化投稿工作台。</h1>
+          <p class="hero-summary">
+            Academic Submission Assistant 面向研究生和科研作者，把选刊、前沿论文跟踪、投稿准备和 AI
+            预审放到同一个可长期使用的工作台里。公开版先开放核心读能力，并为真实后端预审任务流保留接入口。
+          </p>
+
+          <div class="hero-actions">
+            <a class="hero-action hero-action-primary" href="#project-intro">了解项目</a>
+            <a class="hero-action" href="#venue-workbench">查期刊会议</a>
+            <a class="hero-action" href="#frontier-observatory">看前沿论文</a>
+          </div>
+
+          <dl class="hero-facts">
+            <div>
+              <dt>Workflow</dt>
+              <dd id="metric-public-capabilities">4 个模块</dd>
+            </div>
+            <div>
+              <dt>Venue</dt>
+              <dd id="metric-venue-count">加载中</dd>
+            </div>
+            <div>
+              <dt>Papers</dt>
+              <dd id="metric-paper-count">加载中</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aside class="hero-status" id="workspace-status" aria-label="服务状态面板">
+          <div class="status-card">
+            <div class="status-card__head">
+              <p class="status-card__label">Public Edition</p>
+              <span class="status-chip">Read Only</span>
+            </div>
+
+            <ul class="status-list">
+              <li>
+                <span class="status-label">公开数据</span>
+                <strong id="status-public-data">本地镜像可用</strong>
+              </li>
+              <li>
+                <span class="status-label">前沿论文</span>
+                <strong id="status-frontier-data">等待加载</strong>
+              </li>
+              <li>
+                <span class="status-label">AI 预审</span>
+                <strong id="status-ai-service">服务暂未上线</strong>
+              </li>
+            </ul>
+          </div>
+
+          <div class="workflow-card" aria-label="工作流结构">
+            <p class="status-card__label">Workflow Map</p>
+            <div class="workflow-lanes">
+              <span>Venue Fit</span>
+              <span>Frontier Scan</span>
+              <span>Paper Precheck</span>
+              <span>Submission Log</span>
+            </div>
+          </div>
+
+          <p class="status-note">
+            当前公开版只开放读能力和 AI 预审接入壳，不开放登录、收藏同步和投稿写入。
+          </p>
+        </aside>
+      </div>
+    </header>
+
+    <nav class="tool-rail" aria-label="页面工具导航">
+      <a href="#project-intro">项目介绍</a>
+      <a href="#venue-workbench">期刊会议</a>
+      <a href="#frontier-observatory">前沿论文</a>
+      <a href="#precheck-console">AI 预审</a>
+      <a href="#project-brief">路线图</a>
+    </nav>
+
+    <main class="module-stack">
+      <section class="module project-intro" id="project-intro">
+        <div class="module-head">
+          <div class="module-heading">
+            <p class="module-kicker">Project Introduction</p>
+            <h2>把分散的科研投稿动作，收束成一条可复用流程。</h2>
+          </div>
+          <p class="module-copy">
+            这个项目不是一个单纯的 AI 聊天入口，而是把“选哪里投、最近看什么、稿件风险在哪里、下一步怎么改”这些科研日常动作组织成一个稳定工作流。
+          </p>
+        </div>
+
+        <div class="intro-layout">
+          <article class="intro-manifesto">
+            <p class="overview-label">为什么做</p>
+            <h3>科研工具不应该只回答一次问题，而应该持续管理状态。</h3>
+            <p>
+              真实投稿过程里，作者需要反复查 venue、追踪方向、比较截稿信息、检查摘要和贡献表达。Academic Submission Assistant
+              的目标是减少这些上下文切换，让每次查询都能沉淀为后续投稿判断的一部分。
+            </p>
+          </article>
+
+          <div class="intro-points" aria-label="项目能力">
+            <article>
+              <span>01</span>
+              <h3>Venue 判断</h3>
+              <p>围绕会议、期刊、等级和方向建立可筛选索引，先缩小真正可投的范围。</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>前沿跟踪</h3>
+              <p>把论文流按来源、venue 和方向组织起来，避免只靠零散收藏追热点。</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>AI 预审</h3>
+              <p>后端上线后承接标题、摘要和贡献点，输出结构化修改建议，而不是泛泛润色。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" id="venue-workbench">
+        <div class="module-head">
+          <div class="module-heading">
+            <p class="module-kicker">Venue Workbench</p>
+            <h2>先确定你真正可投的范围。</h2>
+          </div>
+          <p class="module-copy">
+            按名称、缩写、类型、等级和研究方向快速过滤，把筛选、列表和详情放在一个工作区里完成。
+          </p>
+        </div>
+
+        <div class="module-body venue-layout">
+          <aside class="control-panel panel">
+            <div class="panel-block">
+              <label class="field-label" for="venue-search">关键词</label>
+              <input id="venue-search" class="text-field" type="search" placeholder="搜索名称、缩写、方向">
+            </div>
+
+            <div class="panel-block">
+              <label class="field-label" for="venue-type-filter">类型</label>
+              <select id="venue-type-filter" class="select-field">
+                <option value="">全部</option>
+                <option value="conference">会议</option>
+                <option value="journal">期刊</option>
+              </select>
+            </div>
+
+            <div class="panel-block">
+              <label class="field-label" for="venue-rank-filter">CCF / XR</label>
+              <select id="venue-rank-filter" class="select-field">
+                <option value="">全部</option>
+                <option value="A">CCF-A</option>
+                <option value="B">CCF-B</option>
+                <option value="C">CCF-C</option>
+                <option value="T1">T1</option>
+                <option value="T2">T2</option>
+                <option value="T3">T3</option>
+              </select>
+            </div>
+
+            <div class="panel-block">
+              <label class="field-label" for="venue-discipline-filter">研究方向</label>
+              <select id="venue-discipline-filter" class="select-field">
+                <option value="">全部</option>
+              </select>
+            </div>
+
+            <div class="panel-stat">
+              <span>当前结果</span>
+              <strong id="venue-result-count">0</strong>
+            </div>
+          </aside>
+
+          <section class="results-panel panel">
+            <div class="panel-head">
+              <div>
+                <p class="toolbar-title">Venue Explorer</p>
+                <p class="toolbar-copy">用一个列表完成初筛，再在右侧看详细信息。</p>
+              </div>
+              <p class="toolbar-meta" id="venue-toolbar-meta">等待加载</p>
+            </div>
+            <div class="list-shell" id="venue-list" aria-live="polite"></div>
+          </section>
+
+          <aside class="detail-panel panel" id="venue-detail">
+            <div class="detail-empty">
+              <p class="detail-kicker">Venue Detail</p>
+              <h3>先从中间选择一个 venue。</h3>
+              <p>右侧会展开等级、方向、deadline 和外链入口。</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="module" id="frontier-observatory">
+        <div class="module-head">
+          <div class="module-heading">
+            <p class="module-kicker">Frontier Observatory</p>
+            <h2>先看最近值得跟的方向，再决定追哪篇。</h2>
+          </div>
+          <p class="module-copy">
+            公开版加载顶会顶刊索引与方向统计，不把一整页论文直接扔给你，而是先给一个可判断的起点。
+          </p>
+        </div>
+
+        <div class="frontier-overview" id="frontier-overview">
+          <article class="overview-panel">
+            <p class="overview-label">索引状态</p>
+            <strong id="frontier-updated-at">等待加载</strong>
+            <span id="frontier-total-papers">--</span>
+          </article>
+          <article class="overview-panel">
+            <p class="overview-label">热门 venue</p>
+            <strong id="frontier-top-venue">等待加载</strong>
+            <span id="frontier-top-venue-count">--</span>
+          </article>
+          <article class="overview-panel">
+            <p class="overview-label">高频方向</p>
+            <strong id="frontier-hot-direction">等待加载</strong>
+            <span id="frontier-hot-direction-ratio">--</span>
+          </article>
+        </div>
+
+        <div class="frontier-controls panel">
+          <input id="paper-search" class="text-field" type="search" placeholder="搜索标题、作者、方向">
+          <select id="paper-source-filter" class="select-field" aria-label="论文来源筛选">
+            <option value="">全部来源</option>
+          </select>
+          <select id="paper-venue-filter" class="select-field" aria-label="论文 venue 筛选">
+            <option value="">全部 venue</option>
+          </select>
+          <select id="paper-direction-filter" class="select-field" aria-label="论文方向筛选">
+            <option value="">全部方向</option>
+          </select>
+        </div>
+
+        <div class="module-body frontier-layout">
+          <section class="results-panel panel">
+            <div class="panel-head">
+              <div>
+                <p class="toolbar-title">Paper Stream</p>
+                <p class="toolbar-copy">先按方向和 venue 收窄范围，再展开单篇细看。</p>
+              </div>
+              <p class="toolbar-meta" id="paper-toolbar-meta">等待加载</p>
+            </div>
+            <div class="list-shell paper-shell" id="paper-list" aria-live="polite"></div>
+          </section>
+
+          <aside class="detail-panel panel" id="paper-detail">
+            <div class="detail-empty">
+              <p class="detail-kicker">Paper Detail</p>
+              <h3>先选一篇论文。</h3>
+              <p>这里会显示摘要、作者、方向、来源和跳转链接。</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="module" id="precheck-console">
+        <div class="module-head">
+          <div class="module-heading">
+            <p class="module-kicker">Precheck Console</p>
+            <h2>先把入口铺好，后端上线后直接切 live。</h2>
+          </div>
+          <p class="module-copy">
+            这一版不生成假报告。服务未部署时明确告诉你状态，部署完成后只需要改运行时配置。
+          </p>
+        </div>
+
+        <div class="module-body precheck-layout">
+          <form class="precheck-form panel" id="precheck-form">
+            <div class="field-block">
+              <label class="field-label" for="precheck-title">论文标题</label>
+              <input id="precheck-title" class="text-field" type="text" maxlength="180" placeholder="输入论文标题">
+            </div>
+
+            <div class="field-block">
+              <label class="field-label" for="precheck-abstract">摘要 / 说明</label>
+              <textarea id="precheck-abstract" class="text-area" placeholder="输入摘要、贡献点或当前版本说明。"></textarea>
+            </div>
+
+            <div class="inline-fields">
+              <div class="field-block">
+                <label class="field-label" for="precheck-mode">模式</label>
+                <select id="precheck-mode" class="select-field">
+                  <option value="快审">快审</option>
+                  <option value="标准" selected>标准</option>
+                  <option value="深度">深度</option>
+                </select>
+              </div>
+
+              <div class="field-block">
+                <label class="field-label" for="precheck-language">语言</label>
+                <select id="precheck-language" class="select-field">
+                  <option value="中文" selected>中文</option>
+                  <option value="English">English</option>
+                  <option value="双语">双语</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="hero-action hero-action-primary submit-button" id="precheck-submit" type="submit">
+              开始预审
+            </button>
+          </form>
+
+          <aside class="service-panel panel" id="precheck-status-panel">
+            <p class="detail-kicker">Service Status</p>
+            <h3 id="precheck-status-title">服务暂未上线</h3>
+            <p id="precheck-status-copy">
+              公开版已经保留了真实 AI 预审接入位。等后端部署完成后，这里会直接接你的预审任务流。
+            </p>
+            <div class="service-trace" id="precheck-service-trace">
+              <span>标题 + 摘要输入</span>
+              <span>结构化预审接口</span>
+              <span>报告面板占位</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="module module-brief" id="project-brief">
+        <div class="module-head">
+          <div class="module-heading">
+            <p class="module-kicker">Roadmap & Boundary</p>
+            <h2>先把公开版做稳，再逐步接入个人工作流。</h2>
+          </div>
+          <p class="module-copy">
+            公开版先把查 venue、看前沿和预留 AI 预审入口做成稳定网页工具。完整版本会继续接上登录、收藏、投稿记录和真实预审结果。
+          </p>
+        </div>
+
+        <div class="brief-grid">
+          <article>
+            <p class="overview-label">当前公开版</p>
+            <ul>
+              <li>期刊会议检索</li>
+              <li>前沿论文浏览</li>
+              <li>AI 预审接入壳</li>
+            </ul>
+          </article>
+          <article>
+            <p class="overview-label">后续接入</p>
+            <ul>
+              <li>登录与用户态</li>
+              <li>收藏同步与投稿记录</li>
+              <li>真实 AI 预审任务流</li>
+            </ul>
+          </article>
+          <article>
+            <p class="overview-label">技术边界</p>
+            <ul>
+              <li>独立项目页接入 Hexo</li>
+              <li>公开数据本地镜像</li>
+              <li>运行时配置控制 AI 能力</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/academic-submission-runtime.js"></script>
+  <script src="assets/academic-submission.js" defer></script>
+</body>
+
+</html>

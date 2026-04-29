@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Wang Peng - Academic Homepage</title>
+  <meta name="description"
+    content="Wang Peng's academic homepage. Master's student at Shandong University. Research interests: Computer Vision, Deep Learning, Multimodal Learning.">
+  <meta name="keywords" content="Wang Peng, Computer Vision, Deep Learning, AI, Shandong University, 王鹏, 计算机视觉, 深度学习">
+  <meta name="author" content="Wang Peng">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Wang Peng - Academic Homepage">
+  <meta property="og:description"
+    content="Master's student at Shandong University. Research interests: Computer Vision, Deep Learning, Multimodal Learning.">
+  <meta property="og:image" content="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png">
+  <meta property="og:url" content="https://wpironman.top/academic/">
+
+  <link rel="icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png">
+
+  <link rel="stylesheet" href="../css/local-fonts.css?v=20260428-icons">
+  <link rel="stylesheet" href="../css/fa-subset.css?v=20260428-icons">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/academic.css?v=20260428-projects-github">
+
+  <!-- Data Configuration -->
+  <script src="academic-data.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Background Animation Container for Vanta.js -->
+  <div id="bg-animation-container" class="bg-animation">
+    <!-- Fallback blobs if Vanta fails or on mobile -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <img id="avatar" src="https://wpironman.oss-cn-qingdao.aliyuncs.com/202511241453014.png?x-oss-process=image/resize,w_320/quality,q_75" alt="Avatar"
+      class="avatar" decoding="async" fetchpriority="high">
+    <div id="author-name" class="author-name"></div>
+    <div id="author-title" class="author-title"></div>
+    <div id="author-desc" class="author-desc"></div>
+
+    <ul class="contact-list">
+      <li>
+        <span id="location-icon"><i class="fas fa-map-marker-alt"></i></span>
+        <div class="contact-list-label" id="location"></div>
+      </li>
+      <li>
+        <a id="email" href="" aria-label="Email" title="Email">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+        </a>
+        <div class="contact-list-label">Email</div>
+      </li>
+      <li>
+        <a id="github" href="" aria-label="GitHub" title="GitHub">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <div class="contact-list-label">Github</div>
+      </li>
+      <li>
+        <a id="blog" href="" aria-label="Blog" title="Blog">
+          <i class="fas fa-blog" aria-hidden="true"></i>
+        </a>
+        <div class="contact-list-label">Blog</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <!-- Controls (Left) -->
+    <div class="nav-controls">
+      <div class="control-btn" onclick="toggleLanguage()">
+        <span id="lang-text">English</span>
+      </div>
+      <div class="control-btn" onclick="toggleDarkMode()">
+        <i id="theme-icon" class="fas fa-moon"></i>
+      </div>
+    </div>
+
+    <!-- Navigation Links (Right) -->
+    <div class="nav-links">
+      <a href="#academic-hero">
+        <span class="lang-zh">主页</span>
+        <span class="lang-en">Home</span>
+      </a>
+      <a href="#about">
+        <span class="lang-zh">关于我</span>
+        <span class="lang-en">About Me</span>
+      </a>
+      <a href="#projects">
+        <span class="lang-zh">项目</span>
+        <span class="lang-en">Projects</span>
+      </a>
+      <a href="#news">
+        <span class="lang-zh">动态</span>
+        <span class="lang-en">News</span>
+      </a>
+      <a href="#publications">
+        <span class="lang-zh">论文</span>
+        <span class="lang-en">Publications</span>
+      </a>
+      <a href="#honors">
+        <span class="lang-zh">荣誉</span>
+        <span class="lang-en">Honors</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Hero -->
+    <section id="academic-hero" class="academic-hero fade-in-section" aria-labelledby="academic-hero-title">
+      <div class="hero-copy">
+        <p class="hero-kicker">Academic Homepage · Visual Representation</p>
+        <h1 id="academic-hero-title">
+          <span class="lang-zh">面向视觉理解与多模态学习的科研主页</span>
+          <span class="lang-en">Research in Visual Understanding and Multimodal Learning</span>
+        </h1>
+        <p class="hero-summary">
+          <span class="lang-zh">我关注计算机视觉、深度学习与多模态大模型，长期记录论文、实验和工程实践，把研究问题转化为可复现的系统。</span>
+          <span class="lang-en">I focus on computer vision, deep learning, and multimodal models, turning research questions into reproducible systems through papers, experiments, and engineering practice.</span>
+        </p>
+        <div class="hero-actions">
+          <a class="hero-action hero-action-primary" href="#publications">
+            <span class="lang-zh">查看论文</span>
+            <span class="lang-en">View Publications</span>
+          </a>
+          <a class="hero-action" href="https://wpironman.top">
+            <span class="lang-zh">返回博客</span>
+            <span class="lang-en">Visit Blog</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-panel" aria-label="Research profile summary">
+        <div class="hero-panel-line">
+          <span class="hero-panel-label">Focus</span>
+          <strong>Computer Vision</strong>
+        </div>
+        <div class="hero-panel-line">
+          <span class="hero-panel-label">Methods</span>
+          <strong>Deep Learning · Multimodal AI</strong>
+        </div>
+        <div class="hero-panel-line">
+          <span class="hero-panel-label">Output</span>
+          <strong>2 Publications · Engineering Notes</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bio -->
+    <section id="about" class="fade-in-section">
+      <h2>
+        <span class="section-number">01</span>
+        <span class="lang-zh">关于我</span>
+        <span class="lang-en">About Me</span>
+      </h2>
+      <div id="about-content"></div>
+
+      <!-- Skill Galaxy Container -->
+      <div id="skill-galaxy-container" style="display: none;">
+        <h3 style="text-align: center; margin-bottom: 15px; color: var(--accent-color); font-size: 1.2rem;">
+          <span class="lang-zh">技能栈</span>
+          <span class="lang-en">Tech Stack</span>
+        </h3>
+        <canvas id="skill-canvas" width="500" height="360" style="width: 100%; height: 100%;"></canvas>
+      </div>
+
+      <!-- Tags for TagCanvas -->
+      <div id="skill-tags" style="display: none;">
+        <ul>
+          <li><a href="#" onclick="return false;">Python</a></li>
+          <li><a href="#" onclick="return false;">PyTorch</a></li>
+          <li><a href="#" onclick="return false;">Computer Vision</a></li>
+          <li><a href="#" onclick="return false;">Deep Learning</a></li>
+          <li><a href="#" onclick="return false;">C++</a></li>
+          <li><a href="#" onclick="return false;">OpenCV</a></li>
+          <li><a href="#" onclick="return false;">TensorFlow</a></li>
+          <li><a href="#" onclick="return false;">SLAM</a></li>
+          <li><a href="#" onclick="return false;">ROS</a></li>
+          <li><a href="#" onclick="return false;">Linux</a></li>
+          <li><a href="#" onclick="return false;">Git</a></li>
+          <li><a href="#" onclick="return false;">Docker</a></li>
+          <li><a href="#" onclick="return false;">LaTeX</a></li>
+          <li><a href="#" onclick="return false;">Matlab</a></li>
+          <li><a href="#" onclick="return false;">HTML/CSS</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="fade-in-section project-showcase">
+      <h2>
+        <span class="section-number">02</span>
+        <span class="lang-zh">精选项目</span>
+        <span class="lang-en">Selected Projects</span>
+      </h2>
+      <div class="project-grid">
+        <a class="project-card project-card-featured" href="/projects/academic-submission/">
+          <span class="project-card-kicker">Research Workflow</span>
+          <h3>
+            <span class="lang-zh">学术工作流助手</span>
+            <span class="lang-en">Academic Submission Assistant</span>
+          </h3>
+          <p>
+            <span class="lang-zh">面向研究生和科研作者，把选刊、前沿跟踪和 AI 预审收进一个公开可用的工作台。</span>
+            <span class="lang-en">A public research workflow desk for venue discovery, frontier tracking, and AI paper precheck.</span>
+          </p>
+          <span class="project-card-link">
+            <span class="lang-zh">进入项目</span>
+            <span class="lang-en">Open Project</span>
+          </span>
+        </a>
+
+        <a class="project-card" href="https://github.com/wp-a/redflow-xhs">
+          <span class="project-card-kicker">Creator Tool</span>
+          <h3>
+            <span class="lang-zh">Redflow XHS</span>
+            <span class="lang-en">Redflow XHS</span>
+          </h3>
+          <p>
+            <span class="lang-zh">Markdown 优先的小红书卡片渲染与内容发布工作流，用 skill 化方式沉淀创作流程。</span>
+            <span class="lang-en">A Markdown-first Xiaohongshu card renderer and publishing workflow for repeatable content creation.</span>
+          </p>
+          <span class="project-card-link">
+            <span class="lang-zh">查看 GitHub</span>
+            <span class="lang-en">View GitHub</span>
+          </span>
+        </a>
+
+        <a class="project-card" href="https://github.com/wp-a/codex-remote-pwa">
+          <span class="project-card-kicker">Agent Interface</span>
+          <h3>
+            <span class="lang-zh">Codex Remote PWA</span>
+            <span class="lang-en">Codex Remote PWA</span>
+          </h3>
+          <p>
+            <span class="lang-zh">面向本地 Codex 会话的移动端远程控制界面，把长任务观察和轻量操作放到手机上。</span>
+            <span class="lang-en">A mobile-first remote control surface for observing and operating local Codex sessions.</span>
+          </p>
+          <span class="project-card-link">
+            <span class="lang-zh">查看 GitHub</span>
+            <span class="lang-en">View GitHub</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section id="news" class="fade-in-section">
+      <h2>
+        <span class="section-number">03</span>
+        <span class="lang-zh">最新动态</span>
+        <span class="lang-en">Latest News</span>
+      </h2>
+      <ul id="news-list" class="news-list"></ul>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications" class="fade-in-section">
+      <h2>
+        <span class="section-number">04</span>
+        <span class="lang-zh">发表论文</span>
+        <span class="lang-en">Publications</span>
+      </h2>
+      <div id="publications-list"></div>
+    </section>
+
+    <!-- Honors -->
+    <section id="honors" class="fade-in-section">
+      <h2>
+        <span class="section-number">05</span>
+        <span class="lang-zh">荣誉奖项</span>
+        <span class="lang-en">Honors & Awards</span>
+      </h2>
+      <ul id="honors-list" class="news-list"></ul>
+    </section>
+
+  </div>
+
+  <!-- Custom Scripts -->
+  <script src="assets/js/academic-render.js" defer></script>
+  <script src="assets/js/cool-features.js" defer></script>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in-section').forEach((section) => {
+        observer.observe(section);
+      });
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="240" y1="40" x2="1360" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#09131F"/>
+      <stop offset="1" stop-color="#050A12"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1236 180) rotate(134.779) scale(525.68 380.658)">
+      <stop stop-color="#DAB986" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#DAB986" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(310 760) rotate(-15.901) scale(537.58 276.761)">
+      <stop stop-color="#6E8FB1" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#6E8FB1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#DAB986" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#6A7F96" stop-opacity="0.22"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#glowA)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#glowB)"/>
+
+  <g opacity="0.08" stroke="#A9B8C7">
+    <path d="M0 132H1600"/>
+    <path d="M0 280H1600"/>
+    <path d="M0 428H1600"/>
+    <path d="M0 576H1600"/>
+    <path d="M0 724H1600"/>
+    <path d="M220 0V900"/>
+    <path d="M460 0V900"/>
+    <path d="M700 0V900"/>
+    <path d="M940 0V900"/>
+    <path d="M1180 0V900"/>
+    <path d="M1420 0V900"/>
+  </g>
+
+  <g opacity="0.42">
+    <circle cx="1118" cy="274" r="10" fill="#DAB986"/>
+    <circle cx="995" cy="454" r="8" fill="#7B90A7"/>
+    <circle cx="1278" cy="540" r="8" fill="#7B90A7"/>
+    <circle cx="1210" cy="718" r="10" fill="#DAB986"/>
+    <circle cx="1420" cy="364" r="8" fill="#7B90A7"/>
+  </g>
+
+  <rect x="102" y="102" width="194" height="42" rx="21" fill="#0E1824" stroke="#DAB986" stroke-opacity="0.55"/>
+  <text x="136" y="130" fill="#E8D3AE" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" letter-spacing="4">AI RESEARCH OPS</text>
+
+  <text x="102" y="268" fill="#F7F4ED" font-family="Georgia, Times New Roman, serif" font-size="84">Closed-loop research,</text>
+  <text x="102" y="358" fill="#F7F4ED" font-family="Georgia, Times New Roman, serif" font-size="84">not one-shot prompting.</text>
+
+  <text x="108" y="448" fill="#A9B8C7" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28">
+    Survey with Deep Research. Execute with Codex. Observe with heartbeat.
+  </text>
+  <text x="108" y="492" fill="#A9B8C7" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28">
+    Write from evidence, not memory.
+  </text>
+
+  <rect x="104" y="594" width="482" height="164" rx="24" fill="#0B121C" stroke="#243345"/>
+  <text x="144" y="646" fill="#E7ECF1" font-family="Inter, Helvetica, Arial, sans-serif" font-size="26">Core loop</text>
+  <text x="144" y="694" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">Survey</text>
+  <text x="273" y="694" fill="#5C738B" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">→</text>
+  <text x="324" y="694" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">Contract</text>
+  <text x="497" y="694" fill="#5C738B" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">→</text>
+  <text x="144" y="738" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">Execute</text>
+  <text x="282" y="738" fill="#5C738B" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">→</text>
+  <text x="333" y="738" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">Observe</text>
+  <text x="479" y="738" fill="#5C738B" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34">→ Draft</text>
+
+  <g>
+    <path d="M1032 238L1170 188" stroke="url(#line)" stroke-width="2"/>
+    <path d="M1038 268L1344 335" stroke="url(#line)" stroke-width="2"/>
+    <path d="M1008 502L1260 520" stroke="url(#line)" stroke-width="2"/>
+    <path d="M975 532L1168 692" stroke="url(#line)" stroke-width="2"/>
+  </g>
+
+  <rect x="816" y="286" width="248" height="216" rx="28" fill="#0C141F" stroke="#DAB986" stroke-opacity="0.48"/>
+  <text x="854" y="350" fill="#DAB986" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" letter-spacing="4">EXECUTION NODE</text>
+  <text x="854" y="412" fill="#F7F4ED" font-family="Georgia, Times New Roman, serif" font-size="58">Codex</text>
+  <text x="854" y="452" fill="#A9B8C7" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22">repo-aware execution</text>
+
+  <rect x="1086" y="128" width="214" height="96" rx="22" fill="#0D1723" stroke="#233345"/>
+  <text x="1122" y="174" fill="#E7ECF1" font-family="Inter, Helvetica, Arial, sans-serif" font-size="24">Deep Research</text>
+  <text x="1122" y="204" fill="#93A4B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">survey + sources</text>
+
+  <rect x="1324" y="300" width="192" height="96" rx="22" fill="#0D1723" stroke="#233345"/>
+  <text x="1360" y="346" fill="#E7ECF1" font-family="Inter, Helvetica, Arial, sans-serif" font-size="24">Contract</text>
+  <text x="1360" y="376" fill="#93A4B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">scope + stop rules</text>
+
+  <rect x="1248" y="474" width="220" height="96" rx="22" fill="#0D1723" stroke="#233345"/>
+  <text x="1284" y="520" fill="#E7ECF1" font-family="Inter, Helvetica, Arial, sans-serif" font-size="24">Heartbeat</text>
+  <text x="1284" y="550" fill="#93A4B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">monitor + recover</text>
+
+  <rect x="1104" y="652" width="236" height="96" rx="22" fill="#0D1723" stroke="#233345"/>
+  <text x="1140" y="698" fill="#E7ECF1" font-family="Inter, Helvetica, Arial, sans-serif" font-size="24">Evidence Table</text>
+  <text x="1140" y="728" fill="#93A4B6" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">claim → proof → draft</text>
+</svg>
