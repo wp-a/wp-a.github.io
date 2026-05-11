@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codex Remote PWA | WPIRONMAN</title>
+  <meta name="description" content="Codex Remote PWA 是一个手机上的 Codex 控制台。电脑继续运行真实的 Codex 和本地代码环境，手机只负责发任务、看进度、处理中断和查看输出。">
+  <meta name="theme-color" content="#090c12">
+  <link rel="canonical" href="https://www.wpironman.top/projects/codex-remote-pwa/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Codex Remote PWA">
+  <meta property="og:description" content="手机上的 Codex 控制台。电脑继续运行真实的 Codex 和本地代码环境，手机只负责发任务、看进度、处理中断和查看输出。">
+  <meta property="og:url" content="https://www.wpironman.top/projects/codex-remote-pwa/">
+  <meta property="og:image" content="https://www.wpironman.top/projects/codex-remote-pwa/assets/hero-cover.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.wpironman.top/projects/codex-remote-pwa/assets/hero-cover.svg">
+  <link rel="icon" href="../../academic/images/favicon.ico">
+  <link rel="stylesheet" href="../../css/local-fonts.css?v=20260511-codex-remote-pwa">
+  <link rel="stylesheet" href="../../css/fa-subset.css?v=20260511-codex-remote-pwa">
+  <link rel="stylesheet" href="assets/codex-remote-pwa.css?v=20260511-product">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <nav class="breadcrumb" aria-label="路径导航">
+            <a href="/">WPIRONMAN</a>
+            <span>/</span>
+            <a href="/academic/">Projects</a>
+            <span>/</span>
+            <span>Codex Remote PWA</span>
+          </nav>
+
+          <p class="eyebrow">Remote Control Surface</p>
+          <h1>Codex，<br>在手机上继续。</h1>
+          <p class="hero-lead">
+            电脑继续跑真实的 Codex 和本地代码环境，手机只负责发任务、看进度、处理中断和查看输出。
+            它不是远程桌面，也不是把 IDE 硬塞进小屏幕，而是把关键控制面收进一个可以长期使用的 PWA。
+          </p>
+
+          <div class="hero-actions">
+            <a class="action action--primary" href="https://github.com/wp-a/codex-remote-pwa" target="_blank" rel="noopener">GitHub</a>
+            <a class="action" href="https://github.com/wp-a/codex-remote-pwa#readme" target="_blank" rel="noopener">README</a>
+            <a class="action" href="#why">项目定位</a>
+          </div>
+
+          <div class="hero-chips" aria-label="核心特性">
+            <span>Local-first</span>
+            <span>PWA installable</span>
+            <span>Relay + Agent</span>
+            <span>SQLite persistence</span>
+          </div>
+
+          <dl class="hero-stats">
+            <div>
+              <dt>Runtime</dt>
+              <dd>App Server 优先，CLI 兜底</dd>
+            </div>
+            <div>
+              <dt>Access</dt>
+              <dd>本机直连 / Tailscale / Relay</dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd>继续 thread，不做远程桌面</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aside class="hero-panel" aria-label="项目概览">
+          <div class="hero-visual">
+            <img src="assets/hero-cover.svg" alt="Codex Remote PWA hero illustration">
+          </div>
+
+          <div class="hero-status">
+            <div class="status-card">
+              <p class="status-kicker">Public Edition</p>
+              <strong>把手机变成 Codex 的轻量控制台。</strong>
+              <ul>
+                <li>继续已有 session 或新建 session。</li>
+                <li>查看实时输出、事件流和当前状态。</li>
+                <li>处理中断、授权和最后的运行结果。</li>
+              </ul>
+            </div>
+
+            <div class="status-chip-row" aria-label="状态标签">
+              <span>SQLite store</span>
+              <span>WebSocket stream</span>
+              <span>Image proxy</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <nav class="jump-links" aria-label="页面导航">
+      <a href="#why">项目定位</a>
+      <a href="#capabilities">核心能力</a>
+      <a href="#architecture">架构分层</a>
+      <a href="#mobile">手机体验</a>
+      <a href="#launch">启动方式</a>
+    </nav>
+
+    <section class="section section--intro" id="why">
+      <div class="section-head">
+        <p class="eyebrow">Why it exists</p>
+        <h2>离开电脑之后，任务不应该变成黑箱。</h2>
+        <p class="section-copy">
+          真正麻烦的不是代码写完，而是你离开电脑以后，仍然要继续盯输出、处理授权、补一句提示，或者确认这次 turn 到底有没有跑完。
+          这个项目只做这件事，并且尽量把它做得轻。
+        </p>
+      </div>
+
+      <div class="intro-grid">
+        <article class="intro-panel intro-panel--emphasis">
+          <p class="panel-label">定位</p>
+          <h3>本地 Codex 会话的手机控制面。</h3>
+          <p>
+            电脑上的执行环境不变，手机只是读取状态、发起下一步和处理关键分支。这样可以保留你本来就已经搭好的本地工作流，
+            而不是再造一套云 IDE。
+          </p>
+        </article>
+
+        <div class="proof-grid" aria-label="设计原则">
+          <article>
+            <span>01</span>
+            <h3>Keep state local</h3>
+            <p>session、run、event 都放在本机 bridge 里，重连后还能接上。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Keep control small</h3>
+            <p>手机只负责真正高价值的动作：继续、打断、授权、查看输出。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Keep the code where it is</h3>
+            <p>代码和执行留在电脑上，不把整个开发环境搬进浏览器。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="section-head">
+        <p class="eyebrow">Product surface</p>
+        <h2>只保留四个高频动作。</h2>
+        <p class="section-copy">移动端不适合塞满开发环境。它只需要让你继续、观察、打断和确认。</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-index">01</span>
+          <h3>会话列表</h3>
+          <p>从最近的 Codex thread 里继续，不用每次重新找上下文。</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-index">02</span>
+          <h3>实时输出</h3>
+          <p>WebSocket 直接流式显示运行状态、日志和最终结果。</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-index">03</span>
+          <h3>中断与恢复</h3>
+          <p>长任务可以停住，也可以在确认后接着走，不会把状态丢掉。</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-index">04</span>
+          <h3>授权闭环</h3>
+          <p>把 approval 作为一等事件处理，而不是塞进模糊的提示文字里。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--architecture" id="architecture">
+      <div class="section-head">
+        <p class="eyebrow">Architecture</p>
+        <h2>本地运行，远程控制。</h2>
+        <p class="section-copy">
+          这套结构的目标不是做大，而是让本机直连、Relay、Agent 和 app-server 各自只做一件事。
+        </p>
+      </div>
+
+      <div class="architecture-grid">
+        <figure class="diagram-card">
+          <img src="assets/architecture-overview.svg" alt="Codex Remote PWA architecture overview">
+        </figure>
+
+        <div class="architecture-notes">
+          <article class="note-card">
+            <p class="note-label">Bridge Server</p>
+            <h3>持久化 session / run / event。</h3>
+            <p>REST + WebSocket + SQLite 组合成一个本地控制平面，重连时能恢复上下文。</p>
+          </article>
+          <article class="note-card">
+            <p class="note-label">Runtime Adapter</p>
+            <h3>优先接官方 app-server。</h3>
+            <p>如果 app-server 不可用，再回退到 `codex exec --json`，但 UI 保持不变。</p>
+          </article>
+          <article class="note-card">
+            <p class="note-label">Remote Path</p>
+            <h3>Relay + Agent 适合外网访问。</h3>
+            <p>手机不需要直接连本机 8787，适合 Tailscale 或其他受控网络环境。</p>
+          </article>
+          <article class="note-card note-card--accent">
+            <p class="note-label">Security</p>
+            <h3>共享 token + allowlist。</h3>
+            <p>尽量避免裸露本机端口，减少手机端拿到过多执行权限的风险。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mobile">
+      <div class="section-head">
+        <p class="eyebrow">Mobile experience</p>
+        <h2>手机上只保留两个主视图：聊天流和会话抽屉。</h2>
+        <p class="section-copy">
+          这也是页面视觉设计的核心：不要把它做成花哨的 dashboard，而是做成真正适合手机连续使用的控制台。
+        </p>
+      </div>
+
+      <div class="preview-grid">
+        <figure class="preview-card">
+          <img src="assets/mobile-chat-preview.svg" alt="Codex Remote PWA mobile chat preview">
+          <figcaption>
+            主视图更接近聊天流，输出和 prompt 保持连续，不把手机屏幕浪费在复杂面板上。
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img src="assets/mobile-drawer-preview.svg" alt="Codex Remote PWA session drawer preview">
+          <figcaption>
+            抽屉承载会话切换、最近 thread 和入口信息，把重操作收起来，主区域留给当前任务。
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="launch">
+      <div class="section-head">
+        <p class="eyebrow">Launch flow</p>
+        <h2>启动路径也尽量直接，不做复杂假设。</h2>
+        <p class="section-copy">官方 app-server 优先；如果没有，就退回 CLI。两条路都保留，但不强迫你换工作方式。</p>
+      </div>
+
+      <div class="launch-grid">
+        <article class="command-card">
+          <p class="command-label">1. App Server</p>
+          <h3>先接官方协议。</h3>
+          <pre><code>codex app-server --listen ws://127.0.0.1:8766</code></pre>
+          <p>这是更稳定的首选路径，bridge 会优先使用它。</p>
+        </article>
+        <article class="command-card">
+          <p class="command-label">2. Bridge</p>
+          <h3>本机运行 bridge 和 SQLite store。</h3>
+          <pre><code>BRIDGE_TOKEN=change-me CODEX_APP_SERVER_URL=ws://127.0.0.1:8766 npm run start --workspace @codex-remote/server</code></pre>
+          <p>它负责 session、event、snapshot 和 WebSocket 流。</p>
+        </article>
+        <article class="command-card">
+          <p class="command-label">3. Relay + Agent</p>
+          <h3>需要外网访问时再接 relay。</h3>
+          <pre><code>npm run start --workspace @codex-remote/agent -- --relay http://127.0.0.1:8788 --pair ABCD1234 --bridge http://127.0.0.1:8787 --token change-me</code></pre>
+          <p>它让手机不必直接碰到本机端口。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--boundary">
+      <div class="section-head">
+        <p class="eyebrow">Design boundary</p>
+        <h2>它刻意不做的事，也很重要。</h2>
+        <p class="section-copy">这个项目能做得稳，靠的是边界收得足够紧，而不是把一切都塞进去。</p>
+      </div>
+
+      <div class="boundary-grid">
+        <article class="boundary-card">
+          <h3>不是远程桌面</h3>
+          <p>不搬运整块屏幕，不模拟手势，不把电脑 UI 硬缩到手机里。</p>
+        </article>
+        <article class="boundary-card">
+          <h3>不是云 IDE</h3>
+          <p>它不重新定义开发环境，代码仍然留在你自己的电脑上。</p>
+        </article>
+        <article class="boundary-card boundary-card--accent">
+          <h3>它是什么</h3>
+          <p>一个让你在离开桌面后，仍然能继续管理本地 Codex 会话的移动控制台。</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <a href="/academic/">返回博客项目页</a>
+      <a href="https://github.com/wp-a/codex-remote-pwa" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/wp-a/codex-remote-pwa#readme" target="_blank" rel="noopener">README</a>
+    </footer>
+  </main>
+</body>
+</html>
