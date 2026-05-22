@@ -71,6 +71,10 @@
     return request;
   }
 
+  function isDirectFilePreview() {
+    return window.location.protocol === 'file:';
+  }
+
   function escapeHtml(value) {
     return String(value || '')
       .replaceAll('&', '&amp;')
@@ -585,13 +589,14 @@
       applyPaperFilters();
     } catch (error) {
       state.frontierLoading = false;
-      els.statusFrontierData.textContent = '索引加载失败';
-      els.paperToolbarMeta.textContent = '公开索引读取失败';
+      const filePreview = isDirectFilePreview();
+      els.statusFrontierData.textContent = filePreview ? '本地预览模式' : '索引加载失败';
+      els.paperToolbarMeta.textContent = filePreview ? '本地文件预览不读取索引' : '公开索引读取失败';
       els.paperList.innerHTML = `
         <div class="empty-state">
-          <p class="detail-kicker">LOAD FAILED</p>
-          <h3>前沿论文索引暂时不可用。</h3>
-          <p>${escapeHtml(error.message || 'unknown error')}</p>
+          <p class="detail-kicker">${filePreview ? 'LOCAL PREVIEW' : 'LOAD FAILED'}</p>
+          <h3>${filePreview ? '请通过站点服务预览前沿索引。' : '前沿论文索引暂时不可用。'}</h3>
+          <p>${filePreview ? '直接打开 HTML 文件时，浏览器会限制本地 JSON 读取；使用 Hexo server 或线上地址即可正常加载。' : escapeHtml(error.message || 'unknown error')}</p>
         </div>
       `;
     }
@@ -716,15 +721,16 @@
     try {
       await loadVenues();
     } catch (error) {
+      const filePreview = isDirectFilePreview();
       if (els.statusPublicData) {
-        els.statusPublicData.textContent = '镜像读取失败';
+        els.statusPublicData.textContent = filePreview ? '本地预览模式' : '镜像读取失败';
       }
-      els.venueToolbarMeta.textContent = '公开 venue 数据读取失败';
+      els.venueToolbarMeta.textContent = filePreview ? '本地文件预览不读取数据' : '公开 venue 数据读取失败';
       els.venueList.innerHTML = `
         <div class="empty-state">
-          <p class="detail-kicker">LOAD FAILED</p>
-          <h3>公开 venue 数据暂时不可用。</h3>
-          <p>${escapeHtml(error.message || 'unknown error')}</p>
+          <p class="detail-kicker">${filePreview ? 'LOCAL PREVIEW' : 'LOAD FAILED'}</p>
+          <h3>${filePreview ? '请通过站点服务预览 venue 数据。' : '公开 venue 数据暂时不可用。'}</h3>
+          <p>${filePreview ? '直接打开 HTML 文件时，浏览器会限制本地 JSON 读取；使用 Hexo server 或线上地址即可正常加载。' : escapeHtml(error.message || 'unknown error')}</p>
         </div>
       `;
     }

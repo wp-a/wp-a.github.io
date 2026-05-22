@@ -10,7 +10,7 @@
 
     <url>
         <loc>https://wp-a.github.io/2026/04/ai-autonomous-research-codex-workflow/</loc>
-        <lastmod>2026-04-26T06:34:12.784Z</lastmod>
+        <lastmod>2026-04-26T07:15:43.971Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -57,7 +57,7 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/08_Value_Function_Approximation/</loc>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/09_Policy_Gradient/</loc>
         <lastmod>2026-03-09T14:29:08.806Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -65,7 +65,7 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/09_Policy_Gradient/</loc>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/08_Value_Function_Approximation/</loc>
         <lastmod>2026-03-09T14:29:08.806Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -81,7 +81,7 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/02_Bellman_Equation/</loc>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
         <lastmod>2026-03-09T14:29:08.805Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -97,7 +97,7 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/03_Bellman_Optimality/</loc>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/02_Bellman_Equation/</loc>
         <lastmod>2026-03-09T14:29:08.805Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -113,7 +113,7 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/01_Basic_Concepts/</loc>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Math_Foundation/</loc>
         <lastmod>2026-03-09T14:29:08.804Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -121,7 +121,7 @@
     </url>
 
     <url>
-        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/00_Math_Foundation/</loc>
+        <loc>https://wp-a.github.io/2026/02/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/01_Basic_Concepts/</loc>
         <lastmod>2026-03-09T14:29:08.804Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>

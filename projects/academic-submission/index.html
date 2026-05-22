@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Academic Submission Assistant</title>
-  <meta name="description" content="公开可用版 Academic Submission Assistant：期刊会议检索、前沿论文浏览与 AI 预审接入壳。">
-  <link rel="stylesheet" href="/css/local-fonts.css">
-  <link rel="stylesheet" href="/css/fa-subset.css">
-  <link rel="stylesheet" href="assets/academic-submission.css">
+  <meta name="description" content="面向研究生和科研作者的 Academic Submission Assistant：期刊会议检索、前沿论文跟踪、投稿记录和 AI 预审工作台。">
+  <link rel="icon" href="../../academic/images/favicon.ico">
+  <link rel="stylesheet" href="../../css/local-fonts.css?v=20260428-icons">
+  <link rel="stylesheet" href="../../css/fa-subset.css?v=20260428-icons">
+  <link rel="stylesheet" href="assets/academic-submission.css?v=20260511-product">
 </head>
 
 <body>
@@ -22,22 +23,21 @@
             <span>Academic Submission</span>
           </div>
 
-          <p class="hero-kicker">Academic Submission Assistant</p>
-          <h1>把选刊、前沿跟踪和 AI 预审收进一个安静的工作台。</h1>
+          <p class="hero-kicker">Research Workflow Studio</p>
+          <h1>你的科研投稿工作台。</h1>
           <p class="hero-summary">
-            面向研究生和科研作者的公开网页版入口。第一版只保留真正会反复用到的能力：查 venue、看前沿论文、保留真实 AI
-            预审接入位，后续再接上完整登录态与投稿工作流。
+            面向研究生和科研作者，把选刊判断、前沿跟踪、稿件预审和投稿记录收束到一个长期使用的工作流里。
+            公开版先开放核心查询能力，并为真实后端预审任务流保留接入口。
           </p>
 
           <div class="hero-actions">
-            <a class="hero-action hero-action-primary" href="#venue-workbench">查期刊会议</a>
-            <a class="hero-action" href="#frontier-observatory">看前沿论文</a>
-            <a class="hero-action" href="#precheck-console">试 AI 预审</a>
+            <a class="hero-action hero-action-primary" href="#project-intro">了解项目</a>
+            <a class="hero-action" href="#venue-workbench">体验公开版</a>
           </div>
 
           <dl class="hero-facts">
             <div>
-              <dt>公开能力</dt>
+              <dt>Workflow</dt>
               <dd id="metric-public-capabilities">4 个模块</dd>
             </div>
             <div>
@@ -51,7 +51,7 @@
           </dl>
         </div>
 
-        <aside class="hero-status" id="workspace-status" aria-label="服务状态面板">
+        <aside class="hero-status" id="workspace-status" aria-label="产品预览和服务状态">
           <div class="status-card">
             <div class="status-card__head">
               <p class="status-card__label">Public Edition</p>
@@ -74,6 +74,16 @@
             </ul>
           </div>
 
+          <div class="workflow-card" aria-label="工作流结构">
+            <p class="status-card__label">Workflow Map</p>
+            <div class="workflow-lanes">
+              <span>Venue Fit</span>
+              <span>Frontier Scan</span>
+              <span>Paper Precheck</span>
+              <span>Submission Log</span>
+            </div>
+          </div>
+
           <p class="status-note">
             当前公开版只开放读能力和 AI 预审接入壳，不开放登录、收藏同步和投稿写入。
           </p>
@@ -82,13 +92,55 @@
     </header>
 
     <nav class="tool-rail" aria-label="页面工具导航">
+      <a href="#project-intro">项目介绍</a>
       <a href="#venue-workbench">期刊会议</a>
       <a href="#frontier-observatory">前沿论文</a>
       <a href="#precheck-console">AI 预审</a>
-      <a href="#project-brief">项目说明</a>
+      <a href="#project-brief">路线图</a>
     </nav>
 
     <main class="module-stack">
+      <section class="module project-intro" id="project-intro">
+        <div class="module-head">
+          <div class="module-heading">
+            <p class="module-kicker">Project Introduction</p>
+            <h2>它不是临时问答工具，而是一条投稿流程。</h2>
+          </div>
+          <p class="module-copy">
+            每次选刊、查论文、看 deadline 和修改摘要，都应该留下可复用的状态，而不是散在浏览器标签、收藏夹和聊天记录里。
+          </p>
+        </div>
+
+        <div class="intro-layout">
+          <article class="intro-manifesto">
+            <p class="overview-label">为什么做</p>
+            <h3>科研工具不应该只回答一次问题，而应该持续管理状态。</h3>
+            <p>
+              真实投稿过程里，作者需要反复查 venue、追踪方向、比较截稿信息、检查摘要和贡献表达。Academic Submission Assistant
+              的目标是减少这些上下文切换，让每次查询都能沉淀为后续投稿判断的一部分。
+            </p>
+          </article>
+
+          <div class="intro-points" aria-label="项目能力">
+            <article>
+              <span>01</span>
+              <h3>先判断能不能投。</h3>
+              <p>围绕会议、期刊、等级和方向建立可筛选索引，先缩小真正可投的范围。</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>再判断该看什么。</h3>
+              <p>把论文流按来源、venue 和方向组织起来，避免只靠零散收藏追热点。</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>最后判断怎么改。</h3>
+              <p>后端上线后承接标题、摘要和贡献点，输出结构化修改建议，而不是泛泛润色。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="module" id="venue-workbench">
         <div class="module-head">
           <div class="module-heading">
@@ -194,13 +246,13 @@
 
         <div class="frontier-controls panel">
           <input id="paper-search" class="text-field" type="search" placeholder="搜索标题、作者、方向">
-          <select id="paper-source-filter" class="select-field">
+          <select id="paper-source-filter" class="select-field" aria-label="论文来源筛选">
             <option value="">全部来源</option>
           </select>
-          <select id="paper-venue-filter" class="select-field">
+          <select id="paper-venue-filter" class="select-field" aria-label="论文 venue 筛选">
             <option value="">全部 venue</option>
           </select>
-          <select id="paper-direction-filter" class="select-field">
+          <select id="paper-direction-filter" class="select-field" aria-label="论文方向筛选">
             <option value="">全部方向</option>
           </select>
         </div>
@@ -293,11 +345,11 @@
       <section class="module module-brief" id="project-brief">
         <div class="module-head">
           <div class="module-heading">
-            <p class="module-kicker">Project Brief</p>
-            <h2>它不是单点功能，而是一条学术工作流。</h2>
+            <p class="module-kicker">Roadmap & Boundary</p>
+            <h2>先把公开版做稳，再逐步接入个人工作流。</h2>
           </div>
           <p class="module-copy">
-            公开版先把查 venue、看前沿和预留 AI 预审入口收成一个网页工具。完整版本会继续接上登录、收藏、投稿记录和真实预审结果。
+            公开版先把查 venue、看前沿和预留 AI 预审入口做成稳定网页工具。完整版本会继续接上登录、收藏、投稿记录和真实预审结果。
           </p>
         </div>
 

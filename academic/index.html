@@ -20,11 +20,11 @@
 
   <link rel="icon" href="https://wpironman.oss-cn-qingdao.aliyuncs.com/favicon.png">
 
-  <link rel="stylesheet" href="/css/local-fonts.css">
-  <link rel="stylesheet" href="/css/fa-subset.css">
+  <link rel="stylesheet" href="../css/local-fonts.css?v=20260428-icons">
+  <link rel="stylesheet" href="../css/fa-subset.css?v=20260428-icons">
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/academic.css">
+  <link rel="stylesheet" href="assets/css/academic.css?v=20260428-projects-github">
 
   <!-- Data Configuration -->
   <script src="academic-data.js" defer></script>
@@ -87,9 +87,17 @@
 
     <!-- Navigation Links (Right) -->
     <div class="nav-links">
+      <a href="#academic-hero">
+        <span class="lang-zh">主页</span>
+        <span class="lang-en">Home</span>
+      </a>
       <a href="#about">
         <span class="lang-zh">关于我</span>
         <span class="lang-en">About Me</span>
+      </a>
+      <a href="#projects">
+        <span class="lang-zh">项目</span>
+        <span class="lang-en">Projects</span>
       </a>
       <a href="#news">
         <span class="lang-zh">动态</span>
@@ -109,8 +117,52 @@
   <!-- Main Content -->
   <div class="main-content">
 
+    <!-- Hero -->
+    <section id="academic-hero" class="academic-hero fade-in-section" aria-labelledby="academic-hero-title">
+      <div class="hero-copy">
+        <p class="hero-kicker">Academic Homepage · Visual Representation</p>
+        <h1 id="academic-hero-title">
+          <span class="lang-zh">面向视觉理解与多模态学习的科研主页</span>
+          <span class="lang-en">Research in Visual Understanding and Multimodal Learning</span>
+        </h1>
+        <p class="hero-summary">
+          <span class="lang-zh">我关注计算机视觉、深度学习与多模态大模型，长期记录论文、实验和工程实践，把研究问题转化为可复现的系统。</span>
+          <span class="lang-en">I focus on computer vision, deep learning, and multimodal models, turning research questions into reproducible systems through papers, experiments, and engineering practice.</span>
+        </p>
+        <div class="hero-actions">
+          <a class="hero-action hero-action-primary" href="#publications">
+            <span class="lang-zh">查看论文</span>
+            <span class="lang-en">View Publications</span>
+          </a>
+          <a class="hero-action" href="https://wpironman.top">
+            <span class="lang-zh">返回博客</span>
+            <span class="lang-en">Visit Blog</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-panel" aria-label="Research profile summary">
+        <div class="hero-panel-line">
+          <span class="hero-panel-label">Focus</span>
+          <strong>Computer Vision</strong>
+        </div>
+        <div class="hero-panel-line">
+          <span class="hero-panel-label">Methods</span>
+          <strong>Deep Learning · Multimodal AI</strong>
+        </div>
+        <div class="hero-panel-line">
+          <span class="hero-panel-label">Output</span>
+          <strong>2 Publications · Engineering Notes</strong>
+        </div>
+      </div>
+    </section>
+
     <!-- Bio -->
     <section id="about" class="fade-in-section">
+      <h2>
+        <span class="section-number">01</span>
+        <span class="lang-zh">关于我</span>
+        <span class="lang-en">About Me</span>
+      </h2>
       <div id="about-content"></div>
 
       <!-- Skill Galaxy Container -->
@@ -144,10 +196,68 @@
       </div>
     </section>
 
+    <!-- Projects -->
+    <section id="projects" class="fade-in-section project-showcase">
+      <h2>
+        <span class="section-number">02</span>
+        <span class="lang-zh">精选项目</span>
+        <span class="lang-en">Selected Projects</span>
+      </h2>
+      <div class="project-grid">
+        <a class="project-card project-card-featured" href="/projects/academic-submission/">
+          <span class="project-card-kicker">Research Workflow</span>
+          <h3>
+            <span class="lang-zh">学术工作流助手</span>
+            <span class="lang-en">Academic Submission Assistant</span>
+          </h3>
+          <p>
+            <span class="lang-zh">面向研究生和科研作者，把选刊、前沿跟踪和 AI 预审收进一个公开可用的工作台。</span>
+            <span class="lang-en">A public research workflow desk for venue discovery, frontier tracking, and AI paper precheck.</span>
+          </p>
+          <span class="project-card-link">
+            <span class="lang-zh">进入项目</span>
+            <span class="lang-en">Open Project</span>
+          </span>
+        </a>
+
+        <a class="project-card" href="https://github.com/wp-a/redflow-xhs">
+          <span class="project-card-kicker">Creator Tool</span>
+          <h3>
+            <span class="lang-zh">Redflow XHS</span>
+            <span class="lang-en">Redflow XHS</span>
+          </h3>
+          <p>
+            <span class="lang-zh">Markdown 优先的小红书卡片渲染与内容发布工作流，用 skill 化方式沉淀创作流程。</span>
+            <span class="lang-en">A Markdown-first Xiaohongshu card renderer and publishing workflow for repeatable content creation.</span>
+          </p>
+          <span class="project-card-link">
+            <span class="lang-zh">查看 GitHub</span>
+            <span class="lang-en">View GitHub</span>
+          </span>
+        </a>
+
+        <a class="project-card" href="/projects/codex-remote-pwa/">
+          <span class="project-card-kicker">Agent Interface</span>
+          <h3>
+            <span class="lang-zh">Codex Remote PWA</span>
+            <span class="lang-en">Codex Remote PWA</span>
+          </h3>
+          <p>
+            <span class="lang-zh">面向本地 Codex 会话的移动端控制台，把长任务观察、会话切换和轻量操作放到手机上。</span>
+            <span class="lang-en">A mobile-first console for observing local Codex sessions, switching threads, and handling lightweight actions.</span>
+          </p>
+          <span class="project-card-link">
+            <span class="lang-zh">进入项目</span>
+            <span class="lang-en">Open Project</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
     <!-- News -->
     <section id="news" class="fade-in-section">
       <h2>
-        <span>🔥</span>
+        <span class="section-number">03</span>
         <span class="lang-zh">最新动态</span>
         <span class="lang-en">Latest News</span>
       </h2>
@@ -157,7 +267,7 @@
     <!-- Publications -->
     <section id="publications" class="fade-in-section">
       <h2>
-        <span>📝</span>
+        <span class="section-number">04</span>
         <span class="lang-zh">发表论文</span>
         <span class="lang-en">Publications</span>
       </h2>
@@ -167,23 +277,11 @@
     <!-- Honors -->
     <section id="honors" class="fade-in-section">
       <h2>
-        <span>🎖</span>
+        <span class="section-number">05</span>
         <span class="lang-zh">荣誉奖项</span>
         <span class="lang-en">Honors & Awards</span>
       </h2>
       <ul id="honors-list" class="news-list"></ul>
-    </section>
-
-    <!-- Visitor Globe Section -->
-    <section id="visitors" class="fade-in-section">
-      <h2>
-        <span>🌍</span>
-        <span class="lang-zh">访客分布</span>
-        <span class="lang-en">Global Visitors</span>
-      </h2>
-      <div id="visitor-globe"
-        style="width: 100%; height: 400px; border-radius: 20px; overflow: hidden; background: rgba(0,0,0,0.2); margin-top: 20px;">
-      </div>
     </section>
 
   </div>
