@@ -34,6 +34,9 @@ const academicData = {
   },
   news: {
     zh: [
+      { date: "2026.06", content: "🏆 CVPR 挑战赛 <a href=\"https://github.com/wp-a/EAI_CVPR2026\">EAI_CVPR2026</a> 获得第一名" },
+      { date: "2026.05", content: "🏆 全国大学生软件创新大赛全国总决赛三等奖" },
+      { date: "2026.04", content: "🏆 全国大学生软件创新大赛华东赛区决赛一等奖" },
       { date: "2025.09", content: "🎓 入学山东大学人工智能专业攻读硕士学位" },
       { date: "2024.06", content: "🎉 本科毕业于齐鲁工业大学智能科学与技术专业" },
       { date: "2024.01", content: "📝 论文被 Pattern Recognition Letters (JCR Q2) 接收" },
@@ -41,6 +44,9 @@ const academicData = {
       { date: "2023.08", content: "🏆 获中国机器人及人工智能大赛国家一等奖" }
     ],
     en: [
+      { date: "2026.06", content: "🏆 Ranked 1st in the CVPR Challenge <a href=\"https://github.com/wp-a/EAI_CVPR2026\">EAI_CVPR2026</a>" },
+      { date: "2026.05", content: "🏆 Third Prize in the National Final of the China Collegiate Software Innovation Competition" },
+      { date: "2026.04", content: "🏆 First Prize in the East China Regional Final of the China Collegiate Software Innovation Competition" },
       { date: "2025.09", content: "🎓 Started Master's program in AI at Shandong University" },
       { date: "2024.06", content: "🎉 Graduated with B.S. in Intelligent Science from Qilu University" },
       { date: "2024.01", content: "📝 Paper accepted by Pattern Recognition Letters (JCR Q2)" },
@@ -54,7 +60,8 @@ const academicData = {
       authors: "Bin Li*, Jiangjiao Li, <strong>Peng Wang</strong>",
       venue: "Pattern Recognition Letters, 2024",
       venueClass: "tkde",
-      image: "https://picsum.photos/500/200?random=1",
+      image: "images/publication-global-local-feature-extraction.jpg",
+      imageAlt: "Framework of the global and local feature extraction fall detection algorithm",
       links: {
         zh: {
           paper: "https://www.sciencedirect.com/science/article/pii/S016786552400206X",
@@ -75,7 +82,8 @@ const academicData = {
       authors: "Jiangjiao Li, Mengqi Gao, <strong>Peng Wang</strong>, Bin Li*",
       venue: "Evolving Systems, 2024",
       venueClass: "tkde",
-      image: "https://picsum.photos/500/200?random=2",
+      image: "images/publication-pyramid-feature-fusion.png",
+      imageAlt: "Overview of the pyramid network and feature fusion fall detection algorithm",
       links: {
         zh: { paper: "https://www.researchgate.net/publication/381881651" },
         en: { paper: "https://www.researchgate.net/publication/381881651" }
@@ -88,6 +96,9 @@ const academicData = {
   ],
   honors: {
     zh: [
+      { year: "2026", title: "CVPR 挑战赛 <a href=\"https://github.com/wp-a/EAI_CVPR2026\">EAI_CVPR2026</a> 第一名" },
+      { year: "2026", title: "全国大学生软件创新大赛全国总决赛三等奖" },
+      { year: "2026", title: "全国大学生软件创新大赛华东赛区决赛一等奖" },
       { year: "2023", title: "第二十五届中国机器人及人工智能大赛国家一等奖" },
       { year: "2022", title: "中国机器人大赛 ROBACUP 机器人世界杯国家二等奖" },
       { year: "2022", title: "第十七届全国大学生智能汽车竞赛国家三等奖" },
@@ -97,6 +108,9 @@ const academicData = {
       { year: "2021", title: "第十三届山东省大学生科技节「超算杯」一等奖" }
     ],
     en: [
+      { year: "2026", title: "1st Place, CVPR Challenge <a href=\"https://github.com/wp-a/EAI_CVPR2026\">EAI_CVPR2026</a>" },
+      { year: "2026", title: "Third Prize, National Final of the China Collegiate Software Innovation Competition" },
+      { year: "2026", title: "First Prize, East China Regional Final of the China Collegiate Software Innovation Competition" },
       { year: "2023", title: "First Prize, 25th China Robot and AI Competition" },
       { year: "2022", title: "Second Prize, ROBACUP Robot World Cup China" },
       { year: "2022", title: "Third Prize, 17th National Smart Car Competition" },

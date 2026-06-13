@@ -9,53 +9,72 @@
   <link rel="icon" href="../../academic/images/favicon.ico">
   <link rel="stylesheet" href="../../css/local-fonts.css?v=20260428-icons">
   <link rel="stylesheet" href="../../css/fa-subset.css?v=20260428-icons">
-  <link rel="stylesheet" href="assets/academic-submission.css?v=20260511-product">
+  <link rel="stylesheet" href="assets/academic-submission.css?v=20260612-dashboard">
 </head>
 
 <body>
   <div class="workspace-shell">
-    <header class="page-hero">
+    <header class="page-hero" id="deadline-dashboard">
       <div class="hero-frame">
-        <div class="hero-copy">
+        <div class="hero-copy dashboard-primary">
           <div class="hero-breadcrumb">
             <a href="/">WPIRONMAN</a>
             <span>/</span>
             <span>Academic Submission</span>
           </div>
 
-          <p class="hero-kicker">Research Workflow Studio</p>
-          <h1>你的科研投稿工作台。</h1>
+          <p class="hero-kicker">Deadline Dashboard</p>
+          <h1>截稿、选刊、前沿论文，一屏判断。</h1>
           <p class="hero-summary">
-            面向研究生和科研作者，把选刊判断、前沿跟踪、稿件预审和投稿记录收束到一个长期使用的工作流里。
-            公开版先开放核心查询能力，并为真实后端预审任务流保留接入口。
+            面向研究生和科研作者，把 CCF / XR venue、全文截止、会议时间、地点、最新顶会顶刊论文放在同一张工作台里。
+            先看最紧迫的时间窗口，再筛真正可投的 venue。
           </p>
 
           <div class="hero-actions">
-            <a class="hero-action hero-action-primary" href="#project-intro">了解项目</a>
-            <a class="hero-action" href="#venue-workbench">体验公开版</a>
+            <a class="hero-action hero-action-primary" href="#deadline-board">看截稿</a>
+            <a class="hero-action" href="#venue-workbench">筛 venue</a>
           </div>
 
-          <dl class="hero-facts">
-            <div>
-              <dt>Workflow</dt>
-              <dd id="metric-public-capabilities">4 个模块</dd>
-            </div>
-            <div>
-              <dt>Venue</dt>
-              <dd id="metric-venue-count">加载中</dd>
-            </div>
-            <div>
-              <dt>Papers</dt>
-              <dd id="metric-paper-count">加载中</dd>
-            </div>
-          </dl>
+          <div class="dashboard-grid" aria-label="学术助手数据总览">
+            <article class="dashboard-card dashboard-card-primary">
+              <p class="dashboard-label">Next Deadline</p>
+              <strong id="next-deadline-title">加载中</strong>
+              <span id="next-deadline-meta">等待公开 venue 数据</span>
+              <b id="next-deadline-countdown">--</b>
+            </article>
+            <article class="dashboard-card">
+              <p class="dashboard-label">7 天内</p>
+              <strong id="deadline-count-7">--</strong>
+              <span>需要立即判断的全文截止</span>
+            </article>
+            <article class="dashboard-card">
+              <p class="dashboard-label">30 天内</p>
+              <strong id="deadline-count-30">--</strong>
+              <span>近期可以准备的投稿窗口</span>
+            </article>
+            <article class="dashboard-card">
+              <p class="dashboard-label">Venue</p>
+              <strong id="metric-venue-count">加载中</strong>
+              <span>会议与期刊索引</span>
+            </article>
+            <article class="dashboard-card">
+              <p class="dashboard-label">Papers</p>
+              <strong id="metric-paper-count">加载中</strong>
+              <span>顶会顶刊论文索引</span>
+            </article>
+            <article class="dashboard-card">
+              <p class="dashboard-label">索引更新时间</p>
+              <strong id="dashboard-index-updated">等待加载</strong>
+              <span>来自公开镜像快照</span>
+            </article>
+          </div>
         </div>
 
-        <aside class="hero-status" id="workspace-status" aria-label="产品预览和服务状态">
+        <aside class="hero-status" aria-label="产品预览和服务状态">
           <div class="status-card">
             <div class="status-card__head">
               <p class="status-card__label">Public Edition</p>
-              <span class="status-chip">Read Only</span>
+              <span class="status-chip">Live Data</span>
             </div>
 
             <ul class="status-list">
@@ -74,25 +93,16 @@
             </ul>
           </div>
 
-          <div class="workflow-card" aria-label="工作流结构">
-            <p class="status-card__label">Workflow Map</p>
-            <div class="workflow-lanes">
-              <span>Venue Fit</span>
-              <span>Frontier Scan</span>
-              <span>Paper Precheck</span>
-              <span>Submission Log</span>
-            </div>
-          </div>
-
-          <p class="status-note">
-            当前公开版只开放读能力和 AI 预审接入壳，不开放登录、收藏同步和投稿写入。
+          <p class="dashboard-note">
+            倒计时按公开 venue 数据中的全文截止日计算。过期会议会按年度滚动到下一轮，仅用于快速规划，最终以官网为准。
           </p>
         </aside>
       </div>
     </header>
 
     <nav class="tool-rail" aria-label="页面工具导航">
-      <a href="#project-intro">项目介绍</a>
+      <a href="#deadline-dashboard">总览</a>
+      <a href="#deadline-board">截稿</a>
       <a href="#venue-workbench">期刊会议</a>
       <a href="#frontier-observatory">前沿论文</a>
       <a href="#precheck-console">AI 预审</a>
@@ -100,44 +110,65 @@
     </nav>
 
     <main class="module-stack">
-      <section class="module project-intro" id="project-intro">
+      <section class="module deadline-board" id="deadline-board">
         <div class="module-head">
           <div class="module-heading">
-            <p class="module-kicker">Project Introduction</p>
-            <h2>它不是临时问答工具，而是一条投稿流程。</h2>
+            <p class="module-kicker">Deadline Board</p>
+            <h2>像看 CCFDDL 一样先扫截稿窗口。</h2>
           </div>
           <p class="module-copy">
-            每次选刊、查论文、看 deadline 和修改摘要，都应该留下可复用的状态，而不是散在浏览器标签、收藏夹和聊天记录里。
+            只展示有明确全文截止的会议，按有效 deadline 排序。先判断时间，再进入 venue 决策表看等级、方向、地点和官网。
           </p>
         </div>
 
-        <div class="intro-layout">
-          <article class="intro-manifesto">
-            <p class="overview-label">为什么做</p>
-            <h3>科研工具不应该只回答一次问题，而应该持续管理状态。</h3>
-            <p>
-              真实投稿过程里，作者需要反复查 venue、追踪方向、比较截稿信息、检查摘要和贡献表达。Academic Submission Assistant
-              的目标是减少这些上下文切换，让每次查询都能沉淀为后续投稿判断的一部分。
-            </p>
-          </article>
+        <div class="deadline-board-layout">
+          <section class="panel deadline-table-panel" id="deadline-table" aria-label="近期全文截止">
+            <div class="panel-head">
+              <div>
+                <p class="toolbar-title">Upcoming Full Paper Deadlines</p>
+                <p class="toolbar-copy">按剩余天数排序，优先显示最需要决策的会议。</p>
+              </div>
+              <p class="toolbar-meta" id="deadline-toolbar-meta">等待加载</p>
+            </div>
+            <div class="deadline-table-head" aria-hidden="true">
+              <span>Venue</span>
+              <span>Rank</span>
+              <span>方向</span>
+              <span>会议日期</span>
+              <span>全文截止</span>
+              <span>倒计时</span>
+              <span>地点</span>
+            </div>
+            <div class="deadline-list" id="deadline-list" aria-live="polite">
+              <div class="empty-state">
+                <p class="detail-kicker">LOADING</p>
+                <h3>正在读取截稿数据。</h3>
+                <p>公开镜像加载完成后，这里会显示最近的全文截止窗口。</p>
+              </div>
+            </div>
+          </section>
 
-          <div class="intro-points" aria-label="项目能力">
-            <article>
-              <span>01</span>
-              <h3>先判断能不能投。</h3>
-              <p>围绕会议、期刊、等级和方向建立可筛选索引，先缩小真正可投的范围。</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>再判断该看什么。</h3>
-              <p>把论文流按来源、venue 和方向组织起来，避免只靠零散收藏追热点。</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>最后判断怎么改。</h3>
-              <p>后端上线后承接标题、摘要和贡献点，输出结构化修改建议，而不是泛泛润色。</p>
-            </article>
-          </div>
+          <aside class="panel deadline-side-panel">
+            <p class="overview-label">Decision Lens</p>
+            <h3>先看倒计时，再决定是否值得投入。</h3>
+            <p class="dashboard-note">
+              红色表示 7 天内，琥珀色表示 30 天内。会议时间、地点和官网仍以官方页面为准。
+            </p>
+            <dl class="deadline-legend">
+              <div>
+                <dt>全文截止</dt>
+                <dd>论文完整稿件提交时间</dd>
+              </div>
+              <div>
+                <dt>倒计时</dt>
+                <dd>按北京时间当天开始计算</dd>
+              </div>
+              <div>
+                <dt>会议日期</dt>
+                <dd>用于判断是否与项目周期匹配</dd>
+              </div>
+            </dl>
+          </aside>
         </div>
       </section>
 
@@ -148,7 +179,7 @@
             <h2>先确定你真正可投的范围。</h2>
           </div>
           <p class="module-copy">
-            按名称、缩写、类型、等级和研究方向快速过滤，把筛选、列表和详情放在一个工作区里完成。
+            按名称、缩写、类型、等级和研究方向过滤，直接在行内看到全文截止、倒计时、会议日期、地点和 IF / 分区。
           </p>
         </div>
 
@@ -197,12 +228,24 @@
           <section class="results-panel panel">
             <div class="panel-head">
               <div>
-                <p class="toolbar-title">Venue Explorer</p>
-                <p class="toolbar-copy">用一个列表完成初筛，再在右侧看详细信息。</p>
+                <p class="toolbar-title">Venue Decision Table</p>
+                <p class="toolbar-copy">会议看 deadline 和地点，期刊看 IF / 分区，右侧保留官网与描述。</p>
               </div>
               <p class="toolbar-meta" id="venue-toolbar-meta">等待加载</p>
             </div>
-            <div class="list-shell" id="venue-list" aria-live="polite"></div>
+            <div class="decision-table" id="venue-decision-table" role="table" aria-label="Venue 决策表">
+              <div class="decision-table__head" role="row">
+                <span>Venue</span>
+                <span>等级</span>
+                <span>方向</span>
+                <span>会议日期</span>
+                <span>全文截止</span>
+                <span>倒计时</span>
+                <span>地点</span>
+                <span>IF / 分区</span>
+              </div>
+              <div class="list-shell" id="venue-list" role="rowgroup" aria-live="polite"></div>
+            </div>
           </section>
 
           <aside class="detail-panel panel" id="venue-detail">
@@ -228,7 +271,7 @@
 
         <div class="frontier-overview" id="frontier-overview">
           <article class="overview-panel">
-            <p class="overview-label">索引状态</p>
+            <p class="overview-label">索引构建</p>
             <strong id="frontier-updated-at">等待加载</strong>
             <span id="frontier-total-papers">--</span>
           </article>
@@ -383,8 +426,8 @@
     </main>
   </div>
 
-  <script src="assets/academic-submission-runtime.js"></script>
-  <script src="assets/academic-submission.js" defer></script>
+  <script src="assets/academic-submission-runtime.js?v=20260612203944-top-papers-350"></script>
+  <script src="assets/academic-submission.js?v=20260612203944-top-papers-350" defer></script>
 </body>
 
 </html>

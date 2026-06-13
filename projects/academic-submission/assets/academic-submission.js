@@ -2,6 +2,7 @@
   const runtime = window.AcademicSubmissionRuntime || {};
   const dataConfig = runtime.data || {};
   const aiPrecheckConfig = runtime.aiPrecheck || {};
+  const dataVersion = dataConfig.dataVersion || '';
   const cache = new Map();
 
   const state = {
@@ -11,14 +12,24 @@
     papers: [],
     filteredPapers: [],
     selectedPaperId: null,
+    totalPaperCount: 0,
     topVenueDirectionStats: [],
     frontierLoaded: false,
     frontierLoading: false,
+    frontierRequest: null,
   };
 
   const els = {
     metricVenueCount: document.getElementById('metric-venue-count'),
     metricPaperCount: document.getElementById('metric-paper-count'),
+    nextDeadlineTitle: document.getElementById('next-deadline-title'),
+    nextDeadlineMeta: document.getElementById('next-deadline-meta'),
+    nextDeadlineCountdown: document.getElementById('next-deadline-countdown'),
+    deadlineCount7: document.getElementById('deadline-count-7'),
+    deadlineCount30: document.getElementById('deadline-count-30'),
+    dashboardIndexUpdated: document.getElementById('dashboard-index-updated'),
+    deadlineList: document.getElementById('deadline-list'),
+    deadlineToolbarMeta: document.getElementById('deadline-toolbar-meta'),
     statusPublicData: document.getElementById('status-public-data'),
     statusFrontierData: document.getElementById('status-frontier-data'),
     statusAiService: document.getElementById('status-ai-service'),
@@ -51,23 +62,33 @@
     frontierSection: document.getElementById('frontier-observatory'),
   };
 
+  function versionedDataUrl(url) {
+    if (!dataVersion) return url;
+
+    const parsedUrl = new URL(url, window.location.href);
+    parsedUrl.searchParams.set('v', dataVersion);
+    return parsedUrl.toString();
+  }
+
   function fetchJsonOnce(url) {
     if (!url) {
       return Promise.reject(new Error('missing data url'));
     }
 
-    if (cache.has(url)) {
-      return cache.get(url);
+    const requestUrl = versionedDataUrl(url);
+
+    if (cache.has(requestUrl)) {
+      return cache.get(requestUrl);
     }
 
-    const request = fetch(url).then(async response => {
+    const request = fetch(requestUrl).then(async response => {
       if (!response.ok) {
         throw new Error(`request failed: ${response.status}`);
       }
       return response.json();
     });
 
-    cache.set(url, request);
+    cache.set(requestUrl, request);
     return request;
   }
 
@@ -86,6 +107,20 @@
 
   function normalizeText(value) {
     return String(value || '').trim().toLowerCase();
+  }
+
+  function formatAuthorNames(authors, limit = Number.POSITIVE_INFINITY) {
+    if (!Array.isArray(authors)) return '';
+
+    return authors
+      .map(author => {
+        if (typeof author === 'string') return author.trim();
+        if (author && typeof author === 'object') return String(author.name || '').trim();
+        return '';
+      })
+      .filter(Boolean)
+      .slice(0, limit)
+      .join(', ');
   }
 
   function uniq(values) {
@@ -136,6 +171,15 @@
     return `${(value * 100).toFixed(1)}%`;
   }
 
+  function formatCompactDate(value) {
+    const date = parseDate(value);
+    if (!date) return '待更新';
+    return date.toLocaleDateString('zh-CN', {
+      month: '2-digit',
+      day: '2-digit',
+    });
+  }
+
   function addYears(timestamp, years) {
     const date = new Date(timestamp);
     date.setFullYear(date.getFullYear() + years);
@@ -159,6 +203,177 @@
     }
 
     return effectiveTimestamp;
+  }
+
+  function getDeadlineInfo(venue) {
+    const timestamp = getEffectiveDeadlineTimestamp(venue);
+    if (!timestamp) return null;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const deadlineDate = new Date(timestamp);
+    deadlineDate.setHours(0, 0, 0, 0);
+    const daysLeft = Math.ceil((deadlineDate.getTime() - today.getTime()) / 86400000);
+
+    return {
+      timestamp,
+      daysLeft,
+      dateLabel: formatDate(new Date(timestamp).toISOString()),
+      compactDateLabel: formatCompactDate(new Date(timestamp).toISOString()),
+      rolled: venue.deadline && formatDate(`${venue.deadline}T00:00:00`) !== formatDate(new Date(timestamp).toISOString()),
+    };
+  }
+
+  function formatCountdownLabel(daysLeft) {
+    if (typeof daysLeft !== 'number' || Number.isNaN(daysLeft)) return '滚动';
+    if (daysLeft < 0) return '已截止';
+    if (daysLeft === 0) return 'D-Day';
+    return `D-${daysLeft}`;
+  }
+
+  function getDeadlineUrgency(daysLeft) {
+    if (typeof daysLeft !== 'number' || Number.isNaN(daysLeft)) return 'neutral';
+    if (daysLeft <= 7) return 'critical';
+    if (daysLeft <= 30) return 'soon';
+    if (daysLeft <= 90) return 'open';
+    return 'calm';
+  }
+
+  function formatVenueRank(venue) {
+    return venue.ccfRank ? `CCF-${venue.ccfRank}` : venue.xrTier || '未评级';
+  }
+
+  function formatVenueScore(venue) {
+    const parts = [
+      venue.impactFactor ? `IF ${venue.impactFactor}` : null,
+      venue.jcrQuartile ? `JCR ${venue.jcrQuartile}` : null,
+      venue.casRank ? `中科院 ${venue.casRank}` : null,
+      venue.xrTier ? `XR ${venue.xrTier}` : null,
+    ].filter(Boolean);
+
+    return parts.length ? parts.join(' / ') : venue.type === 'journal' ? '待补充' : '会议';
+  }
+
+  function formatVenueLocation(venue) {
+    return venue.location || (venue.type === 'journal' ? '期刊投稿' : '待更新');
+  }
+
+  function formatConferenceDate(venue) {
+    return venue.conferenceDate || (venue.type === 'journal' ? '滚动接收' : '待更新');
+  }
+
+  function formatDeadlineText(venue, info = getDeadlineInfo(venue)) {
+    if (info) {
+      return `${info.dateLabel}${info.rolled ? ' 下一轮' : ''}`;
+    }
+
+    return venue.type === 'journal' ? '常年征稿' : '待更新';
+  }
+
+  function getDeadlineSnapshot(venues) {
+    const items = venues
+      .map(venue => {
+        const info = getDeadlineInfo(venue);
+        if (!info) return null;
+        return {
+          venue,
+          ...info,
+          urgency: getDeadlineUrgency(info.daysLeft),
+        };
+      })
+      .filter(Boolean)
+      .sort((left, right) => {
+        if (left.timestamp !== right.timestamp) return left.timestamp - right.timestamp;
+        return rankWeight(left.venue.ccfRank || left.venue.xrTier) - rankWeight(right.venue.ccfRank || right.venue.xrTier);
+      });
+
+    return {
+      items,
+      next: items[0] || null,
+      within7: items.filter(item => item.daysLeft <= 7).length,
+      within30: items.filter(item => item.daysLeft <= 30).length,
+    };
+  }
+
+  function renderDeadlineRow(item) {
+    const { venue, daysLeft, dateLabel, urgency } = item;
+    const title = venue.abbreviation || venue.name;
+
+    return `
+      <article class="deadline-row" data-urgency="${escapeHtml(urgency)}" data-venue-id="${escapeHtml(venue.id)}" tabindex="0">
+        <div class="deadline-cell deadline-cell-main">
+          <strong>${escapeHtml(title)}</strong>
+          <span>${escapeHtml(venue.name)}</span>
+        </div>
+        <div class="deadline-cell" data-label="Rank">${escapeHtml(formatVenueRank(venue))}</div>
+        <div class="deadline-cell" data-label="方向">${escapeHtml(venue.subdiscipline || venue.discipline || '待更新')}</div>
+        <div class="deadline-cell" data-label="会议日期">${escapeHtml(formatConferenceDate(venue))}</div>
+        <div class="deadline-cell" data-label="全文截止">${escapeHtml(dateLabel)}</div>
+        <div class="deadline-cell" data-label="倒计时">
+          <span class="countdown-badge">${escapeHtml(formatCountdownLabel(daysLeft))}</span>
+        </div>
+        <div class="deadline-cell" data-label="地点">${escapeHtml(formatVenueLocation(venue))}</div>
+      </article>
+    `;
+  }
+
+  function renderDeadlineDashboard() {
+    const snapshot = getDeadlineSnapshot(state.venues);
+    const next = snapshot.next;
+
+    if (els.deadlineCount7) els.deadlineCount7.textContent = String(snapshot.within7);
+    if (els.deadlineCount30) els.deadlineCount30.textContent = String(snapshot.within30);
+
+    if (!next) {
+      if (els.nextDeadlineTitle) els.nextDeadlineTitle.textContent = '暂无明确截稿';
+      if (els.nextDeadlineMeta) els.nextDeadlineMeta.textContent = '当前 venue 数据没有可计算的全文截止';
+      if (els.nextDeadlineCountdown) els.nextDeadlineCountdown.textContent = '--';
+      if (els.deadlineToolbarMeta) els.deadlineToolbarMeta.textContent = '0 个截稿窗口';
+      if (els.deadlineList) {
+        els.deadlineList.innerHTML = `
+          <div class="empty-state">
+            <p class="detail-kicker">NO DEADLINE</p>
+            <h3>当前没有可计算的截稿窗口。</h3>
+            <p>可以在 venue 决策表里继续查看期刊和待更新会议。</p>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    if (els.nextDeadlineTitle) {
+      els.nextDeadlineTitle.textContent = next.venue.abbreviation || next.venue.name;
+    }
+    if (els.nextDeadlineMeta) {
+      els.nextDeadlineMeta.textContent = `${formatVenueRank(next.venue)} · ${next.venue.subdiscipline || next.venue.discipline || '方向待更新'} · ${next.dateLabel}`;
+    }
+    if (els.nextDeadlineCountdown) {
+      els.nextDeadlineCountdown.textContent = formatCountdownLabel(next.daysLeft);
+      els.nextDeadlineCountdown.dataset.urgency = next.urgency;
+    }
+    if (els.deadlineToolbarMeta) {
+      els.deadlineToolbarMeta.textContent = `${snapshot.items.length} 个截稿窗口`;
+    }
+    if (els.deadlineList) {
+      els.deadlineList.innerHTML = snapshot.items.slice(0, 14).map(renderDeadlineRow).join('');
+      els.deadlineList.querySelectorAll('[data-venue-id]').forEach(node => {
+        const activate = () => {
+          state.selectedVenueId = node.getAttribute('data-venue-id');
+          state.filteredVenues = sortVenues(state.venues);
+          renderVenueList();
+          renderVenueDetail();
+          document.getElementById('venue-workbench')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        node.addEventListener('click', activate);
+        node.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            activate();
+          }
+        });
+      });
+    }
   }
 
   function formatVenueMeta(venue) {
@@ -247,15 +462,25 @@
       const title = venue.abbreviation || venue.name;
       const subtitle = venue.abbreviation && venue.name !== venue.abbreviation ? venue.name : venue.publisher || venue.description || '';
       const isActive = venue.id === state.selectedVenueId;
-      const meta = formatVenueMeta(venue);
+      const deadlineInfo = getDeadlineInfo(venue);
+      const urgency = deadlineInfo ? getDeadlineUrgency(deadlineInfo.daysLeft) : 'neutral';
+      const countdown = deadlineInfo ? formatCountdownLabel(deadlineInfo.daysLeft) : venue.type === 'journal' ? '滚动' : '待更新';
 
       return `
-        <article class="list-row ${isActive ? 'is-active' : ''}" data-venue-id="${escapeHtml(venue.id)}" tabindex="0">
-          <strong>${escapeHtml(title)}</strong>
-          <div class="row-meta">
-            ${meta.map(item => `<span class="meta-pill">${escapeHtml(item)}</span>`).join('')}
+        <article class="list-row decision-row ${isActive ? 'is-active' : ''}" data-urgency="${escapeHtml(urgency)}" data-venue-id="${escapeHtml(venue.id)}" role="row" tabindex="0">
+          <div class="decision-cell decision-cell-main" data-label="Venue">
+            <strong>${escapeHtml(title)}</strong>
+            <span>${escapeHtml(subtitle)}</span>
           </div>
-          <span>${escapeHtml(subtitle)}</span>
+          <div class="decision-cell" data-label="等级">${escapeHtml(formatVenueRank(venue))}</div>
+          <div class="decision-cell" data-label="方向">${escapeHtml(venue.subdiscipline || venue.discipline || '待更新')}</div>
+          <div class="decision-cell" data-label="会议日期">${escapeHtml(formatConferenceDate(venue))}</div>
+          <div class="decision-cell" data-label="全文截止">${escapeHtml(formatDeadlineText(venue, deadlineInfo))}</div>
+          <div class="decision-cell" data-label="倒计时">
+            <span class="countdown-badge">${escapeHtml(countdown)}</span>
+          </div>
+          <div class="decision-cell" data-label="地点">${escapeHtml(formatVenueLocation(venue))}</div>
+          <div class="decision-cell" data-label="IF / 分区">${escapeHtml(formatVenueScore(venue))}</div>
         </article>
       `;
     }).join('');
@@ -283,7 +508,7 @@
     const venue = state.filteredVenues.find(item => item.id === state.selectedVenueId);
     if (!venue) return;
 
-    const effectiveDeadline = getEffectiveDeadlineTimestamp(venue);
+    const deadlineInfo = getDeadlineInfo(venue);
     const metadata = [
       venue.type === 'conference' ? '会议' : '期刊',
       venue.ccfRank ? `CCF-${venue.ccfRank}` : null,
@@ -292,9 +517,12 @@
       venue.casRank ? `中科院 ${venue.casRank}` : null,
     ].filter(Boolean);
 
+    const countdownLabel = deadlineInfo ? formatCountdownLabel(deadlineInfo.daysLeft) : venue.type === 'journal' ? '滚动' : '待更新';
+    const urgency = deadlineInfo ? getDeadlineUrgency(deadlineInfo.daysLeft) : 'neutral';
     const detailLines = [
       venue.subdiscipline || venue.discipline ? `<p><strong>方向：</strong>${escapeHtml(venue.subdiscipline || venue.discipline)}</p>` : '',
-      effectiveDeadline ? `<p><strong>截稿：</strong>${escapeHtml(formatDate(new Date(effectiveDeadline).toISOString()))}</p>` : '',
+      `<p><strong>全文截止：</strong>${escapeHtml(formatDeadlineText(venue, deadlineInfo))}</p>`,
+      `<p><strong>倒计时：</strong>${escapeHtml(countdownLabel)}</p>`,
       venue.conferenceDate ? `<p><strong>会议日期：</strong>${escapeHtml(venue.conferenceDate)}</p>` : '',
       venue.location ? `<p><strong>地点：</strong>${escapeHtml(venue.location)}</p>` : '',
       venue.publisher ? `<p><strong>出版方：</strong>${escapeHtml(venue.publisher)}</p>` : '',
@@ -315,6 +543,20 @@
         </div>
         <div class="detail-meta">
           ${metadata.map(item => `<span class="meta-pill">${escapeHtml(item)}</span>`).join('')}
+        </div>
+        <div class="detail-deadline-grid" data-urgency="${escapeHtml(urgency)}">
+          <div>
+            <span>全文截止</span>
+            <strong>${escapeHtml(formatDeadlineText(venue, deadlineInfo))}</strong>
+          </div>
+          <div>
+            <span>倒计时</span>
+            <strong>${escapeHtml(countdownLabel)}</strong>
+          </div>
+          <div>
+            <span>会议日期</span>
+            <strong>${escapeHtml(formatConferenceDate(venue))}</strong>
+          </div>
         </div>
         <div class="detail-body">
           <p>${escapeHtml(venue.description || '该 venue 当前没有补充描述。')}</p>
@@ -359,6 +601,7 @@
     populateVenueDisciplineFilter(state.venues);
     els.metricVenueCount.textContent = `${state.venues.length} 个`;
     applyVenueFilters();
+    renderDeadlineDashboard();
   }
 
   function bindVenueControls() {
@@ -425,8 +668,12 @@
       .flatMap(item => item.directionRatios || [])
       .sort((left, right) => (right.ratio || 0) - (left.ratio || 0))[0];
 
+    state.totalPaperCount = Number(indexPayload.metadata?.totalPapers) || state.papers.length;
+    if (els.dashboardIndexUpdated) {
+      els.dashboardIndexUpdated.textContent = formatUpdatedAt(indexPayload.metadata?.updatedAt);
+    }
     els.frontierUpdatedAt.textContent = formatUpdatedAt(indexPayload.metadata?.updatedAt);
-    els.frontierTotalPapers.textContent = `${indexPayload.metadata?.totalPapers || state.papers.length} 篇`;
+    els.frontierTotalPapers.textContent = `${state.totalPaperCount} 篇`;
     els.frontierTopVenue.textContent = topVenue ? escapeHtml(topVenue.venueAbbreviation || topVenue.venueName) : '未知';
     els.frontierTopVenueCount.textContent = topVenue ? `${topVenue.totalCount} 篇` : '--';
     els.frontierHotDirection.textContent = hottestDirection?.name || '未知';
@@ -436,7 +683,7 @@
   function renderPaperList() {
     const papers = state.filteredPapers;
     els.paperToolbarMeta.textContent = `${papers.length} 篇候选`;
-    els.metricPaperCount.textContent = `${state.papers.length} 篇`;
+    els.metricPaperCount.textContent = `${state.totalPaperCount || state.papers.length} 篇`;
 
     if (!papers.length) {
       els.paperList.innerHTML = `
@@ -463,7 +710,7 @@
     els.paperList.innerHTML = papers.map(paper => {
       const isActive = paper.id === state.selectedPaperId;
       const directions = (paper.directions || []).slice(0, 3);
-      const authors = Array.isArray(paper.authors) ? paper.authors.slice(0, 4).join(', ') : '';
+      const authors = formatAuthorNames(paper.authors, 4);
 
       return `
         <article class="list-row ${isActive ? 'is-active' : ''}" data-paper-id="${escapeHtml(paper.id)}" tabindex="0">
@@ -526,7 +773,7 @@
         <div class="detail-title">
           <p class="detail-kicker">PAPER DETAIL</p>
           <h3>${escapeHtml(paper.title)}</h3>
-          <p>${escapeHtml(Array.isArray(paper.authors) ? paper.authors.join(', ') : '作者信息待补充')}</p>
+          <p>${escapeHtml(formatAuthorNames(paper.authors) || '作者信息待补充')}</p>
         </div>
         <div class="detail-meta">
           ${meta.map(item => `<span class="meta-pill">${escapeHtml(item)}</span>`).join('')}
@@ -549,7 +796,7 @@
     state.filteredPapers = state.papers.filter(paper => {
       const haystack = normalizeText([
         paper.title,
-        ...(paper.authors || []),
+        formatAuthorNames(paper.authors),
         ...(paper.tags || []),
         ...(paper.directions || []),
         ...(paper.subDirections || []),
@@ -569,37 +816,46 @@
   }
 
   async function loadFrontierData() {
-    if (state.frontierLoaded || state.frontierLoading) return;
+    if (state.frontierLoaded) return;
+    if (state.frontierRequest) return state.frontierRequest;
+
     state.frontierLoading = true;
     els.statusFrontierData.textContent = '索引加载中';
     els.paperToolbarMeta.textContent = '正在读取本地索引';
 
-    try {
-      const [indexPayload, directionStats] = await Promise.all([
-        fetchJsonOnce(dataConfig.topPapersIndex),
-        fetchJsonOnce(dataConfig.topPaperDirectionStats),
-      ]);
+    state.frontierRequest = (async () => {
+      try {
+        const [indexPayload, directionStats] = await Promise.all([
+          fetchJsonOnce(dataConfig.topPapersIndex),
+          fetchJsonOnce(dataConfig.topPaperDirectionStats),
+        ]);
 
-      state.papers = dedupePapers(indexPayload || {});
-      state.topVenueDirectionStats = Array.isArray(directionStats) ? directionStats : [];
-      state.frontierLoaded = true;
-      state.frontierLoading = false;
-      els.statusFrontierData.textContent = '本地索引已加载';
-      populatePaperFilters(indexPayload || {}, state.topVenueDirectionStats);
-      applyPaperFilters();
-    } catch (error) {
-      state.frontierLoading = false;
-      const filePreview = isDirectFilePreview();
-      els.statusFrontierData.textContent = filePreview ? '本地预览模式' : '索引加载失败';
-      els.paperToolbarMeta.textContent = filePreview ? '本地文件预览不读取索引' : '公开索引读取失败';
-      els.paperList.innerHTML = `
-        <div class="empty-state">
-          <p class="detail-kicker">${filePreview ? 'LOCAL PREVIEW' : 'LOAD FAILED'}</p>
-          <h3>${filePreview ? '请通过站点服务预览前沿索引。' : '前沿论文索引暂时不可用。'}</h3>
-          <p>${filePreview ? '直接打开 HTML 文件时，浏览器会限制本地 JSON 读取；使用 Hexo server 或线上地址即可正常加载。' : escapeHtml(error.message || 'unknown error')}</p>
-        </div>
-      `;
-    }
+        state.papers = dedupePapers(indexPayload || {});
+        state.topVenueDirectionStats = Array.isArray(directionStats) ? directionStats : [];
+        state.frontierLoaded = true;
+        els.statusFrontierData.textContent = '本地索引已加载';
+        populatePaperFilters(indexPayload || {}, state.topVenueDirectionStats);
+        applyPaperFilters();
+      } catch (error) {
+        const filePreview = isDirectFilePreview();
+        els.statusFrontierData.textContent = filePreview ? '本地预览模式' : '索引加载失败';
+        els.paperToolbarMeta.textContent = filePreview ? '本地文件预览不读取索引' : '公开索引读取失败';
+        els.paperList.innerHTML = `
+          <div class="empty-state">
+            <p class="detail-kicker">${filePreview ? 'LOCAL PREVIEW' : 'LOAD FAILED'}</p>
+            <h3>${filePreview ? '请通过站点服务预览前沿索引。' : '前沿论文索引暂时不可用。'}</h3>
+            <p>${filePreview ? '直接打开 HTML 文件时，浏览器会限制本地 JSON 读取；使用 Hexo server 或线上地址即可正常加载。' : escapeHtml(error.message || 'unknown error')}</p>
+          </div>
+        `;
+      } finally {
+        state.frontierLoading = false;
+        if (!state.frontierLoaded) {
+          state.frontierRequest = null;
+        }
+      }
+    })();
+
+    return state.frontierRequest;
   }
 
   function bindPaperControls() {
@@ -734,6 +990,8 @@
         </div>
       `;
     }
+
+    await loadFrontierData();
   }
 
   document.addEventListener('DOMContentLoaded', boot);

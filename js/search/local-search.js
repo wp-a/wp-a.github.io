@@ -246,6 +246,8 @@ window.addEventListener('load', () => {
   const input = document.querySelector('#local-search-input input')
   const statsItem = document.getElementById('local-search-stats-wrap')
   const $loadingStatus = document.getElementById('loading-status')
+  const emptyState = document.getElementById('local-search-empty-state')
+  const searchSuggestionButtons = document.querySelectorAll('#local-search [data-search-suggestion]')
   const isXml = !path.endsWith('json')
 
   const inputEventFunction = () => {
@@ -261,15 +263,18 @@ window.addEventListener('load', () => {
       resultItems = localSearch.getResultItems(keywords)
     }
     if (keywords.length === 1 && keywords[0] === '') {
+      emptyState && (emptyState.style.display = '')
       container.textContent = ''
       statsItem.textContent = ''
     } else if (resultItems.length === 0) {
+      emptyState && (emptyState.style.display = 'none')
       container.textContent = ''
       const statsDiv = document.createElement('div')
       statsDiv.className = 'search-result-stats'
       statsDiv.textContent = languages.hits_empty.replace(/\$\{query}/, searchText)
       statsItem.innerHTML = statsDiv.outerHTML
     } else {
+      emptyState && (emptyState.style.display = 'none')
       resultItems.sort((left, right) => {
         if (left.includedCount !== right.includedCount) {
           return right.includedCount - left.includedCount
@@ -303,7 +308,7 @@ window.addEventListener('load', () => {
   const openSearch = () => {
     btf.overflowPaddingR.add()
     btf.animateIn($searchMask, 'to_show 0.5s')
-    btf.animateIn($searchDialog, 'titleScale 0.5s')
+    btf.animateIn($searchDialog, 'local-search-dialog-in 0.5s')
     setTimeout(() => { input.focus() }, 300)
     if (!loadFlag) {
       !localSearch.isfetched && localSearch.fetchData()
@@ -324,18 +329,25 @@ window.addEventListener('load', () => {
 
   const closeSearch = () => {
     btf.overflowPaddingR.remove()
-    btf.animateOut($searchDialog, 'search_close .5s')
+    btf.animateOut($searchDialog, 'local-search-dialog-out .5s')
     btf.animateOut($searchMask, 'to_hide 0.5s')
     window.removeEventListener('resize', fixSafariHeight)
   }
 
   const searchClickFn = () => {
-    btf.addEventListenerPjax(document.querySelector('#search-button > .search'), 'click', openSearch)
+    btf.addEventListenerPjax(document.querySelector('#search-button'), 'click', openSearch)
   }
 
   const searchFnOnce = () => {
     document.querySelector('#local-search .search-close-button').addEventListener('click', closeSearch)
     $searchMask.addEventListener('click', closeSearch)
+    searchSuggestionButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        input.value = button.dataset.searchSuggestion || ''
+        input.dispatchEvent(new Event('input', { bubbles: true }))
+        input.focus()
+      })
+    })
     if (GLOBAL_CONFIG.localSearch.preload) {
       localSearch.fetchData()
     }
