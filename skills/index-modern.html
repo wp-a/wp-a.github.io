@@ -1,0 +1,393 @@
+---
+layout: false
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WPIRONMAN Skills | 现代化 Skill 市场</title>
+  <meta name="description" content="WPIRONMAN 的学术写作、论文工具和前端技能集合 - 现代化重构版">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine.js for interactivity -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              500: '#ff3b4a',
+              600: '#ff5563',
+              700: '#e11d48',
+            },
+            accent: {
+              500: '#00d9ff',
+              600: '#0099cc',
+            }
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'slide-up': 'slideUp 0.6s ease-out',
+            'fade-in': 'fadeIn 0.5s ease-out',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(30px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ff3b4a 0%, #00d9ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .skill-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(255, 59, 74, 0.3);
+    }
+
+    .category-badge {
+      transition: all 0.3s ease;
+    }
+
+    .category-badge:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white min-h-screen">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 glass-effect">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center font-bold text-sm shadow-lg group-hover:scale-110 transition-transform">
+            WP
+          </div>
+          <span class="text-xl font-bold">WPIRONMAN Skills</span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#skills" class="hover:text-primary-500 transition-colors">技能库</a>
+          <a href="#categories" class="hover:text-primary-500 transition-colors">分类</a>
+          <a href="/academic/" class="hover:text-primary-500 transition-colors">学术主页</a>
+          <a href="https://github.com/wp-a" target="_blank" class="px-4 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-all">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative pt-32 pb-20 px-4 overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-float" style="top: 10%; left: 10%;"></div>
+      <div class="absolute w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-float" style="top: 60%; right: 10%; animation-delay: 2s;"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="text-center animate-slide-up">
+        <div class="inline-block mb-6">
+          <span class="px-6 py-2 rounded-full bg-primary-500/20 border border-primary-500/50 text-sm font-semibold text-primary-400 backdrop-blur-sm">
+            🚀 现代化学术工作流
+          </span>
+        </div>
+
+        <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight">
+          <span class="gradient-text">科研写作</span><br>
+          <span class="text-white">工具集合</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+          从论文写作、文献检索到审稿返修，精选实用工具让学术工作更高效。所有工具都是开源的，可以直接下载使用。
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#skills" class="px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-primary-500/50 transition-all hover:scale-105">
+            浏览全部工具
+          </a>
+          <a href="https://github.com/wp-a" target="_blank" class="px-8 py-4 glass-effect rounded-full font-bold text-lg hover:bg-white/10 transition-all">
+            查看 GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto">
+        <div class="glass-effect rounded-2xl p-6 text-center">
+          <div class="text-4xl font-bold gradient-text mb-2" id="skill-count">12</div>
+          <div class="text-gray-400 text-sm">工具总数</div>
+        </div>
+        <div class="glass-effect rounded-2xl p-6 text-center">
+          <div class="text-4xl font-bold gradient-text mb-2">6</div>
+          <div class="text-gray-400 text-sm">核心分类</div>
+        </div>
+        <div class="glass-effect rounded-2xl p-6 text-center">
+          <div class="text-4xl font-bold gradient-text mb-2">100%</div>
+          <div class="text-gray-400 text-sm">开源免费</div>
+        </div>
+        <div class="glass-effect rounded-2xl p-6 text-center">
+          <div class="text-4xl font-bold gradient-text mb-2">MIT</div>
+          <div class="text-gray-400 text-sm">开源协议</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section id="categories" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
+        <span class="gradient-text">工具分类</span>
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4" x-data="{ activeCategory: '全部' }">
+        <button @click="activeCategory = '全部'" :class="activeCategory === '全部' ? 'bg-primary-500 text-white' : 'glass-effect text-gray-300 hover:bg-white/10'" class="category-badge px-6 py-3 rounded-full font-semibold">
+          全部
+        </button>
+        <button @click="activeCategory = '论文写作'" :class="activeCategory === '论文写作' ? 'bg-primary-500 text-white' : 'glass-effect text-gray-300 hover:bg-white/10'" class="category-badge px-6 py-3 rounded-full font-semibold">
+          📝 论文写作
+        </button>
+        <button @click="activeCategory = '文献检索'" :class="activeCategory === '文献检索' ? 'bg-primary-500 text-white' : 'glass-effect text-gray-300 hover:bg-white/10'" class="category-badge px-6 py-3 rounded-full font-semibold">
+          🔍 文献检索
+        </button>
+        <button @click="activeCategory = '审稿'" :class="activeCategory === '审稿' ? 'bg-primary-500 text-white' : 'glass-effect text-gray-300 hover:bg-white/10'" class="category-badge px-6 py-3 rounded-full font-semibold">
+          ✅ 审稿
+        </button>
+        <button @click="activeCategory = 'PPT'" :class="activeCategory === 'PPT' ? 'bg-primary-500 text-white' : 'glass-effect text-gray-300 hover:bg-white/10'" class="category-badge px-6 py-3 rounded-full font-semibold">
+          📊 PPT
+        </button>
+        <button @click="activeCategory = '设计'" :class="activeCategory === '设计' ? 'bg-primary-500 text-white' : 'glass-effect text-gray-300 hover:bg-white/10'" class="category-badge px-6 py-3 rounded-full font-semibold">
+          🎨 设计
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Grid -->
+  <section id="skills" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Skills will be rendered here by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 px-4 border-t border-white/10">
+    <div class="max-w-7xl mx-auto text-center">
+      <p class="text-gray-400 mb-4">
+        © 2026 WPIRONMAN. 所有工具开源免费，遵循 MIT 协议。
+      </p>
+      <div class="flex items-center justify-center space-x-6">
+        <a href="/" class="text-gray-400 hover:text-primary-500 transition-colors">博客</a>
+        <a href="/projects/" class="text-gray-400 hover:text-primary-500 transition-colors">项目</a>
+        <a href="/academic/" class="text-gray-400 hover:text-primary-500 transition-colors">学术</a>
+        <a href="https://github.com/wp-a" target="_blank" class="text-gray-400 hover:text-primary-500 transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 只保留 WPIRONMAN 自己的 skills
+    const mySkills = [
+      {
+        id: "ml-paper-writing",
+        name: "ML 顶会论文写作",
+        category: "论文写作",
+        description: "面向 NeurIPS、ICML、ICLR、ACL、AAAI 等顶会的论文写作工作流",
+        tags: ["NeurIPS", "ICLR", "LaTeX"],
+        repo: "https://github.com/wp-a/ml-paper-writing",
+        featured: true
+      },
+      {
+        id: "research-paper-writing",
+        name: "Research Paper Writing",
+        category: "论文写作",
+        description: "用于 ML/CV/NLP 论文的段落重写与 claim-evidence 对齐",
+        tags: ["改写", "审稿视角"],
+        repo: "https://github.com/wp-a/research-paper-writing"
+      },
+      {
+        id: "nature-reader",
+        name: "Nature 论文阅读器",
+        category: "论文写作",
+        description: "生成有来源锚点的中英文论文阅读稿，保留图表和引用",
+        tags: ["PDF", "双语"],
+        repo: "https://github.com/wp-a/nature-reader",
+        featured: true
+      },
+      {
+        id: "nature-writing",
+        name: "Nature 风格正文写作",
+        category: "论文写作",
+        description: "从中文 notes 到 Nature 风格英文 manuscript",
+        tags: ["Nature", "Manuscript"],
+        repo: "https://github.com/wp-a/nature-writing"
+      },
+      {
+        id: "nature-polishing",
+        name: "Nature 英文润色",
+        category: "论文写作",
+        description: "学术英文润色、中文作者表达校准",
+        tags: ["润色", "Academic English"],
+        repo: "https://github.com/wp-a/nature-polishing"
+      },
+      {
+        id: "nature-academic-search",
+        name: "多源文献检索",
+        category: "文献检索",
+        description: "整合 PubMed、CrossRef、arXiv 等来源的检索工具",
+        tags: ["CrossRef", "arXiv", "PubMed"],
+        repo: "https://github.com/wp-a/nature-academic-search",
+        featured: true
+      },
+      {
+        id: "nature-citation",
+        name: "Nature/CNS 引用补全",
+        category: "文献检索",
+        description: "给论文段落补引用，检查 claim-evidence 关系",
+        tags: ["引用", "CNS", "BibTeX"],
+        repo: "https://github.com/wp-a/nature-citation"
+      },
+      {
+        id: "nature-response",
+        name: "Reviewer Response",
+        category: "审稿",
+        description: "把审稿意见整理成 point-by-point response letter",
+        tags: ["返修", "Response Letter"],
+        repo: "https://github.com/wp-a/nature-response"
+      },
+      {
+        id: "nature-paper2ppt",
+        name: "论文汇报 PPT",
+        category: "PPT",
+        description: "从论文 PDF 生成中文论文汇报 PPTX",
+        tags: ["PPTX", "组会"],
+        repo: "https://github.com/wp-a/nature-paper2ppt",
+        featured: true
+      },
+      {
+        id: "nature-figure",
+        name: "论文图表打磨",
+        category: "论文写作",
+        description: "论文图、表、caption 的最终质量检查",
+        tags: ["Figure", "Table"],
+        repo: "https://github.com/wp-a/nature-figure"
+      },
+      {
+        id: "pdf",
+        name: "PDF 读写与渲染",
+        category: "论文写作",
+        description: "读取、生成、渲染和检查 PDF",
+        tags: ["PDF", "渲染"],
+        repo: "https://github.com/wp-a/pdf"
+      },
+      {
+        id: "wpironman-blog-design",
+        name: "WPIRONMAN 博客设计",
+        category: "设计",
+        description: "面向 Hexo 与 Butterfly 博客的设计和 QA 工作流",
+        tags: ["Hexo", "Butterfly", "QA"],
+        repo: "https://github.com/wp-a/wpironman-blog-design"
+      }
+    ];
+
+    // Render skills
+    function renderSkills(skills = mySkills) {
+      const container = document.getElementById('skills-container');
+      container.innerHTML = skills.map(skill => `
+        <div class="skill-card glass-effect rounded-2xl p-6 group cursor-pointer">
+          <div class="flex items-start justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-primary-500/20 text-primary-400 text-xs font-semibold border border-primary-500/30">
+              ${skill.category}
+            </span>
+            ${skill.featured ? '<span class="text-2xl">⭐</span>' : ''}
+          </div>
+
+          <h3 class="text-xl font-bold mb-3 group-hover:text-primary-500 transition-colors">
+            ${skill.name}
+          </h3>
+
+          <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+            ${skill.description}
+          </p>
+
+          <div class="flex flex-wrap gap-2 mb-4">
+            ${skill.tags.map(tag => `
+              <span class="px-2 py-1 rounded bg-white/5 text-xs text-gray-400">
+                ${tag}
+              </span>
+            `).join('')}
+          </div>
+
+          <a href="${skill.repo}" target="_blank" class="inline-flex items-center text-primary-500 hover:text-primary-400 font-semibold text-sm transition-colors">
+            查看仓库 →
+          </a>
+        </div>
+      `).join('');
+
+      // Update count
+      document.getElementById('skill-count').textContent = skills.length;
+    }
+
+    // Initial render
+    renderSkills();
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

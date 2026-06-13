@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智会助手 MeetingMind | WPIRONMAN</title>
+  <meta name="description" content="智会助手 MeetingMind 是面向 Android 移动办公场景的 AI 会议智能体，提供宣传片、海报和项目能力展示。">
+  <link rel="stylesheet" href="../../css/local-fonts.css?v=20260527-meetingmind-product">
+  <link rel="stylesheet" href="../../css/fa-subset.css?v=20260527-meetingmind-product">
+  <link rel="stylesheet" href="assets/meetingmind.css?v=20260527-meetingmind-product">
+</head>
+<body>
+  <main class="meeting-page">
+    <header class="site-top">
+      <a class="brand" href="/projects/" aria-label="返回项目主页">
+        <span class="brand-mark">MM</span>
+        <span>MeetingMind</span>
+      </a>
+      <nav class="top-links" aria-label="智会助手项目导航">
+        <a href="/projects/">项目主页</a>
+        <details class="project-dropdown">
+          <summary>项目</summary>
+          <div class="project-dropdown__panel">
+            <a href="/projects/">项目主页</a>
+            <a href="/projects/academic-submission/">学术助手</a>
+            <a href="/projects/meetingmind/" aria-current="page">智会助手</a>
+            <a href="/projects/codex-remote-pwa/">Codex Remote PWA</a>
+            <a href="/construction-detection/">工地检测</a>
+            <a href="https://api.wpironman.top">AI中转控制台</a>
+          </div>
+        </details>
+        <a href="#film">宣传片</a>
+        <a href="#poster">海报</a>
+      </nav>
+    </header>
+
+    <section class="meeting-hero" aria-labelledby="meeting-title">
+      <div class="hero-copy">
+        <p class="eyebrow">AI Meeting Agent</p>
+        <h1 id="meeting-title">
+          <span class="meeting-title__line">智会助手</span>
+          <span class="meeting-title__line meeting-title__line--latin">MeetingMind</span>
+        </h1>
+        <p class="hero-lead">面向 Android 移动办公场景的全场景会议智能体。它以会议录音为入口，把语音转写、图片笔记、可追溯纪要、待办闭环、PPT 生成、日历同步和云端归档串成一条可执行的移动办公流程。</p>
+        <div class="hero-actions" aria-label="智会助手快捷入口">
+          <a class="primary-action" href="#film">观看宣传片</a>
+          <a class="ghost-action" href="#poster">查看海报</a>
+        </div>
+      </div>
+      <aside class="hero-poster" aria-label="智会助手宽屏视觉">
+        <img src="assets/meetingmind-product-overview.webp" alt="智会助手产品总览界面">
+      </aside>
+    </section>
+
+    <section class="proof-strip" aria-label="项目亮点">
+      <div>
+        <strong>Android</strong>
+        <span>原生移动办公</span>
+      </div>
+      <div>
+        <strong>Agent</strong>
+        <span>会议到交付</span>
+      </div>
+      <div>
+        <strong>RAG</strong>
+        <span>企业记忆检索</span>
+      </div>
+      <div>
+        <strong>PPT</strong>
+        <span>一句话生成</span>
+      </div>
+    </section>
+
+    <section id="film" class="media-stage" aria-labelledby="film-title">
+      <div class="section-copy">
+        <p class="eyebrow">Project Film</p>
+        <h2 id="film-title">宣传片</h2>
+        <p>这支宣传片展示智会助手从会议录音、实时转写、纪要生成到任务闭环的完整移动端体验。页面使用 metadata 预加载，避免进入页面时立刻下载完整视频。</p>
+      </div>
+      <div class="film-frame">
+        <video controls preload="metadata" poster="assets/meetingmind-product-overview.webp">
+          <source src="assets/meetingmind-trailer.mp4" type="video/mp4">
+          你的浏览器暂不支持 HTML5 视频播放。
+        </video>
+      </div>
+    </section>
+
+    <section class="capability-grid" aria-label="核心能力">
+      <article>
+        <span>01</span>
+        <h3>可追溯纪要</h3>
+        <p>摘要绑定 evidenceMap，每条结论都能回到原始转写片段和时间戳。</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>任务闭环</h3>
+        <p>待办支持负责人、优先级、截止时间和状态流转，会议内容可以继续推进。</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>移动端 Agent</h3>
+        <p>在 Android 原生环境里统一调度摘要、待办、日历、PPT 和云同步工具。</p>
+      </article>
+    </section>
+
+    <section id="poster" class="poster-section" aria-labelledby="poster-title">
+      <div class="section-copy">
+        <p class="eyebrow">Competition Poster</p>
+        <h2 id="poster-title">项目海报</h2>
+        <p>海报使用 2026-02-02 版「智析 MeetingMind」竞赛海报，用压缩后的 WebP 版本上线，兼顾细节和加载速度。</p>
+      </div>
+      <a class="poster-frame" href="assets/meetingmind-poster-20260202.webp" aria-label="打开智会助手完整海报">
+        <img src="assets/meetingmind-poster-20260202.webp" alt="智析 MeetingMind 竞赛海报">
+      </a>
+    </section>
+  </main>
+</body>
+</html>

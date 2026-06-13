@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WPIRONMAN Skills | 可下载 AI Skill Marketplace</title>
+  <meta name="description" content="WPIRONMAN Skills 是面向开源社区的可下载 AI Skill Marketplace，收录任务型工作流、公开精选第三方 skills 和高风险实战手册。">
+  <link rel="canonical" href="https://skills.wpironman.top/">
+  <meta property="og:title" content="WPIRONMAN Skills">
+  <meta property="og:description" content="面向开源社区的可下载 AI skill、公开工作流集合和高风险实战手册。">
+  <meta property="og:url" content="https://skills.wpironman.top/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="../img/favicon.png">
+  <link rel="stylesheet" href="../css/local-fonts.css?v=20260611-marketplace-v9">
+  <link rel="stylesheet" href="../css/fa-subset.css?v=20260611-marketplace-v9">
+  <link rel="stylesheet" href="assets/skills.css?v=20260613-restore-v16">
+  <script src="assets/skills-data.zh-v3.js?v=20260613-restore-v16" defer></script>
+  <script src="assets/skills.zh-v3.js?v=20260613-restore-v16" defer></script>
+</head>
+<body class="skills-marketplace-page">
+  <header class="skills-topbar">
+    <a class="skills-brand" href="/" aria-label="返回 WPIRONMAN">
+      <span class="skills-brand__mark">WP</span>
+      <span>WPIRONMAN Skills</span>
+    </a>
+    <nav class="skills-nav" aria-label="Skills 市场导航">
+      <a href="#skill-library">目录</a>
+      <a href="#field-guides">手册</a>
+      <a href="#submit-skill">投稿</a>
+    </nav>
+    <a class="skills-topbar__link" href="https://github.com/wp-a" target="_blank" rel="noopener">GitHub</a>
+  </header>
+
+  <main>
+    <section class="skills-hero" aria-labelledby="skills-title">
+      <div class="skills-hero__copy">
+        <p class="skills-kicker">WPIRONMAN Skills</p>
+        <h1 id="skills-title">
+          可下载的 AI Skill Marketplace。
+        </h1>
+        <p class="skills-hero__lead">把社区可下载的 skills 和公开精选的第三方 skills 按任务整理出来。每个条目都给仓库链接、安装命令、适用边界和验证标准。</p>
+        <div class="skills-hero__actions">
+          <a class="skills-action skills-action--primary" href="#skill-library">打开完整目录</a>
+          <a class="skills-action" href="#field-guides">查看实战手册</a>
+        </div>
+      </div>
+
+      <aside class="hero-product-visual" data-product-visual aria-label="Skill Marketplace 产品界面预览">
+        <div class="showcase-window">
+          <div class="showcase-window__bar" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>WPIRONMAN Skills</strong>
+          </div>
+          <div class="showcase-shell">
+            <div class="showcase-rail">
+              <span>Marketplace</span>
+              <strong>Skills</strong>
+              <p>科研写作 / 文献检索 / 审稿 / PPT / 前端设计</p>
+              <code class="showcase-command" data-showcase-command>npx skills add https://github.com/wp-a/nature-reader</code>
+            </div>
+            <div class="skills-index-panel showcase-detail">
+              <div class="index-panel__top">
+                <span>Product index</span>
+                <strong>skills.wpironman.top</strong>
+              </div>
+              <div class="index-panel__stats">
+                <div>
+                  <strong data-skill-count>00</strong>
+                  <span>已收录</span>
+                </div>
+                <div>
+                  <strong data-workflow-count>00</strong>
+                  <span>工作流</span>
+                </div>
+                <div>
+                  <strong data-runbook-count>00</strong>
+                  <span>手册</span>
+                </div>
+                <div>
+                  <strong data-category-count>00</strong>
+                  <span>分类</span>
+                </div>
+              </div>
+              <div class="showcase-detail__stack">
+                <div>
+                  <span>Featured workflow</span>
+                  <strong>科研写作流</strong>
+                  <p>精读、检索、引用、图表、返修和汇报在同一条工作流里。</p>
+                </div>
+                <div>
+                  <span>Field guide</span>
+                  <strong>Provider metadata recovery</strong>
+                  <p>备份、修复、重启、验收。</p>
+                </div>
+              </div>
+              <div class="index-panel__signal">
+                <span>入选规则</span>
+                <strong>目标具体、来源清楚、边界可验证。</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="skills-workbench" id="skill-library" aria-labelledby="library-title">
+      <div class="library-shell">
+        <div class="library-main">
+          <div class="section-heading">
+            <h2 id="library-title">策展目录</h2>
+            <p>按用途、作者、工作流或安装路径搜索。热度只是弱信号，真正重要的是适配具体任务。</p>
+          </div>
+
+          <div class="library-tools" aria-label="Skill 发现工具">
+            <label class="skill-search">
+              <span>搜索目录</span>
+              <input type="search" data-skill-search placeholder="试试：设计、论文、Codex、审稿..." autocomplete="off">
+            </label>
+            <p class="library-result-meter" data-result-meter>00 个结果</p>
+          </div>
+
+          <div class="skill-filters" aria-label="Skill 分类筛选">
+            <button class="is-active" type="button" data-filter="全部" aria-pressed="true">全部</button>
+            <button type="button" data-filter="论文写作" aria-pressed="false">论文写作</button>
+            <button type="button" data-filter="文献检索" aria-pressed="false">文献检索</button>
+            <button type="button" data-filter="审稿" aria-pressed="false">审稿</button>
+            <button type="button" data-filter="PPT" aria-pressed="false">PPT</button>
+            <button type="button" data-filter="设计" aria-pressed="false">设计</button>
+            <button type="button" data-filter="前端" aria-pressed="false">前端</button>
+          </div>
+
+          <div class="skill-grid" data-skill-grid></div>
+        </div>
+
+        <aside class="skill-detail-panel" id="skill-detail-panel" aria-live="polite">
+          <div class="skill-detail-panel__empty">
+            <span>正在加载目录</span>
+            <strong>Skill 详情会显示在这里。</strong>
+          </div>
+        </aside>
+      </div>
+      <p class="copy-status" data-copy-status aria-live="polite"></p>
+    </section>
+
+    <section class="field-guides" id="field-guides" aria-labelledby="field-guides-title">
+      <div class="section-heading section-heading--stacked">
+        <h2 id="field-guides-title">实战手册</h2>
+        <p>这里不是 skill 目录，而是排故手册。只放高风险、需要按步骤恢复或验收的经验。</p>
+      </div>
+      <div class="runbook-console" data-runbook-console aria-label="实战手册安全执行模型">
+        <div>
+          <span>Runbook safety model</span>
+          <strong>先备份，再执行，最后验收。</strong>
+          <p>每个手册都写清触及范围、禁止动作、来源仓库和成功标准。</p>
+        </div>
+        <ol>
+          <li>确认当前配置可用</li>
+          <li>备份 config / auth / state</li>
+          <li>按来源文档执行</li>
+          <li>重启后验收旧会话和 API</li>
+        </ol>
+      </div>
+      <div class="field-guide-grid" data-field-guide-grid></div>
+    </section>
+
+    <section class="submit-skill" id="submit-skill" aria-labelledby="submit-title">
+      <div>
+        <h2 id="submit-title">提交一个值得社区测试的 skill。</h2>
+        <p>请附上来源链接、预期用途，以及它能避免的失败模式。审核通过后会加入目录。</p>
+      </div>
+      <div class="submit-skill__actions">
+        <a class="skills-action skills-action--primary" href="https://github.com/wp-a/Hexo_Blog_Source/issues" target="_blank" rel="noopener">提交反馈</a>
+        <a class="skills-action" href="mailto:2829624376@qq.com">发邮件</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="skills-footer">
+    <span>WPIRONMAN Skills</span>
+    <a href="/">博客</a>
+    <a href="/projects/">项目</a>
+    <a href="https://github.com/wp-a" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+</body>
+</html>
