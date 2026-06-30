@@ -1,0 +1,81 @@
+<svg width="1280" height="900" viewBox="0 0 1280 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="90" y1="58" x2="1180" y2="842" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5EFE6"/>
+      <stop offset="1" stop-color="#E5EDF3"/>
+    </linearGradient>
+    <linearGradient id="drawer" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#FFFDF9"/>
+      <stop offset="1" stop-color="#F8F5EE"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1EB8A7"/>
+      <stop offset="1" stop-color="#0E7B76"/>
+    </linearGradient>
+    <filter id="drawer-shadow" x="70" y="74" width="676" height="760" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#0F172A" flood-opacity="0.16"/>
+    </filter>
+    <filter id="panel-shadow" x="542" y="198" width="598" height="482" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="900" rx="40" fill="#11161C"/>
+  <rect x="32" y="32" width="1216" height="836" rx="34" fill="url(#bg)"/>
+  <rect x="32" y="32" width="1216" height="836" rx="34" fill="#11161C" fill-opacity="0.08"/>
+  <circle cx="1120" cy="132" r="122" fill="#DBEEE7"/>
+  <circle cx="188" cy="786" r="142" fill="#E5D9CA"/>
+
+  <text x="88" y="120" fill="#152039" font-size="52" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">会话切换抽屉</text>
+  <text x="88" y="168" fill="#4B5B71" font-size="24" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">更像真实截图的展示方式：把重操作收进抽屉，而不是解释抽屉。</text>
+
+  <g filter="url(#panel-shadow)" opacity="0.52">
+    <rect x="604" y="246" width="488" height="384" rx="34" fill="#FFFFFF"/>
+    <rect x="640" y="280" width="164" height="16" rx="8" fill="#DCE3EA"/>
+    <rect x="640" y="318" width="248" height="16" rx="8" fill="#CCD5DE"/>
+    <rect x="640" y="380" width="224" height="84" rx="28" fill="#FFFFFF"/>
+    <rect x="880" y="484" width="186" height="80" rx="28" fill="#EAF6F2"/>
+  </g>
+
+  <g filter="url(#drawer-shadow)">
+    <rect x="102" y="110" width="612" height="688" rx="40" fill="url(#drawer)"/>
+    <text x="146" y="170" fill="#9AA8BB" font-size="18" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letter-spacing="0.14em">CODEX REMOTE</text>
+    <text x="146" y="220" fill="#0F172A" font-size="40" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">会话切换</text>
+    <rect x="630" y="146" width="50" height="32" rx="16" fill="#E3E9F0"/>
+    <text x="645" y="168" fill="#556579" font-size="15" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">关闭</text>
+
+    <rect x="138" y="252" width="540" height="114" rx="28" fill="#FFFFFF"/>
+    <text x="168" y="292" fill="#9AA8BB" font-size="16" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" letter-spacing="0.12em">当前会话</text>
+    <text x="168" y="330" fill="#0F172A" font-size="32" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">README 和 onboarding 优化</text>
+    <text x="168" y="356" fill="#64748B" font-size="17" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">/workspace/codex-remote-pwa</text>
+    <rect x="564" y="294" width="84" height="30" rx="15" fill="#DDF5ED"/>
+    <text x="588" y="313" fill="#0F766E" font-size="14" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">空闲</text>
+
+    <text x="138" y="430" fill="#0F172A" font-size="30" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">最近的 Codex</text>
+    <text x="508" y="430" fill="#64748B" font-size="16" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">继续已有 thread</text>
+
+    <rect x="138" y="462" width="540" height="92" rx="24" fill="#FFFFFF"/>
+    <text x="168" y="500" fill="#0F172A" font-size="23" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">修复 README 图片布局</text>
+    <text x="168" y="530" fill="#64748B" font-size="17" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">/workspace/codex-remote-pwa</text>
+    <text x="610" y="513" fill="#0F766E" font-size="18" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">继续</text>
+
+    <rect x="138" y="570" width="540" height="92" rx="24" fill="#FFFFFF"/>
+    <text x="168" y="608" fill="#0F172A" font-size="23" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">补齐 app-server runtime</text>
+    <text x="168" y="638" fill="#64748B" font-size="17" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">/workspace/codex-remote-pwa</text>
+    <text x="610" y="621" fill="#2D5DE1" font-size="18" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">打开</text>
+
+    <rect x="138" y="680" width="540" height="92" rx="24" fill="#E9F6F2"/>
+    <text x="168" y="718" fill="#0F172A" font-size="24" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">手机打开链接</text>
+    <text x="168" y="748" fill="#64748B" font-size="17" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">把当前连接发到手机上，页面会自动带上连接密码。</text>
+    <rect x="168" y="734" width="0" height="0" fill="transparent"/>
+    <rect x="168" y="746" width="320" height="14" rx="7" fill="#FFFFFF"/>
+    <rect x="522" y="732" width="124" height="36" rx="18" fill="url(#accent)"/>
+    <text x="556" y="756" fill="#ECFEFF" font-size="15" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">复制链接</text>
+  </g>
+
+  <g transform="translate(88 812)">
+    <rect width="250" height="40" rx="20" fill="#15202C"/>
+    <text x="22" y="26" fill="#F8FAFC" font-size="16" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-weight="700">会话切换更明显</text>
+    <text x="138" y="26" fill="#CBD5E1" font-size="16" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">但不占主聊天区</text>
+  </g>
+</svg>

@@ -1,0 +1,884 @@
+[
+  {
+    "venueAbbreviation": "NeurIPS",
+    "venueName": "Conference on Neural Information Processing Systems",
+    "venueType": "conference",
+    "paperCount": 29,
+    "directionRatios": [
+      {
+        "name": "RL",
+        "count": 16,
+        "ratio": 0.5517
+      },
+      {
+        "name": "CV",
+        "count": 8,
+        "ratio": 0.2759
+      },
+      {
+        "name": "LLM",
+        "count": 6,
+        "ratio": 0.2069
+      },
+      {
+        "name": "Security",
+        "count": 5,
+        "ratio": 0.1724
+      },
+      {
+        "name": "Machine Learning",
+        "count": 4,
+        "ratio": 0.1379
+      },
+      {
+        "name": "RAG",
+        "count": 4,
+        "ratio": 0.1379
+      },
+      {
+        "name": "Agent",
+        "count": 3,
+        "ratio": 0.1034
+      },
+      {
+        "name": "Reasoning",
+        "count": 3,
+        "ratio": 0.1034
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Code Intelligence",
+        "count": 8,
+        "ratio": 0.2759
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 7,
+        "ratio": 0.2414
+      },
+      {
+        "name": "Retrieval Augmented",
+        "count": 4,
+        "ratio": 0.1379
+      },
+      {
+        "name": "Video Understanding",
+        "count": 3,
+        "ratio": 0.1034
+      },
+      {
+        "name": "Model Compression",
+        "count": 2,
+        "ratio": 0.069
+      },
+      {
+        "name": "Post-Training",
+        "count": 2,
+        "ratio": 0.069
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenReview": 17,
+      "OpenAlex": 12
+    },
+    "stageBreakdown": {
+      "accepted": 17,
+      "published": 12
+    }
+  },
+  {
+    "venueAbbreviation": "AAAI",
+    "venueName": "AAAI Conference on Artificial Intelligence",
+    "venueType": "conference",
+    "paperCount": 28,
+    "directionRatios": [
+      {
+        "name": "CV",
+        "count": 15,
+        "ratio": 0.5357
+      },
+      {
+        "name": "RAG",
+        "count": 11,
+        "ratio": 0.3929
+      },
+      {
+        "name": "RL",
+        "count": 8,
+        "ratio": 0.2857
+      },
+      {
+        "name": "LLM",
+        "count": 7,
+        "ratio": 0.25
+      },
+      {
+        "name": "Security",
+        "count": 6,
+        "ratio": 0.2143
+      },
+      {
+        "name": "Multimodal",
+        "count": 3,
+        "ratio": 0.1071
+      },
+      {
+        "name": "Robotics",
+        "count": 3,
+        "ratio": 0.1071
+      },
+      {
+        "name": "Agent",
+        "count": 2,
+        "ratio": 0.0714
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Retrieval Augmented",
+        "count": 11,
+        "ratio": 0.3929
+      },
+      {
+        "name": "Video Understanding",
+        "count": 7,
+        "ratio": 0.25
+      },
+      {
+        "name": "Post-Training",
+        "count": 6,
+        "ratio": 0.2143
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 6,
+        "ratio": 0.2143
+      },
+      {
+        "name": "Code Intelligence",
+        "count": 5,
+        "ratio": 0.1786
+      },
+      {
+        "name": "Long Context",
+        "count": 5,
+        "ratio": 0.1786
+      },
+      {
+        "name": "Model Compression",
+        "count": 4,
+        "ratio": 0.1429
+      },
+      {
+        "name": "Agent Planning",
+        "count": 1,
+        "ratio": 0.0357
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenAlex": 28
+    },
+    "stageBreakdown": {
+      "published": 28
+    }
+  },
+  {
+    "venueAbbreviation": "ICLR",
+    "venueName": "International Conference on Learning Representations",
+    "venueType": "conference",
+    "paperCount": 24,
+    "directionRatios": [
+      {
+        "name": "RL",
+        "count": 9,
+        "ratio": 0.375
+      },
+      {
+        "name": "CV",
+        "count": 7,
+        "ratio": 0.2917
+      },
+      {
+        "name": "LLM",
+        "count": 7,
+        "ratio": 0.2917
+      },
+      {
+        "name": "RAG",
+        "count": 6,
+        "ratio": 0.25
+      },
+      {
+        "name": "Robotics",
+        "count": 5,
+        "ratio": 0.2083
+      },
+      {
+        "name": "Machine Learning",
+        "count": 3,
+        "ratio": 0.125
+      },
+      {
+        "name": "Security",
+        "count": 3,
+        "ratio": 0.125
+      },
+      {
+        "name": "Agent",
+        "count": 2,
+        "ratio": 0.0833
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Reasoning Benchmark",
+        "count": 9,
+        "ratio": 0.375
+      },
+      {
+        "name": "Code Intelligence",
+        "count": 6,
+        "ratio": 0.25
+      },
+      {
+        "name": "Retrieval Augmented",
+        "count": 6,
+        "ratio": 0.25
+      },
+      {
+        "name": "Video Understanding",
+        "count": 5,
+        "ratio": 0.2083
+      },
+      {
+        "name": "Post-Training",
+        "count": 4,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Long Context",
+        "count": 2,
+        "ratio": 0.0833
+      },
+      {
+        "name": "Model Compression",
+        "count": 1,
+        "ratio": 0.0417
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenReview": 19,
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "accepted": 19,
+      "published": 5
+    }
+  },
+  {
+    "venueAbbreviation": "CVPR",
+    "venueName": "IEEE/CVF Computer Vision and Pattern Recognition Conference",
+    "venueType": "conference",
+    "paperCount": 22,
+    "directionRatios": [
+      {
+        "name": "CV",
+        "count": 20,
+        "ratio": 0.9091
+      },
+      {
+        "name": "RL",
+        "count": 9,
+        "ratio": 0.4091
+      },
+      {
+        "name": "LLM",
+        "count": 7,
+        "ratio": 0.3182
+      },
+      {
+        "name": "RAG",
+        "count": 7,
+        "ratio": 0.3182
+      },
+      {
+        "name": "Robotics",
+        "count": 6,
+        "ratio": 0.2727
+      },
+      {
+        "name": "Security",
+        "count": 4,
+        "ratio": 0.1818
+      },
+      {
+        "name": "Agent",
+        "count": 3,
+        "ratio": 0.1364
+      },
+      {
+        "name": "Multimodal",
+        "count": 2,
+        "ratio": 0.0909
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Code Intelligence",
+        "count": 10,
+        "ratio": 0.4545
+      },
+      {
+        "name": "Retrieval Augmented",
+        "count": 7,
+        "ratio": 0.3182
+      },
+      {
+        "name": "Long Context",
+        "count": 4,
+        "ratio": 0.1818
+      },
+      {
+        "name": "Post-Training",
+        "count": 4,
+        "ratio": 0.1818
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 4,
+        "ratio": 0.1818
+      },
+      {
+        "name": "Model Compression",
+        "count": 2,
+        "ratio": 0.0909
+      },
+      {
+        "name": "Agent Planning",
+        "count": 1,
+        "ratio": 0.0455
+      }
+    ],
+    "sourceBreakdown": {
+      "GitHub Curated": 17,
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "accepted": 17,
+      "published": 5
+    }
+  },
+  {
+    "venueAbbreviation": "ECCV",
+    "venueName": "European Conference on Computer Vision",
+    "venueType": "conference",
+    "paperCount": 19,
+    "directionRatios": [
+      {
+        "name": "CV",
+        "count": 14,
+        "ratio": 0.7368
+      },
+      {
+        "name": "RL",
+        "count": 10,
+        "ratio": 0.5263
+      },
+      {
+        "name": "RAG",
+        "count": 9,
+        "ratio": 0.4737
+      },
+      {
+        "name": "LLM",
+        "count": 4,
+        "ratio": 0.2105
+      },
+      {
+        "name": "Security",
+        "count": 3,
+        "ratio": 0.1579
+      },
+      {
+        "name": "Multimodal",
+        "count": 2,
+        "ratio": 0.1053
+      },
+      {
+        "name": "Machine Learning",
+        "count": 1,
+        "ratio": 0.0526
+      },
+      {
+        "name": "Robotics",
+        "count": 1,
+        "ratio": 0.0526
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Retrieval Augmented",
+        "count": 9,
+        "ratio": 0.4737
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 8,
+        "ratio": 0.4211
+      },
+      {
+        "name": "Code Intelligence",
+        "count": 7,
+        "ratio": 0.3684
+      },
+      {
+        "name": "Video Understanding",
+        "count": 4,
+        "ratio": 0.2105
+      },
+      {
+        "name": "Post-Training",
+        "count": 3,
+        "ratio": 0.1579
+      }
+    ],
+    "sourceBreakdown": {
+      "arXiv": 14,
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "accepted": 11,
+      "published": 5,
+      "under_review": 3
+    }
+  },
+  {
+    "venueAbbreviation": "ICML",
+    "venueName": "International Conference on Machine Learning",
+    "venueType": "conference",
+    "paperCount": 17,
+    "directionRatios": [
+      {
+        "name": "RL",
+        "count": 10,
+        "ratio": 0.5882
+      },
+      {
+        "name": "RAG",
+        "count": 6,
+        "ratio": 0.3529
+      },
+      {
+        "name": "LLM",
+        "count": 5,
+        "ratio": 0.2941
+      },
+      {
+        "name": "Robotics",
+        "count": 5,
+        "ratio": 0.2941
+      },
+      {
+        "name": "Agent",
+        "count": 4,
+        "ratio": 0.2353
+      },
+      {
+        "name": "CV",
+        "count": 4,
+        "ratio": 0.2353
+      },
+      {
+        "name": "Machine Learning",
+        "count": 3,
+        "ratio": 0.1765
+      },
+      {
+        "name": "Multimodal",
+        "count": 2,
+        "ratio": 0.1176
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Reasoning Benchmark",
+        "count": 7,
+        "ratio": 0.4118
+      },
+      {
+        "name": "Post-Training",
+        "count": 6,
+        "ratio": 0.3529
+      },
+      {
+        "name": "Retrieval Augmented",
+        "count": 6,
+        "ratio": 0.3529
+      },
+      {
+        "name": "Code Intelligence",
+        "count": 5,
+        "ratio": 0.2941
+      },
+      {
+        "name": "Multi-Agent",
+        "count": 2,
+        "ratio": 0.1176
+      },
+      {
+        "name": "Long Context",
+        "count": 1,
+        "ratio": 0.0588
+      }
+    ],
+    "sourceBreakdown": {
+      "arXiv": 12,
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "accepted": 8,
+      "published": 7,
+      "under_review": 2
+    }
+  },
+  {
+    "venueAbbreviation": "ACL",
+    "venueName": "Annual Meeting of the Association for Computational Linguistics",
+    "venueType": "conference",
+    "paperCount": 6,
+    "directionRatios": [
+      {
+        "name": "NLP",
+        "count": 3,
+        "ratio": 0.5
+      },
+      {
+        "name": "LLM",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "RAG",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "Agent",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Machine Learning",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Security",
+        "count": 1,
+        "ratio": 0.1667
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Retrieval Augmented",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "Code Intelligence",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Long Context",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 1,
+        "ratio": 0.1667
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenAlex": 5,
+      "arXiv": 1
+    },
+    "stageBreakdown": {
+      "published": 5,
+      "under_review": 1
+    }
+  },
+  {
+    "venueAbbreviation": "IJCAI",
+    "venueName": "International Joint Conference on Artificial Intelligence",
+    "venueType": "conference",
+    "paperCount": 6,
+    "directionRatios": [
+      {
+        "name": "CV",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "RL",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "Robotics",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "Machine Learning",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Multimodal",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Reasoning",
+        "count": 1,
+        "ratio": 0.1667
+      },
+      {
+        "name": "Security",
+        "count": 1,
+        "ratio": 0.1667
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Code Intelligence",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 2,
+        "ratio": 0.3333
+      },
+      {
+        "name": "Video Understanding",
+        "count": 1,
+        "ratio": 0.1667
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenAlex": 5,
+      "arXiv": 1
+    },
+    "stageBreakdown": {
+      "published": 5,
+      "accepted": 1
+    }
+  },
+  {
+    "venueAbbreviation": "EMNLP",
+    "venueName": "Conference on Empirical Methods in Natural Language Processing",
+    "venueType": "conference",
+    "paperCount": 5,
+    "directionRatios": [
+      {
+        "name": "CV",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "LLM",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "RL",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "Agent",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "NLP",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "RAG",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Reasoning",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Model Compression",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Post-Training",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Reasoning Benchmark",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Retrieval Augmented",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "published": 5
+    }
+  },
+  {
+    "venueAbbreviation": "ICCV",
+    "venueName": "International Conference on Computer Vision",
+    "venueType": "conference",
+    "paperCount": 5,
+    "directionRatios": [
+      {
+        "name": "CV",
+        "count": 5,
+        "ratio": 1
+      },
+      {
+        "name": "Security",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Reasoning Benchmark",
+        "count": 3,
+        "ratio": 0.6
+      },
+      {
+        "name": "Code Intelligence",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "Model Compression",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "Video Understanding",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "published": 5
+    }
+  },
+  {
+    "venueAbbreviation": "KDD",
+    "venueName": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining",
+    "venueType": "conference",
+    "paperCount": 5,
+    "directionRatios": [
+      {
+        "name": "RL",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "CV",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "RAG",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Robotics",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Security",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "subDirectionRatios": [
+      {
+        "name": "Reasoning Benchmark",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "Retrieval Augmented",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "sourceBreakdown": {
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "published": 5
+    }
+  },
+  {
+    "venueAbbreviation": "NAACL",
+    "venueName": "North American Chapter of the Association for Computational Linguistics",
+    "venueType": "conference",
+    "paperCount": 5,
+    "directionRatios": [
+      {
+        "name": "LLM",
+        "count": 2,
+        "ratio": 0.4
+      },
+      {
+        "name": "Machine Learning",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "NLP",
+        "count": 1,
+        "ratio": 0.2
+      },
+      {
+        "name": "Reasoning",
+        "count": 1,
+        "ratio": 0.2
+      }
+    ],
+    "subDirectionRatios": [],
+    "sourceBreakdown": {
+      "OpenAlex": 5
+    },
+    "stageBreakdown": {
+      "published": 5
+    }
+  }
+]

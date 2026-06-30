@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">项目展示页</title>
+  <link rel="stylesheet" href="/css/local-fonts.css">
+  <link rel="stylesheet" href="/css/fa-subset.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'WPSans', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin-bottom: 60px;
+    }
+    
+    .title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .authors { font-size: 1.2rem; margin-bottom: 20px; }
+    .venue { font-size: 1rem; opacity: 0.95; margin-bottom: 30px; }
+    
+    .links {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    section {
+      margin-bottom: 60px;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      color: #667eea;
+      border-left: 4px solid #667eea;
+      padding-left: 15px;
+    }
+    
+    .abstract {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+      margin-bottom: 40px;
+    }
+    
+    .abstract p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      text-align: justify;
+    }
+    
+    .media-container {
+      margin-bottom: 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .media-container img {
+      width: 100%;
+      display: block;
+    }
+    
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .image-grid img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .image-grid img:hover {
+      transform: scale(1.05);
+    }
+    
+    .bibtex {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 25px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'WPMono', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre;
+    }
+    
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .feature-list {
+      font-size: 1.1rem;
+      line-height: 2;
+    }
+    
+    .feature-list li {
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .title { font-size: 1.8rem; }
+      .authors { font-size: 1rem; }
+      h2 { font-size: 1.5rem; }
+      .back-btn {
+        position: static;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        width: fit-content;
+      }
+    }
+  </style>
+  
+  <!-- 🎯 这里是您唯一需要修改的地方！ -->
+  <script>
+    const projectData = {
+      // ========== 基本信息 ==========
+      title: "Fall Detection Algorithm Based on Global and Local Feature Extraction",
+      titleZh: "基于全局和局部特征提取的跌倒检测算法",
+      
+      authors: "Bin Li*, Jiangqiao Li, <strong>Wang Peng</strong>",
+      
+      venue: "Pattern Recognition Letters, 2024",
+      venueInfo: "IF: 5.1, JCR Q2, CCF C",
+      
+      // ========== 链接 ==========
+      links: {
+        paper: "https://www.sciencedirect.com/science/article/pii/S016786552400206X",
+        code: "",  // 如果有代码链接，填在这里
+        slides: "", // 如果有幻灯片，填在这里
+        video: ""   // 如果有视频，填在这里
+      },
+      
+      // ========== 摘要 ==========
+      abstract: {
+        zh: `我们提出了一种基于全局和局部特征提取的跌倒检测算法。该方法结合了深度学习和传统计算机视觉技术，
+在保持高准确率的同时实现了实时检测。通过提取视频序列中的全局运动特征和局部姿态特征，
+我们的方法能够有效区分跌倒和其他日常活动，适用于智能家居和医疗监护等场景。`,
+        en: `We propose a fall detection algorithm based on global and local feature extraction. This method combines 
+deep learning and traditional computer vision techniques to achieve real-time detection while maintaining high accuracy.`
+      },
+      
+      // ========== 核心特性 ==========
+      features: [
+        "高准确率：在多个公开数据集上达到95%以上的准确率",
+        "实时检测：处理速度达到30 FPS，满足实时应用需求",
+        "鲁棒性强：对光照变化、遮挡等情况具有良好的适应性",
+        "易于部署：轻量级模型设计，适合边缘设备部署"
+      ],
+      
+      // ========== 图片 ==========
+      images: {
+        // 方法概述图
+        method: "https://picsum.photos/1000/400?random=1",
+        // 主要结果图
+        mainResult: "https://picsum.photos/1600/900?random=2",
+        // 其他结果图（可以添加多张）
+        results: [
+          "https://picsum.photos/400/300?random=3",
+          "https://picsum.photos/400/300?random=4",
+          "https://picsum.photos/400/300?random=5"
+        ]
+      },
+      
+      // ========== BibTeX ==========
+      bibtex: `@article{li2024fall,
+  title={Fall detection algorithm based on global and local feature extraction},
+  author={Li, Bin and Li, Jiangqiao and Wang, Peng},
+  journal={Pattern Recognition Letters},
+  year={2024},
+  publisher={Elsevier}
+}`,
+      
+      // ========== 致谢 ==========
+      acknowledgments: "感谢所有参与数据收集和实验的志愿者。本研究得到了相关科研项目的支持。"
+    };
+  </script>
+</head>
+
+<body>
+  <a href="/academic/" class="back-btn">
+    <i class="fas fa-arrow-left"></i> 返回学术主页
+  </a>
+
+  <!-- 页面内容会自动生成 -->
+  <div id="header" class="header"></div>
+  <div class="container">
+    <section id="abstract"></section>
+    <section id="method"></section>
+    <section id="results"></section>
+    <section id="features"></section>
+    <section id="bibtex"></section>
+    <section id="acknowledgments"></section>
+  </div>
+
+  <!-- 自动渲染脚本 -->
+  <script>
+    // 设置页面标题
+    document.getElementById('page-title').textContent = projectData.titleZh || projectData.title;
+    
+    // 渲染头部
+    const header = document.getElementById('header');
+    const linksHtml = Object.entries(projectData.links)
+      .filter(([key, url]) => url)
+      .map(([key, url]) => {
+        const icons = {
+          paper: 'fa-file-pdf',
+          code: 'fa-code',
+          slides: 'fa-presentation',
+          video: 'fa-video'
+        };
+        const labels = {
+          paper: 'Paper',
+          code: 'Code',
+          slides: 'Slides',
+          video: 'Video'
+        };
+        return `<a href="${url}" class="btn" target="_blank">
+          <i class="fas ${icons[key]}"></i> ${labels[key]}
+        </a>`;
+      }).join('');
+    
+    header.innerHTML = `
+      <h1 class="title">${projectData.titleZh || projectData.title}</h1>
+      <div class="authors">${projectData.authors}</div>
+      <div class="venue">${projectData.venue}<br>${projectData.venueInfo}</div>
+      <div class="links">
+        ${linksHtml}
+        <a href="#bibtex" class="btn">
+          <i class="fas fa-quote-right"></i> BibTeX
+        </a>
+      </div>
+    `;
+    
+    // 渲染摘要
+    document.getElementById('abstract').innerHTML = `
+      <h2>Abstract</h2>
+      <div class="abstract">
+        <p>${projectData.abstract.zh || projectData.abstract.en}</p>
+      </div>
+    `;
+    
+    // 渲染方法图
+    if (projectData.images.method) {
+      document.getElementById('method').innerHTML = `
+        <h2>Method Overview</h2>
+        <div class="media-container">
+          <img src="${projectData.images.method}" alt="Method Overview">
+        </div>
+      `;
+    }
+    
+    // 渲染结果
+    if (projectData.images.mainResult || projectData.images.results.length > 0) {
+      let resultsHtml = '<h2>Visual Results</h2>';
+      
+      if (projectData.images.mainResult) {
+        resultsHtml += `
+          <div class="media-container">
+            <img src="${projectData.images.mainResult}" alt="Main Result">
+          </div>
+        `;
+      }
+      
+      if (projectData.images.results.length > 0) {
+        resultsHtml += '<div class="image-grid">';
+        projectData.images.results.forEach((img, i) => {
+          resultsHtml += `<img src="${img}" alt="Result ${i+1}">`;
+        });
+        resultsHtml += '</div>';
+      }
+      
+      document.getElementById('results').innerHTML = resultsHtml;
+    }
+    
+    // 渲染特性
+    if (projectData.features.length > 0) {
+      const featuresHtml = projectData.features
+        .map(f => `<li>✅ <strong>${f.split('：')[0]}</strong>：${f.split('：')[1] || ''}</li>`)
+        .join('');
+      
+      document.getElementById('features').innerHTML = `
+        <h2>Key Features</h2>
+        <ul class="feature-list">${featuresHtml}</ul>
+      `;
+    }
+    
+    // 渲染BibTeX
+    document.getElementById('bibtex').innerHTML = `
+      <h2>BibTeX</h2>
+      <div class="bibtex">${projectData.bibtex}</div>
+    `;
+    
+    // 渲染致谢
+    if (projectData.acknowledgments) {
+      document.getElementById('acknowledgments').innerHTML = `
+        <h2>Acknowledgments</h2>
+        <p style="font-size: 1.05rem; line-height: 1.8;">${projectData.acknowledgments}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
